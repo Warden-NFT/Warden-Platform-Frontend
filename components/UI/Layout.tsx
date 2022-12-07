@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Container>
                         <Navbar />
                         <main>
-                              <Container sx={{ minHeight: '640px' }}>
+                              <Container sx={{ minHeight: '640px', paddingTop: 4 }}>
                                     {children}
                               </Container>
                         </main>
