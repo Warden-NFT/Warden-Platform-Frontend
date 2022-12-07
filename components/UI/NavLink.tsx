@@ -18,7 +18,8 @@ function NavLink({ route }: Props) {
                   '&:hover': {
                         backgroundColor: 'white'
                   },
-                  mr: 2
+                  mr: 2,
+                  px: 1.5
             }} >
                   <Typography fontWeight='600' color='black'>{route.name}</Typography>
             </Button>
