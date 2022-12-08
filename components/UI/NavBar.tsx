@@ -78,11 +78,9 @@ function NavBar() {
             >
 
               {APP_ROUTES.map((route, i) => (
-                <>
-                  <MenuItem key={i} onClick={handleCloseNavMenu}>
-                    <NavLink route={route} />
-                  </MenuItem>
-                </>
+                <MenuItem key={i} onClick={handleCloseNavMenu}>
+                  <NavLink route={route} />
+                </MenuItem>
               ))}
             </Menu>
           </Box>

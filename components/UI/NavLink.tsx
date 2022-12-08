@@ -19,9 +19,10 @@ function NavLink({ route }: Props) {
                         backgroundColor: 'white'
                   },
                   mr: 2,
-                  px: 1.5
+                  px: 1.5,
+                  borderRadius: '20px'
             }} >
-                  <Typography fontWeight='600' color='black'>{route.name}</Typography>
+                  <Typography fontWeight='600' color='black' fontSize='14px'>{route.name}</Typography>
             </Button>
       )
 }
