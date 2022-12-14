@@ -6,7 +6,8 @@ function Footer() {
     <Box sx={{
       backgroundColor: 'white',
       padding: 0,
-      margin: 0,
+      mx: 0,
+      mt: 4,
       p: 6
     }}>
       <Typography>WARDEN 2022</Typography>
