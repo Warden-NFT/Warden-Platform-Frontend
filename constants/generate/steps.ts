@@ -1,3 +1,18 @@
+export const COMPLETE_MODE_STEPS = [
+  {
+    header: "Upload Assets",
+    label: "",
+  },
+  {
+    header: "Complete Form",
+    label: "",
+  },
+  {
+    header: "Add Utility",
+    label: "",
+  },
+];
+
 export const MAX_GENERATE_STEP = 3;
 export const STEPS = [
   {

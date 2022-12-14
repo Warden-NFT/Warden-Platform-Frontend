@@ -1,12 +1,13 @@
+import { Container } from '@mui/material'
 import React from 'react'
-import GenerateMainUI from '../../components/generate/GenerateMainUI'
-import GenerateContextProvider from '../../contexts/GenerateContext'
+import GenerateModeSelector from '../../components/generate/GenerateModeSelector'
 
 function GeneratePage() {
       return (
-            <GenerateContextProvider>
-                  <GenerateMainUI />
-            </GenerateContextProvider>
+            <Container sx={{ display: 'grid', placeItems: 'center' }}>
+                  <GenerateModeSelector />
+                  <div>Some documentations</div>
+            </Container>
       )
 }
 
