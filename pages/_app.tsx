@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import Layout from '../components/UI/Layout'
+import Layout from '../components/UI/navigation/Layout'
 import { ThemeProvider } from '@mui/material/styles'
 import AppTheme from '../configs/themes/theme'
 import WagmiClient from '../configs/wagmi/client'
