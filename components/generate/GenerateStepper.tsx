@@ -1,17 +1,7 @@
 import React, { useContext } from 'react'
-import { Box, Stepper, Step, StepLabel, Typography, Button } from '@mui/material'
+import { Box, Stepper, Step, StepLabel, Typography, Button, Divider } from '@mui/material'
 import { GenerateContext } from '../../contexts/GenerateContext'
-import { MAX_GENERATE_STEP } from '../../constants/generate'
-import GenerateStepComplete from './GenerateStepComplete'
-
-const STEPS = [
-      {
-            label: "Collection",
-            description: 'General information about your NFT collection'
-      },
-      { label: 'Upload', description: 'View and edit the layer images' },
-      { label: 'Customize', description: 'Set up your layer occurance rate in the details menu or reorder the layers by dragging them' }
-]
+import { MAX_GENERATE_STEP, STEPS } from '../../constants/generate/steps'
 
 interface Props {
       children: React.ReactNode
@@ -34,19 +24,22 @@ function GenerateStepper({ children }: Props) {
 
       return (
             <Box sx={{ width: '825px' }}>
-                  <Stepper activeStep={activeStep}>
-                        {STEPS.map((step, index) => {
-                              return (
-                                    <Step key={index}>
-                                          <StepLabel>{step.label}</StepLabel>
-                                    </Step>
-                              );
-                        })}
-                  </Stepper>
+                  <Box sx={{ mb: 4, backgroundColor: 'white', py: 3, borderRadius: 3 }}>
+                        <Stepper activeStep={activeStep} alternativeLabel>
+                              {STEPS.map((step, index) => {
+                                    return (
+                                          <Step key={index}>
+                                                <StepLabel>{step.label}</StepLabel>
+                                          </Step>
+                                    );
+                              })}
+                        </Stepper>
+
+                  </Box>
                   <main>
                         {children}
                   </main>
-                  <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
+                  <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'space-around', my: 6 }}>
                         <Button
                               variant='outlined'
                               disabled={activeStep === 0}
