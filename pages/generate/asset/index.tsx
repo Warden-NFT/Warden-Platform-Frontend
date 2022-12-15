@@ -1,12 +1,12 @@
 import React from 'react'
 import CompleteGenerateContainer from '../../../components/generate/complete/CompleteGenerateContainer'
-import GenerateCompleteStepProvider from '../../../components/generate/complete/GenerateCompleteStep'
+import GenerateCompleteContextProvider from '../../../contexts/generate/GenerateCompleteContext'
 
 function CompleteGeneratePage() {
       return (
-            <GenerateCompleteStepProvider>
+            <GenerateCompleteContextProvider>
                   <CompleteGenerateContainer />
-            </GenerateCompleteStepProvider>
+            </GenerateCompleteContextProvider>
       )
 }
 
