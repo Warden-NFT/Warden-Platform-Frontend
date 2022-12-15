@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Stack, Typography } from '@mui/material'
+import { Container, Typography } from '@mui/material'
 import Image from 'next/image'
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -14,9 +14,8 @@ interface Props {
 function ImageDropzone({ setAssets, uploadedAssets, setUploadedAssets }: Props) {
 
       const onDrop = useCallback((acceptedFiles: File[]) => {
-            const assets: UploadedAsset[] = [];
-            setAssets(acceptedFiles)
             acceptedFiles.forEach((file) => {
+                  setAssets(prev => [...prev, file]);
                   const reader = new FileReader()
 
                   reader.onabort = () => console.log('file reading was aborted')
@@ -32,12 +31,10 @@ function ImageDropzone({ setAssets, uploadedAssets, setUploadedAssets }: Props) 
                               data: url
                         }
 
-                        assets.push(asset)
+                        setUploadedAssets(prev => [...prev, asset]);
                   }
                   reader.readAsArrayBuffer(file)
             })
-
-            setUploadedAssets(assets)
       }, [])
       const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
       return (
