@@ -1,7 +1,8 @@
 import { Box, Container } from "@mui/material";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
 import CompleteDropzone from "./CompleteDropzone";
+import CompleteForm from "./CompleteForm";
 import CompleteStepper from "./CompleteStepper";
 
 function CompleteGenerateContainer() {
@@ -10,6 +11,7 @@ function CompleteGenerateContainer() {
       return (
             <CompleteStepper>
                   {activeStep === 1 && <CompleteDropzone />}
+                  {activeStep === 2 && <CompleteForm />}
             </CompleteStepper>
       );
 }

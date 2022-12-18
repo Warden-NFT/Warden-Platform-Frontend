@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
 import ImageDropzone from "../../UI/input/ImageDropzone";
 
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 function CompleteDropzone() {
       const { assets, setAssets, uploadedAssets, setUploadedAssets } = useContext(
@@ -12,22 +12,23 @@ function CompleteDropzone() {
       );
 
       function handleRemoveAsset(index: number) {
-            const _assets = [...assets]
-            _assets.splice(index, 1)
+            const _assets = [...assets];
+            _assets.splice(index, 1);
 
-            const _uploadedAssets = [...uploadedAssets]
-            _uploadedAssets.splice(index, 1)
+            const _uploadedAssets = [...uploadedAssets];
+            _uploadedAssets.splice(index, 1);
 
-            setAssets(_assets)
-            setUploadedAssets(_uploadedAssets)
+            setAssets(_assets);
+            setUploadedAssets(_uploadedAssets);
       }
 
       return (
-            <Box sx={{ height: "100%", p: 2 }}>
-                  <Grid container spacing={2}>
-                        {uploadedAssets.map((asset, i) => (
-                              <Grid item xs key={i}>
+            <Box sx={{ height: "100%", p: 2, width: "container" }}>
+                  {uploadedAssets.length > 0 && (
+                        <Stack direction="row" sx={{ overflowX: "scroll" }}>
+                              {uploadedAssets.map((asset, i) => (
                                     <Stack
+                                          key={i}
                                           alignItems="center"
                                           sx={{
                                                 boxShadow: 1,
@@ -36,12 +37,23 @@ function CompleteDropzone() {
                                                 width: 180,
                                                 height: 220,
                                                 mr: 1,
-                                                overflowX: "hidden",
-                                                background: 'white'
+                                                backgroundColor: "white",
                                           }}
                                     >
-                                          <Box sx={{ backgroundColor: 'white', pr: 2, width: '100%', display: "grid", placeItems: 'end' }}>
-                                                <IconButton aria-label="delete" color="primary" size='small' onClick={() => handleRemoveAsset(i)}>
+                                          <Box
+                                                sx={{
+                                                      pr: 2,
+                                                      width: "100%",
+                                                      display: "grid",
+                                                      placeItems: "end",
+                                                }}
+                                          >
+                                                <IconButton
+                                                      aria-label="delete"
+                                                      color="primary"
+                                                      size="small"
+                                                      onClick={() => handleRemoveAsset(i)}
+                                                >
                                                       <CloseIcon fontSize="small" />
                                                 </IconButton>
                                           </Box>
@@ -67,14 +79,16 @@ function CompleteDropzone() {
                                                 </Typography>
                                           </Box>
                                     </Stack>
-                              </Grid>
-                        ))}
-                  </Grid>
-                  <ImageDropzone
-                        uploadedAssets={uploadedAssets}
-                        setUploadedAssets={setUploadedAssets}
-                        setAssets={setAssets}
-                  />
+                              ))}
+                        </Stack>
+                  )}
+                  <Box sx={{ p: 2 }}>
+                        <ImageDropzone
+                              uploadedAssets={uploadedAssets}
+                              setUploadedAssets={setUploadedAssets}
+                              setAssets={setAssets}
+                        />
+                  </Box>
             </Box>
       );
 }
