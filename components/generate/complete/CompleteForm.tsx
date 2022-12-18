@@ -10,6 +10,7 @@ import {
 import { useFormik } from "formik";
 import React from "react";
 import { CompleteCollectionInfo } from "../../../interfaces/generate/collection.interface";
+import { CompleteFormSchema } from "../../../schema/generate/complete";
 import ControlledEventTypeSelect from "../form/ControlledEventTypeSelect";
 
 function CompleteForm() {
@@ -21,6 +22,7 @@ function CompleteForm() {
                   description: "",
                   ticketType: 'GENERAL',
             } as CompleteCollectionInfo,
+            validationSchema: CompleteFormSchema,
             onSubmit: (data) => {
                   console.log(data);
             },
@@ -65,7 +67,7 @@ function CompleteForm() {
                               helperText={errors.distributedBy}
                         />
                   </FormControl>
-                  <FormControl required>
+                  <FormControl>
                         <FormLabel>Distributed By</FormLabel>
                         <Typography variant="caption" color="gray">
                               What is your organization name?

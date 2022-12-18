@@ -35,7 +35,7 @@ function ControlledEventTypeSelect({
       }, [values])
 
       return (
-            <FormControl fullWidth>
+            <FormControl fullWidth required>
                   <FormLabel>Ticket type</FormLabel>
                   <Typography variant="caption" color="gray">
                         What is your ticket for?
