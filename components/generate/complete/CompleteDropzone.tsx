@@ -25,22 +25,19 @@ function CompleteDropzone() {
       return (
             <Box sx={{ height: "100%", p: 2, width: "container" }}>
                   {uploadedAssets.length > 0 && (
-                        <Stack direction="row" sx={{ overflowX: "scroll" }}>
+                        <Grid container spacing={1} columns={[2, 3, 4]}>
                               {uploadedAssets.map((asset, i) => (
-                                    <Stack
-                                          key={i}
-                                          alignItems="center"
-                                          sx={{
+                                    <Grid item>
+                                          <Stack sx={{
                                                 boxShadow: 1,
                                                 borderRadius: 2,
                                                 mb: 2,
-                                                width: 180,
+                                                width: 170,
                                                 height: 220,
                                                 mr: 1,
                                                 backgroundColor: "white",
-                                          }}
-                                    >
-                                          <Box
+                                          }}>
+                                                <Box
                                                 sx={{
                                                       pr: 2,
                                                       width: "100%",
@@ -60,7 +57,7 @@ function CompleteDropzone() {
                                           <Box>
                                                 <Image
                                                       src={asset.data}
-                                                      width="180"
+                                                            width="170"
                                                       height="140"
                                                       alt={asset.name}
                                                       style={{
@@ -78,9 +75,10 @@ function CompleteDropzone() {
                                                       {asset.name}
                                                 </Typography>
                                           </Box>
-                                    </Stack>
+                                          </Stack>
+                                    </Grid>
                               ))}
-                        </Stack>
+                        </Grid>
                   )}
                   <Box sx={{ p: 2 }}>
                         <ImageDropzone
