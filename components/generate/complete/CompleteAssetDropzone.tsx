@@ -7,11 +7,10 @@ import { getAssetDimension, getAssetFileName, getAssetFileURL } from '../../../u
 
 interface Props {
       setAssets: Dispatch<SetStateAction<File[]>>
-      uploadedAssets: UploadedAsset[]
       setUploadedAssets: Dispatch<SetStateAction<UploadedAsset[]>>
 }
 
-function ImageDropzone({ setAssets, uploadedAssets, setUploadedAssets }: Props) {
+function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
 
       const onDrop = useCallback((acceptedFiles: File[]) => {
             acceptedFiles.forEach((file) => {
@@ -49,4 +48,4 @@ function ImageDropzone({ setAssets, uploadedAssets, setUploadedAssets }: Props) 
       )
 }
 
-export default ImageDropzone
+export default CompleteAssetDropzone

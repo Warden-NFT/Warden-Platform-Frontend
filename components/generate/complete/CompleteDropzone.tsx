@@ -2,8 +2,7 @@ import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
-import ImageDropzone from "../../UI/input/ImageDropzone";
-
+import CompleteAssetDropzone from "./CompleteAssetDropzone";
 import CloseIcon from "@mui/icons-material/Close";
 
 function CompleteDropzone() {
@@ -81,8 +80,7 @@ function CompleteDropzone() {
                         </Grid>
                   )}
                   <Box sx={{ p: 2 }}>
-                        <ImageDropzone
-                              uploadedAssets={uploadedAssets}
+                        <CompleteAssetDropzone
                               setUploadedAssets={setUploadedAssets}
                               setAssets={setAssets}
                         />

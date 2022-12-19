@@ -8,3 +8,10 @@ export interface UploadedAsset {
   dimension: AssetDimension;
   data: string;
 }
+
+export interface LayeredAssetData {
+  index: number; // 0 = top
+  layerName: string; // folder name of that asset
+  occurance: number; // occurance out of 100
+  assets: UploadedAsset[];
+}
