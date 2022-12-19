@@ -1,12 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import Image from "next/image";
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { useContext } from "react";
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
-import {
-      LayeredAssetData,
-      UploadedAsset,
-} from "../../../interfaces/generate/file.interface";
 import LayeredDropzone from "./LayeredDropzone";
 
 function LayerAssetGallery() {
@@ -28,32 +23,38 @@ function LayerAssetGallery() {
                                     }}
                                     key={i}
                               >
-                                    <Typography>{layer.layerName}</Typography>
-                                    <Stack direction="row" sx={{ overflowX: "scroll" }}>
+                                    <Typography fontWeight='600' sx={{ mb: 2 }}>
+                                          {layer.layerName}
+                                    </Typography>
+
+                                    <Box
+                                          sx={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                overflowX: "scroll",
+                                          }}
+                                    >
                                           {layer.assets.map((asset, j) => (
                                                 <Box
+                                                      key={j}
                                                       sx={{
                                                             mr: 1,
                                                             display: "grid",
                                                             placeItems: "center",
-                                                            backgroundColor: "white",
-                                                            borderBottomLeftRadius: 4,
-                                                            borderBottomRightRadius: 4,
-                                                            boxShadow: 1,
                                                       }}
                                                 >
                                                       <Image
                                                             key={j}
                                                             src={asset.data}
-                                                            width={80}
-                                                            height={80}
+                                                            width={100}
+                                                            height={100}
                                                             alt={`Uploaded ${asset.name}`}
-                                                            style={{ objectFit: "contain" }}
+                                                            style={{ objectFit: "contain", borderRadius: "50%" }}
                                                       />
                                                       <Typography fontSize={12}>{asset.name}</Typography>
                                                 </Box>
                                           ))}
-                                    </Stack>
+                                    </Box>
                               </Box>
                         ))}
                   </Stack>

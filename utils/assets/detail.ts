@@ -64,5 +64,3 @@ export function extractFolderNames(files: File[]) {
   });
   return names;
 }
-
-export function categorizeAssetsIntoLayer(layeredAssets: LayeredAssetData) {}

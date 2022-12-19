@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
 import LayerAssetGallery from './LayerAssetGallery';
-import LayeredDropzone from './LayeredDropzone';
 import LayerStepper from './LayerStepper'
 
 function LayerMainContainer() {
