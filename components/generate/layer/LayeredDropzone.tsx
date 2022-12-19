@@ -28,7 +28,6 @@ function LayeredDropzone() {
             // FIXME: Not allow upload without files
             // Do not accept any file without name
             const folderNames = extractFolderNames(acceptedFiles);
-            console.log(folderNames)
             const layeredAssets: LayeredAssetData[] = folderNames.map((name, i) => {
                   return {
                         index: i,
@@ -63,12 +62,11 @@ function LayeredDropzone() {
                   };
                   reader.readAsArrayBuffer(file);
             });
-
-            console.log(layeredAssets)
             setLayeredAssets(layeredAssets)
       }, []);
       const { getRootProps, getInputProps, isDragActive } = useDropzone({
             onDrop,
+            // note: accept only folders with images
             accept: {
                   "image/png": [],
                   "image/jpg": [],
@@ -78,6 +76,7 @@ function LayeredDropzone() {
       return (
             <Container
                   sx={{
+                        backgroundColor: 'white',
                         minHeight: 140,
                         borderWidth: 2,
                         borderColor: "primary.main",

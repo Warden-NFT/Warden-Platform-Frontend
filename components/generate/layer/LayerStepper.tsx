@@ -46,9 +46,6 @@ function LayerStepper({ children }: { children: React.ReactNode }) {
 
                   <Box
                         sx={{
-                              backgroundColor: "white",
-                              borderRadius: 3,
-                              boxShadow: 2,
                               width: [400, 600, 800],
                               my: 4,
                               p: 2

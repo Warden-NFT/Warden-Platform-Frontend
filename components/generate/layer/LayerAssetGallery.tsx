@@ -1,26 +1,65 @@
-import { Box, Stack } from '@mui/material';
-import Image from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react'
-import { LayeredAssetData, UploadedAsset } from '../../../interfaces/generate/file.interface';
+import { Box, Stack, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import Image from "next/image";
+import React, { Dispatch, SetStateAction, useContext } from "react";
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
+import {
+      LayeredAssetData,
+      UploadedAsset,
+} from "../../../interfaces/generate/file.interface";
+import LayeredDropzone from "./LayeredDropzone";
 
-interface Props {
-      layerIndex: number;
-      layeredAsset: LayeredAssetData;
-      setLayeredAssets: Dispatch<SetStateAction<LayeredAssetData[]>>
-}
-
-function LayerAssetGallery({
-      layerIndex,
-      layeredAsset,
-      setLayeredAssets
-}: Props) {
+function LayerAssetGallery() {
+      const { layeredAssets } = useContext(GenerateLayerContext);
       return (
-            <Box sx={{ width: '100%', height: 200 }}>
-                  <Stack direction='row' sx={{ overflowX: 'scroll' }}>
-                        {layeredAsset.assets.map((asset, i) => <Image key={i} src={asset.data} width={130} height={160} alt={`Uploaded ${asset.name}`} />)}
+            <Box sx={{ width: "100%" }}>
+                  <Stack
+                        direction="column"
+                        sx={{ overflowY: "scroll", minHeight: 200, maxHeight: 600 }}
+                  >
+                        {layeredAssets.map((layer, i) => (
+                              <Box
+                                    sx={{
+                                          borderRadius: 2,
+                                          px: 2,
+                                          py: 2,
+                                          mb: 2,
+                                          backgroundColor: "white",
+                                    }}
+                                    key={i}
+                              >
+                                    <Typography>{layer.layerName}</Typography>
+                                    <Stack direction="row" sx={{ overflowX: "scroll" }}>
+                                          {layer.assets.map((asset, j) => (
+                                                <Box
+                                                      sx={{
+                                                            mr: 1,
+                                                            display: "grid",
+                                                            placeItems: "center",
+                                                            backgroundColor: "white",
+                                                            borderBottomLeftRadius: 4,
+                                                            borderBottomRightRadius: 4,
+                                                            boxShadow: 1,
+                                                      }}
+                                                >
+                                                      <Image
+                                                            key={j}
+                                                            src={asset.data}
+                                                            width={80}
+                                                            height={80}
+                                                            alt={`Uploaded ${asset.name}`}
+                                                            style={{ objectFit: "contain" }}
+                                                      />
+                                                      <Typography fontSize={12}>{asset.name}</Typography>
+                                                </Box>
+                                          ))}
+                                    </Stack>
+                              </Box>
+                        ))}
                   </Stack>
+                  <LayeredDropzone />
             </Box>
-      )
+      );
 }
 
-export default LayerAssetGallery
+export default LayerAssetGallery;
