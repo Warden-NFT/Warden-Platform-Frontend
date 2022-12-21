@@ -1,11 +1,21 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
 import LayeredDropzone from "./LayeredDropzone";
+import CloseIcon from "@mui/icons-material/Close";
 
 function LayerAssetGallery() {
-      const { layeredAssets } = useContext(GenerateLayerContext);
+      const { layeredAssets, setLayeredAssets } = useContext(GenerateLayerContext);
+
+      function removeAsset(layerIndex: number, assetIndex: number) {
+            const _layeredAssets = [...layeredAssets]
+            const _assets = [..._layeredAssets[layerIndex].assets]
+            _assets.splice(assetIndex, 1)
+            _layeredAssets[layerIndex].assets = _assets
+            setLayeredAssets(_layeredAssets)
+      }
+
       return (
             <Box sx={{ width: "100%" }}>
                   <Stack
@@ -23,7 +33,7 @@ function LayerAssetGallery() {
                                     }}
                                     key={i}
                               >
-                                    <Typography fontWeight='600' sx={{ mb: 2 }}>
+                                    <Typography fontWeight="600" sx={{ mb: 2 }}>
                                           {layer.layerName}
                                     </Typography>
 
@@ -41,8 +51,19 @@ function LayerAssetGallery() {
                                                             mr: 1,
                                                             display: "grid",
                                                             placeItems: "center",
+                                                            position: "relative",
                                                       }}
                                                 >
+                                                      <Box position="absolute" sx={{ right: 0, top: -8 }}>
+                                                            <IconButton
+                                                                  onClick={() => removeAsset(i, j)}
+                                                                  size="small"
+                                                                  aria-label="Delete asset"
+                                                                  component="label"
+                                                            >
+                                                                  <CloseIcon fontSize="small" />
+                                                            </IconButton>
+                                                      </Box>
                                                       <Image
                                                             key={j}
                                                             src={asset.data}
