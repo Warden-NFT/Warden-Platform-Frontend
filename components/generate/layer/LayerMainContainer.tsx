@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
+import CustomizeLayer from './CustomizeLayer';
 import LayerAssetGallery from './LayerAssetGallery';
 import LayerStepper from './LayerStepper'
 
@@ -8,6 +9,7 @@ function LayerMainContainer() {
       return (
             <LayerStepper>
                   {activeStep === 1 && <LayerAssetGallery />}
+                  {activeStep === 2 && <CustomizeLayer />}
             </LayerStepper>
       )
 }
