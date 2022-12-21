@@ -9,7 +9,8 @@ function LayerMainContainer() {
       return (
             <LayerStepper>
                   {activeStep === 1 && <LayerAssetGallery />}
-                  {activeStep === 2 && <CustomizeLayer />}
+                  {activeStep === 2 &&
+                        <CustomizeLayer />}
             </LayerStepper>
       )
 }
