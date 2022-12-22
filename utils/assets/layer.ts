@@ -13,7 +13,6 @@ import {
 export function categorizeAssetsIntoLayer(names: string[]) {
   return names.map((name, i) => {
     return {
-      index: i,
       layerName: name,
       occurance: 1,
       assets: [],
