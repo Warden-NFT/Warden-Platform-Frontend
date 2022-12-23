@@ -2,19 +2,23 @@ import {
       Box,
       Button,
       Container,
+      IconButton,
       Stack,
       Step,
       StepLabel,
       Stepper,
+      Tooltip,
+      Typography,
 } from "@mui/material";
 import React, { useContext } from "react";
 import { LAYERED_MODE_STEPPER } from "../../../constants/generate/steps";
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 function LayerStepper({ children }: { children: React.ReactNode }) {
-      const { activeStep, setActiveStep, assets, layeredAssets } = useContext(
-            GenerateLayerContext
-      );
+      const { activeStep, setActiveStep, assets, layeredAssets } =
+            useContext(GenerateLayerContext);
 
       function handleNext() {
             if (activeStep === 1) {
@@ -31,24 +35,59 @@ function LayerStepper({ children }: { children: React.ReactNode }) {
       }
 
       return (
-            <Container maxWidth="md" sx={{ display: "grid", placeItems: "center" }}>
-                  <Box
-                        sx={{ backgroundColor: "white", borderRadius: 3, py: 2, width: "100%" }}
-                  >
-                        <Stepper nonLinear activeStep={activeStep - 1} alternativeLabel>
+            <Container sx={{ display: "grid", placeItems: "center" }}>
+                  <Box sx={{ diplay: "flex" }}>
+                        <Stack
+                              direction="row"
+                              sx={{ border: 1, borderColor: "#e0e0e0", borderRadius: 3 }}
+                        >
+                              <Box
+                                    sx={{
+                                          display: "grid",
+                                          placeItems: "center",
+                                          borderRight: 1,
+                                          borderColor: "#e0e0e0",
+                                          backgroundColor: '#efefef'
+                                    }}
+                              >
+                                    <Tooltip title="Exit">
+                                          <IconButton aria-label="Exit Generation">
+                                                <ArrowBackIcon />
+                                          </IconButton>
+                                    </Tooltip>
+                              </Box>
                               {LAYERED_MODE_STEPPER.map((step, index) => (
-                                    <Step key={index} completed={activeStep > step.step}>
-                                          <StepLabel color="inherit">{step.label}</StepLabel>
-                                    </Step>
+                                    <Box
+                                          sx={[
+                                                { minWidth: "190px", p: 2 },
+                                                index < LAYERED_MODE_STEPPER.length - 1 && {
+                                                      borderRight: 1,
+                                                      borderColor: "#e0e0e0",
+                                                },
+                                          ]}
+                                    >
+                                          <Stack direction="row">
+                                                <Box mr="4px">
+                                                      {activeStep > step.step && (
+                                                            <CheckCircleIcon color="success" />
+                                                      )}
+                                                </Box>
+                                                <Typography fontSize={16} fontWeight="600">
+                                                      {index + 1}. {step.header}
+                                                </Typography>
+                                          </Stack>
+                                          <Typography sx={{ ml: 3 }} fontSize={12}>{step.label}</Typography>
+                                    </Box>
                               ))}
-                        </Stepper>
+                        </Stack>
                   </Box>
+
 
                   <Box
                         sx={{
                               width: [400, 600, 800],
                               my: 4,
-                              p: 2
+                              p: 2,
                         }}
                   >
                         {children}
