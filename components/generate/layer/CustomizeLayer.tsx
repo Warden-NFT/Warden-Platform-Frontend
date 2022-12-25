@@ -2,14 +2,16 @@ import { Box, Stack, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
 import { grey } from "@mui/material/colors";
-import { Reorder } from "framer-motion";
-import Image from "next/image";
+import { Reorder, useDragControls } from "framer-motion";
 import AssetCanvasCard from "../asset/AssetCanvasCard";
 import { LayeredAssetData } from "../../../interfaces/generate/file.interface";
+import PNGAssetPreview from "../../assets/PNGAssetPreview";
 
 function CustomizeLayer() {
       const { layeredAssets, setLayeredAssets } = useContext(GenerateLayerContext);
       const [reversedAsset, setReversedAssets] = useState<LayeredAssetData[]>([]);
+
+      const controls = useDragControls()
 
       useEffect(() => {
             const _layeredAssets = [...layeredAssets]
@@ -29,7 +31,7 @@ function CustomizeLayer() {
                               <Typography sx={{ mt: 2 }}>Preview Image</Typography>
                         </Stack>
                         <Box>
-                              <Typography sx={{ ml: 8 }}>Drag each item to reorder</Typography>
+                              <Typography variant='h5' sx={{ ml: 8 }}>Drag each item to reorder</Typography>
                               <Reorder.Group
                                     axis="y"
                                     values={layeredAssets}
@@ -39,7 +41,7 @@ function CustomizeLayer() {
                                           <Reorder.Item
                                                 key={layer.layerName}
                                                 value={layer}
-                                                style={{ listStyle: "none" }}
+                                                style={{ listStyle: "none", cursor: 'pointer' }}
                                           >
                                                 <Stack direction="row">
                                                       <Box width='50px'>
@@ -70,6 +72,7 @@ function CustomizeLayer() {
                                                                   justifyContent="space-between"
                                                                   alignItems="center"
                                                                   width="100%"
+                                                                  marginRight='20px'
                                                             >
                                                                   <Box width="260px">
                                                                         <Typography fontWeight="600" textOverflow="ellipsis">
@@ -80,7 +83,7 @@ function CustomizeLayer() {
                                                                         direction="row"
                                                                         sx={{
                                                                               width: 600,
-                                                                              overflow: "hidden",
+                                                                              overflowX: "scroll",
                                                                               position: "relative",
                                                                         }}
                                                                   >
@@ -91,22 +94,23 @@ function CustomizeLayer() {
                                                                                           backgroundColor: "white",
                                                                                           border: 1,
                                                                                           borderColor: "#e0e0e0",
-                                                                                          width: 50,
-                                                                                          height: 50,
+                                                                                          width: 54,
+                                                                                          display: 'grid',
+                                                                                          placeItems: 'center'
                                                                                     }}
                                                                                     key={j}
                                                                               >
-                                                                                    <Image
-                                                                                          src={asset.data}
-                                                                                          width="50"
-                                                                                          height="50"
-                                                                                          alt={`Uploaded ${asset.name}`}
-                                                                                          style={{ objectFit: "contain" }}
+                                                                                    <PNGAssetPreview
+                                                                                          name={asset.name}
+                                                                                          data={asset.data}
+                                                                                          width={50}
+                                                                                          height={50}
                                                                                     />
                                                                               </Box>
                                                                         ))}
                                                                   </Stack>
                                                             </Stack>
+
                                                       </Box>
                                                 </Stack>
                                           </Reorder.Item>
