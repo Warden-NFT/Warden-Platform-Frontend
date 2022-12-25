@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.16",
     "@mui/material": "^5.10.17",
+    "@mui/x-data-grid": "^5.17.16",
     "@rainbow-me/rainbowkit": "^0.8.0",
     "@types/node": "18.11.11",
     "@types/react": "18.0.26",

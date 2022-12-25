@@ -3,9 +3,7 @@ import {
       AccordionDetails,
       AccordionSummary,
       Box,
-      Divider,
       FormControl,
-      FormHelperText,
       FormLabel,
       Stack,
       Step,
@@ -14,17 +12,19 @@ import {
       TextField,
       Typography,
 } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import { useFormik } from "formik";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { LayeredCollectionInfo } from "../../../interfaces/generate/collection.interface";
 import { LayeredFormScham } from "../../../schema/generate/layered";
 import ControlledEventTypeSelect from "../form/ControlledEventTypeSelect";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
+import { MINI_LAYERED_FORM_STEPS } from '../../../constants/generate/steps'
+import ControlledLayerOccurrenceGrid from "../form/ControlledLayerOccuranceGrid";
 
 function LayerForm() {
       const { layeredAssets } = useContext(GenerateLayerContext)
+
       const { values, handleChange, touched, errors, handleSubmit } = useFormik({
             initialValues: {
                   collectionName: "",
@@ -42,28 +42,12 @@ function LayerForm() {
             },
       });
 
-      const MINI_STEPS = [
-            {
-                  step: 1,
-                  title: "General settings",
-            },
-            {
-                  step: 2,
-                  title: "About the Ticket",
-            },
-            {
-                  step: 3,
-                  title: "Assets Settings",
-            },
-      ];
-
       return (
-            <Stack direction="row">
-                  <div>{JSON.stringify(values.amount)}</div>
-                  <Box sx={{ marginRight: 4 }}>
+            <Stack direction="row" width='100%'>
+                  <Box sx={{ marginRight: 4, width: '200px' }}>
                         <Stepper activeStep={1} orientation='vertical'>
                               {
-                                    MINI_STEPS.map((step, index) =>
+                                    MINI_LAYERED_FORM_STEPS.map((step, index) =>
                                           <Step key={index}>
                                                 <StepLabel>
                                                       <Typography>{step.title}</Typography>
@@ -73,7 +57,7 @@ function LayerForm() {
                               }
                         </Stepper>
                   </Box>
-                  <Box>
+                  <Box sx={{ width: '100%' }}>
                         <Stack spacing={2} p={2}>
                               {/* ------- General Settings Accordion ------- */}
                               <Accordion>
@@ -82,7 +66,7 @@ function LayerForm() {
                                           aria-controls="panel1a-content"
                                           id="panel1a-header"
                                     >
-                                          <Typography sx={{ width: '50%', flexShrink: 0, fontWeight: '600' }}>General Settings</Typography>
+                                          <Typography variant='h5' sx={{ width: '50%', flexShrink: 0, fontWeight: '600' }}>General Settings</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                           <Stack spacing={2}>
@@ -170,7 +154,7 @@ function LayerForm() {
                                           aria-controls="panel2a-content"
                                           id="panel2a-header"
                                     >
-                                          <Typography sx={{ flexShrink: 0, fontWeight: '600' }}>About Ticket</Typography>
+                                          <Typography variant='h5' sx={{ flexShrink: 0, fontWeight: '600' }}>About Ticket</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
                                           <Stack spacing={2}>
@@ -212,13 +196,14 @@ function LayerForm() {
                                           aria-controls="panel3a-content"
                                           id="panel3a-header"
                                     >
-                                          <Typography sx={{ flexShrink: 0, fontWeight: '600' }}>Asset Settings</Typography>
+                                          <Typography variant='h5' sx={{ flexShrink: 0, fontWeight: '600' }}>Asset Settings</Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                          <Stack spacing={2}>
-
-
-                                          </Stack>
+                                          {
+                                                values.layers.map((layer, i) =>
+                                                      <ControlledLayerOccurrenceGrid key={i} layer={layer} />
+                                                )
+                                          }
                                     </AccordionDetails>
                               </Accordion>
 

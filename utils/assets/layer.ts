@@ -8,7 +8,7 @@ export function categorizeAssetsIntoLayer(names: string[]) {
   return names.map((name, i) => {
     return {
       layerName: name,
-      occurance: 1,
+      occurrence: 1,
       assets: [],
     } as LayeredAssetData;
   });
@@ -28,9 +28,10 @@ export async function readAssetsAsLayer(file: File): Promise<UploadedAsset> {
         name: getAssetFileName(file),
         dimension: dimension,
         data: url,
-      };
+        occurrence: 1,
+      } as UploadedAsset;
 
-      return resolve(asset as UploadedAsset);
+      return resolve(asset);
     };
   });
 }

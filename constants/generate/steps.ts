@@ -38,3 +38,18 @@ export const LAYERED_MODE_STEPPER = [
     label: "Customize NFT with Warden's utility",
   },
 ];
+
+export const MINI_LAYERED_FORM_STEPS = [
+  {
+    step: 1,
+    title: "General settings",
+  },
+  {
+    step: 2,
+    title: "About the Ticket",
+  },
+  {
+    step: 3,
+    title: "Assets Settings",
+  },
+];

@@ -27,7 +27,8 @@ function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
                         const asset: UploadedAsset = {
                               name: getAssetFileName(file),
                               dimension: dimensions,
-                              data: url
+                              data: url,
+                              occurrence: 1
                         }
 
                         setUploadedAssets(prev => [...prev, asset]);

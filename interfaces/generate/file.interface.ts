@@ -7,10 +7,11 @@ export interface UploadedAsset {
   name: string;
   dimension: AssetDimension;
   data: string;
+  occurrence: number;
 }
 
 export interface LayeredAssetData {
   layerName: string; // folder name of that asset
-  occurance: number; // occurance out of 100
+  occurrence: number; // occurrence out of 100
   assets: UploadedAsset[];
 }
