@@ -8,7 +8,7 @@ export function categorizeAssetsIntoLayer(names: string[]) {
   return names.map((name, i) => {
     return {
       layerName: name,
-      occurrence: 1,
+      occurrence: 100,
       assets: [],
     } as LayeredAssetData;
   });

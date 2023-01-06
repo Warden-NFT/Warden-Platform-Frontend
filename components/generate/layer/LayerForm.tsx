@@ -20,7 +20,7 @@ import ControlledEventTypeSelect from "../form/ControlledEventTypeSelect";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
 import { MINI_LAYERED_FORM_STEPS } from '../../../constants/generate/steps'
-import ControlledLayerOccurrenceGrid from "../form/ControlledLayerOccuranceGrid";
+import ControlledLayerOccurrenceGrid from "../form/ControlledLayerOccurenceGrid";
 
 function LayerForm() {
       const { layeredAssets } = useContext(GenerateLayerContext)
