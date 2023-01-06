@@ -19,7 +19,7 @@ export function generateRandomLayer(
     // Randomize attributes that will be generated into layer
     for (const layeredAsset of layeredAssets) {
       // Skip this layer from generation (from its occurrence)
-      const isLower = isLowerTail(layeredAsset.occurrence);
+      const isLower = isLowerTail(layeredAsset.occurrence / 100);
       if (!isLower) {
         continue;
       }
@@ -29,7 +29,7 @@ export function generateRandomLayer(
         (asset) => asset.occurrence
       );
       const rndIndex = weightedRandom(assetsOccurances, layeredAsset.assets);
-      randomedAttributes.unshift({
+      randomedAttributes.push({
         layerName: layeredAsset.layerName,
         layerOccurance: layeredAsset.occurrence,
         assetName: layeredAsset.assets[rndIndex].name,

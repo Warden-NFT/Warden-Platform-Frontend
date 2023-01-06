@@ -2,7 +2,7 @@ import { array, number, object, string } from "yup";
 import { LayeredAssetData } from "../../interfaces/generate/file.interface";
 import { calculateCombination } from "../../utils/random/combination";
 
-export const LayeredFormScham = object({
+export const LayeredFormSchema = object({
   collectionName: string()
     .required("This field is required")
     .max(60, "Collection name is too long"),

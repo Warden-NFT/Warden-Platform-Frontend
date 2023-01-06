@@ -5,7 +5,9 @@ import React, {
       Dispatch,
       useEffect,
 } from "react";
-import { LayeredAssetData, UploadedAsset } from "../../interfaces/generate/file.interface";
+import { LayeredCollectionInfo } from "../../interfaces/generate/collection.interface";
+import { LayeredAssetData } from "../../interfaces/generate/file.interface";
+import { AssetMetadata } from "../../interfaces/generate/metadata.interface";
 interface GenerateLayerContextProps {
       activeStep: number;
       setActiveStep: Dispatch<SetStateAction<number>>;
@@ -13,6 +15,10 @@ interface GenerateLayerContextProps {
       setAssets: Dispatch<SetStateAction<File[]>>;
       layeredAssets: LayeredAssetData[];
       setLayeredAssets: Dispatch<SetStateAction<LayeredAssetData[]>>;
+      collectionInfo: LayeredCollectionInfo | null;
+      setCollectionInfo: Dispatch<SetStateAction<LayeredCollectionInfo | null>>
+      assetMetadata: AssetMetadata[]
+      setAssetMetadata: Dispatch<SetStateAction<AssetMetadata[]>>
 }
 
 export const GenerateLayerContext = createContext(
@@ -22,6 +28,8 @@ const GenerateLayerContextProvider = ({ ...props }) => {
       const [activeStep, setActiveStep] = useState(1);
       const [assets, setAssets] = useState<File[]>([]);
       const [layeredAssets, setLayeredAssets] = useState<LayeredAssetData[]>([]);
+      const [collectionInfo, setCollectionInfo] = useState<LayeredCollectionInfo | null>(null)
+      const [assetMetadata, setAssetMetadata] = useState<AssetMetadata[]>([]);
 
       useEffect(() => {
             console.log(layeredAssets)
@@ -33,7 +41,11 @@ const GenerateLayerContextProvider = ({ ...props }) => {
             assets,
             setAssets,
             layeredAssets,
-            setLayeredAssets
+            setLayeredAssets,
+            collectionInfo,
+            setCollectionInfo,
+            assetMetadata,
+            setAssetMetadata
       };
 
       return <GenerateLayerContext.Provider value={values} {...props} />;

@@ -13,20 +13,21 @@ import {
       Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { LayeredCollectionInfo } from "../../../interfaces/generate/collection.interface";
-import { LayeredFormScham } from "../../../schema/generate/layered";
+import { LayeredFormSchema } from "../../../schema/generate/layered";
 import ControlledEventTypeSelect from "../form/ControlledEventTypeSelect";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext";
 import { MINI_LAYERED_FORM_STEPS } from '../../../constants/generate/steps'
 import ControlledLayerOccurrenceGrid from "../form/ControlledLayerOccurenceGrid";
+import useDebounce from "../../../hooks/useDebounce";
 
 function LayerForm() {
-      const { layeredAssets } = useContext(GenerateLayerContext)
+      const { layeredAssets, collectionInfo, setCollectionInfo } = useContext(GenerateLayerContext)
 
       const { values, handleChange, touched, errors, handleSubmit } = useFormik({
-            initialValues: {
+            initialValues: collectionInfo ?? {
                   collectionName: "",
                   distributedBy: "",
                   externalUrl: "",
@@ -36,11 +37,17 @@ function LayerForm() {
                   layers: layeredAssets,
             } as LayeredCollectionInfo,
             enableReinitialize: true,
-            validationSchema: LayeredFormScham,
+            validationSchema: LayeredFormSchema,
             onSubmit: (data) => {
-                  console.log(data);
+                  setCollectionInfo(data)
             },
       });
+
+      const debounced = useDebounce(values, 2000)
+      useEffect(() => {
+            handleSubmit();
+            console.log(collectionInfo)
+      }, [debounced])
 
       return (
             <Stack direction="row" width='100%'>
