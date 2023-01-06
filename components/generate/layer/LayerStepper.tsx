@@ -23,7 +23,7 @@ function LayerStepper({ children }: { children: React.ReactNode }) {
       function handleNext() {
             if (activeStep === 1) {
                   if (assets.length > 0 && layeredAssets.length > 0) setActiveStep(2);
-            } else if (activeStep < 3) {
+            } else if (activeStep < 4) {
                   setActiveStep((prev) => prev + 1);
             }
       }
@@ -102,7 +102,7 @@ function LayerStepper({ children }: { children: React.ReactNode }) {
                               Back
                         </Button>
                         <Button onClick={handleNext} variant="contained">
-                              {activeStep === 3 ? "Finish" : "Next"}
+                              {activeStep === 4 ? "Finish" : "Next"}
                         </Button>
                   </Stack>
             </Container>

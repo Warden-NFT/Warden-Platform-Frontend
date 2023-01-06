@@ -13,7 +13,7 @@ interface Props {
 function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
 
       const onDrop = useCallback((acceptedFiles: File[]) => {
-            acceptedFiles.forEach((file) => {
+            acceptedFiles.forEach((file, i) => {
                   setAssets(prev => [...prev, file]);
                   const reader = new FileReader()
 
@@ -25,6 +25,7 @@ function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
                         if (!url || !dimensions) return;
 
                         const asset: UploadedAsset = {
+                              id: i + 1,
                               name: getAssetFileName(file),
                               dimension: dimensions,
                               data: url,

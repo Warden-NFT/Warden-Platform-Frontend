@@ -4,6 +4,7 @@ export interface AssetDimension {
 }
 
 export interface UploadedAsset {
+  id: number;
   name: string;
   dimension: AssetDimension;
   data: string;
