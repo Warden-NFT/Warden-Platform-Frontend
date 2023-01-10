@@ -1,38 +1,37 @@
 import { Container, Stack, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
 import React from "react";
-import ModeSelectionCard from "./ModeSelectionCard";
+import ImageLabelCard from "../UI/card/ImageLabelCard";
+import Link from "next/link";
 
 function GenerateModeSelector() {
-      const router = useRouter()
-      function handleClickCompleteAsset() {
-            router.push('/generate/asset')
-      }
-
-      function handleClickLayeredAsset() {
-            router.push('/generate/layer')
-      }
-
       return (
             <Container>
                   <Stack direction="column" spacing={2}>
-                        <Typography variant="h6">Welcome to NFT ticket generator</Typography>
+
                         <Typography variant="body1"></Typography>
-                        <Stack direction="row" justifyContent="space-around">
-                              <ModeSelectionCard
-                                    heading="Upload complete assets"
-                                    description="Upload finished assets and mint ticket NFT collection!"
-                                    image='/images/generate/completed-asset-card-image.jpg'
-                                    imageAlt='Completed generation mode cover'
-                                    handleClick={handleClickCompleteAsset}
-                              />
-                              <ModeSelectionCard
-                                    heading="Upload asset layers"
-                                    description="Upload multiple layers of your assets, get it randomize, and mint ticket NFT collection!"
-                                    image='/images/generate/layer-asset-card-image.avif'
-                                    imageAlt='Layered generation mode cover'
-                                    handleClick={handleClickLayeredAsset}
-                              />
+                        <Stack direction="column" gap={4}>
+                              <Link
+                                    href="/generate/asset"
+                                    style={{ textDecoration: "none", color: "black" }}
+                              >
+                                    <ImageLabelCard
+                                          backgroundColor="white"
+                                          imageSrc="/images/generate/event-scheduling.jpg"
+                                          imageAlt="Create event completely"
+                                          width="100%"
+                                    />
+                              </Link>
+                              <Link
+                                    href="/generate/layer"
+                                    style={{ textDecoration: "none", color: "black" }}
+                              >
+                                    <ImageLabelCard
+                                          backgroundColor="white"
+                                          imageSrc="/images/generate/complete-asset-card.avif"
+                                          imageAlt="Create event completely"
+                                          width="100%"
+                                    />
+                              </Link>
                         </Stack>
                   </Stack>
             </Container>
