@@ -1,26 +1,17 @@
 html,
 body {
+  background-color: #faf8ff;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
 
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.png-bg {
+  background:
+    repeating-conic-gradient(
+        #fff 0 90deg,
+        rgba(128, 128, 128, 0.252) 0 180deg) 
+    0 0/25% 25%;
 }
