@@ -58,6 +58,7 @@ function LayerStepper({ children }: { children: React.ReactNode }) {
                               </Box>
                               {LAYERED_MODE_STEPPER.map((step, index) => (
                                     <Box
+                                          key={index}
                                           sx={[
                                                 { minWidth: "190px", p: 2 },
                                                 index < LAYERED_MODE_STEPPER.length - 1 && {

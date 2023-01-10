@@ -8,8 +8,3 @@ export interface CompleteCollectionInfo {
   description: string;
   ticketType: TicketTypes;
 }
-
-export interface LayeredCollectionInfo extends CompleteCollectionInfo {
-  amount: number;
-  layers: LayeredAssetData[];
-}

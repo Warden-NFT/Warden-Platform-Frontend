@@ -10,12 +10,12 @@ import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
-      LayeredAssetData,
       UploadedAsset,
 } from "../../../interfaces/generate/file.interface";
+import { CustomizeLayerForm } from "../../../interfaces/generate/form.interface";
 
 interface Props {
-      layer: LayeredAssetData;
+      layer: CustomizeLayerForm;
 }
 
 interface GridRowData {
@@ -143,7 +143,7 @@ function ControlledLayerOccurrenceGrid({ layer }: Props) {
             <Box sx={{ mb: 2 }}>
                   <Stack direction="row" justifyContent="space-between">
                         <Typography fontWeight="600" sx={{ marginRight: 2 }}>
-                              {layer.layerName}
+                              {layer.name}
                         </Typography>
                         <Stack direction="row" alignItems="center" sx={{ width: "300px", paddingRight: 4 }}>
                               <Typography fontWeight="600" sx={{ marginRight: 4 }}>
