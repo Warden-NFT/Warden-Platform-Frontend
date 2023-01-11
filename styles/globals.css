@@ -1,3 +1,5 @@
+@import url('./mui-override.css');
+
 html,
 body {
   background-color: #faf8ff;

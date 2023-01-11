@@ -1,4 +1,10 @@
-export const COMPLETE_MODE_STEPS = [
+export interface StepperSteps {
+  step: number;
+  header: string;
+  label: string;
+}
+
+export const COMPLETE_MODE_STEPS: StepperSteps[] = [
   {
     step: 1,
     header: "Upload Assets",

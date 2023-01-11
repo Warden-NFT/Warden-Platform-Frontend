@@ -14,7 +14,7 @@ interface Props {
 function ImageLabelCard(props: Props) {
       return (
             <motion.div
-                  whileHover={{ y: -6, boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)", }}
+                  whileHover={{ y: -6, boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)" }}
                   style={{ borderRadius: '20px' }}
             >
                   <Box

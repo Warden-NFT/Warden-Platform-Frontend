@@ -39,7 +39,7 @@ function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
       }, [])
       const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
       return (
-            <Container sx={{ minHeight: 200, borderWidth: 2, borderColor: 'primary.main', borderRadius: 3, borderStyle: 'dashed', display: 'grid', placeItems: 'center' }} {...getRootProps()}>
+            <Container sx={{ minHeight: 200, display: 'grid', placeItems: 'center' }} {...getRootProps()}>
                   <input {...getInputProps()} />
                   {isDragActive ?
                         <Image src='/images/generate/dropzone-drag-active.png' width='100' height='100' alt='Accepting Files' />
