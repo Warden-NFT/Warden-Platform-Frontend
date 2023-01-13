@@ -1,14 +1,23 @@
 import { Container, Box, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GenerateModeSelector from "../../components/generate/GenerateModeSelector";
 import TicketTypeList from "../../components/generate/TicketTypeList";
 import { TicketTypes } from "../../interfaces/ticket/ticket.interface";
 import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useRouter } from "next/router";
 
 function GeneratePage() {
       const [step, setStep] = useState(1);
       const [selectedType, setSelectedType] = useState<TicketTypes | null>(null);
+
+      const router = useRouter()
+      useEffect(() => {
+            const { ticketType } = router.query;
+            if (ticketType) {
+                  router.push('/generate')
+            }
+      }, [router])
 
       function handleSelectTicket(type: TicketTypes) {
             setSelectedType(type);
