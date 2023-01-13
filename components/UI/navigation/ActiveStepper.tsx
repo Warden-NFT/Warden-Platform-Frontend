@@ -14,7 +14,7 @@ interface Props {
       activeStep: number;
       setActiveStep: Dispatch<SetStateAction<number>>;
       children: ReactNode;
-      onNext?: () => void;
+      onNext?: () => boolean;
       onPrevios?: () => void;
 }
 
@@ -27,16 +27,18 @@ function ActiveStepper({
       onPrevios,
 }: Props) {
       function handleNext() {
-            if (activeStep < steps.length - 1) {
+            const res = onNext?.();
+            console.log(res)
+
+            if (activeStep < steps.length && res) {
                   setActiveStep((prev) => prev + 1);
-                  // onNext?.();
             }
       }
 
       function handlePrevious() {
             if (activeStep > 1) {
                   setActiveStep((prev) => prev - 1);
-                  // onPrevios?.();
+                  onPrevios?.();
             }
       }
 

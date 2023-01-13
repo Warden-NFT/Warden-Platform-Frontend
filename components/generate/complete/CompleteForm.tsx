@@ -5,25 +5,20 @@ import {
       TextField,
       Typography,
 } from "@mui/material";
-import { useFormik } from "formik";
-import React, { useContext } from "react";
-import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
-import { CompleteAssetFormSchema } from "../../../schema/generate/complete";
+import { FormikErrors, FormikTouched } from "formik";
+import React from "react";
+import { CompleteAssetInfo } from "../../../interfaces/generate/collection.interface";
 
-function CompleteForm() {
-      const { formInfo } = useContext(GenerateCompleteContext);
-      const { values, handleChange, touched, errors, handleSubmit } = useFormik({
-            initialValues: { ...formInfo },
-            enableReinitialize: true,
-            validationSchema: CompleteAssetFormSchema,
-            onSubmit: (data) => {
-                  console.log(data);
-            },
-      });
+interface Props {
+      values: CompleteAssetInfo;
+      handleChange: (e: React.ChangeEvent<any>) => void;
+      touched: FormikTouched<CompleteAssetInfo>;
+      errors: FormikErrors<CompleteAssetInfo>;
+}
 
+function CompleteForm({ values, handleChange, touched, errors }: Props) {
       return (
             <Stack spacing={2} p={2}>
-                  <div>{JSON.stringify(values)}</div>
                   <FormControl required>
                         <FormLabel>Event Name</FormLabel>
                         <Typography variant="caption" color="gray">
@@ -39,7 +34,7 @@ function CompleteForm() {
                               variant="outlined"
                               size="small"
                               error={errors.eventName != null}
-                              helperText={errors.eventName}
+                              helperText={touched.eventName ? errors.eventName : undefined}
                         />
                   </FormControl>
                   <FormControl required>
@@ -57,7 +52,7 @@ function CompleteForm() {
                               variant="outlined"
                               size="small"
                               error={errors.organizerName != null}
-                              helperText={errors.organizerName}
+                              helperText={touched.organizerName ? errors.organizerName : undefined}
                         />
                   </FormControl>
                   <FormControl>
@@ -75,7 +70,9 @@ function CompleteForm() {
                               variant="outlined"
                               size="small"
                               error={errors.eventExternalUrl != null}
-                              helperText={errors.eventExternalUrl}
+                              helperText={
+                                    touched.eventExternalUrl ? errors.eventExternalUrl : undefined
+                              }
                         />
                   </FormControl>
                   <FormControl required>
@@ -93,7 +90,7 @@ function CompleteForm() {
                               variant="outlined"
                               size="small"
                               error={errors.description != null}
-                              helperText={errors.description}
+                              helperText={touched.description ? errors.description : undefined}
                               multiline
                         />
                   </FormControl>
