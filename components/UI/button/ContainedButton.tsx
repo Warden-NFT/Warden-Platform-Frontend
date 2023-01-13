@@ -7,10 +7,11 @@ interface Props {
   width?: string;
   height?: string;
   variant: "outlined" | "text" | "contained";
-  onClick: () => void;
+  onClick?: () => void;
+  disabled?: boolean
 }
 
-function ContainedButton({ label, width, height, variant, onClick }: Props) {
+function ContainedButton({ label, width, height, variant, onClick, disabled }: Props) {
   return (
     <motion.div
       whileHover={{
@@ -23,9 +24,10 @@ function ContainedButton({ label, width, height, variant, onClick }: Props) {
       <Button
         onClick={(e) => {
           e.preventDefault();
-          onClick();
+          onClick?.();
         }}
         variant={variant}
+        disabled={disabled}
         sx={{ borderRadius: "20px", border: 2, width, height, boxShadow: "none" }}
       >
         {label}

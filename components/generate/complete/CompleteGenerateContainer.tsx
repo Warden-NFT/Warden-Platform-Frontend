@@ -7,24 +7,14 @@ import CompleteDropzone from "./CompleteDropzone";
 import CompleteForm from "./CompleteForm";
 import queryString from "query-string";
 import { TicketTypes } from "../../../interfaces/ticket/ticket.interface";
-import { useFormik } from "formik";
-import { CompleteAssetFormSchema } from "../../../schema/generate/complete";
+
+import CustomizeUtilityForm from "./CustomizeUtilityForm";
 
 function CompleteGenerateContainer() {
       const { activeStep, setActiveStep, formInfo, setFormInfo } = useContext(
             GenerateCompleteContext
       );
       const router = useRouter();
-
-      const { values, handleChange, touched, errors, handleSubmit, isValid } = useFormik({
-            initialValues: { ...formInfo },
-            isInitialValid: false,
-            enableReinitialize: true,
-            validationSchema: CompleteAssetFormSchema,
-            onSubmit: (data) => {
-                  console.log(data);
-            },
-      });
 
       useEffect(() => {
             const { query } = queryString.parseUrl(window.location.href);
@@ -38,35 +28,14 @@ function CompleteGenerateContainer() {
             }
       }, [window]);
 
-      function handleNext() {
-            if (activeStep === 1) {
-                  return true;
-            } else if (activeStep === 2) {
-                  handleSubmit();
-
-                  if (isValid) return true;
-            }
-
-
-            return false;
-      }
-
       return (
             <ActiveStepper
                   steps={COMPLETE_MODE_STEPS}
                   activeStep={activeStep}
-                  setActiveStep={setActiveStep}
-                  onNext={handleNext}
             >
                   {activeStep === 1 && <CompleteDropzone />}
-                  {activeStep === 2 && (
-                        <CompleteForm
-                              values={values}
-                              handleChange={handleChange}
-                              touched={touched}
-                              errors={errors}
-                        />
-                  )}
+                  {activeStep === 2 && <CompleteForm />}
+                  {activeStep === 3 && <CustomizeUtilityForm />}
             </ActiveStepper>
       );
 }

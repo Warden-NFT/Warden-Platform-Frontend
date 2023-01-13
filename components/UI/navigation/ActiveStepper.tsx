@@ -1,47 +1,14 @@
-import {
-      Box,
-      Stack,
-      Step,
-      StepLabel,
-      Stepper,
-} from "@mui/material";
+import { Box, Step, StepLabel, Stepper } from "@mui/material";
 import React, { ReactNode, Dispatch, SetStateAction } from "react";
 import { StepperSteps } from "../../../constants/generate/steps";
-import ContainedButton from "../button/ContainedButton";
 
 interface Props {
       steps: StepperSteps[];
       activeStep: number;
-      setActiveStep: Dispatch<SetStateAction<number>>;
       children: ReactNode;
-      onNext?: () => boolean;
-      onPrevios?: () => void;
 }
 
-function ActiveStepper({
-      steps,
-      activeStep,
-      setActiveStep,
-      children,
-      onNext,
-      onPrevios,
-}: Props) {
-      function handleNext() {
-            const res = onNext?.();
-            console.log(res)
-
-            if (activeStep < steps.length && res) {
-                  setActiveStep((prev) => prev + 1);
-            }
-      }
-
-      function handlePrevious() {
-            if (activeStep > 1) {
-                  setActiveStep((prev) => prev - 1);
-                  onPrevios?.();
-            }
-      }
-
+function ActiveStepper({ steps, activeStep, children }: Props) {
       return (
             <Box>
                   <Stepper
@@ -62,38 +29,9 @@ function ActiveStepper({
                               </Step>
                         ))}
                   </Stepper>
-                  <Box
-                        sx={{
-                              backgroundColor: "white",
-                              marginY: 4,
-                              borderRadius: 6,
-                              border: 2,
-                        }}
-                  >
-                        {children}
-                  </Box>
-                  <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        sx={{ width: "100%" }}
-                  >
-                        <ContainedButton
-                              onClick={handlePrevious}
-                              variant="outlined"
-                              label="Back"
-                              height="40px"
-                              width="200px"
-                        />
-                        <ContainedButton
-                              onClick={handleNext}
-                              variant="contained"
-                              label="Next"
-                              height="40px"
-                              width="200px"
-                        />
-                  </Stack>
-            </Box>
-      );
+              <Box>{children}</Box>
+        </Box>
+  );
 }
 
 export default ActiveStepper;

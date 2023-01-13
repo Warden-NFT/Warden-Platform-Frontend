@@ -1,24 +1,38 @@
 import {
+      Box,
       FormControl,
       FormLabel,
       Stack,
       TextField,
       Typography,
 } from "@mui/material";
-import { FormikErrors, FormikTouched } from "formik";
-import React from "react";
-import { CompleteAssetInfo } from "../../../interfaces/generate/collection.interface";
+import { useFormik } from "formik";
+import React, { useContext } from "react";
+import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
+import { CompleteAssetFormSchema } from "../../../schema/generate/complete";
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons";
 
-interface Props {
-      values: CompleteAssetInfo;
-      handleChange: (e: React.ChangeEvent<any>) => void;
-      touched: FormikTouched<CompleteAssetInfo>;
-      errors: FormikErrors<CompleteAssetInfo>;
-}
+function CompleteForm() {
 
-function CompleteForm({ values, handleChange, touched, errors }: Props) {
+      const { formInfo, setActiveStep, setFormInfo } = useContext(GenerateCompleteContext)
+      const { values, handleChange, touched, errors, handleSubmit } = useFormik({
+            initialValues: { ...formInfo },
+            enableReinitialize: true,
+            validationSchema: CompleteAssetFormSchema,
+            onSubmit: (data) => {
+                  setFormInfo(data)
+                  setActiveStep(prev => prev + 1)
+            },
+      });
+
       return (
-            <Stack spacing={2} p={2}>
+            <Box>
+                  <Stack spacing={2} p={4} sx={{
+                        backgroundColor: "white",
+                        marginY: 4,
+                        borderRadius: 6,
+                        border: 2,
+                  }}>
                   <FormControl required>
                         <FormLabel>Event Name</FormLabel>
                         <Typography variant="caption" color="gray">
@@ -95,6 +109,8 @@ function CompleteForm({ values, handleChange, touched, errors }: Props) {
                         />
                   </FormControl>
             </Stack>
+                  <ControlledStepperButtons handlePrevious={() => setActiveStep(prev => prev - 1)} handleNext={handleSubmit} />
+            </Box>
       );
 }
 
