@@ -5,37 +5,61 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EventIcon from "@mui/icons-material/Event";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
 import { QRCodeCanvas } from "qrcode.react";
+import { TicketTypes } from "../../../interfaces/ticket/ticket.interface";
+import moment from "moment";
 // https://codepen.io/z-/pen/MJKNJZ
 // https://codepen.io/amr-ibrahem/pen/wdrLjL
-function Ticket() {
+
+interface Props {
+      backgroundColor?: string;
+      img: string;
+      eventName: string;
+      eventOrganizer: string;
+      ticketType: TicketTypes;
+      date: Date;
+      seat?: string;
+      location: string;
+      QRCodeValue?: string;
+}
+
+function Ticket({
+      backgroundColor,
+      img,
+      eventName,
+      eventOrganizer,
+      ticketType,
+      date,
+      seat,
+      location,
+      QRCodeValue,
+}: Props) {
       return (
             <Box sx={{ width: 330, minHeight: 580 }}>
                   <Box
                         sx={{
-                              backgroundColor: "white",
+                              backgroundColor: backgroundColor ?? "white",
                               width: "100%",
                               height: "100%",
                               borderRadius: "12px",
                         }}
                   >
                         <Image
-                              src="/images/background/ticket-cover-test.jpg"
+                              src={img}
                               width="330"
-                              alt="Ticket cover image"
+                              alt={`${eventName} cover`}
                               height="200"
                               style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
                         />
                         <Box sx={{ p: 2 }}>
                               <Box>
                                     <Typography fontSize={18} fontWeight="800">
-                                          Event Name
+                                          {eventName}
                                     </Typography>
                                     <Typography fontSize={12} fontWeight="300">
-                                          Event Organizer
+                                          {eventOrganizer}
                                     </Typography>
                               </Box>
-                              <Chip sx={{ mt: 1 }} size='small' label="Reseaved Seating" />
-
+                              <Chip sx={{ mt: 1 }} size="small" label={ticketType} />
 
                               {/* TODO: Loop all ticket attributes */}
                               <Box sx={{ mt: 4 }}>
@@ -44,51 +68,54 @@ function Ticket() {
                                                 <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
                                                 <Typography>Location</Typography>
                                           </Stack>
-                                          <Typography>Location</Typography>
+                                          <Typography>{location}</Typography>
                                     </Stack>
                                     <Stack direction="row" justifyContent="space-between">
                                           <Stack direction="row">
                                                 <EventIcon fontSize="small" sx={{ mr: 1 }} />
                                                 <Typography>Date</Typography>
                                           </Stack>
-                                          <Typography>21/04/2023 11:15 AM</Typography>
+                                          <Typography>
+                                                {moment(date).format("DD/MM/YYYY hh:mm a")}
+                                          </Typography>
                                     </Stack>
-                                    <Stack direction="row" justifyContent="space-between">
-                                          <Stack direction="row">
-                                                <EventSeatIcon fontSize="small" sx={{ mr: 1 }} />
-                                                <Typography>Seat</Typography>
+                                    {seat && (
+                                          <Stack direction="row" justifyContent="space-between">
+                                                <Stack direction="row">
+                                                      <EventSeatIcon fontSize="small" sx={{ mr: 1 }} />
+                                                      <Typography>Seat</Typography>
+                                                </Stack>
+                                                <Typography>{seat}</Typography>
                                           </Stack>
-                                          <Typography>A 69</Typography>
-                                    </Stack>
+                                    )}
                               </Box>
                         </Box>
-                        <Box position='relative'>
+                        <Box position="relative">
                               <Box
                                     sx={{
-                                          backgroundColor: "#efefef",
+                                          backgroundColor: "#faf8ff",
                                           width: "24px",
                                           height: "24px",
                                           borderRadius: "50%",
                                           position: "absolute",
-                                          top: '-12px',
-                                          left: '-12px'
+                                          top: "-12px",
+                                          left: "-12px",
                                     }}
-                              /
-                              >
-                              <Divider sx={{ borderStyle: 'dotted' }} />
+                              />
+                              <Divider sx={{ borderStyle: "dotted" }} />
                               <Box
                                     sx={{
-                                          backgroundColor: "#efefef",
+                                          backgroundColor: "#faf8ff",
                                           width: "24px",
                                           height: "24px",
                                           borderRadius: "50%",
                                           position: "absolute",
-                                          top: '-12px',
-                                          right: '-12px'
+                                          top: "-12px",
+                                          right: "-12px",
                                     }}
                               />
                         </Box>
-                        <Box
+                        {QRCodeValue && <Box
                               sx={{
                                     width: "100%",
                                     height: 160,
@@ -96,8 +123,8 @@ function Ticket() {
                                     placeItems: "center",
                               }}
                         >
-                              <QRCodeCanvas value="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
-                        </Box>
+                              <QRCodeCanvas value={QRCodeValue} />
+                        </Box>}
                   </Box>
             </Box>
       );
