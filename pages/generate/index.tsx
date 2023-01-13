@@ -26,32 +26,32 @@ function GeneratePage() {
                         Welcome to NFT ticket generator
                   </Typography>
 
-                  {step === 1 && (
-                        <Box sx={{ textAlign: 'center' }}>
-                              <Typography variant='h6'>
-                                    Select the event ticket type you would like to generate
-                              </Typography>
-                              <TicketTypeList handleSelectTicket={handleSelectTicket} />
-                        </Box>
-                  )}
-                  {step === 2 && (
-                        <Box>
-                              <Box sx={{ textAlign: 'center' }}>
-                                    <Typography variant='h6'>
-                                          What mode would you like to use to generate your event ticket
-                                    </Typography>
-                              </Box>
-                              <IconButton aria-label="Go back" size="large" onClick={handleBack}>
-                                    <ArrowBackIcon fontSize="inherit" />
-                              </IconButton>
-                              <GenerateModeSelector selectedType={selectedType} />
-                        </Box>
-                  )}
-                  <Box sx={{ marginTop: 8, textDecoration: "underline" }}>
-                        <Typography variant="h5">Some documentations</Typography>
-                  </Box>
-            </Container>
-      );
+              {step === 1 && (
+                    <Box sx={{ textAlign: "center" }}>
+                          <Typography variant="h6">
+                                Select the event ticket type you would like to generate
+                          </Typography>
+                          <TicketTypeList handleSelectTicket={handleSelectTicket} />
+                    </Box>
+              )}
+              {step === 2 && (
+                    <Box>
+                          <Box sx={{ textAlign: "center" }}>
+                                <Typography variant="h6">
+                                      What mode would you like to use to generate your event ticket
+                                </Typography>
+                          </Box>
+                          <IconButton aria-label="Go back" size="large" onClick={handleBack}>
+                                <ArrowBackIcon fontSize="inherit" />
+                                <GenerateModeSelector selectedType={selectedType} />
+                          </IconButton>
+                    </Box>
+              )}
+              <Box sx={{ marginTop: 8, textDecoration: "underline" }}>
+                    <Typography variant="h5">Some documentations</Typography>
+              </Box>
+        </Container>
+  );
 }
 
 export default GeneratePage;

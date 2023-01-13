@@ -1,4 +1,4 @@
-export type TicketTypes = "GENERAL" | "VIP" | "RESERVED_SEAT";
+export type TicketTypes = "GENERAL" | "RESERVED_SEAT";
 
 export interface TicketSelectValues {
   image: string;
