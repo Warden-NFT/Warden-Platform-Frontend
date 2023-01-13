@@ -36,7 +36,7 @@ function CompleteDropzone() {
                                                       height: 220,
                                                       mr: 1,
                                                       backgroundColor: "white",
-                                                      border: 2
+                                                      boxShadow: 4
                                                 }}
                                           >
                                                 <Box
