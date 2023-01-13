@@ -27,8 +27,7 @@ function CompleteDropzone() {
                   {uploadedAssets.length > 0 && (
                         <Stack direction='row' flexWrap='wrap' justifyContent='space-evenly'>
                               {uploadedAssets.map((asset, i) => (
-                                    <motion.div transition={{ type: 'spring' }} whileHover={{ scale: 1.05 }}>
-
+                                    <motion.div key={i} transition={{ type: 'spring' }} whileHover={{ scale: 1.05 }}>
                                           <Stack
                                                 sx={{
                                                       borderRadius: 3,

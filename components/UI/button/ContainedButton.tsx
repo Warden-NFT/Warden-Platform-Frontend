@@ -6,21 +6,29 @@ interface Props {
   label: string;
   width?: string;
   height?: string;
-  variant: 'outlined' | 'text' | 'contained'
+  variant: "outlined" | "text" | "contained";
+  onClick: () => void;
 }
 
-function ContainedButton(props: Props) {
+function ContainedButton({ label, width, height, variant, onClick }: Props) {
   return (
     <motion.div
       whileHover={{
         y: -6,
         boxShadow: "5px 5px 0 rgba(0, 0, 0, 1)",
-        borderRadius: '20px'
+        borderRadius: "20px",
       }}
-      style={{ borderRadius: '20px', }}
+      style={{ borderRadius: "20px" }}
     >
-      <Button variant={props.variant} sx={{ borderRadius: '20px', border: 2, ...props, boxShadow: 'none' }}>
-        {props.label}
+      <Button
+        onClick={(e) => {
+          e.preventDefault();
+          onClick();
+        }}
+        variant={variant}
+        sx={{ borderRadius: "20px", border: 2, width, height, boxShadow: "none" }}
+      >
+        {label}
       </Button>
     </motion.div>
   );

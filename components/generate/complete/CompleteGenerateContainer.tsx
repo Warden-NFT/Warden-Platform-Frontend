@@ -8,15 +8,11 @@ import CompleteForm from "./CompleteForm";
 import CompleteStepper from "./CompleteStepper";
 
 function CompleteGenerateContainer() {
-      // const { activeStep } = useContext(GenerateCompleteContext);
-      const [activeStep, setActiveStep] = useState(1);
-
-
+      const { activeStep, setActiveStep } = useContext(GenerateCompleteContext);
 
       return (
             <ActiveStepper
                   steps={COMPLETE_MODE_STEPS}
-                  totalStep={3}
                   activeStep={activeStep}
                   setActiveStep={setActiveStep}
             >

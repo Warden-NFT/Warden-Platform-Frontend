@@ -53,7 +53,6 @@ function ControlledEventTypeSelect({
                                     <Typography color='gray' fontSize={12}>{type.label}</Typography>
                               </Stack>
                         </MenuItem>)}
-                        <FormHelperText>{values.ticketType}</FormHelperText>
                   </Select>
             </FormControl>
       );
