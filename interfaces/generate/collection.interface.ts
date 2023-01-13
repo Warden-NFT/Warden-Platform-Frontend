@@ -1,6 +1,6 @@
 import { TicketTypes } from "../ticket/ticket.interface";
-import { LayeredAssetData } from "./file.interface";
 
+export type GenerationMode = "LAYERED" | "ASSET";
 export interface CompleteCollectionInfo {
   collectionName: string;
   distributedBy: string;
