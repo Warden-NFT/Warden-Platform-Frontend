@@ -7,6 +7,7 @@ import EventSeatIcon from "@mui/icons-material/EventSeat";
 import { QRCodeCanvas } from "qrcode.react";
 import { TicketTypes } from "../../../interfaces/ticket/ticket.interface";
 import moment from "moment";
+import { grey } from "@mui/material/colors";
 // https://codepen.io/z-/pen/MJKNJZ
 // https://codepen.io/amr-ibrahem/pen/wdrLjL
 
@@ -20,6 +21,7 @@ interface Props {
       seat?: string;
       location: string;
       QRCodeValue?: string;
+      isDisabled?: boolean
 }
 
 function Ticket({
@@ -32,15 +34,37 @@ function Ticket({
       seat,
       location,
       QRCodeValue,
+      isDisabled
 }: Props) {
+
+      function getBgColor() {
+            if (isDisabled) {
+                  return grey[100]
+            }
+
+            return backgroundColor ? backgroundColor : 'white'
+      }
+
+      function getImageOpacity() {
+            return isDisabled ? 0.6 : 1
+      }
+
       return (
-            <Box sx={{ width: 330, minHeight: 580 }}>
+            <Box sx={[{
+                  width: 330, minHeight: 580, '&:hover': {
+                        cursor: 'pointer'
+                  },
+                  margin: 2
+
+            },
+            isDisabled ? { color: grey[500] } : null
+            ]}>
                   <Box
                         sx={{
-                              backgroundColor: backgroundColor ?? "white",
+                              backgroundColor: getBgColor(),
                               width: "100%",
                               height: "100%",
-                              borderRadius: "12px",
+                              borderRadius: "12px"
                         }}
                   >
                         <Image
@@ -48,7 +72,7 @@ function Ticket({
                               width="330"
                               alt={`${eventName} cover`}
                               height="200"
-                              style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12 }}
+                              style={{ borderTopLeftRadius: 12, borderTopRightRadius: 12, opacity: getImageOpacity() }}
                         />
                         <Box sx={{ p: 2 }}>
                               <Box>
@@ -123,7 +147,9 @@ function Ticket({
                                     placeItems: "center",
                               }}
                         >
-                              <QRCodeCanvas value={QRCodeValue} />
+                              {!isDisabled ? <QRCodeCanvas value={QRCodeValue} /> :
+                                    <Typography>Ticket Disabled</Typography>
+                              }
                         </Box>}
                   </Box>
             </Box>

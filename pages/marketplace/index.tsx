@@ -15,6 +15,17 @@ function MarketplacePage() {
                     location="MIRA HQ"
                     QRCodeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               />
+                  <Ticket
+                        img="/images/background/ticket-cover-test.jpg"
+                        eventName="Among Us Party"
+                        eventOrganizer="Warden"
+                        ticketType="GENERAL"
+                        date={new Date()}
+                        seat="A 14"
+                        location="MIRA HQ"
+                        QRCodeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                        isDisabled
+                  />
         </Container>
   );
 }
