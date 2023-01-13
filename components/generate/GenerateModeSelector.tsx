@@ -2,7 +2,6 @@ import { Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import ImageLabelCard from "../UI/card/ImageLabelCard";
 import { TicketTypes } from "../../interfaces/ticket/ticket.interface";
-import { GenerationMode } from "../../interfaces/generate/collection.interface";
 import { useRouter } from "next/router";
 
 interface Props {
