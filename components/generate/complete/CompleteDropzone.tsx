@@ -62,6 +62,7 @@ function CompleteDropzone() {
                                                             width="170"
                                                             height="140"
                                                             alt={asset.name}
+                                                            draggable={false}
                                                             style={{
                                                                   objectFit: "cover",
                                                             }}
