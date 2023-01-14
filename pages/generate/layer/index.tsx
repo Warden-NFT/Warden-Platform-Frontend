@@ -3,11 +3,11 @@ import LayerMainContainer from '../../../components/generate/layer/LayerMainCont
 import GenerateLayerContextProvider from '../../../contexts/generate/GenerateLayerContext'
 
 function LayeredGeneratePage() {
-      return (
-            <GenerateLayerContextProvider>
-                  <LayerMainContainer />
-            </GenerateLayerContextProvider>
-      )
+  return (
+    <GenerateLayerContextProvider>
+      <LayerMainContainer />
+    </GenerateLayerContextProvider>
+  )
 }
 
 export default LayeredGeneratePage

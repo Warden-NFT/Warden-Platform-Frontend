@@ -1,14 +1,9 @@
 import React from 'react'
-import {
-      ConnectButton,
-} from '@rainbow-me/rainbowkit'
-import '@rainbow-me/rainbowkit/styles.css';
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
 
 function ConnectWalletButton() {
-
-      return (
-            <ConnectButton />
-      )
+  return <ConnectButton />
 }
 
 export default ConnectWalletButton

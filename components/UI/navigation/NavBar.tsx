@@ -5,30 +5,30 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
-} from "@mui/material";
-import React, { MouseEvent, useState } from "react";
-import ConnectWalletButton from "./ConnectWalletButton";
-import NavLink from "./NavLink";
-import { APP_ROUTES } from "../../../constants/general/routes";
+  Typography
+} from '@mui/material'
+import React, { MouseEvent, useState } from 'react'
+import ConnectWalletButton from './ConnectWalletButton'
+import NavLink from './NavLink'
+import { APP_ROUTES } from '../../../constants/general/routes'
 
 function NavBar() {
-  const [menuElement, setMenuElement] = useState<HTMLElement | null>(null);
+  const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
 
   function handleOpenMenu(e: MouseEvent<HTMLElement>) {
-    setMenuElement(e.currentTarget);
+    setMenuElement(e.currentTarget)
   }
 
   function handleCloseMenu() {
-    setMenuElement(null);
+    setMenuElement(null)
   }
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Box maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
-            <Box sx={{ display: "grid", width: "100px", placeItems: "center" }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+            <Box sx={{ display: 'grid', width: '100px', placeItems: 'center' }}>
               <Typography>WARDEN</Typography>
             </Box>
             {/* Home */}
@@ -39,17 +39,17 @@ function NavBar() {
             <Button
               variant="text"
               id="oned-button"
-              aria-controls={Boolean(menuElement) ? "create-menu" : undefined}
+              aria-controls={menuElement ? 'create-menu' : undefined}
               aria-haspopup="true"
-              aria-expanded={Boolean(menuElement) ? "true" : undefined}
+              aria-expanded={menuElement ? 'true' : undefined}
               onClick={handleOpenMenu}
               sx={{
-                fontWeight: "600",
+                fontWeight: '600',
                 borderRadius: 20,
                 paddingX: 2,
-                "&:hover": {
-                  backgroundColor: "white",
-                },
+                '&:hover': {
+                  backgroundColor: 'white'
+                }
               }}
             >
               CREATE
@@ -61,8 +61,8 @@ function NavBar() {
               open={Boolean(menuElement)}
               onClose={handleCloseMenu}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "center",
+                vertical: 'bottom',
+                horizontal: 'center'
               }}
             >
               {/* Event */}
@@ -79,7 +79,7 @@ function NavBar() {
         </Toolbar>
       </Box>
     </AppBar>
-  );
+  )
 }
 
-export default NavBar;
+export default NavBar
