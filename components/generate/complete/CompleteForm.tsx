@@ -1,96 +1,92 @@
 import {
       Box,
       FormControl,
-      FormHelperText,
       FormLabel,
       Stack,
       TextField,
       Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
-import React from "react";
-import { CompleteCollectionInfo } from "../../../interfaces/generate/collection.interface";
-import { CompleteFormSchema } from "../../../schema/generate/complete";
-import ControlledEventTypeSelect from "../form/ControlledEventTypeSelect";
+import React, { useContext } from "react";
+import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
+import { CompleteAssetFormSchema } from "../../../schema/generate/complete";
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons";
 
 function CompleteForm() {
+
+      const { formInfo, setActiveStep, setFormInfo } = useContext(GenerateCompleteContext)
       const { values, handleChange, touched, errors, handleSubmit } = useFormik({
-            initialValues: {
-                  collectionName: "",
-                  distributedBy: "",
-                  externalUrl: "",
-                  description: "",
-                  ticketType: 'GENERAL',
-            } as CompleteCollectionInfo,
-            validationSchema: CompleteFormSchema,
+            initialValues: { ...formInfo },
+            enableReinitialize: true,
+            validationSchema: CompleteAssetFormSchema,
             onSubmit: (data) => {
-                  console.log(data);
+                  setFormInfo(data)
+                  setActiveStep(prev => prev + 1)
             },
       });
 
       return (
-            <Stack spacing={2} p={2}>
+            <Box>
+                  <Stack spacing={2} p={4} sx={{
+                        backgroundColor: "white",
+                        marginY: 4,
+                        borderRadius: 6,
+                        border: 2,
+                  }}>
                   <FormControl required>
-                        <FormLabel>Collection Name</FormLabel>
+                        <FormLabel>Event Name</FormLabel>
                         <Typography variant="caption" color="gray">
-                              Collection name can be the event's name or unique name that describe
-                              the event
+                              Event name is a unique name that describe the event
                         </Typography>
                         <TextField
-                              name="collectionName"
-                              value={values.collectionName}
+                              name="eventName"
+                              value={values.eventName}
                               onChange={handleChange}
-                              id="col-name-input"
-                              data-testid="collection-name-input"
-                              placeholder="My Ticket"
+                              id="event-name-input"
+                              data-testid="event-name-input"
+                              placeholder="My Event"
                               variant="outlined"
                               size="small"
-                              error={errors.collectionName != null}
-                              helperText={errors.collectionName}
+                              error={errors.eventName != null}
+                              helperText={touched.eventName ? errors.eventName : undefined}
                         />
                   </FormControl>
                   <FormControl required>
-                        <FormLabel>Distributed By</FormLabel>
+                        <FormLabel>Organizer Name</FormLabel>
                         <Typography variant="caption" color="gray">
                               What is your organization name?
                         </Typography>
                         <TextField
-                              name="distributedBy"
-                              value={values.distributedBy}
+                              name="organizerName"
+                              value={values.organizerName}
                               onChange={handleChange}
                               id="dist-by-input"
-                              data-testid="distributed-by-input"
+                              data-testid="organizer-name-input"
                               placeholder="Your organization name"
                               variant="outlined"
                               size="small"
-                              error={errors.distributedBy != null}
-                              helperText={errors.distributedBy}
+                              error={errors.organizerName != null}
+                              helperText={touched.organizerName ? errors.organizerName : undefined}
                         />
                   </FormControl>
                   <FormControl>
-                        <FormLabel>Distributed By</FormLabel>
+                        <FormLabel>Event URL</FormLabel>
                         <Typography variant="caption" color="gray">
-                              What is your organization name?
+                              Do you have your event external URL?
                         </Typography>
                         <TextField
-                              name="externalUrl"
-                              value={values.externalUrl}
+                              name="eventExternalUrl"
+                              value={values.eventExternalUrl}
                               onChange={handleChange}
-                              id="external-url-input"
-                              data-testid="external-url-input"
+                              id="event-external-url-input"
+                              data-testid="event-external-url-input"
                               placeholder="www.myorganization.com/my-ticket"
                               variant="outlined"
                               size="small"
-                              error={errors.externalUrl != null}
-                              helperText={errors.externalUrl}
-                        />
-                  </FormControl>
-                  <FormControl required>
-                        <ControlledEventTypeSelect
-                              values={values}
-                              handleChange={handleChange}
-                              touched={touched}
-                              errors={errors}
+                              error={errors.eventExternalUrl != null}
+                              helperText={
+                                    touched.eventExternalUrl ? errors.eventExternalUrl : undefined
+                              }
                         />
                   </FormControl>
                   <FormControl required>
@@ -108,11 +104,13 @@ function CompleteForm() {
                               variant="outlined"
                               size="small"
                               error={errors.description != null}
-                              helperText={errors.description}
+                              helperText={touched.description ? errors.description : undefined}
                               multiline
                         />
                   </FormControl>
             </Stack>
+                  <ControlledStepperButtons handlePrevious={() => setActiveStep(prev => prev - 1)} handleNext={handleSubmit} />
+            </Box>
       );
 }
 

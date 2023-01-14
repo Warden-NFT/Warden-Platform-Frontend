@@ -1,37 +1,51 @@
 import { Container, Stack, Typography } from "@mui/material";
 import React from "react";
 import ImageLabelCard from "../UI/card/ImageLabelCard";
-import Link from "next/link";
+import { TicketTypes } from "../../interfaces/ticket/ticket.interface";
+import { useRouter } from "next/router";
 
-function GenerateModeSelector() {
+interface Props {
+      selectedType: TicketTypes | null;
+}
+
+function GenerateModeSelector({ selectedType }: Props) {
+      const router = useRouter();
+
       return (
             <Container>
                   <Stack direction="column" spacing={2}>
-
                         <Typography variant="body1"></Typography>
                         <Stack direction="column" gap={4}>
-                              <Link
-                                    href="/generate/asset"
-                                    style={{ textDecoration: "none", color: "black" }}
-                              >
+                              <div onClick={() => {
+                                    router.push('/create/ticket/asset', {
+                                          query: {
+                                                ticketType: selectedType
+                                          }
+                                    })
+                              }}>
                                     <ImageLabelCard
                                           backgroundColor="white"
                                           imageSrc="/images/generate/event-scheduling.jpg"
                                           imageAlt="Create event completely"
                                           width="100%"
                                     />
-                              </Link>
-                              <Link
-                                    href="/generate/layer"
-                                    style={{ textDecoration: "none", color: "black" }}
-                              >
+                              </div>
+
+                              <div onClick={() => {
+                                    // FIXME: update route
+                                    router.push('/generate/layer', {
+                                          query: {
+                                                ticketType: selectedType
+                                          }
+                                    })
+                              }}>
                                     <ImageLabelCard
                                           backgroundColor="white"
                                           imageSrc="/images/generate/complete-asset-card.avif"
                                           imageAlt="Create event completely"
                                           width="100%"
                                     />
-                              </Link>
+                              </div>
                         </Stack>
                   </Stack>
             </Container>

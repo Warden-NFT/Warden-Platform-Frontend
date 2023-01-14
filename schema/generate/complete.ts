@@ -1,13 +1,16 @@
 import { object, string } from "yup";
+import { TicketTypes } from "../../interfaces/ticket/ticket.interface";
 
-export const CompleteFormSchema = object({
-  collectionName: string()
+export const CompleteAssetFormSchema = object({
+  eventName: string()
     .required("This field is required")
-    .max(60, "Collection name is too long"),
-  distributedBy: string()
+    .max(100, "Event name is too long"),
+  organizerName: string()
     .required("This field is required")
-    .max(40, "Distributed by field is too long"),
-  externalUrl: string().url("Please enter a valid URL"),
+    .max(100, "Event organizer name is too long"),
+  eventExternalUrl: string().url("Please enter a valid URL"),
   description: string(),
-  ticketType: string().required("This field is required"),
+  ticketType: string()
+    .oneOf(["GENERAL", "RESERVED_SEAT"] as TicketTypes[])
+    .required("This field is required"),
 });

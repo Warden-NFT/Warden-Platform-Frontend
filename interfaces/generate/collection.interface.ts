@@ -1,10 +1,10 @@
 import { TicketTypes } from "../ticket/ticket.interface";
-import { LayeredAssetData } from "./file.interface";
 
-export interface CompleteCollectionInfo {
-  collectionName: string;
-  distributedBy: string;
-  externalUrl: string;
+export type GenerationMode = "LAYERED" | "ASSET";
+export interface CompleteAssetInfo {
+  eventName: string;
+  organizerName: string;
+  eventExternalUrl: string;
+  ticketType: TicketTypes | null;
   description: string;
-  ticketType: TicketTypes;
 }

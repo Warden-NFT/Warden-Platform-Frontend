@@ -1,97 +1,79 @@
 import {
   AppBar,
   Box,
-  IconButton,
+  Button,
   Menu,
   MenuItem,
   Toolbar,
   Typography,
-} from '@mui/material';
-import React from 'react';
-import ConnectWalletButton from './ConnectWalletButton';
-import NavLink from './NavLink';
-import MenuIcon from '@mui/icons-material/Menu';
-
-const APP_ROUTES = [
-  {
-    name: 'Home',
-    url: '/',
-  },
-  {
-    name: 'Marketplace',
-    url: '/marketplace',
-  },
-  {
-    name: 'Generate',
-    url: '/generate',
-  },
-];
+} from "@mui/material";
+import React, { MouseEvent, useState } from "react";
+import ConnectWalletButton from "./ConnectWalletButton";
+import NavLink from "./NavLink";
+import { APP_ROUTES } from "../../../constants/general/routes";
 
 function NavBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [menuElement, setMenuElement] = useState<HTMLElement | null>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  function handleOpenMenu(e: MouseEvent<HTMLElement>) {
+    setMenuElement(e.currentTarget);
+  }
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  function handleCloseMenu() {
+    setMenuElement(null);
+  }
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Box maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="menu-button"
-              aria-controls="menu-appbar"
+          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
+            <Box sx={{ display: "grid", width: "100px", placeItems: "center" }}>
+              <Typography>WARDEN</Typography>
+            </Box>
+            {/* Home */}
+            <NavLink route={APP_ROUTES[0]} />
+            {/* Marketplace */}
+            <NavLink route={APP_ROUTES[1]} />
+            {/* Create */}
+            <Button
+              variant="text"
+              id="oned-button"
+              aria-controls={Boolean(menuElement) ? "create-menu" : undefined}
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Box sx={{ display: 'grid', width: '100px', placeItems: 'center' }}>
-              <Typography>WARDEN</Typography>
-            </Box>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              aria-expanded={Boolean(menuElement) ? "true" : undefined}
+              onClick={handleOpenMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                fontWeight: "600",
+                borderRadius: 20,
+                paddingX: 2,
+                "&:hover": {
+                  backgroundColor: "white",
+                },
               }}
             >
-
-              {APP_ROUTES.map((route, i) => (
-                <MenuItem key={i} onClick={handleCloseNavMenu}>
-                  <NavLink route={route} />
-                </MenuItem>
-              ))}
+              CREATE
+            </Button>
+            <Menu
+              id="create-menu"
+              aria-labelledby="create-menu-button"
+              anchorEl={menuElement}
+              open={Boolean(menuElement)}
+              onClose={handleCloseMenu}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "center",
+              }}
+            >
+              {/* Event */}
+              <MenuItem onClick={handleCloseMenu}>
+                <NavLink route={APP_ROUTES[2].subroutes[0]} />
+              </MenuItem>
+              {/* Ticket */}
+              <MenuItem onClick={handleCloseMenu}>
+                <NavLink route={APP_ROUTES[2].subroutes[1]} />
+              </MenuItem>
             </Menu>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Box sx={{ display: 'grid', width: '100px', placeItems: 'center' }}>
-              <Typography>WARDEN</Typography>
-            </Box>
-            {APP_ROUTES.map((route, i) => (
-              <NavLink route={route} key={i} />
-            ))}
           </Box>
           <ConnectWalletButton />
         </Toolbar>

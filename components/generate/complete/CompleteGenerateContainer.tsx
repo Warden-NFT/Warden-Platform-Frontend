@@ -1,18 +1,42 @@
-import { Box, Container } from "@mui/material";
-import React, { useContext } from "react";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
+import { COMPLETE_MODE_STEPS } from "../../../constants/generate/steps";
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
+import ActiveStepper from "../../UI/navigation/ActiveStepper";
 import CompleteDropzone from "./CompleteDropzone";
 import CompleteForm from "./CompleteForm";
-import CompleteStepper from "./CompleteStepper";
+import queryString from "query-string";
+import { TicketTypes } from "../../../interfaces/ticket/ticket.interface";
+
+import CustomizeUtilityForm from "./CustomizeUtilityForm";
 
 function CompleteGenerateContainer() {
-      const { activeStep } = useContext(GenerateCompleteContext);
+      const { activeStep, formInfo, setFormInfo } = useContext(
+            GenerateCompleteContext
+      );
+      const router = useRouter();
+
+      useEffect(() => {
+            const { query } = queryString.parseUrl(window.location.href);
+            const { ticketType } = query;
+            const _form = { ...formInfo };
+            if (ticketType) {
+                  _form.ticketType = ticketType as TicketTypes;
+                  setFormInfo(_form);
+            } else {
+                  router.push("/generate");
+            }
+      }, [window.location]);
 
       return (
-            <CompleteStepper>
+            <ActiveStepper
+                  steps={COMPLETE_MODE_STEPS}
+                  activeStep={activeStep}
+            >
                   {activeStep === 1 && <CompleteDropzone />}
                   {activeStep === 2 && <CompleteForm />}
-            </CompleteStepper>
+                  {activeStep === 3 && <CustomizeUtilityForm />}
+            </ActiveStepper>
       );
 }
 

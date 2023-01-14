@@ -1,14 +1,20 @@
-import { Box, Grid, IconButton, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext";
 import CompleteAssetDropzone from "./CompleteAssetDropzone";
 import CloseIcon from "@mui/icons-material/Close";
+import { motion } from "framer-motion";
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons";
 
 function CompleteDropzone() {
-      const { assets, setAssets, uploadedAssets, setUploadedAssets } = useContext(
-            GenerateCompleteContext
-      );
+      const {
+            assets,
+            setAssets,
+            uploadedAssets,
+            setUploadedAssets,
+            setActiveStep,
+      } = useContext(GenerateCompleteContext);
 
       function handleRemoveAsset(index: number) {
             const _assets = [...assets];
@@ -21,70 +27,101 @@ function CompleteDropzone() {
             setUploadedAssets(_uploadedAssets);
       }
 
+      function handleNext() {
+            if (assets.length > 0) {
+                  setActiveStep((prev) => prev + 1);
+            }
+      }
+
       return (
-            <Box sx={{ height: "100%", p: 2, width: "container" }}>
-                  {uploadedAssets.length > 0 && (
-                        <Grid container spacing={1} columns={[2, 3, 4]}>
-                              {uploadedAssets.map((asset, i) => (
-                                    <Grid item>
-                                          <Stack sx={{
-                                                boxShadow: 1,
-                                                borderRadius: 2,
-                                                mb: 2,
-                                                width: 170,
-                                                height: 220,
-                                                mr: 1,
-                                                backgroundColor: "white",
-                                          }}>
-                                                <Box
-                                                sx={{
-                                                      pr: 2,
-                                                      width: "100%",
-                                                      display: "grid",
-                                                      placeItems: "end",
-                                                }}
+            <Box>
+                  <Box
+                        sx={{
+                              p: 4,
+                              display: "grid",
+                              placeItems: "center",
+                              backgroundColor: "white",
+                              marginY: 4,
+                              borderRadius: 6,
+                              border: 2,
+                        }}
+                  >
+                        {uploadedAssets.length > 0 && (
+                              <Stack direction="row" flexWrap="wrap" justifyContent="space-evenly">
+                                    {uploadedAssets.map((asset, i) => (
+                                          <motion.div
+                                                key={i}
+                                                transition={{ type: "spring" }}
+                                                whileHover={{ scale: 1.05 }}
                                           >
-                                                <IconButton
-                                                      aria-label="delete"
-                                                      color="primary"
-                                                      size="small"
-                                                      onClick={() => handleRemoveAsset(i)}
-                                                >
-                                                      <CloseIcon fontSize="small" />
-                                                </IconButton>
-                                          </Box>
-                                          <Box>
-                                                <Image
-                                                      src={asset.data}
-                                                            width="170"
-                                                      height="140"
-                                                      alt={asset.name}
-                                                      style={{
-                                                            objectFit: "cover",
+                                                <Stack
+                                                      sx={{
+                                                            borderRadius: 3,
+                                                            mb: 2,
+                                                            width: 170,
+                                                            height: 220,
+                                                            mr: 1,
+                                                            backgroundColor: "white",
+                                                            boxShadow: 4,
                                                       }}
-                                                />
-                                          </Box>
-                                          <Box sx={{ p: 1 }}>
-                                                <Typography
-                                                      fontWeight="600"
-                                                      fontSize={10}
-                                                      textAlign="center"
-                                                      textOverflow="ellipsis"
                                                 >
-                                                      {asset.name}
-                                                </Typography>
-                                          </Box>
-                                          </Stack>
-                                    </Grid>
-                              ))}
-                        </Grid>
-                  )}
-                  <Box sx={{ p: 2 }}>
-                        <CompleteAssetDropzone
-                              setUploadedAssets={setUploadedAssets}
-                              setAssets={setAssets}
-                        />
+                                                      <Box
+                                                            sx={{
+                                                                  pr: 2,
+                                                                  width: "100%",
+                                                                  display: "grid",
+                                                                  placeItems: "end",
+                                                            }}
+                                                      >
+                                                            <IconButton
+                                                                  aria-label="delete"
+                                                                  color="primary"
+                                                                  size="small"
+                                                                  onClick={() => handleRemoveAsset(i)}
+                                                            >
+                                                                  <CloseIcon fontSize="small" />
+                                                            </IconButton>
+                                                      </Box>
+                                                      <Box>
+                                                            <Image
+                                                                  src={asset.data}
+                                                                  width="170"
+                                                                  height="140"
+                                                                  alt={asset.name}
+                                                                  draggable={false}
+                                                                  style={{
+                                                                        objectFit: "cover",
+                                                                  }}
+                                                            />
+                                                      </Box>
+                                                      <Box sx={{ p: 1 }}>
+                                                            <Typography
+                                                                  fontWeight="600"
+                                                                  fontSize={10}
+                                                                  textAlign="center"
+                                                                  textOverflow="ellipsis"
+                                                            >
+                                                                  {asset.name}
+                                                            </Typography>
+                                                      </Box>
+                                                </Stack>
+                                          </motion.div>
+                                    ))}
+                              </Stack>
+                        )}
+                        <Box
+                              sx={[
+                                    { p: 2, width: "98%", borderRadius: 4, marginTop: 4 },
+                                    assets.length > 0 ? { border: 2 } : null,
+                              ]}
+                        >
+                              <CompleteAssetDropzone
+                                    setUploadedAssets={setUploadedAssets}
+                                    setAssets={setAssets}
+                              />
+                        </Box>
                   </Box>
+                  <ControlledStepperButtons isBackDisabled={true} handleNext={handleNext} />
             </Box>
       );
 }
