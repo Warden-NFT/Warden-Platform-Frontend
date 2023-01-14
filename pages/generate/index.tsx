@@ -52,8 +52,8 @@ function GeneratePage() {
                           </Box>
                           <IconButton aria-label="Go back" size="large" onClick={handleBack}>
                                 <ArrowBackIcon fontSize="inherit" />
-                                <GenerateModeSelector selectedType={selectedType} />
-                          </IconButton>
+                              </IconButton>
+                              <GenerateModeSelector selectedType={selectedType} />
                     </Box>
               )}
               <Box sx={{ marginTop: 8, textDecoration: "underline" }}>
