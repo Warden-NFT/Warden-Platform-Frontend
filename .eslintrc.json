@@ -18,14 +18,15 @@
     },
     "plugins": ["react", "@typescript-eslint"],
     "rules": {
-      "indent": [2, 2, { "SwitchCase": 1 }],
+      "indent": ["error", 2],
       "comma-dangle": ["warn", "never"],
       "@typescript-eslint/no-var-requires": 0,
       "@typescript-eslint/ban-ts-comment": 0,
       "react-hooks/exhaustive-deps": 0,
       "curly": 0,
       "react-native/no-inline-styles": 0,
-      "no-shadow": 0
+      "no-shadow": 0,
+      "react/react-in-jsx-scope": 0
     },
     "ignorePatterns": ["src/library/*"]
   }
