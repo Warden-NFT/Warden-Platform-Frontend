@@ -8,37 +8,35 @@ import PNGAssetPreview from '../../assets/PNGAssetPreview'
 import AssetCanvasCard from './AssetCanvasCard'
 
 interface Props {
-      data: string[];
-      height: number;
-      width: number;
-      label: string
+  data: string[]
+  height: number
+  width: number
+  label: string
 }
 
 function GeneratedAsset({ data, height, width, label }: Props) {
+  const [isHovering, setIsHovering] = useState(false)
 
-      const [isHovering, setIsHovering] = useState(false)
-
-      return (
-            <Box
-                  sx={{
-                        width: '220px',
-                        display: 'grid',
-                        placeItems: 'center',
-                        mr: 1,
-                        boxShadow: 1,
-                        height: '220px',
-                        borderRadius: 1,
-                        my: 1,
-                        position: 'relative'
-                  }}
-
-                  onMouseEnter={() => setIsHovering(true)}
-                  onMouseLeave={() => setIsHovering(false)}
-            >
-                  <AssetCanvasCard data={data} height={height} width={width} />
-                  <p>{label}</p>
-            </Box>
-      )
+  return (
+    <Box
+      sx={{
+        width: '220px',
+        display: 'grid',
+        placeItems: 'center',
+        mr: 1,
+        boxShadow: 1,
+        height: '220px',
+        borderRadius: 1,
+        my: 1,
+        position: 'relative'
+      }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <AssetCanvasCard data={data} height={height} width={width} />
+      <p>{label}</p>
+    </Box>
+  )
 }
 
 export default GeneratedAsset

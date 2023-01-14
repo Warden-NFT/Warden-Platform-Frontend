@@ -3,11 +3,11 @@ import CompleteGenerateContainer from '../../../../components/generate/complete/
 import GenerateCompleteContextProvider from '../../../../contexts/generate/GenerateCompleteContext'
 
 function CompleteGeneratePage() {
-      return (
-            <GenerateCompleteContextProvider>
-                  <CompleteGenerateContainer />
-            </GenerateCompleteContextProvider>
-      )
+  return (
+    <GenerateCompleteContextProvider>
+      <CompleteGenerateContainer />
+    </GenerateCompleteContextProvider>
+  )
 }
 
 export default CompleteGeneratePage

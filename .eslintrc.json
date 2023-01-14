@@ -26,7 +26,8 @@
       "curly": 0,
       "react-native/no-inline-styles": 0,
       "no-shadow": 0,
-      "react/react-in-jsx-scope": 0
+      "react/react-in-jsx-scope": 0,
+      "react/no-unescaped-entities": 0
     },
     "ignorePatterns": ["src/library/*"]
   }
