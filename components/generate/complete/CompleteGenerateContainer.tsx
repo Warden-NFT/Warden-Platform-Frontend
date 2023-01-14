@@ -26,7 +26,7 @@ function CompleteGenerateContainer() {
             } else {
                   router.push("/generate");
             }
-      }, [window]);
+      }, [window.location]);
 
       return (
             <ActiveStepper
