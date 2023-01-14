@@ -11,7 +11,7 @@ import { TicketTypes } from "../../../interfaces/ticket/ticket.interface";
 import CustomizeUtilityForm from "./CustomizeUtilityForm";
 
 function CompleteGenerateContainer() {
-      const { activeStep, setActiveStep, formInfo, setFormInfo } = useContext(
+      const { activeStep, formInfo, setFormInfo } = useContext(
             GenerateCompleteContext
       );
       const router = useRouter();
