@@ -1,19 +1,32 @@
 {
-  "env": {
+    "env": {
       "browser": true,
       "es2021": true
-  },
-  "extends": ["next/core-web-vitals", "prettier"],
-  "parserOptions": {
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
       "ecmaFeatures": {
-          "jsx": true
+        "jsx": true
       },
-      "ecmaVersion": "latest",
+      "ecmaVersion": 12,
       "sourceType": "module"
-  },
-  "plugins": ["react"],
-  "rules": {
-      "quotes": ["error", "double"],
-      "next/core-web-vitals": "off"
+    },
+    "plugins": ["react", "@typescript-eslint"],
+    "rules": {
+      "indent": [2, 2, { "SwitchCase": 1 }],
+      "comma-dangle": ["warn", "never"],
+      "@typescript-eslint/no-var-requires": 0,
+      "@typescript-eslint/ban-ts-comment": 0,
+      "react-hooks/exhaustive-deps": 0,
+      "curly": 0,
+      "react-native/no-inline-styles": 0,
+      "no-shadow": 0
+    },
+    "ignorePatterns": ["src/library/*"]
   }
-}
+  
