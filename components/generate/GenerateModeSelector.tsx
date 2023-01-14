@@ -17,7 +17,7 @@ function GenerateModeSelector({ selectedType }: Props) {
                         <Typography variant="body1"></Typography>
                         <Stack direction="column" gap={4}>
                               <div onClick={() => {
-                                    router.push('/generate/asset', {
+                                    router.push('/create/ticket/asset', {
                                           query: {
                                                 ticketType: selectedType
                                           }
@@ -32,6 +32,7 @@ function GenerateModeSelector({ selectedType }: Props) {
                               </div>
 
                               <div onClick={() => {
+                                    // FIXME: update route
                                     router.push('/generate/layer', {
                                           query: {
                                                 ticketType: selectedType
