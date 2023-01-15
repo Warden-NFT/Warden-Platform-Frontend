@@ -16,9 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Container>
         <Navbar />
         <main>
-          <Container sx={{ minHeight: '640px', padding: '12px !important' }}>
-            {children}
-          </Container>
+          <Container sx={{ padding: '0 !important' }}>{children}</Container>
         </main>
       </Container>
       <Footer />

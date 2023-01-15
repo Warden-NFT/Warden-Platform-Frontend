@@ -1,35 +1,35 @@
-import { createTheme } from '@mui/material';
+import { createTheme } from '@mui/material'
 
 const theme = createTheme({
   typography: {
     fontFamily: [
-      "Kanit",
-      "sans-serif",
-      "-apple-system",
-      "BlinkMacSystemFont",
-      "Segoe UI",
-      "Roboto",
-      "Oxygen",
-      "Ubuntu",
-      "Cantarell",
-      "Fira Sans",
-      "Droid Sans",
-      "Helvetica Neue",
-      "sans-serif",
-    ].join(),
+      'Montserrat',
+      'sans-serif',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      'Segoe UI',
+      'Roboto',
+      'Oxygen',
+      'Ubuntu',
+      'Cantarell',
+      'Fira Sans',
+      'Droid Sans',
+      'Helvetica Neue',
+      'sans-serif'
+    ].join()
   },
   palette: {
-    mode: "light",
+    mode: 'light',
     primary: {
-      main: "#000",
+      main: '#000'
     },
     secondary: {
-      main: "#C397FE",
+      main: '#C397FE'
     },
     info: {
-      main: "#efefef",
-    },
-  },
-});
+      main: '#efefef'
+    }
+  }
+})
 
-export default theme;
+export default theme
