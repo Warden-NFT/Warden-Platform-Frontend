@@ -13,8 +13,11 @@ import { useFormik } from 'formik'
 import ContainedButton from '../../components/UI/button/ContainedButton'
 import { LoginSchema } from '../../schema/auth/login.schema'
 import Link from 'next/link'
+<<<<<<< HEAD
 import { client } from '../../configs/axios/axiosConfig'
 import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
+=======
+>>>>>>> 753cc82 (feat: register and login UI)
 
 function Login() {
   const { values, handleChange, touched, errors, handleSubmit } = useFormik({
