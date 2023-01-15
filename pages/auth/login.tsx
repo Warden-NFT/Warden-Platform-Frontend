@@ -13,6 +13,8 @@ import { useFormik } from 'formik'
 import ContainedButton from '../../components/UI/button/ContainedButton'
 import { LoginSchema } from '../../schema/auth/login.schema'
 import Link from 'next/link'
+import { client } from '../../configs/axios/axiosConfig'
+import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
 
 function Login() {
   const { values, handleChange, touched, errors, handleSubmit } = useFormik({
@@ -22,8 +24,14 @@ function Login() {
     },
     enableReinitialize: true,
     validationSchema: LoginSchema,
-    onSubmit: (data) => {
-      console.log(data)
+    onSubmit: async (data) => {
+      try {
+        const res = await client.post<SuccessfulAuthDTO>('/user/login', data)
+        console.log(res)
+      } catch (error) {
+        console.log(error)
+        // setup sentry
+      }
     }
   })
 
