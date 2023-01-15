@@ -11,6 +11,8 @@ import React, { MouseEvent, useState } from 'react'
 import ConnectWalletButton from './ConnectWalletButton'
 import NavLink from './NavLink'
 import { APP_ROUTES } from '../../../constants/general/routes'
+import Image from 'next/image'
+import Link from 'next/link'
 
 function NavBar() {
   const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
@@ -28,9 +30,23 @@ function NavBar() {
       <Box maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
-            <Box sx={{ display: 'grid', width: '100px', placeItems: 'center' }}>
-              <Typography>WARDEN</Typography>
-            </Box>
+            <Link href="/">
+              <Box
+                sx={{
+                  display: 'grid',
+                  width: '100px',
+                  placeItems: 'center',
+                  marginRight: 4
+                }}
+              >
+                <Image
+                  src="/images/logo/WardenDark.svg"
+                  width={100}
+                  height={40}
+                  alt="logo"
+                />
+              </Box>
+            </Link>
             {/* Home */}
             <NavLink route={APP_ROUTES[0]} />
             {/* Marketplace */}
