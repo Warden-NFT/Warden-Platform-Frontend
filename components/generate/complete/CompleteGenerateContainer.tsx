@@ -9,6 +9,7 @@ import queryString from 'query-string'
 import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
 
 import CustomizeUtilityForm from './CustomizeUtilityForm'
+import CompleteAssetTicketForm from './CompleteAssetTicketForm'
 
 function CompleteGenerateContainer() {
   const { activeStep, formInfo, setFormInfo } = useContext(
@@ -31,7 +32,8 @@ function CompleteGenerateContainer() {
   return (
     <ActiveStepper steps={COMPLETE_MODE_STEPS} activeStep={activeStep}>
       {activeStep === 1 && <CompleteDropzone />}
-      {activeStep === 2 && <CompleteForm />}
+      {activeStep === 2 && <CompleteAssetTicketForm />}
+      {/* {activeStep === 2 && <CompleteForm />} */}
       {activeStep === 3 && <CustomizeUtilityForm />}
     </ActiveStepper>
   )

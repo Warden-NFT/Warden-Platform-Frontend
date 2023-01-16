@@ -5,7 +5,7 @@ import React, {
       Dispatch,
       useEffect,
 } from "react";
-import { CompleteAssetInfo } from "../../interfaces/generate/collection.interface";
+import { TicketInfo } from "../../interfaces/generate/collection.interface";
 import { UploadedAsset } from "../../interfaces/generate/file.interface";
 interface GenerateCompleteContextProps {
       activeStep: number;
@@ -14,8 +14,8 @@ interface GenerateCompleteContextProps {
       setAssets: Dispatch<SetStateAction<File[]>>;
       uploadedAssets: UploadedAsset[];
       setUploadedAssets: Dispatch<SetStateAction<UploadedAsset[]>>;
-      formInfo: CompleteAssetInfo;
-      setFormInfo: Dispatch<SetStateAction<CompleteAssetInfo>>;
+      formInfo: TicketInfo;
+      setFormInfo: Dispatch<SetStateAction<TicketInfo>>;
 }
 
 export const GenerateCompleteContext = createContext(
@@ -25,12 +25,16 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
       const [activeStep, setActiveStep] = useState(1);
       const [assets, setAssets] = useState<File[]>([]);
       const [uploadedAssets, setUploadedAssets] = useState<UploadedAsset[]>([]);
-      const [formInfo, setFormInfo] = useState<CompleteAssetInfo>({
-            eventName: "",
-            organizerName: "",
-            eventExternalUrl: "",
-            ticketType: null,
-            description: "",
+      const [formInfo, setFormInfo] = useState<TicketInfo>({
+            currency: 'ETH',
+            name: '',
+            description: '',
+            subjectOf: '',
+            ticketMetadata: {
+                  data: []
+            },
+            price: 0,
+            ticketType: 'GENERAL'
       });
 
       useEffect(() => {

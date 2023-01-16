@@ -6,12 +6,22 @@ import {
   TextField,
   Typography
 } from '@mui/material'
+import { useFormik } from 'formik'
 import React, { useContext } from 'react'
 import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
 import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
 
 function CustomizeUtilityForm() {
   const { setActiveStep } = useContext(GenerateCompleteContext)
+
+  const { values } = useFormik({
+    initialValues: {
+
+    },
+    onSubmit: (values) => {
+      console.log(values)
+    }
+  })
 
   return (
     <Box>
