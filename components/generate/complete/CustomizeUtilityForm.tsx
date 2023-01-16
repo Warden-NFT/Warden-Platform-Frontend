@@ -1,3 +1,4 @@
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import {
   Box,
   FormControl,
@@ -14,14 +15,15 @@ import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButto
 function CustomizeUtilityForm() {
   const { setActiveStep } = useContext(GenerateCompleteContext)
 
-  const { values } = useFormik({
-    initialValues: {
-
-    },
-    onSubmit: (values) => {
-      console.log(values)
-    }
-  })
+  const { values, handleChange, touched, setFieldValue, errors, handleSubmit } =
+    useFormik({
+      initialValues: {
+        publicationDatetime: null
+      },
+      onSubmit: (values) => {
+        console.log(values)
+      }
+    })
 
   return (
     <Box>
@@ -35,28 +37,22 @@ function CustomizeUtilityForm() {
           border: 2
         }}
       >
-        {/* <FormControl required>
-          <FormLabel>Event Name</FormLabel>
+        <div>{JSON.stringify(values)}</div>
+        <FormControl required>
+          <FormLabel>Publicize date</FormLabel>
           <Typography variant="caption" color="gray">
-            Event name is a unique name that describe the event
+            The Publication date of this ticket
           </Typography>
-          <TextField
-            name="eventName"
-            value={values.eventName}
-            onChange={handleChange}
-            id="event-name-input"
-            data-testid="event-name-input"
-            placeholder="My Event"
-            variant="outlined"
-            size="small"
-            error={errors.eventName != null}
-            helperText={touched.eventName ? errors.eventName : undefined}
+          <DateTimePicker
+            value={values.publicationDatetime}
+            onChange={(val) => setFieldValue('publicationDatetime', val)}
+            renderInput={(params) => <TextField size="small" {...params} />}
           />
-        </FormControl> */}
+        </FormControl>
       </Stack>
       <ControlledStepperButtons
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
-        //   handleNext={}
+        handleNext={handleSubmit}
       />
     </Box>
   )

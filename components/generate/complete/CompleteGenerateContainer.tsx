@@ -4,7 +4,6 @@ import { COMPLETE_MODE_STEPS } from '../../../constants/generate/steps'
 import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
 import ActiveStepper from '../../UI/navigation/ActiveStepper'
 import CompleteDropzone from './CompleteDropzone'
-import CompleteForm from './CompleteForm'
 import queryString from 'query-string'
 import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
 
@@ -34,7 +33,9 @@ function CompleteGenerateContainer() {
       {activeStep === 1 && <CompleteDropzone />}
       {activeStep === 2 && <CompleteAssetTicketForm />}
       {/* {activeStep === 2 && <CompleteForm />} */}
-      {activeStep === 3 && <CustomizeUtilityForm />}
+      {activeStep === 3 && formInfo.ticketType === 'GENERAL' && (
+        <CustomizeUtilityForm />
+      )}
     </ActiveStepper>
   )
 }

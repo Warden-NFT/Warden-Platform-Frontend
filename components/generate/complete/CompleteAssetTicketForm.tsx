@@ -3,6 +3,7 @@ import {
   AlertTitle,
   Box,
   FormControl,
+  FormHelperText,
   FormLabel,
   InputAdornment,
   MenuItem,
@@ -11,7 +12,7 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { grey } from '@mui/material/colors'
+import { grey, red } from '@mui/material/colors'
 import { useFormik } from 'formik'
 import Link from 'next/link'
 import queryString from 'query-string'
@@ -26,20 +27,20 @@ function CompleteAssetTicketForm() {
   const { formInfo, setActiveStep, setFormInfo } = useContext(
     GenerateCompleteContext
   )
-  const { values, handleChange, touched, errors, handleSubmit, setFieldValue } = useFormik({
-    initialValues: { ...formInfo },
-    enableReinitialize: true,
-    validationSchema: CompleteAssetTicketFormSchema,
-    onSubmit: (data) => {
-      console.log(data)
-      setFormInfo(data)
-      setActiveStep((prev) => prev + 1)
-    }
-  })
+  const { values, handleChange, touched, errors, handleSubmit, setFieldValue } =
+    useFormik({
+      initialValues: { ...formInfo },
+      enableReinitialize: true,
+      validationSchema: CompleteAssetTicketFormSchema,
+      onSubmit: (data) => {
+        setFormInfo(data)
+        setActiveStep((prev) => prev + 1)
+      }
+    })
 
   useEffect(() => {
     if (values.ticketType) {
-      return;
+      return
     }
 
     const { query } = queryString.parseUrl(window.location.href)
@@ -59,22 +60,34 @@ function CompleteAssetTicketForm() {
           border: 2
         }}
       >
-        <div>{JSON.stringify(values)}</div>
-        <div>{JSON.stringify(errors)}</div>
-        <Alert variant='outlined' severity="info" sx={{ borderColor: grey[300], backgroundColor: grey[100] }}>
-          <AlertTitle sx={{ color: 'black' }}>Have you create an event yet?</AlertTitle>
-          Make sure to create an event before creating a ticket. <strong>You can create an event by<Link href='/create/event' style={{ marginLeft: 6 }}>
-            clicking here!
-          </Link></strong>
+        <Alert
+          variant="outlined"
+          severity="info"
+          sx={{ borderColor: grey[300], backgroundColor: grey[100] }}
+        >
+          <AlertTitle sx={{ color: 'black' }}>
+            Have you create an event yet?
+          </AlertTitle>
+          Make sure to create an event before creating a ticket.{' '}
+          <strong>
+            You can create an event by
+            <Link href="/create/event" style={{ marginLeft: 6 }}>
+              clicking here!
+            </Link>
+          </strong>
         </Alert>
-        <Stack direction='row' justifyContent='space-between' alignItems='center'>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           <Stack>
             <FormLabel>Ticket Type</FormLabel>
             <Typography variant="caption" color="gray">
               Selected ticket type
             </Typography>
           </Stack>
-          <Typography variant='h6'>{values.ticketType}</Typography>
+          <Typography variant="h6">{values.ticketType}</Typography>
         </Stack>
 
         <FormControl required>
@@ -100,33 +113,44 @@ function CompleteAssetTicketForm() {
           <Select
             labelId="subject-of-label"
             id="subject-of-select"
-            name='subjectOf'
+            name="subjectOf"
             value={values.subjectOf}
             label="Associated Event"
-            size='small'
+            size="small"
             displayEmpty
             onChange={handleChange}
           >
-            <MenuItem value="" disabled><em>Select the event that this ticket is meant for</em>
+            <MenuItem value="" disabled>
+              <em>Select the event that this ticket is meant for</em>
             </MenuItem>
             <MenuItem value={20}>Twenty</MenuItem>
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
+          <FormHelperText sx={{ color: red[600] }}>
+            {errors.subjectOf && touched.subjectOf ? errors.subjectOf : ''}
+          </FormHelperText>
         </FormControl>
         <FormControl fullWidth required>
-          <FormLabel id="subject-of-label">Ticket Currency</FormLabel>
+          <FormLabel id="ticket-currency-label">Ticket Currency</FormLabel>
           <Select
             labelId="ticket-currency-label"
-            name='currency'
+            name="currency"
             id="ticket-currency-select"
             value={values.currency}
             label="Associated Event"
-            size='small'
+            size="small"
             displayEmpty
             onChange={handleChange}
           >
-            {SUPPORTED_DIGITAL_CURRENCIES.map((currency, i) => <MenuItem value={currency.symbol} key={i}>{currency.name}</MenuItem>)}
+            {SUPPORTED_DIGITAL_CURRENCIES.map((currency, i) => (
+              <MenuItem value={currency.symbol} key={i}>
+                {currency.name}
+              </MenuItem>
+            ))}
           </Select>
+          <FormHelperText>
+            {errors.currency && touched.currency ? errors.currency : ''}
+          </FormHelperText>
         </FormControl>
         <FormControl required>
           <FormLabel>Ticket Price</FormLabel>
@@ -138,12 +162,16 @@ function CompleteAssetTicketForm() {
             value={values.price}
             onChange={handleChange}
             InputProps={{
-              endAdornment: <InputAdornment position='end'>{values.currency}</InputAdornment>,
+              endAdornment: (
+                <InputAdornment position="end">
+                  {values.currency}
+                </InputAdornment>
+              )
             }}
             id="price-input"
             data-testid="price-input"
             placeholder="Ticket's price"
-            type='number'
+            type="number"
             variant="outlined"
             size="small"
             error={errors.price != null}

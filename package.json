@@ -16,6 +16,7 @@
     "@mui/lab": "^5.0.0-alpha.115",
     "@mui/material": "^5.10.17",
     "@mui/x-data-grid": "^5.17.16",
+    "@mui/x-date-pickers": "^5.0.14",
     "@rainbow-me/rainbowkit": "^0.8.0",
     "@sentry/nextjs": "^7.31.0",
     "@types/node": "18.11.11",
