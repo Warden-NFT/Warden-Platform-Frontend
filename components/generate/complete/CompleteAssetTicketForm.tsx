@@ -200,6 +200,7 @@ function CompleteAssetTicketForm() {
         </FormControl>
       </Stack>
       <ControlledStepperButtons
+        isBackDisabled
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
         handleNext={handleSubmit}
       />
