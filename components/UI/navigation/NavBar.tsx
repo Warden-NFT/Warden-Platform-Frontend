@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Menu,
@@ -7,23 +8,59 @@ import {
   Toolbar,
   Typography
 } from '@mui/material'
-import React, { MouseEvent, useState } from 'react'
+import React, { MouseEvent, useContext, useEffect, useState } from 'react'
 import ConnectWalletButton from './ConnectWalletButton'
 import NavLink from './NavLink'
-import { APP_ROUTES } from '../../../constants/general/routes'
+import {
+  APP_ROUTES,
+  EVENT_ORGANIZER_APP_ROUTES,
+  CUSTOMER_APP_ROUTES,
+  AppRoute
+} from '../../../constants/general/routes'
 import Image from 'next/image'
 import Link from 'next/link'
+import { UserContext } from '../../../contexts/user/UserContext'
+import { Account } from '../../../interfaces/auth/user.interface'
 
 function NavBar() {
   const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
+  const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)
+  const [appRoutes, setAppRoutes] = useState<AppRoute[]>(APP_ROUTES)
+  const { user, logOut } = useContext(UserContext)
 
-  function handleOpenMenu(e: MouseEvent<HTMLElement>) {
+  const handleOpenMenu = (e: MouseEvent<HTMLElement>) => {
     setMenuElement(e.currentTarget)
   }
 
-  function handleCloseMenu() {
+  const handleCloseMenu = () => {
     setMenuElement(null)
   }
+
+  const handleOpenUserMenu = (e: MouseEvent<HTMLElement>) => {
+    setAvatarElement(e.currentTarget)
+  }
+
+  const handleCloseUserMenu = () => {
+    setAvatarElement(null)
+  }
+
+  const handleLogout = () => {
+    handleCloseUserMenu()
+    logOut()
+  }
+
+  useEffect(() => {
+    switch (user?.accountType) {
+    case Account.Customer:
+      setAppRoutes(CUSTOMER_APP_ROUTES)
+      break
+    case Account.EventOrganizer:
+      setAppRoutes(EVENT_ORGANIZER_APP_ROUTES)
+      break
+    default:
+      setAppRoutes(APP_ROUTES)
+    }
+  }, [user])
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>
@@ -47,51 +84,82 @@ function NavBar() {
                 />
               </Box>
             </Link>
-            {/* Home */}
-            <NavLink route={APP_ROUTES[0]} />
-            {/* Marketplace */}
-            <NavLink route={APP_ROUTES[1]} />
-            {/* Create */}
-            <Button
-              variant="text"
-              id="oned-button"
-              aria-controls={menuElement ? 'create-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={menuElement ? 'true' : undefined}
-              onClick={handleOpenMenu}
-              sx={{
-                fontWeight: '600',
-                borderRadius: 20,
-                paddingX: 2,
-                '&:hover': {
-                  backgroundColor: 'white'
-                }
-              }}
-            >
-              CREATE
-            </Button>
+            {appRoutes.map((appRoute, index) => {
+              if (appRoute.subroutes.length) return null
+              return <NavLink route={appRoute} key={index} />
+            })}
+            {user?.accountType === Account.EventOrganizer && (
+              <>
+                <Button
+                  variant="text"
+                  id="oned-button"
+                  aria-controls={menuElement ? 'create-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={menuElement ? 'true' : undefined}
+                  onClick={handleOpenMenu}
+                  sx={{
+                    fontWeight: '600',
+                    borderRadius: 20,
+                    paddingX: 2,
+                    '&:hover': {
+                      backgroundColor: 'white'
+                    }
+                  }}
+                >
+                  CREATE
+                </Button>
+                <Menu
+                  id="create-menu"
+                  aria-labelledby="create-menu-button"
+                  anchorEl={menuElement}
+                  open={Boolean(menuElement)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                  }}
+                >
+                  {/* Event */}
+                  <MenuItem onClick={handleCloseMenu}>
+                    <NavLink route={appRoutes[2].subroutes[0]} />
+                  </MenuItem>
+                  {/* Ticket */}
+                  <MenuItem onClick={handleCloseMenu}>
+                    <NavLink route={appRoutes[2].subroutes[1]} />
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
+          </Box>
+          <Box sx={{ display: 'flex' }}>
+            {user ? (
+              <Avatar
+                sx={{ marginRight: 1, '&:hover': { cursor: 'pointer' } }}
+                onClick={handleOpenUserMenu}
+                aria-controls={avatarElement ? 'user-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={avatarElement ? 'true' : undefined}
+              >
+                {user?.username && user?.username[0]}
+              </Avatar>
+            ) : (
+              <NavLink route={{ name: 'Log in', url: '/auth/login' }} />
+            )}
             <Menu
-              id="create-menu"
-              aria-labelledby="create-menu-button"
-              anchorEl={menuElement}
-              open={Boolean(menuElement)}
-              onClose={handleCloseMenu}
+              id="user-menu"
+              aria-labelledby="user-menu-button"
+              anchorEl={avatarElement}
+              open={Boolean(avatarElement)}
+              onClose={handleCloseUserMenu}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center'
               }}
             >
-              {/* Event */}
-              <MenuItem onClick={handleCloseMenu}>
-                <NavLink route={APP_ROUTES[2].subroutes[0]} />
-              </MenuItem>
-              {/* Ticket */}
-              <MenuItem onClick={handleCloseMenu}>
-                <NavLink route={APP_ROUTES[2].subroutes[1]} />
-              </MenuItem>
+              <MenuItem onClick={handleLogout}>Log out</MenuItem>
             </Menu>
+            <ConnectWalletButton />
           </Box>
-          <ConnectWalletButton />
         </Toolbar>
       </Box>
     </AppBar>
