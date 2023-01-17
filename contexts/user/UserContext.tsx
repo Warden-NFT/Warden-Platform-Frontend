@@ -6,6 +6,7 @@ import {
   useEffect,
   useState
 } from 'react'
+import { useDisconnect } from 'wagmi'
 import { client } from '../../configs/axios/axiosConfig'
 import useAsyncEffect from '../../hooks/useAsyncEffect'
 import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
@@ -27,6 +28,7 @@ export const UserContext = createContext({} as UserContextStruct)
 
 const UserContextProvider = ({ ...props }) => {
   const router = useRouter()
+  const { disconnect } = useDisconnect()
   const [user, setUser] = useState<User>()
   const [token, setToken] = useState<string>()
 
@@ -40,6 +42,7 @@ const UserContextProvider = ({ ...props }) => {
     setUser(undefined)
     setToken('')
     setCookie('token', null, 0)
+    disconnect()
   }
 
   const redirectToHome = () => {
@@ -52,8 +55,8 @@ const UserContextProvider = ({ ...props }) => {
 
   useAsyncEffect(async () => {
     try {
-      const user: User = await client.get('user')
-      if (user) setUser(user)
+      const user = await client.get('user')
+      if (user) setUser(user.data)
     } catch (error) {
       console.log(error)
     }

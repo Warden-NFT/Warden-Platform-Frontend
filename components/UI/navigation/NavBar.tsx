@@ -8,17 +8,24 @@ import {
   Toolbar,
   Typography
 } from '@mui/material'
-import React, { MouseEvent, useContext, useState } from 'react'
+import React, { MouseEvent, useContext, useEffect, useState } from 'react'
 import ConnectWalletButton from './ConnectWalletButton'
 import NavLink from './NavLink'
-import { APP_ROUTES } from '../../../constants/general/routes'
+import {
+  APP_ROUTES,
+  EVENT_ORGANIZER_APP_ROUTES,
+  CUSTOMER_APP_ROUTES,
+  AppRoute
+} from '../../../constants/general/routes'
 import Image from 'next/image'
 import Link from 'next/link'
 import { UserContext } from '../../../contexts/user/UserContext'
+import { Account } from '../../../interfaces/auth/user.interface'
 
 function NavBar() {
   const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
   const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)
+  const [appRoutes, setAppRoutes] = useState<AppRoute[]>(APP_ROUTES)
   const { user, logOut } = useContext(UserContext)
 
   const handleOpenMenu = (e: MouseEvent<HTMLElement>) => {
@@ -42,6 +49,19 @@ function NavBar() {
     logOut()
   }
 
+  useEffect(() => {
+    switch (user?.accountType) {
+    case Account.Customer:
+      setAppRoutes(CUSTOMER_APP_ROUTES)
+      break
+    case Account.EventOrganizer:
+      setAppRoutes(EVENT_ORGANIZER_APP_ROUTES)
+      break
+    default:
+      setAppRoutes(APP_ROUTES)
+    }
+  }, [user])
+
   return (
     <AppBar position="static" color="transparent" elevation={0}>
       <Box maxWidth="xl">
@@ -64,49 +84,52 @@ function NavBar() {
                 />
               </Box>
             </Link>
-            {/* Home */}
-            <NavLink route={APP_ROUTES[0]} />
-            {/* Marketplace */}
-            <NavLink route={APP_ROUTES[1]} />
-            {/* Create */}
-            <Button
-              variant="text"
-              id="oned-button"
-              aria-controls={menuElement ? 'create-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={menuElement ? 'true' : undefined}
-              onClick={handleOpenMenu}
-              sx={{
-                fontWeight: '600',
-                borderRadius: 20,
-                paddingX: 2,
-                '&:hover': {
-                  backgroundColor: 'white'
-                }
-              }}
-            >
-              CREATE
-            </Button>
-            <Menu
-              id="create-menu"
-              aria-labelledby="create-menu-button"
-              anchorEl={menuElement}
-              open={Boolean(menuElement)}
-              onClose={handleCloseMenu}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center'
-              }}
-            >
-              {/* Event */}
-              <MenuItem onClick={handleCloseMenu}>
-                <NavLink route={APP_ROUTES[2].subroutes[0]} />
-              </MenuItem>
-              {/* Ticket */}
-              <MenuItem onClick={handleCloseMenu}>
-                <NavLink route={APP_ROUTES[2].subroutes[1]} />
-              </MenuItem>
-            </Menu>
+            {appRoutes.map((appRoute, index) => {
+              if (appRoute.subroutes.length) return null
+              return <NavLink route={appRoute} key={index} />
+            })}
+            {user?.accountType === Account.EventOrganizer && (
+              <>
+                <Button
+                  variant="text"
+                  id="oned-button"
+                  aria-controls={menuElement ? 'create-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={menuElement ? 'true' : undefined}
+                  onClick={handleOpenMenu}
+                  sx={{
+                    fontWeight: '600',
+                    borderRadius: 20,
+                    paddingX: 2,
+                    '&:hover': {
+                      backgroundColor: 'white'
+                    }
+                  }}
+                >
+                  CREATE
+                </Button>
+                <Menu
+                  id="create-menu"
+                  aria-labelledby="create-menu-button"
+                  anchorEl={menuElement}
+                  open={Boolean(menuElement)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center'
+                  }}
+                >
+                  {/* Event */}
+                  <MenuItem onClick={handleCloseMenu}>
+                    <NavLink route={appRoutes[2].subroutes[0]} />
+                  </MenuItem>
+                  {/* Ticket */}
+                  <MenuItem onClick={handleCloseMenu}>
+                    <NavLink route={appRoutes[2].subroutes[1]} />
+                  </MenuItem>
+                </Menu>
+              </>
+            )}
           </Box>
           <Box sx={{ display: 'flex' }}>
             {user ? (
