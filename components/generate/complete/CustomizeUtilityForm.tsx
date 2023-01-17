@@ -23,7 +23,6 @@ function CustomizeUtilityForm() {
         publicationDatetime: null
       },
       validationSchema: CompleteAssetCustomizeUtilitySchema,
-      validateOnBlur: true,
       onSubmit: (values) => {
         console.log(values)
       }
