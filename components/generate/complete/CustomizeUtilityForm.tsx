@@ -2,6 +2,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import {
   Box,
   FormControl,
+  FormHelperText,
   FormLabel,
   Stack,
   TextField,
@@ -11,6 +12,7 @@ import { useFormik } from 'formik'
 import React, { useContext } from 'react'
 import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
 import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
+import { CompleteAssetCustomizeUtilitySchema } from '../../../schema/generate/complete'
 
 function CustomizeUtilityForm() {
   const { setActiveStep } = useContext(GenerateCompleteContext)
@@ -20,6 +22,8 @@ function CustomizeUtilityForm() {
       initialValues: {
         publicationDatetime: null
       },
+      validationSchema: CompleteAssetCustomizeUtilitySchema,
+      validateOnBlur: true,
       onSubmit: (values) => {
         console.log(values)
       }
@@ -38,16 +42,21 @@ function CustomizeUtilityForm() {
         }}
       >
         <div>{JSON.stringify(values)}</div>
+        <div>{JSON.stringify(errors)}</div>
         <FormControl required>
-          <FormLabel>Publicize date</FormLabel>
+          <FormLabel>Publication date</FormLabel>
           <Typography variant="caption" color="gray">
-            The Publication date of this ticket
+            The Publication date of this ticket. A ticket must be publicize at
+            least 1 day from now.
           </Typography>
           <DateTimePicker
             value={values.publicationDatetime}
             onChange={(val) => setFieldValue('publicationDatetime', val)}
             renderInput={(params) => <TextField size="small" {...params} />}
           />
+          {errors.publicationDatetime && touched.publicationDatetime && (
+            <FormHelperText>{errors.publicationDatetime}</FormHelperText>
+          )}
         </FormControl>
       </Stack>
       <ControlledStepperButtons

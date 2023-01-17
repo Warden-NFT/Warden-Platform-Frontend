@@ -36,6 +36,9 @@ function CompleteGenerateContainer() {
       {activeStep === 3 && formInfo.ticketType === 'GENERAL' && (
         <CustomizeUtilityForm />
       )}
+      {activeStep === 3 && formInfo.ticketType === 'RESERVED_SEAT' && (
+        <div>Work in progress...</div>
+      )}
     </ActiveStepper>
   )
 }

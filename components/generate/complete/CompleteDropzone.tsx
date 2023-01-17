@@ -47,15 +47,17 @@ function CompleteDropzone() {
       >
         <Box sx={{ width: '100%' }}>
           {uploadedAssets.length > 0 && (
-            <UploadedAssetPreviewList
-              assets={assets}
-              setAssets={setAssets}
-              uploads={uploadedAssets}
-              setUploads={setUploadedAssets}
-              header="Regular Tickets"
-            />
+            <>
+              <UploadedAssetPreviewList
+                assets={assets}
+                setAssets={setAssets}
+                uploads={uploadedAssets}
+                setUploads={setUploadedAssets}
+                header="Regular Tickets"
+              />
+              <Divider />
+            </>
           )}
-          <Divider />
           <CompleteAssetDropzone
             assets={assets}
             setAssets={setAssets}
