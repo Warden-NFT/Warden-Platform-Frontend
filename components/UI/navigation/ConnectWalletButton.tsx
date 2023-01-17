@@ -3,7 +3,18 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 
 function ConnectWalletButton() {
-  return <ConnectButton />
+  return (
+    <ConnectButton
+      showBalance={{
+        smallScreen: false,
+        largeScreen: false
+      }}
+      accountStatus={{
+        smallScreen: 'avatar',
+        largeScreen: 'avatar'
+      }}
+    />
+  )
 }
 
 export default ConnectWalletButton

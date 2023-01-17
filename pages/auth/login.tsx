@@ -7,7 +7,7 @@ import {
   Typography
 } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useContext } from 'react'
 import ContainerCard from '../../components/UI/card/ContainerCard'
 import { useFormik } from 'formik'
 import ContainedButton from '../../components/UI/button/ContainedButton'
@@ -15,8 +15,12 @@ import { LoginSchema } from '../../schema/auth/login.schema'
 import Link from 'next/link'
 import { client } from '../../configs/axios/axiosConfig'
 import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
+import { UserContext } from '../../contexts/user/UserContext'
+import { useRouter } from 'next/router'
 
 function Login() {
+  const { setUserInfo } = useContext(UserContext)
+  const router = useRouter()
   const { values, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues: {
       phoneNumber: '',
@@ -27,7 +31,8 @@ function Login() {
     onSubmit: async (data) => {
       try {
         const res = await client.post<SuccessfulAuthDTO>('/user/login', data)
-        console.log(res)
+        setUserInfo(res.data)
+        router.push('/')
       } catch (error) {
         console.log(error)
         // setup sentry
@@ -37,7 +42,7 @@ function Login() {
 
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
-      <Grid item xs={12} lg={6}>
+      <Grid item xs={12} sm={8} lg={6}>
         <ContainerCard>
           <>
             <Typography variant="h5" fontWeight="bold" component="h1">

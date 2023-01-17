@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Avatar,
   Box,
   Button,
   Menu,
@@ -7,22 +8,38 @@ import {
   Toolbar,
   Typography
 } from '@mui/material'
-import React, { MouseEvent, useState } from 'react'
+import React, { MouseEvent, useContext, useState } from 'react'
 import ConnectWalletButton from './ConnectWalletButton'
 import NavLink from './NavLink'
 import { APP_ROUTES } from '../../../constants/general/routes'
 import Image from 'next/image'
 import Link from 'next/link'
+import { UserContext } from '../../../contexts/user/UserContext'
 
 function NavBar() {
   const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
+  const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)
+  const { user, logOut } = useContext(UserContext)
 
-  function handleOpenMenu(e: MouseEvent<HTMLElement>) {
+  const handleOpenMenu = (e: MouseEvent<HTMLElement>) => {
     setMenuElement(e.currentTarget)
   }
 
-  function handleCloseMenu() {
+  const handleCloseMenu = () => {
     setMenuElement(null)
+  }
+
+  const handleOpenUserMenu = (e: MouseEvent<HTMLElement>) => {
+    setAvatarElement(e.currentTarget)
+  }
+
+  const handleCloseUserMenu = () => {
+    setAvatarElement(null)
+  }
+
+  const handleLogout = () => {
+    handleCloseUserMenu()
+    logOut()
   }
 
   return (
@@ -91,7 +108,35 @@ function NavBar() {
               </MenuItem>
             </Menu>
           </Box>
-          <ConnectWalletButton />
+          <Box sx={{ display: 'flex' }}>
+            {user ? (
+              <Avatar
+                sx={{ marginRight: 1, '&:hover': { cursor: 'pointer' } }}
+                onClick={handleOpenUserMenu}
+                aria-controls={avatarElement ? 'user-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={avatarElement ? 'true' : undefined}
+              >
+                {user?.username && user?.username[0]}
+              </Avatar>
+            ) : (
+              <NavLink route={{ name: 'Log in', url: '/auth/login' }} />
+            )}
+            <Menu
+              id="user-menu"
+              aria-labelledby="user-menu-button"
+              anchorEl={avatarElement}
+              open={Boolean(avatarElement)}
+              onClose={handleCloseUserMenu}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+              }}
+            >
+              <MenuItem onClick={handleLogout}>Log out</MenuItem>
+            </Menu>
+            <ConnectWalletButton />
+          </Box>
         </Toolbar>
       </Box>
     </AppBar>

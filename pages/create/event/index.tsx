@@ -1,7 +1,8 @@
 import React from 'react'
+import withUserGuard from '../../../guards/user.guard'
 
 function EventCreationPage() {
   return <div>EventCreationPage</div>
 }
 
-export default EventCreationPage
+export default withUserGuard(EventCreationPage)
