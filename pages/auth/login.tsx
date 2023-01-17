@@ -17,7 +17,6 @@ import { client } from '../../configs/axios/axiosConfig'
 import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
 import { UserContext } from '../../contexts/user/UserContext'
 import { useRouter } from 'next/router'
-import { motion } from 'framer-motion'
 import FadeEntrance from '../../components/motion/FadeEntrance'
 
 function Login() {
