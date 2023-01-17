@@ -5,8 +5,7 @@ import {
   Button,
   Menu,
   MenuItem,
-  Toolbar,
-  Typography
+  Toolbar
 } from '@mui/material'
 import React, { MouseEvent, useContext, useEffect, useState } from 'react'
 import ConnectWalletButton from './ConnectWalletButton'
@@ -134,7 +133,11 @@ function NavBar() {
           <Box sx={{ display: 'flex' }}>
             {user ? (
               <Avatar
-                sx={{ marginRight: 1, '&:hover': { cursor: 'pointer' } }}
+                sx={{
+                  marginRight: 1,
+                  bgcolor: '#000',
+                  '&:hover': { cursor: 'pointer' }
+                }}
                 onClick={handleOpenUserMenu}
                 aria-controls={avatarElement ? 'user-menu' : undefined}
                 aria-haspopup="true"
