@@ -8,6 +8,17 @@ import { lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { WagmiConfig } from 'wagmi'
 import UserContextProvider from '../contexts/user/UserContext'
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace NodeJS {
+    interface ProcessEnv {
+      NEXT_PUBLIC_WARDEN_API_URL: string
+      NEXT_PUBLIC_APP_API_URL: string
+      NEXT_PUBLIC_SENTRY_DSN: string
+    }
+  }
+}
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
