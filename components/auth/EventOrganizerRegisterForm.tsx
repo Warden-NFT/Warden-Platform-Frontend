@@ -22,7 +22,6 @@ function EventOrganizerRegisterForm() {
       repeatPassword: '',
       organizationName: ''
     },
-    enableReinitialize: true,
     validationSchema: EventOrganizerRegisterSchema,
     onSubmit: async (data) => {
       try {
@@ -45,7 +44,7 @@ function EventOrganizerRegisterForm() {
         Organization Information
       </Typography>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Organization Name</FormLabel>
         <TextField
           name="organizationName"
@@ -61,7 +60,7 @@ function EventOrganizerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Email</FormLabel>
         <TextField
           name="email"
@@ -77,7 +76,7 @@ function EventOrganizerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Username</FormLabel>
         <TextField
           name="username"
@@ -97,7 +96,7 @@ function EventOrganizerRegisterForm() {
         Credentials
       </Typography>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Phone Number</FormLabel>
         <TextField
           name="phoneNumber"
@@ -113,7 +112,7 @@ function EventOrganizerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Password</FormLabel>
         <TextField
           name="password"
@@ -130,7 +129,7 @@ function EventOrganizerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Repeat Password</FormLabel>
         <TextField
           name="repeatPassword"

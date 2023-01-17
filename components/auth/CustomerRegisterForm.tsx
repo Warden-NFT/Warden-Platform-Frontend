@@ -29,7 +29,6 @@ function CustomerRegisterForm() {
       firstName: '',
       lastName: ''
     },
-    enableReinitialize: true,
     validationSchema: RegisterSchema,
     onSubmit: async (data) => {
       try {
@@ -52,7 +51,7 @@ function CustomerRegisterForm() {
         Personal Information
       </Typography>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>First Name</FormLabel>
         <TextField
           name="firstName"
@@ -68,7 +67,7 @@ function CustomerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Last Name</FormLabel>
         <TextField
           name="lastName"
@@ -84,7 +83,7 @@ function CustomerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Email</FormLabel>
         <TextField
           name="email"
@@ -100,7 +99,7 @@ function CustomerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Username</FormLabel>
         <TextField
           name="username"
@@ -120,7 +119,7 @@ function CustomerRegisterForm() {
         Credentials
       </Typography>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Phone Number</FormLabel>
         <TextField
           name="phoneNumber"
@@ -136,7 +135,7 @@ function CustomerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Password</FormLabel>
         <TextField
           name="password"
@@ -153,7 +152,7 @@ function CustomerRegisterForm() {
         />
       </FormControl>
 
-      <FormControl required sx={{ width: '100%', height: 84 }}>
+      <FormControl required fullWidth sx={{ height: 84 }}>
         <FormLabel>Repeat Password</FormLabel>
         <TextField
           name="repeatPassword"

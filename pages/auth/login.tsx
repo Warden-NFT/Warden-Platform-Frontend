@@ -27,7 +27,6 @@ function Login() {
       phoneNumber: '',
       password: ''
     },
-    enableReinitialize: true,
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
       try {
