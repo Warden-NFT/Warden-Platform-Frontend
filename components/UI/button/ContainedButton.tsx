@@ -9,6 +9,7 @@ interface Props {
   variant: 'outlined' | 'text' | 'contained'
   onClick?: () => void
   disabled?: boolean
+  type?: 'button' | 'submit' | 'reset'
 }
 
 function ContainedButton({
@@ -17,7 +18,8 @@ function ContainedButton({
   height,
   variant,
   onClick,
-  disabled
+  disabled,
+  type
 }: Props) {
   return (
     <motion.div
@@ -29,6 +31,7 @@ function ContainedButton({
       style={{ borderRadius: '20px', width }}
     >
       <Button
+        type={type ?? 'button'}
         onClick={(e) => {
           e.preventDefault()
           onClick?.()

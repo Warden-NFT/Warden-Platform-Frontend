@@ -15,6 +15,7 @@ declare global {
       NEXT_PUBLIC_WARDEN_API_URL: string
       NEXT_PUBLIC_APP_API_URL: string
       NEXT_PUBLIC_SENTRY_DSN: string
+      NEXT_PUBLIC_ALCHEMY_KEY: string
     }
   }
 }
