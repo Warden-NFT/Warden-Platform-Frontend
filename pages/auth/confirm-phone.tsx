@@ -60,10 +60,6 @@ function ConfirmPhone() {
   }
 
   useEffect(() => {
-    console.log('REQUEST OTP')
-  }, [])
-
-  useEffect(() => {
     const interval = setInterval(() => {
       setSeconds((seconds: number) => {
         if (seconds === 0) {

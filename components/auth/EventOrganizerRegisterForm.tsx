@@ -36,7 +36,6 @@ function EventOrganizerRegisterForm() {
           '/user/registerEventOrganizer',
           payload
         )
-        console.log(res)
         setUserInfo(res.data)
         router.push('/auth/confirm-phone')
       } catch (error) {
