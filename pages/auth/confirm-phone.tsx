@@ -8,6 +8,7 @@ import ContainedButton from '../../components/UI/button/ContainedButton'
 import { UserContext } from '../../contexts/user/UserContext'
 import { useRouter } from 'next/navigation'
 import { useOTP } from '../../hooks/useOTP'
+import { client } from '../../configs/axios/axiosConfig'
 
 function ConfirmPhone() {
   const [otpToken, setOtpToken] = useState('')
@@ -26,6 +27,14 @@ function ConfirmPhone() {
   const handleSubmit = async () => {
     const verificationSuccessful = await verifyOTP(otpToken, otp)
     if (verificationSuccessful) {
+      const payload = {
+        verificationStatus: 'Verified'
+      }
+      try {
+        await client.put('/user/setVerificationStatus', payload)
+      } catch (error) {
+        console.log(error)
+      }
       setOpenOtpSuccessSnackbar(true)
       setTimeout(() => {
         router.push('/home')
