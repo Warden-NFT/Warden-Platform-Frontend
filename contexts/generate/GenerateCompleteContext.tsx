@@ -6,18 +6,18 @@ import React, {
   useEffect
 } from 'react'
 import { TicketInfo } from '../../interfaces/generate/collection.interface'
-import { UploadedAsset } from '../../interfaces/generate/file.interface'
+import { UploadedCompleteAsset } from '../../interfaces/generate/file.interface'
 interface GenerateCompleteContextProps {
   activeStep: number
   setActiveStep: Dispatch<SetStateAction<number>>
   assets: File[]
   setAssets: Dispatch<SetStateAction<File[]>>
-  uploadedAssets: UploadedAsset[]
-  setUploadedAssets: Dispatch<SetStateAction<UploadedAsset[]>>
+  uploadedAssets: UploadedCompleteAsset[]
+  setUploadedAssets: Dispatch<SetStateAction<UploadedCompleteAsset[]>>
   vipAssets: File[]
   setVipAssets: Dispatch<SetStateAction<File[]>>
-  uploadedVipAssets: UploadedAsset[]
-  setUploadedVipAssets: Dispatch<SetStateAction<UploadedAsset[]>>
+  uploadedVipAssets: UploadedCompleteAsset[]
+  setUploadedVipAssets: Dispatch<SetStateAction<UploadedCompleteAsset[]>>
   formInfo: TicketInfo
   setFormInfo: Dispatch<SetStateAction<TicketInfo>>
 }
@@ -29,10 +29,12 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
   const [activeStep, setActiveStep] = useState(1)
   const [assets, setAssets] = useState<File[]>([])
   const [vipAssets, setVipAssets] = useState<File[]>([])
-  const [uploadedAssets, setUploadedAssets] = useState<UploadedAsset[]>([])
-  const [uploadedVipAssets, setUploadedVipAssets] = useState<UploadedAsset[]>(
+  const [uploadedAssets, setUploadedAssets] = useState<UploadedCompleteAsset[]>(
     []
   )
+  const [uploadedVipAssets, setUploadedVipAssets] = useState<
+    UploadedCompleteAsset[]
+  >([])
   const [formInfo, setFormInfo] = useState<TicketInfo>({
     currency: 'ETH',
     name: '',

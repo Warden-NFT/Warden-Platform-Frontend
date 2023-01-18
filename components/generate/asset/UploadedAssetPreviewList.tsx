@@ -1,6 +1,6 @@
 import { Box, IconButton, Stack, Typography } from '@mui/material'
 import React, { Dispatch, SetStateAction } from 'react'
-import { UploadedAsset } from '../../../interfaces/generate/file.interface'
+import { UploadedCompleteAsset } from '../../../interfaces/generate/file.interface'
 import { motion } from 'framer-motion'
 import CloseIcon from '@mui/icons-material/Close'
 import Image from 'next/image'
@@ -8,8 +8,8 @@ import Image from 'next/image'
 interface Props {
   assets: File[]
   setAssets: Dispatch<SetStateAction<File[]>>
-  uploads: UploadedAsset[]
-  setUploads: Dispatch<SetStateAction<UploadedAsset[]>>
+  uploads: UploadedCompleteAsset[]
+  setUploads: Dispatch<SetStateAction<UploadedCompleteAsset[]>>
   header?: string
 }
 

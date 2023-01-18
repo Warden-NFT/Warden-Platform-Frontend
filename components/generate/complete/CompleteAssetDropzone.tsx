@@ -2,7 +2,7 @@ import { Container, SxProps, Theme, Typography } from '@mui/material'
 import Image from 'next/image'
 import React, { Dispatch, SetStateAction, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { UploadedAsset } from '../../../interfaces/generate/file.interface'
+import { UploadedCompleteAsset } from '../../../interfaces/generate/file.interface'
 import {
   getAssetDimension,
   getAssetFileName,
@@ -12,7 +12,7 @@ import {
 interface Props {
   assets: File[]
   setAssets: Dispatch<SetStateAction<File[]>>
-  setUploadedAssets: Dispatch<SetStateAction<UploadedAsset[]>>
+  setUploadedAssets: Dispatch<SetStateAction<UploadedCompleteAsset[]>>
   dragLabel: string
   sx?: SxProps<Theme>
 }
@@ -41,12 +41,12 @@ function CompleteAssetDropzone({
         const dimensions = await getAssetDimension(url)
         if (!url || !dimensions) return
 
-        const asset: UploadedAsset = {
+        const asset: UploadedCompleteAsset = {
           id: i + 1,
           name: getAssetFileName(file),
           dimension: dimensions,
           data: url,
-          occurrence: 1
+          quantity: 1
         }
 
         setUploadedAssets((prev) => [...prev, asset])

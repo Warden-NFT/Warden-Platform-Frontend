@@ -1,4 +1,4 @@
-import { number, object, string, date } from 'yup'
+import { number, object, string, date, array } from 'yup'
 import { TicketTypes } from '../../interfaces/ticket/ticket.interface'
 import moment from 'moment'
 
@@ -52,5 +52,23 @@ export const CompleteAssetCustomizeUtilitySchema = object({
         return false
       }
     )
-    .required('Publication date is required')
+    .required('Publication date is required'),
+  assets: array().of(
+    object({
+      id: number(),
+      name: string().max(100, 'Name is too long').required('Name is required'),
+      quantity: number()
+        .min(0, 'Zero is the minimum quantity')
+        .required('Quantity is required')
+    })
+  ),
+  vipAssets: array().of(
+    object({
+      id: number(),
+      name: string().max(100, 'Name is too long').required('Name is required'),
+      quantity: number()
+        .min(0, 'Zero is the minimum quantity')
+        .required('Quantity is required')
+    })
+  )
 })
