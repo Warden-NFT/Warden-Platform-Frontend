@@ -6,3 +6,5 @@ export interface SuccessfulAuthDTO {
   jwt: string
   user: UserGeneralInfo
 }
+
+export type Verification = 'NotVerified' | 'Verified'

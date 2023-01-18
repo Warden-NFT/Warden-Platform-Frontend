@@ -130,6 +130,7 @@ function CustomerRegisterForm() {
           placeholder="ex: 0912345678"
           variant="outlined"
           size="small"
+          autoComplete="username"
           error={errors.phoneNumber != null}
           helperText={touched.phoneNumber ? errors.phoneNumber : undefined}
         />
@@ -146,6 +147,7 @@ function CustomerRegisterForm() {
           placeholder="ex: password"
           variant="outlined"
           size="small"
+          autoComplete="current-password"
           type="password"
           error={errors.password != null}
           helperText={touched.password ? errors.password : undefined}

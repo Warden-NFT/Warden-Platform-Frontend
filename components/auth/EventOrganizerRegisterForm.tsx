@@ -6,7 +6,6 @@ import React, { useContext } from 'react'
 import { client } from '../../configs/axios/axiosConfig'
 import { UserContext } from '../../contexts/user/UserContext'
 import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
-import { Account } from '../../interfaces/auth/user.interface'
 import { EventOrganizerRegisterSchema } from '../../schema/auth/register.schema'
 import ContainedButton from '../UI/button/ContainedButton'
 
@@ -24,10 +23,18 @@ function EventOrganizerRegisterForm() {
     },
     validationSchema: EventOrganizerRegisterSchema,
     onSubmit: async (data) => {
+      const payload = {
+        phoneNumber: data.phoneNumber,
+        email: data.email,
+        username: data.username,
+        password: data.password,
+        organizationName: data.organizationName,
+        verificationStatus: 'NotVerified'
+      }
       try {
         const res = await client.post<SuccessfulAuthDTO>(
           '/user/registerEventOrganizer',
-          { ...data, accountType: Account.Customer }
+          payload
         )
         setUserInfo(res.data)
         router.push('/auth/confirm-phone')
@@ -107,6 +114,7 @@ function EventOrganizerRegisterForm() {
           placeholder="ex: 0912345678"
           variant="outlined"
           size="small"
+          autoComplete="username"
           error={errors.phoneNumber != null}
           helperText={touched.phoneNumber ? errors.phoneNumber : undefined}
         />
@@ -123,6 +131,7 @@ function EventOrganizerRegisterForm() {
           placeholder="ex: password"
           variant="outlined"
           size="small"
+          autoComplete="current-password"
           type="password"
           error={errors.password != null}
           helperText={touched.password ? errors.password : undefined}

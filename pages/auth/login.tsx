@@ -45,7 +45,7 @@ function Login() {
       <Grid item xs={12} sm={8} lg={6}>
         <FadeEntrance>
           <ContainerCard>
-            <>
+            <form onSubmit={handleSubmit}>
               <Typography variant="h5" fontWeight="bold" component="h1">
                 Log in
               </Typography>
@@ -63,6 +63,7 @@ function Login() {
                   placeholder="ex: 0912345678"
                   variant="outlined"
                   size="small"
+                  autoComplete="username"
                   error={errors.phoneNumber != null}
                   helperText={
                     touched.phoneNumber ? errors.phoneNumber : undefined
@@ -81,6 +82,7 @@ function Login() {
                   placeholder="ex: password"
                   variant="outlined"
                   size="small"
+                  autoComplete="current-password"
                   type="password"
                   error={errors.password != null}
                   helperText={touched.password ? errors.password : undefined}
@@ -90,6 +92,7 @@ function Login() {
               <Box sx={{ height: 24 }} />
 
               <ContainedButton
+                // type="submit"
                 onClick={() => handleSubmit()}
                 disabled={false}
                 variant="contained"
@@ -103,7 +106,7 @@ function Login() {
                   No account? <Link href="/auth/register">Register here</Link>
                 </Typography>
               </Box>
-            </>
+            </form>
           </ContainerCard>
         </FadeEntrance>
       </Grid>

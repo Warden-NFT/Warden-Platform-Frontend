@@ -11,7 +11,7 @@ import { client } from '../../configs/axios/axiosConfig'
 import useAsyncEffect from '../../hooks/useAsyncEffect'
 import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
 import { Account, User } from '../../interfaces/auth/user.interface'
-import { setCookie } from '../../utils/cookie/cookieHandler'
+import { getCookie, setCookie } from '../../utils/cookie/cookieHandler'
 
 interface UserContextStruct {
   user: User | undefined
@@ -55,6 +55,7 @@ const UserContextProvider = ({ ...props }) => {
 
   useAsyncEffect(async () => {
     try {
+      if (!getCookie('token')) return
       const user = await client.get('user')
       if (user) setUser(user.data)
     } catch (error) {

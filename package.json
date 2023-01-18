@@ -33,6 +33,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-otp-input": "^2.4.0",
     "typescript": "4.9.3",
     "wagmi": "^0.8.10",
     "yup": "^0.32.11"
