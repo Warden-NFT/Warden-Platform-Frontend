@@ -163,8 +163,8 @@ function CustomizeUtilityForm() {
                   type="number"
                   data-test-atd={`asset-${i}-quantity-input`}
                   size="small"
-                  //@ts-ignore
                   error={
+                    //@ts-ignore
                     errors.assets && errors.assets[i].quantity ? true : false
                   }
                   //@ts-ignore
@@ -208,14 +208,14 @@ function CustomizeUtilityForm() {
                     type="text"
                     data-test-atd={`vipAssets-${i}-name-input`}
                     size="small"
-                    //@ts-ignore
                     error={
+                      //@ts-ignore
                       errors.vipAssets && errors.vipAssets[i].name
                         ? true
                         : false
                     }
-                    //@ts-ignore
                     helperText={
+                      //@ts-ignore
                       errors.vipAssets ? errors.vipAssets[i].name : ''
                     }
                   />
@@ -226,14 +226,14 @@ function CustomizeUtilityForm() {
                     type="number"
                     data-test-atd={`vipAssets-${i}-quantity-input`}
                     size="small"
-                    //@ts-ignore
                     error={
+                      //@ts-ignore
                       errors.vipAssets && errors.vipAssets[i].quantity
                         ? true
                         : false
                     }
-                    //@ts-ignore
                     helperText={
+                      //@ts-ignore
                       errors.vipAssets ? errors.vipAssets[i].quantity : ''
                     }
                   />
