@@ -13,7 +13,6 @@ export const useOTP = (user?: User) => {
       const otpRes = await client.get<RequestOtpResponseDTO>(
         `/otp/request/${user.phoneNumber}`
       )
-      console.log('HERE', otpRes)
       return otpRes.data.data.token
     } catch (error) {
       console.log(error)

@@ -1,4 +1,4 @@
-import { Grid, Link, Snackbar, Typography } from '@mui/material'
+import { Alert, Grid, Link, Snackbar, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import FadeEntrance from '../../components/motion/FadeEntrance'
 import ContainerCard from '../../components/UI/card/ContainerCard'
@@ -13,6 +13,7 @@ function ConfirmPhone() {
   const [otpToken, setOtpToken] = useState('')
   const [seconds, setSeconds] = useState<number>(0)
   const [openOtpErrorSnackbar, setOpenOtpErrorSnackbar] = useState(false)
+  const [openOtpSuccessSnackbar, setOpenOtpSuccessSnackbar] = useState(false)
 
   const { user } = useContext(UserContext)
   const { getOTP, verifyOTP, otp, setOtp } = useOTP(user)
@@ -24,8 +25,12 @@ function ConfirmPhone() {
 
   const handleSubmit = async () => {
     const verificationSuccessful = await verifyOTP(otpToken, otp)
-    if (verificationSuccessful) router.push('/home')
-    else setOpenOtpErrorSnackbar(true)
+    if (verificationSuccessful) {
+      setOpenOtpSuccessSnackbar(true)
+      setTimeout(() => {
+        router.push('/home')
+      }, 3000)
+    } else setOpenOtpErrorSnackbar(true)
   }
 
   const handleClose = (
@@ -110,11 +115,24 @@ function ConfirmPhone() {
       </Grid>
       <Snackbar
         open={openOtpErrorSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         autoHideDuration={6000}
         onClose={handleClose}
         message="Incorrect OTP. Please try again."
-        color="error"
-      />
+      >
+        <Alert severity="error">Incorrect OTP. Please try again.</Alert>
+      </Snackbar>
+      <Snackbar
+        open={openOtpSuccessSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="OTP verified. Redirecting you to the home page."
+      >
+        <Alert severity="success">
+          OTP verified. Redirecting you to the home page.
+        </Alert>
+      </Snackbar>
     </Grid>
   )
 }
