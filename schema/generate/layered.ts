@@ -1,31 +1,24 @@
-import { array, number, object, string } from "yup";
-import { LayeredAssetData } from "../../interfaces/generate/file.interface";
-import { calculateCombination } from "../../utils/random/combination";
+import { number, object, string } from 'yup'
+import { TicketTypes } from '../../interfaces/ticket/ticket.interface'
+import { calculateCombination } from '../../utils/random/combination'
 
-export const LayeredFormSchema = object({
-  collectionName: string()
-    .required("This field is required")
-    .max(60, "Collection name is too long"),
-  distributedBy: string()
-    .required("This field is required")
-    .max(40, "Distributed by field is too long"),
-  externalUrl: string().url("Please enter a valid URL"),
-  description: string(),
-  ticketType: string().required("This field is required"),
-  layers: array(),
-  amount: number()
-    .min(1, "1 is the lowest limit")
-    .test({
-      name: "max",
-      exclusive: false,
-      params: {},
-      message: "Amount exceeds maximum combinations.",
-      test: (_, context) => {
-        const _layers = context.parent.layers as LayeredAssetData[];
-        const combinations = _layers.map((layer) => layer.assets.length);
-        const limit = calculateCombination(combinations);
-        return parseInt(context.parent.amount) <= limit;
-      },
-    })
-    .required("This field is required"),
-});
+export const LayeredAssetTicketFormSchema = object({
+  currency: string()
+    .oneOf(['ETH', 'MATIC'], 'This currency is not yet supported')
+    .required('Currency is required'),
+  name: string()
+    .max(100, 'Ticket name is too long')
+    .required('Ticket name is required'),
+  subjectOf: string().required('All ticket must be binded with an event'),
+  description: string().max(500, 'Ticket description is too long'),
+  // ticketMetadata: object(),
+  price: number()
+    .min(0, 'Ticket price must be a positive number')
+    .required('Ticket price is required'),
+  ticketType: string()
+    .oneOf(
+      ['GENERAL', 'RESERVED_SEAT'] as TicketTypes[],
+      'This ticket type is not supported'
+    )
+    .required('Ticket type is required')
+})

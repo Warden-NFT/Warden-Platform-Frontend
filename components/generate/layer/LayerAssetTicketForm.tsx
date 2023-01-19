@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import { useFormik } from 'formik'
 import React, { useContext, useEffect } from 'react'
-import { LayeredFormSchema } from '../../../schema/generate/layered'
 import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
 import ControlledEventSelect from '../form/ControlledEventSelect'
 import queryString from 'query-string'
@@ -19,6 +18,7 @@ import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
 import EventCreationAlert from '../form/EventCreationAlert'
 import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
 import { SUPPORTED_DIGITAL_CURRENCIES } from '../../../constants/currencies/digital'
+import { LayeredAssetTicketFormSchema } from '../../../schema/generate/layered'
 
 function LayeredAssetTicketForm() {
   const { formInfo, setFormInfo, setActiveStep } =
@@ -28,7 +28,7 @@ function LayeredAssetTicketForm() {
     useFormik({
       initialValues: { ...formInfo },
       enableReinitialize: true,
-      validationSchema: LayeredFormSchema,
+      validationSchema: LayeredAssetTicketFormSchema,
       onSubmit: (data) => {
         setFormInfo(data)
         setActiveStep((prev) => prev + 1)
@@ -36,10 +36,6 @@ function LayeredAssetTicketForm() {
     })
 
   useEffect(() => {
-    if (values.ticketType) {
-      return
-    }
-
     const { query } = queryString.parseUrl(window.location.href)
     const { ticketType } = query
     setFieldValue('ticketType', ticketType as TicketTypes)
@@ -165,29 +161,6 @@ function LayeredAssetTicketForm() {
             maxRows={3}
             error={errors.description != null}
             helperText={touched.description ? errors.description : undefined}
-          />
-        </FormControl>
-        <FormControl>
-          <FormLabel>Generation Amount</FormLabel>
-          <Typography variant="caption" color="gray">
-            Amount of Tickets to be Randomly Generate
-          </Typography>
-          <TextField
-            name="description"
-            value={values.generationAmount}
-            onChange={handleChange}
-            id="generate-amount-input"
-            data-testid="generate-amount-input"
-            type="number"
-            placeholder="Generate Amount"
-            variant="outlined"
-            size="small"
-            multiline
-            maxRows={3}
-            error={errors.generationAmount != null}
-            helperText={
-              touched.generationAmount ? errors.generationAmount : undefined
-            }
           />
         </FormControl>
       </Stack>

@@ -37,10 +37,6 @@ function CompleteAssetTicketForm() {
     })
 
   useEffect(() => {
-    if (values.ticketType) {
-      return
-    }
-
     const { query } = queryString.parseUrl(window.location.href)
     const { ticketType } = query
     setFieldValue('ticketType', ticketType as TicketTypes)
