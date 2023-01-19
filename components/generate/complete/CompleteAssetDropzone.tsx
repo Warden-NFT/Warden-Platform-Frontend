@@ -1,8 +1,8 @@
-import { Container, Typography } from '@mui/material'
+import { Container, SxProps, Theme, Typography } from '@mui/material'
 import Image from 'next/image'
-import React, { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
+import React, { Dispatch, SetStateAction, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { UploadedAsset } from '../../../interfaces/generate/file.interface'
+import { UploadedCompleteAsset } from '../../../interfaces/generate/file.interface'
 import {
   getAssetDimension,
   getAssetFileName,
@@ -10,13 +10,27 @@ import {
 } from '../../../utils/assets/detail'
 
 interface Props {
+  assets: File[]
   setAssets: Dispatch<SetStateAction<File[]>>
-  setUploadedAssets: Dispatch<SetStateAction<UploadedAsset[]>>
+  setUploadedAssets: Dispatch<SetStateAction<UploadedCompleteAsset[]>>
+  dragLabel: string
+  sx?: SxProps<Theme>
 }
 
-function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
+function CompleteAssetDropzone({
+  assets,
+  setAssets,
+  setUploadedAssets,
+  dragLabel,
+  sx
+}: Props) {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     acceptedFiles.forEach((file, i) => {
+      const found = assets.find((asset) => asset.name === file.name)
+      if (found) {
+        return
+      }
+
       setAssets((prev) => [...prev, file])
       const reader = new FileReader()
 
@@ -27,12 +41,12 @@ function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
         const dimensions = await getAssetDimension(url)
         if (!url || !dimensions) return
 
-        const asset: UploadedAsset = {
+        const asset: UploadedCompleteAsset = {
           id: i + 1,
           name: getAssetFileName(file),
           dimension: dimensions,
           data: url,
-          occurrence: 1
+          quantity: 1
         }
 
         setUploadedAssets((prev) => [...prev, asset])
@@ -41,9 +55,10 @@ function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
     })
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
   return (
     <Container
-      sx={{ minHeight: 200, display: 'grid', placeItems: 'center' }}
+      sx={{ minHeight: 200, display: 'grid', placeItems: 'center', ...sx }}
       {...getRootProps()}
     >
       <input {...getInputProps()} />
@@ -55,7 +70,7 @@ function CompleteAssetDropzone({ setAssets, setUploadedAssets }: Props) {
           alt="Accepting Files"
         />
       ) : (
-        <Typography>Drag files OR Click to select</Typography>
+        <Typography>{dragLabel}</Typography>
       )}
     </Container>
   )

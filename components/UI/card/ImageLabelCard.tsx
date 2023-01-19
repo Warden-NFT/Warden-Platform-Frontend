@@ -1,17 +1,24 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, Stack, SxProps, Typography } from '@mui/material'
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { Theme } from '@mui/system'
 
 interface Props {
   imageSrc: string
   imageAlt: string
-  backgroundColor?: string
-  width: string
-  height?: string
+  title: string
+  description: string
+  containerStyles?: SxProps<Theme>
 }
 
-function ImageLabelCard(props: Props) {
+function ImageLabelCard({
+  imageSrc,
+  imageAlt,
+  title,
+  description,
+  containerStyles
+}: Props) {
   return (
     <motion.div
       whileHover={{ y: -6, boxShadow: '10px 6px 0 rgba(0, 0, 0, 1)' }}
@@ -22,29 +29,28 @@ function ImageLabelCard(props: Props) {
           border: 2,
           borderColor: 'black',
           borderRadius: '20px',
-          ...props,
           overflow: 'hidden',
           '&:hover': {
             cursor: 'pointer'
-          }
+          },
+          ...containerStyles
         }}
       >
         <Stack direction="row">
           <Image
-            alt={props.imageAlt}
-            src={props.imageSrc}
+            alt={imageAlt}
+            src={imageSrc}
             width="200"
             height="200"
             style={{ objectFit: 'contain' }}
+            draggable={false}
           />
-          <Stack sx={{ marginLeft: 4, padding: 4 }}>
-            <Typography variant="h4">Test</Typography>
-            <Typography>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet
-              sunt animi ipsa cupiditate quam modi veritatis debitis dolorum
-              necessitatibus, blanditiis, magnam, voluptate quod porro
-              consequuntur quo non? Officiis, commodi aliquam!
-            </Typography>
+          <Stack
+            justifyContent="space-between"
+            sx={{ marginLeft: 4, padding: 4 }}
+          >
+            <Typography variant="h5">{title}</Typography>
+            <Typography>{description}</Typography>
           </Stack>
         </Stack>
       </Box>

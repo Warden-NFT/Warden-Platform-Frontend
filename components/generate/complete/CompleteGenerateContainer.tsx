@@ -4,11 +4,11 @@ import { COMPLETE_MODE_STEPS } from '../../../constants/generate/steps'
 import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
 import ActiveStepper from '../../UI/navigation/ActiveStepper'
 import CompleteDropzone from './CompleteDropzone'
-import CompleteForm from './CompleteForm'
 import queryString from 'query-string'
 import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
 
 import CustomizeUtilityForm from './CustomizeUtilityForm'
+import CompleteAssetTicketForm from './CompleteAssetTicketForm'
 
 function CompleteGenerateContainer() {
   const { activeStep, formInfo, setFormInfo } = useContext(
@@ -30,9 +30,15 @@ function CompleteGenerateContainer() {
 
   return (
     <ActiveStepper steps={COMPLETE_MODE_STEPS} activeStep={activeStep}>
-      {activeStep === 1 && <CompleteDropzone />}
-      {activeStep === 2 && <CompleteForm />}
-      {activeStep === 3 && <CustomizeUtilityForm />}
+      {activeStep === 1 && <CompleteAssetTicketForm />}
+      {activeStep === 2 && <CompleteDropzone />}
+      {/* {activeStep === 2 && <CompleteForm />} */}
+      {activeStep === 3 && formInfo.ticketType === 'GENERAL' && (
+        <CustomizeUtilityForm />
+      )}
+      {activeStep === 3 && formInfo.ticketType === 'RESERVED_SEAT' && (
+        <div>Work in progress...</div>
+      )}
     </ActiveStepper>
   )
 }

@@ -7,6 +7,8 @@ import WagmiClient from '../configs/wagmi/client'
 import { lightTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import { WagmiConfig } from 'wagmi'
 import UserContextProvider from '../contexts/user/UserContext'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -21,11 +23,13 @@ export default function App({ Component, pageProps }: AppProps) {
           })}
         >
           <ThemeProvider theme={AppTheme}>
-            <UserContextProvider>
+            <LocalizationProvider dateAdapter={AdapterMoment}>
+              <UserContextProvider>
               <Layout>
                 <Component {...pageProps} />
               </Layout>
-            </UserContextProvider>
+              </UserContextProvider>
+            </LocalizationProvider>
           </ThemeProvider>
         </RainbowKitProvider>
       </WagmiConfig>
