@@ -32,7 +32,6 @@ function CompleteGenerateContainer() {
     <ActiveStepper steps={COMPLETE_MODE_STEPS} activeStep={activeStep}>
       {activeStep === 1 && <CompleteAssetTicketForm />}
       {activeStep === 2 && <CompleteDropzone />}
-      {/* {activeStep === 2 && <CompleteForm />} */}
       {activeStep === 3 && formInfo.ticketType === 'GENERAL' && (
         <CustomizeUtilityForm />
       )}
