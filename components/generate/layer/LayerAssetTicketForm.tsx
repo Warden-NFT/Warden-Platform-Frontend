@@ -1,5 +1,4 @@
 import {
-  Box,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -10,26 +9,26 @@ import {
   TextField,
   Typography
 } from '@mui/material'
-import { red } from '@mui/material/colors'
 import { useFormik } from 'formik'
-import queryString from 'query-string'
 import React, { useContext, useEffect } from 'react'
-import { SUPPORTED_DIGITAL_CURRENCIES } from '../../../constants/currencies/digital'
-import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
+import { LayeredFormSchema } from '../../../schema/generate/layered'
+import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
+import ControlledEventSelect from '../form/ControlledEventSelect'
+import queryString from 'query-string'
 import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
-import { CompleteAssetTicketFormSchema } from '../../../schema/generate/complete'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
 import EventCreationAlert from '../form/EventCreationAlert'
+import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
+import { SUPPORTED_DIGITAL_CURRENCIES } from '../../../constants/currencies/digital'
 
-function CompleteAssetTicketForm() {
-  const { formInfo, setActiveStep, setFormInfo } = useContext(
-    GenerateCompleteContext
-  )
+function LayeredAssetTicketForm() {
+  const { formInfo, setFormInfo, setActiveStep } =
+    useContext(GenerateLayerContext)
+
   const { values, handleChange, touched, errors, handleSubmit, setFieldValue } =
     useFormik({
       initialValues: { ...formInfo },
       enableReinitialize: true,
-      validationSchema: CompleteAssetTicketFormSchema,
+      validationSchema: LayeredFormSchema,
       onSubmit: (data) => {
         setFormInfo(data)
         setActiveStep((prev) => prev + 1)
@@ -47,7 +46,8 @@ function CompleteAssetTicketForm() {
   }, [window.location])
 
   return (
-    <Box>
+    <Stack width="100%">
+      <div>{JSON.stringify(values)}</div>
       <Stack
         spacing={2}
         p={4}
@@ -91,28 +91,13 @@ function CompleteAssetTicketForm() {
             helperText={touched.name ? errors.name : undefined}
           />
         </FormControl>
-        <FormControl fullWidth required>
-          <FormLabel id="subject-of-label">Associated Event</FormLabel>
-          <Select
-            labelId="subject-of-label"
-            id="subject-of-select"
-            name="subjectOf"
-            value={values.subjectOf}
-            label="Associated Event"
-            size="small"
-            displayEmpty
-            onChange={handleChange}
-          >
-            <MenuItem value="" disabled>
-              <em>Select the event that this ticket is meant for</em>
-            </MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-          <FormHelperText sx={{ color: red[600] }}>
-            {errors.subjectOf && touched.subjectOf ? errors.subjectOf : ''}
-          </FormHelperText>
-        </FormControl>
+        <ControlledEventSelect
+          subjectOf={values.subjectOf}
+          touched={touched.subjectOf}
+          handleChange={handleChange}
+          error={errors.subjectOf}
+        />
+
         <FormControl fullWidth required>
           <FormLabel id="ticket-currency-label">Ticket Currency</FormLabel>
           <Select
@@ -135,6 +120,7 @@ function CompleteAssetTicketForm() {
             {errors.currency && touched.currency ? errors.currency : ''}
           </FormHelperText>
         </FormControl>
+
         <FormControl required>
           <FormLabel>Ticket Price</FormLabel>
           <Typography variant="caption" color="gray">
@@ -181,14 +167,37 @@ function CompleteAssetTicketForm() {
             helperText={touched.description ? errors.description : undefined}
           />
         </FormControl>
+        <FormControl>
+          <FormLabel>Generation Amount</FormLabel>
+          <Typography variant="caption" color="gray">
+            Amount of Tickets to be Randomly Generate
+          </Typography>
+          <TextField
+            name="description"
+            value={values.generationAmount}
+            onChange={handleChange}
+            id="generate-amount-input"
+            data-testid="generate-amount-input"
+            type="number"
+            placeholder="Generate Amount"
+            variant="outlined"
+            size="small"
+            multiline
+            maxRows={3}
+            error={errors.generationAmount != null}
+            helperText={
+              touched.generationAmount ? errors.generationAmount : undefined
+            }
+          />
+        </FormControl>
       </Stack>
       <ControlledStepperButtons
         isBackDisabled
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
         handleNext={handleSubmit}
       />
-    </Box>
+    </Stack>
   )
 }
 
-export default CompleteAssetTicketForm
+export default LayeredAssetTicketForm

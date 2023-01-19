@@ -19,9 +19,3 @@ export interface UploadedCompleteAsset extends UploadedAsset {
 export interface UploadedLayeredAsset extends UploadedAsset {
   occurrence: number
 }
-
-export interface LayeredAssetData {
-  layerName: string // folder name of that asset
-  occurrence: number // occurrence out of 100
-  assets: UploadedAsset[]
-}
