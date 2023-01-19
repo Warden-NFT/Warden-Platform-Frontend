@@ -9,10 +9,14 @@ import { WagmiConfig } from 'wagmi'
 import UserContextProvider from '../contexts/user/UserContext'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import Head from 'next/head'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Head>
+        <meta name="viewport" content="user-scalable = no"></meta>
+      </Head>
       <WagmiConfig client={WagmiClient.wagmiClient}>
         <RainbowKitProvider
           chains={WagmiClient.chains}
@@ -20,14 +24,13 @@ export default function App({ Component, pageProps }: AppProps) {
             accentColor: '#000',
             accentColorForeground: 'white',
             borderRadius: 'large'
-          })}
-        >
+          })}>
           <ThemeProvider theme={AppTheme}>
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <UserContextProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
               </UserContextProvider>
             </LocalizationProvider>
           </ThemeProvider>

@@ -25,6 +25,7 @@ function NavBar() {
   const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
   const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)
   const [appRoutes, setAppRoutes] = useState<AppRoute[]>(APP_ROUTES)
+  const [boxShadowStyle, setBoxShadowStyle] = useState<string>()
   const { user, logOut } = useContext(UserContext)
 
   const handleOpenMenu = (e: MouseEvent<HTMLElement>) => {
@@ -61,10 +62,32 @@ function NavBar() {
     }
   }, [user])
 
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80)
+        setBoxShadowStyle('1px -4px 10px 7px rgba(212,212,212,0.75)')
+      else setBoxShadowStyle('none')
+    })
+  }, [])
+
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
-      <Box maxWidth="xl">
-        <Toolbar disableGutters>
+    <AppBar
+      position="fixed"
+      color="transparent"
+      elevation={0}
+      sx={{
+        width: '100vw',
+        background: 'rgba(256, 256, 256, 0.75)',
+        backdropFilter: 'blur(8px)',
+        boxShadow: boxShadowStyle,
+        transition: 'all 0.1s ease'
+      }}
+    >
+      <Box
+        maxWidth="xl"
+        sx={{ width: '100vw', maxWidth: '1200px', margin: '0 auto' }}
+      >
+        <Toolbar>
           <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
             <Link href="/">
               <Box
@@ -143,7 +166,7 @@ function NavBar() {
                 aria-haspopup="true"
                 aria-expanded={avatarElement ? 'true' : undefined}
               >
-                {user?.username && user?.username[0]}
+                {user?.username && user?.username[0].toUpperCase()}
               </Avatar>
             ) : (
               <NavLink route={{ name: 'Log in', url: '/auth/login' }} />

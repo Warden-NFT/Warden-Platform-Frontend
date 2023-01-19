@@ -18,3 +18,13 @@ body {
         rgba(128, 128, 128, 0.252) 0 180deg) 
     0 0/25% 25%;
 }
+
+.shape.right-cutout {
+  background: radial-gradient(40px 40px at 0% 222px, transparent 30%, #fff 30%);
+}
+
+
+.shape.left-cutout {
+  background: radial-gradient(40px 40px at 100% 222px, transparent 30%, #fff 30%);
+}
+
