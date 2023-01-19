@@ -9,7 +9,7 @@ import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
 import moment from 'moment'
 import { grey } from '@mui/material/colors'
 import { motion } from 'framer-motion'
-import { positions } from '@mui/system'
+
 // https://codepen.io/z-/pen/MJKNJZ
 // https://codepen.io/amr-ibrahem/pen/wdrLjL
 
@@ -61,6 +61,7 @@ function Ticket({
       }}
       style={{ width: '330px !important' }}
       onClick={onClick}
+      className="motion-div"
     >
       <Box
         sx={[
@@ -81,9 +82,8 @@ function Ticket({
       >
         <Box
           sx={{
-            backgroundColor: 'transparent', //getBgColor(),
-            width: '100%',
-            height: '100%'
+            backgroundColor: getBgColor(),
+            width: '100%'
           }}
           className=""
         >
@@ -193,31 +193,6 @@ function Ticket({
               </Box>
             )}
           </Box>
-          {/* <Box position="relative">
-            <Box
-              sx={{
-                backgroundColor: '#faf8ff',
-                width: '24px',
-                height: '24px',
-                borderRadius: '50%',
-                position: 'absolute',
-                top: '-12px',
-                left: '-12px'
-              }}
-            />
-            
-            <Box
-              sx={{
-                backgroundColor: '#faf8ff',
-                width: '24px',
-                height: '24px',
-                borderRadius: '50%',
-                position: 'absolute',
-                top: '-12px',
-                right: '-12px'
-              }}
-            />
-          </Box> */}
         </Box>
       </Box>
     </motion.div>
