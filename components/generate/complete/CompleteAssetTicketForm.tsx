@@ -9,19 +9,6 @@ import {
   Stack,
   TextField,
   Typography
-<<<<<<< HEAD
-} from '@mui/material'
-import { red } from '@mui/material/colors'
-import { useFormik } from 'formik'
-import queryString from 'query-string'
-import React, { useContext, useEffect } from 'react'
-import { SUPPORTED_DIGITAL_CURRENCIES } from '../../../constants/currencies/digital'
-import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
-import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
-import { CompleteAssetTicketFormSchema } from '../../../schema/generate/complete'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
-import EventCreationAlert from '../form/EventCreationAlert'
-=======
 } from "@mui/material"
 import { grey, red } from "@mui/material/colors"
 import { useFormik } from "formik"
@@ -33,7 +20,7 @@ import { GenerateCompleteContext } from "../../../contexts/generate/GenerateComp
 import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
 import { CompleteAssetTicketFormSchema } from "../../../schema/generate/complete"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
->>>>>>> f655dec (feat: MyEvents UI, update routes, update styles)
+import EventCreationAlert from "../form/EventCreationAlert"
 
 function CompleteAssetTicketForm() {
   const { formInfo, setActiveStep, setFormInfo } = useContext(
