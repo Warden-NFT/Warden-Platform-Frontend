@@ -2,25 +2,25 @@ import { Box, IconButton, Typography } from '@mui/material'
 import { GridCloseIcon } from '@mui/x-data-grid'
 import React, { useContext, useState } from 'react'
 import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import { UploadedAsset } from '../../../interfaces/generate/file.interface'
+import { UploadedLayeredAsset } from '../../../interfaces/generate/file.interface'
 import PNGAssetPreview from '../../assets/PNGAssetPreview'
 
 interface Props {
-  asset: UploadedAsset
+  asset: UploadedLayeredAsset
   layerIndex: number
   assetIndex: number
 }
 
 function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
-  const { layeredAssets, setLayeredAssets } = useContext(GenerateLayerContext)
+  const { layers, setLayers } = useContext(GenerateLayerContext)
   const [isHovering, setIsHovering] = useState(false)
 
   function removeAsset(layerIndex: number, assetIndex: number) {
-    const _layeredAssets = [...layeredAssets]
-    const _assets = [..._layeredAssets[layerIndex].assets]
+    const _layers = [...layers]
+    const _assets = [..._layers[layerIndex].assets]
     _assets.splice(assetIndex, 1)
-    _layeredAssets[layerIndex].assets = _assets
-    setLayeredAssets(_layeredAssets)
+    _layers[layerIndex].assets = _assets
+    setLayers(_layers)
   }
 
   return (

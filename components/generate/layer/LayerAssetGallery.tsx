@@ -5,15 +5,12 @@ import LayeredDropzone from './LayeredDropzone'
 import LayerAssetPreviewCard from './LayerAssetPreviewCard'
 
 function LayerAssetGallery() {
-  const { layeredAssets, setLayeredAssets } = useContext(GenerateLayerContext)
+  const { layers, metadata, setMetadata } = useContext(GenerateLayerContext)
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Stack
-        direction="column"
-        // sx={{ overflowY: "scroll", minHeight: 200, maxHeight: 600 }}
-      >
-        {layeredAssets.map((layer, i) => (
+      <Stack direction="column">
+        {layers.map((layer, i) => (
           <Box
             sx={{
               borderRadius: 2,

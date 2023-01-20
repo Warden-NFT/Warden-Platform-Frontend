@@ -1,5 +1,9 @@
 import React, { useState, createContext, SetStateAction, Dispatch } from 'react'
 import { LayeredAssetInfo } from '../../interfaces/generate/collection.interface'
+import {
+  LayerData,
+  UploadedLayeredAsset
+} from '../../interfaces/generate/file.interface'
 import { LayeredAssetMetadata } from '../../interfaces/generate/metadata.interface'
 
 interface GenerateLayerContextProps {
@@ -7,6 +11,8 @@ interface GenerateLayerContextProps {
   setActiveStep: Dispatch<SetStateAction<number>>
   assets: File[]
   setAssets: Dispatch<SetStateAction<File[]>>
+  layers: LayerData[]
+  setLayers: Dispatch<SetStateAction<LayerData[]>>
   metadata: LayeredAssetMetadata[]
   setMetadata: Dispatch<SetStateAction<LayeredAssetMetadata[]>>
   formInfo: LayeredAssetInfo
@@ -19,6 +25,7 @@ export const GenerateLayerContext = createContext(
 const GenerateLayerContextProvider = ({ ...props }) => {
   const [activeStep, setActiveStep] = useState(1)
   const [assets, setAssets] = useState<File[]>([])
+  const [layers, setLayers] = useState<LayerData[]>([])
   const [metadata, setMetadata] = useState<LayeredAssetMetadata[]>([])
   const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
     currency: 'ETH',
@@ -36,6 +43,8 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     setActiveStep,
     assets,
     setAssets,
+    layers,
+    setLayers,
     metadata,
     setMetadata,
     formInfo,
