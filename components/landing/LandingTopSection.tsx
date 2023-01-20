@@ -15,20 +15,30 @@ function LandingTopSection() {
 
   return (
     <Box>
-      <Image
-        src="/images/landing/background.webp"
-        height="600"
-        width="2500"
-        alt="background"
-        className={styles.landingBackroundImage}
-        draggable={false}
-      />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          delay: 1,
+          duration: 0.6,
+          type: "tween"
+        }}
+      >
+        <Image
+          src="/images/landing/background.webp"
+          height="600"
+          width="2500"
+          alt="background"
+          className={styles.landingBackroundImage}
+          draggable={false}
+        />
+      </motion.div>
       <Grid
         container
         justifyContent="center"
         className={styles.absoluteCenterGrid}
       >
-        <Grid xs={5} maxWidth="xl">
+        <Grid xs={4} maxWidth="xl">
           <Box sx={{ height: 120 }} />
           <Typography variant="h3" component="h1">
             Warden
@@ -56,7 +66,7 @@ function LandingTopSection() {
             <motion.div
               key={1}
               initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 0.6 }}
+              animate={{ y: 0, opacity: 0.6, transform: "rotate(20deg)" }}
               transition={{
                 delay: 0.7,
                 duration: 0.6,
@@ -79,7 +89,7 @@ function LandingTopSection() {
             <motion.div
               key={2}
               initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 0.8 }}
+              animate={{ y: 0, opacity: 0.8, transform: "rotate(10deg)" }}
               transition={{
                 delay: 0.6,
                 duration: 0.5,
