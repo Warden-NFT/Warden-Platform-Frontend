@@ -6,20 +6,20 @@ import {
   Menu,
   MenuItem,
   Toolbar
-} from '@mui/material'
-import React, { MouseEvent, useContext, useEffect, useState } from 'react'
-import ConnectWalletButton from './ConnectWalletButton'
-import NavLink from './NavLink'
+} from "@mui/material"
+import React, { MouseEvent, useContext, useEffect, useState } from "react"
+import ConnectWalletButton from "./ConnectWalletButton"
+import NavLink from "./NavLink"
 import {
   APP_ROUTES,
   EVENT_ORGANIZER_APP_ROUTES,
   CUSTOMER_APP_ROUTES,
   AppRoute
-} from '../../../constants/general/routes'
-import Image from 'next/image'
-import Link from 'next/link'
-import { UserContext } from '../../../contexts/user/UserContext'
-import { Account } from '../../../interfaces/auth/user.interface'
+} from "../../../constants/general/routes"
+import Image from "next/image"
+import Link from "next/link"
+import { UserContext } from "../../../contexts/user/UserContext"
+import { Account } from "../../../interfaces/auth/user.interface"
 
 function NavBar() {
   const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
@@ -63,10 +63,10 @@ function NavBar() {
   }, [user])
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
+    window.addEventListener("scroll", () => {
       if (window.scrollY > 80)
-        setBoxShadowStyle('1px -4px 10px 7px rgba(212,212,212,0.75)')
-      else setBoxShadowStyle('none')
+        setBoxShadowStyle("1px -4px 10px 7px rgba(212,212,212,0.75)")
+      else setBoxShadowStyle("none")
     })
   }, [])
 
@@ -76,25 +76,25 @@ function NavBar() {
       color="transparent"
       elevation={0}
       sx={{
-        width: '100vw',
-        background: 'rgba(256, 256, 256, 0.75)',
-        backdropFilter: 'blur(8px)',
+        width: "100vw",
+        background: "rgba(256, 256, 256, 0.75)",
+        backdropFilter: "blur(8px)",
         boxShadow: boxShadowStyle,
-        transition: 'all 0.1s ease'
+        transition: "all 0.1s ease"
       }}
     >
       <Box
         maxWidth="xl"
-        sx={{ width: '100vw', maxWidth: '1200px', margin: '0 auto' }}
+        sx={{ width: "100vw", maxWidth: "1200px", margin: "0 auto" }}
       >
         <Toolbar>
-          <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'row' }}>
+          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
             <Link href="/">
               <Box
                 sx={{
-                  display: 'grid',
-                  width: '100px',
-                  placeItems: 'center',
+                  display: "grid",
+                  width: "100px",
+                  placeItems: "center",
                   marginRight: 4
                 }}
               >
@@ -115,16 +115,16 @@ function NavBar() {
                 <Button
                   variant="text"
                   id="oned-button"
-                  aria-controls={menuElement ? 'create-menu' : undefined}
+                  aria-controls={menuElement ? "create-menu" : undefined}
                   aria-haspopup="true"
-                  aria-expanded={menuElement ? 'true' : undefined}
+                  aria-expanded={menuElement ? "true" : undefined}
                   onClick={handleOpenMenu}
                   sx={{
-                    fontWeight: '600',
+                    fontWeight: "600",
                     borderRadius: 20,
                     paddingX: 2,
-                    '&:hover': {
-                      backgroundColor: 'white'
+                    "&:hover": {
+                      backgroundColor: "white"
                     }
                   }}
                 >
@@ -137,8 +137,8 @@ function NavBar() {
                   open={Boolean(menuElement)}
                   onClose={handleCloseMenu}
                   anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center'
+                    vertical: "bottom",
+                    horizontal: "center"
                   }}
                 >
                   {/* Event */}
@@ -153,23 +153,23 @@ function NavBar() {
               </>
             )}
           </Box>
-          <Box sx={{ display: 'flex' }}>
+          <Box sx={{ display: "flex" }}>
             {user ? (
               <Avatar
                 sx={{
                   marginRight: 1,
-                  bgcolor: '#000',
-                  '&:hover': { cursor: 'pointer' }
+                  bgcolor: "#000",
+                  "&:hover": { cursor: "pointer" }
                 }}
                 onClick={handleOpenUserMenu}
-                aria-controls={avatarElement ? 'user-menu' : undefined}
+                aria-controls={avatarElement ? "user-menu" : undefined}
                 aria-haspopup="true"
-                aria-expanded={avatarElement ? 'true' : undefined}
+                aria-expanded={avatarElement ? "true" : undefined}
               >
                 {user?.username && user?.username[0].toUpperCase()}
               </Avatar>
             ) : (
-              <NavLink route={{ name: 'Log in', url: '/auth/login' }} />
+              <NavLink route={{ name: "Log in", url: "/auth/login" }} />
             )}
             <Menu
               id="user-menu"
@@ -178,8 +178,8 @@ function NavBar() {
               open={Boolean(avatarElement)}
               onClose={handleCloseUserMenu}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center'
+                vertical: "bottom",
+                horizontal: "center"
               }}
             >
               <MenuItem onClick={handleLogout}>Log out</MenuItem>
