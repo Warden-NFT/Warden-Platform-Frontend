@@ -38,7 +38,7 @@ function LandingTopSection() {
         justifyContent="center"
         className={styles.absoluteCenterGrid}
       >
-        <Grid xs={4} maxWidth="xl">
+        <Grid item xs={4} maxWidth="xl">
           <Box sx={{ height: 120 }} />
           <Typography variant="h3" component="h1">
             Warden
@@ -61,7 +61,7 @@ function LandingTopSection() {
             width="200px"
           />
         </Grid>
-        <Grid xs={7} maxWidth="xl" className={styles.ticketsDemoImages}>
+        <Grid item xs={7} maxWidth="xl" className={styles.ticketsDemoImages}>
           <motion.div animate={controls} transition={{ staggerChildren: 0.5 }}>
             <motion.div
               key={1}

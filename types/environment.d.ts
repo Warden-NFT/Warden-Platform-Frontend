@@ -2,7 +2,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NEXT_PUBLIC_WARDEN_API_URL: string
-      NEXT_PUBLIC_APP_API_URL: string
+      NEXT_PUBLIC_APP_URL: string
       NEXT_PUBLIC_SENTRY_DSN: string
       NEXT_PUBLIC_ALCHEMY_KEY: string
       SENTRY_AUTH_TOKEN: string
