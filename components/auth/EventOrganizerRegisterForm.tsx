@@ -46,7 +46,7 @@ function EventOrganizerRegisterForm() {
   })
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <Typography variant="h6" component="h1">
         Organization Information
       </Typography>
@@ -160,6 +160,7 @@ function EventOrganizerRegisterForm() {
       <Box sx={{ height: 24 }} />
 
       <ContainedButton
+        type="submit"
         onClick={() => handleSubmit()}
         disabled={false}
         variant="contained"
@@ -167,7 +168,7 @@ function EventOrganizerRegisterForm() {
         height="40px"
         width="100%"
       />
-    </>
+    </form>
   )
 }
 

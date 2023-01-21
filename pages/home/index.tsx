@@ -1,7 +1,8 @@
-import React from 'react';
+import { Container } from '@mui/material'
+import React from 'react'
 
 function HomePage() {
-  return <div>HomePage</div>;
+  return <Container>HomePage</Container>
 }
 
-export default HomePage;
+export default HomePage

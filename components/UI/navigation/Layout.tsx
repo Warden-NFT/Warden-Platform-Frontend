@@ -13,11 +13,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         justifyContent: 'space-between'
       }}
     >
-      <Container>
+      <Container sx={{ padding: '0 !important', width: '100vw' }}>
         <Navbar />
-        <main>
-          <Container sx={{ padding: '0 !important' }}>{children}</Container>
-        </main>
+        <Box sx={{ my: 8 }} />
+        {children}
       </Container>
       <Footer />
     </Box>

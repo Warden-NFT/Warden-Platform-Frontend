@@ -1,14 +1,15 @@
-import { Box, Chip, Divider, Stack, Typography } from '@mui/material'
-import Image from 'next/image'
-import React from 'react'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import EventIcon from '@mui/icons-material/Event'
-import EventSeatIcon from '@mui/icons-material/EventSeat'
-import { QRCodeCanvas } from 'qrcode.react'
-import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
-import moment from 'moment'
-import { grey } from '@mui/material/colors'
-import { motion } from 'framer-motion'
+import { Box, Chip, Divider, Stack, Typography } from "@mui/material"
+import Image from "next/image"
+import React from "react"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
+import EventIcon from "@mui/icons-material/Event"
+import EventSeatIcon from "@mui/icons-material/EventSeat"
+import { QRCodeCanvas } from "qrcode.react"
+import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
+import moment from "moment"
+import { grey } from "@mui/material/colors"
+import { motion } from "framer-motion"
+
 // https://codepen.io/z-/pen/MJKNJZ
 // https://codepen.io/amr-ibrahem/pen/wdrLjL
 
@@ -46,7 +47,7 @@ function Ticket({
       return grey[100]
     }
 
-    return backgroundColor ? backgroundColor : 'white'
+    return backgroundColor ? backgroundColor : "white"
   }
 
   function getImageOpacity() {
@@ -58,17 +59,23 @@ function Ticket({
       whileHover={{
         scale: isDisabled ? 1 : 1.03
       }}
+      style={{ width: "330px !important" }}
       onClick={onClick}
+      className="motion-div"
     >
       <Box
         sx={[
           {
-            width: 330,
+            height: "100%",
+            width: "330px",
             minHeight: 580,
-            '&:hover': {
-              cursor: 'pointer'
+            "&:hover": {
+              cursor: "pointer"
             },
-            margin: 2
+            position: "relative",
+            overflow: "hidden",
+            margin: 2,
+            borderRadius: "12px"
           },
           isDisabled ? { color: grey[500] } : null
         ]}
@@ -76,9 +83,7 @@ function Ticket({
         <Box
           sx={{
             backgroundColor: getBgColor(),
-            width: '100%',
-            height: '100%',
-            borderRadius: '12px'
+            width: "100%"
           }}
         >
           <Image
@@ -92,7 +97,33 @@ function Ticket({
               opacity: getImageOpacity()
             }}
           />
-          <Box sx={{ p: 2 }}>
+          <Box
+            sx={{
+              position: "absolute",
+              width: "51%",
+              height: "100%",
+              background: grey[100]
+            }}
+            className="shape right-cutout"
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              right: 0,
+              width: "51%",
+              height: "100%",
+              background: grey[100]
+            }}
+            className="shape left-cutout"
+          />
+          <Box
+            sx={{
+              position: "absolute",
+              height: "200px",
+              width: "296px",
+              p: 2
+            }}
+          >
             <Box>
               <Typography fontSize={18} fontWeight="800">
                 {eventName}
@@ -118,7 +149,7 @@ function Ticket({
                   <Typography>Date</Typography>
                 </Stack>
                 <Typography>
-                  {moment(date).format('DD/MM/YYYY hh:mm a')}
+                  {moment(date).format("DD/MM/YYYY hh:mm a")}
                 </Typography>
               </Stack>
               {seat && (
@@ -131,56 +162,35 @@ function Ticket({
                 </Stack>
               )}
             </Box>
-          </Box>
-          <Box position="relative">
-            <Box
-              sx={{
-                backgroundColor: '#faf8ff',
-                width: '24px',
-                height: '24px',
-                borderRadius: '50%',
-                position: 'absolute',
-                top: '-12px',
-                left: '-12px'
-              }}
+            <Divider
+              sx={{ borderStyle: "dashed", borderWidth: "2px", mt: 3 }}
             />
-            <Divider sx={{ borderStyle: 'dotted' }} />
-            <Box
-              sx={{
-                backgroundColor: '#faf8ff',
-                width: '24px',
-                height: '24px',
-                borderRadius: '50%',
-                position: 'absolute',
-                top: '-12px',
-                right: '-12px'
-              }}
-            />
+            {QRCodeValue && (
+              <Box
+                sx={{
+                  width: "100%",
+                  height: 160,
+                  display: "grid",
+                  placeItems: "center",
+                  wordWrap: "break-word"
+                }}
+              >
+                {showAsQRCode ? (
+                  <>
+                    {!isDisabled ? (
+                      <QRCodeCanvas value={QRCodeValue} />
+                    ) : (
+                      <Typography>Ticket Disabled</Typography>
+                    )}
+                  </>
+                ) : (
+                  <Box sx={{ width: "200px", textAlign: "center" }}>
+                    <Typography>{QRCodeValue}</Typography>
+                  </Box>
+                )}
+              </Box>
+            )}
           </Box>
-          {QRCodeValue && (
-            <Box
-              sx={{
-                width: '100%',
-                height: 160,
-                display: 'grid',
-                placeItems: 'center'
-              }}
-            >
-              {showAsQRCode ? (
-                <>
-                  {!isDisabled ? (
-                    <QRCodeCanvas value={QRCodeValue} />
-                  ) : (
-                    <Typography>Ticket Disabled</Typography>
-                  )}
-                </>
-              ) : (
-                <Box sx={{ width: '200px', textAlign: 'center' }}>
-                  <Typography>{QRCodeValue}</Typography>
-                </Box>
-              )}
-            </Box>
-          )}
         </Box>
       </Box>
     </motion.div>

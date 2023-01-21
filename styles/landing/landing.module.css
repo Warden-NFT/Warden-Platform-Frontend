@@ -1,0 +1,101 @@
+/* Landing Section */
+
+.landingBackroundImage {
+  position: absolute;
+  left: 0;
+  object-fit: cover;
+  width: 100vw;
+}
+
+.absoluteCenterGrid {
+  position: absolute;
+  max-width: 1200px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.ticketsDemoImages {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* Issues Section */
+
+.issuesSection {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.issueCardBlack {
+  background: radial-gradient(
+    116.3% 117.1% at 93.9% 40.4%,
+    rgb(43, 46, 49) 0%,
+    rgb(0, 0, 0) 100%
+  );
+  border-radius: 12px;
+  height: 300;
+  width: 50%;
+  padding: 24px;
+  color: #fff;
+}
+
+.issueCardBlue {
+  background: radial-gradient(
+    116.3% 117.1% at 93.9% 40.4%,
+    rgb(146, 196, 255) 0%,
+    rgb(255, 255, 255) 100%
+  );
+  border-radius: 12px;
+  height: 300;
+  width: 50%;
+  padding: 24px;
+  color: #000;
+}
+
+/* Objectives Section */
+
+/* ... */
+
+/* Get Started Section */
+
+.getStartedSection {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.getStartedSectionBackground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 240px;
+  background: #1f1f1f;
+}
+
+.getStartedSectionContainer {
+  position: absolute;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.getStartedButtonContainer {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.getStartedDescription {
+  margin-top: 64px;
+  width: 600px;
+  display: flex;
+  justify-content: center;
+}

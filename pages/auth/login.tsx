@@ -92,7 +92,7 @@ function Login() {
               <Box sx={{ height: 24 }} />
 
               <ContainedButton
-                // type="submit"
+                type="submit"
                 onClick={() => handleSubmit()}
                 disabled={false}
                 variant="contained"

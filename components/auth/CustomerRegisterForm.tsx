@@ -46,7 +46,7 @@ function CustomerRegisterForm() {
   })
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <Typography variant="h6" component="h1">
         Personal Information
       </Typography>
@@ -176,6 +176,7 @@ function CustomerRegisterForm() {
       <Box sx={{ height: 24 }} />
 
       <ContainedButton
+        type="submit"
         onClick={() => handleSubmit()}
         disabled={false}
         variant="contained"
@@ -183,7 +184,7 @@ function CustomerRegisterForm() {
         height="40px"
         width="100%"
       />
-    </>
+    </form>
   )
 }
 
