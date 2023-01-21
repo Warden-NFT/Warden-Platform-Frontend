@@ -1,14 +1,14 @@
-import { Box, Chip, Divider, Stack, Typography } from '@mui/material'
-import Image from 'next/image'
-import React from 'react'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import EventIcon from '@mui/icons-material/Event'
-import EventSeatIcon from '@mui/icons-material/EventSeat'
-import { QRCodeCanvas } from 'qrcode.react'
-import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
-import moment from 'moment'
-import { grey } from '@mui/material/colors'
-import { motion } from 'framer-motion'
+import { Box, Chip, Divider, Stack, Typography } from "@mui/material"
+import Image from "next/image"
+import React from "react"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
+import EventIcon from "@mui/icons-material/Event"
+import EventSeatIcon from "@mui/icons-material/EventSeat"
+import { QRCodeCanvas } from "qrcode.react"
+import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
+import moment from "moment"
+import { grey } from "@mui/material/colors"
+import { motion } from "framer-motion"
 
 // https://codepen.io/z-/pen/MJKNJZ
 // https://codepen.io/amr-ibrahem/pen/wdrLjL
@@ -47,7 +47,7 @@ function Ticket({
       return grey[100]
     }
 
-    return backgroundColor ? backgroundColor : 'white'
+    return backgroundColor ? backgroundColor : "white"
   }
 
   function getImageOpacity() {
@@ -59,23 +59,23 @@ function Ticket({
       whileHover={{
         scale: isDisabled ? 1 : 1.03
       }}
-      style={{ width: '330px !important' }}
+      style={{ width: "330px !important" }}
       onClick={onClick}
       className="motion-div"
     >
       <Box
         sx={[
           {
-            height: '100%',
-            width: '330px',
+            height: "100%",
+            width: "330px",
             minHeight: 580,
-            '&:hover': {
-              cursor: 'pointer'
+            "&:hover": {
+              cursor: "pointer"
             },
-            position: 'relative',
-            overflow: 'hidden',
+            position: "relative",
+            overflow: "hidden",
             margin: 2,
-            borderRadius: '12px'
+            borderRadius: "12px"
           },
           isDisabled ? { color: grey[500] } : null
         ]}
@@ -83,9 +83,8 @@ function Ticket({
         <Box
           sx={{
             backgroundColor: getBgColor(),
-            width: '100%'
+            width: "100%"
           }}
-          className=""
         >
           <Image
             src={img}
@@ -100,28 +99,28 @@ function Ticket({
           />
           <Box
             sx={{
-              position: 'absolute',
-              width: '51%',
-              height: '100%',
+              position: "absolute",
+              width: "51%",
+              height: "100%",
               background: grey[100]
             }}
             className="shape right-cutout"
           />
           <Box
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 0,
-              width: '51%',
-              height: '100%',
+              width: "51%",
+              height: "100%",
               background: grey[100]
             }}
             className="shape left-cutout"
           />
           <Box
             sx={{
-              position: 'absolute',
-              height: '200px',
-              width: '296px',
+              position: "absolute",
+              height: "200px",
+              width: "296px",
               p: 2
             }}
           >
@@ -150,7 +149,7 @@ function Ticket({
                   <Typography>Date</Typography>
                 </Stack>
                 <Typography>
-                  {moment(date).format('DD/MM/YYYY hh:mm a')}
+                  {moment(date).format("DD/MM/YYYY hh:mm a")}
                 </Typography>
               </Stack>
               {seat && (
@@ -164,17 +163,16 @@ function Ticket({
               )}
             </Box>
             <Divider
-              sx={{ borderStyle: 'dashed', borderWidth: '2px', mt: 3 }}
+              sx={{ borderStyle: "dashed", borderWidth: "2px", mt: 3 }}
             />
-            {/* <Box sx={{ height: 1, borderBottom: '2x dotted #000'}} /> */}
             {QRCodeValue && (
               <Box
                 sx={{
-                  width: '100%',
+                  width: "100%",
                   height: 160,
-                  display: 'grid',
-                  placeItems: 'center',
-                  wordWrap: 'break-word'
+                  display: "grid",
+                  placeItems: "center",
+                  wordWrap: "break-word"
                 }}
               >
                 {showAsQRCode ? (
@@ -186,7 +184,7 @@ function Ticket({
                     )}
                   </>
                 ) : (
-                  <Box sx={{ width: '200px', textAlign: 'center' }}>
+                  <Box sx={{ width: "200px", textAlign: "center" }}>
                     <Typography>{QRCodeValue}</Typography>
                   </Box>
                 )}
