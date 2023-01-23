@@ -8,7 +8,11 @@ interface FormUploadedAsset {
   name: string
   occurrence: number
 }
+<<<<<<< HEAD
 export interface UploadedAsset extends FormUploadedAsset {
+=======
+interface UploadedAsset extends FormUploadedAsset {
+>>>>>>> bd18f79 (feat: add yup validation to customize asset form)
   data: string
   dimension: AssetDimension
 }
