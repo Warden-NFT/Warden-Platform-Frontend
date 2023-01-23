@@ -49,3 +49,11 @@ body {
   left: 240px;
   opacity: 0.5;
 }
+
+.png-bg-sm {
+  background:
+    repeating-conic-gradient(
+        #fff 0 90deg,
+        rgba(128, 128, 128, 0.252) 0 180deg) 
+    0 0/18% 18%;
+}

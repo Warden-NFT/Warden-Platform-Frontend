@@ -3,11 +3,14 @@ export interface AssetDimension {
   height: number
 }
 
-interface UploadedAsset {
+interface FormUploadedAsset {
   id: number
   name: string
-  dimension: AssetDimension
+  occurrence: number
+}
+interface UploadedAsset extends FormUploadedAsset {
   data: string
+  dimension: AssetDimension
 }
 
 // Uploaded asset type of the complete asset mode
@@ -15,14 +18,15 @@ export interface UploadedCompleteAsset extends UploadedAsset {
   quantity: number
 }
 
+export interface FormLayerData {
+  layerId: number // String or number?
+  layerName: string
+  layerOccurrence: number // 100 as max (percentage)
+  assets: FormUploadedAsset[]
+}
 export interface LayerData {
   layerId: number
   layerName: string
-  assets: UploadedLayeredAsset[]
   layerOccurrence: number // 100 as max (percentage)
-}
-
-// Uploaded asset type of the layered asset mode
-export interface UploadedLayeredAsset extends UploadedAsset {
-  occurrence: number
+  assets: UploadedAsset[]
 }

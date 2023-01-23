@@ -7,7 +7,6 @@ import {
   Select
 } from '@mui/material'
 import { red } from '@mui/material/colors'
-import { FormikTouched } from 'formik'
 
 interface Props {
   subjectOf: string

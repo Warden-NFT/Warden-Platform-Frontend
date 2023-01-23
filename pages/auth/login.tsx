@@ -30,6 +30,7 @@ function Login() {
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
       try {
+        console.log(process.env.NEXT_PUBLIC_APP_API_URL)
         const res = await client.post<SuccessfulAuthDTO>('/user/login', data)
         setUserInfo(res.data)
         router.push('/')

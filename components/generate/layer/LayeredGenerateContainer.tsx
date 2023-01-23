@@ -4,7 +4,7 @@ import ActiveStepper from '../../UI/navigation/ActiveStepper'
 import CustomizeLayer from './CustomizeLayer'
 import LayerAssetGallery from './LayerAssetGallery'
 import LayeredAssetTicketForm from './LayerAssetTicketForm'
-import UtilizePreviewGrid from './UtilizePreviewGrid'
+import CustomizeAssetForm from './CustomizeAssetForm'
 import { LAYERED_MODE_STEPPER } from '../../../constants/generate/steps'
 
 function LayeredGenerateContainer() {
@@ -14,7 +14,7 @@ function LayeredGenerateContainer() {
       {activeStep === 1 && <LayeredAssetTicketForm />}
       {activeStep === 2 && <LayerAssetGallery />}
       {activeStep === 3 && <CustomizeLayer />}
-      {activeStep === 4 && <UtilizePreviewGrid />}
+      {activeStep === 4 && <CustomizeAssetForm />}
     </ActiveStepper>
   )
 }
