@@ -23,11 +23,15 @@ function ContainedButton({
 }: Props) {
   return (
     <motion.div
-      whileHover={{
-        y: -6,
-        boxShadow: '5px 5px 0 rgba(0, 0, 0, 1)',
-        borderRadius: '20px'
-      }}
+      whileHover={
+        disabled
+          ? {}
+          : {
+            y: -6,
+            boxShadow: '5px 5px 0 rgba(0, 0, 0, 1)',
+            borderRadius: '20px'
+          }
+      }
       style={{ borderRadius: '20px', width }}
     >
       <Button
