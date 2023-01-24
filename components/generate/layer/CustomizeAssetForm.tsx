@@ -3,26 +3,20 @@ import {
   Divider,
   FormControl,
   FormLabel,
-<<<<<<< HEAD
   Slider,
-=======
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
   Stack,
   TextField,
   Typography
-} from '@mui/material'
-import { useFormik } from 'formik'
-import Image from 'next/image'
-import React, { useContext, useEffect } from 'react'
-import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import { FormLayerData } from '../../../interfaces/generate/file.interface'
-import { createLayerOccurrenceForm } from '../../../schema/generate/layered'
-import { calculateCombination } from '../../../utils/random/combination'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
-<<<<<<< HEAD
-import { grey } from '@mui/material/colors'
-=======
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
+} from "@mui/material"
+import { useFormik } from "formik"
+import Image from "next/image"
+import React, { useContext, useEffect } from "react"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import { FormLayerData } from "../../../interfaces/generate/file.interface"
+import { createLayerOccurrenceForm } from "../../../schema/generate/layered"
+import { calculateCombination } from "../../../utils/random/combination"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { grey } from "@mui/material/colors"
 
 function CustomizeAssetForm() {
   const { layers, formInfo, setActiveStep } = useContext(GenerateLayerContext)
@@ -37,10 +31,6 @@ function CustomizeAssetForm() {
       onSubmit: (data) => {
         const _formInfo = { ...formInfo }
         _formInfo.generationAmount = data.generationAmount
-<<<<<<< HEAD
-=======
-        console.log(data)
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
       }
     })
 
@@ -67,8 +57,8 @@ function CustomizeAssetForm() {
     const _assetOccurrences = layers.map((layer) =>
       layer.assets.map((asset) => asset.occurrence)
     )
-    setFieldValue('layers', _layers)
-    setFieldValue('assetOccurrences', _assetOccurrences)
+    setFieldValue("layers", _layers)
+    setFieldValue("assetOccurrences", _assetOccurrences)
   }, [layers, setFieldValue])
 
   return (
@@ -76,14 +66,9 @@ function CustomizeAssetForm() {
       sx={{
         padding: 4,
         marginY: 4,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         borderRadius: 4
-      }}
-    >
-<<<<<<< HEAD
-=======
-      <div>{JSON.stringify(values.layers)}</div>
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
+      }}>
       <FormControl required>
         <FormLabel>Generation Amount</FormLabel>
         <Typography variant="caption" color="gray">
@@ -109,8 +94,8 @@ function CustomizeAssetForm() {
           }
         />
         <Typography>
-          Maximum generation amount is:{' '}
-          <span style={{ fontWeight: '600' }}>
+          Maximum generation amount is:{" "}
+          <span style={{ fontWeight: "600" }}>
             {calculateCombination(layers.map((layer) => layer.assets.length))}
           </span>
         </Typography>
@@ -125,8 +110,7 @@ function CustomizeAssetForm() {
             <Stack
               direction="row"
               alignItems="end"
-              justifyContent="space-between"
-            >
+              justifyContent="space-between">
               <Box>
                 <Typography>Layer Name</Typography>
                 <Typography variant="caption" color="gray">
@@ -143,33 +127,20 @@ function CustomizeAssetForm() {
                   placeholder="WARDEN Event Ticket"
                   variant="outlined"
                   size="small"
-<<<<<<< HEAD
-=======
-                  // @ts-ignore
-                  helperText={errors.layers[i].layerName}
-                  //@ts-ignore
-                  error={errors.layers[i].layerName != null}
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
                 />
               </FormControl>
             </Stack>
             <Stack
               direction="row"
               alignItems="end"
-              justifyContent="space-between"
-            >
+              justifyContent="space-between">
               <Box>
-<<<<<<< HEAD
                 <Typography>Layer Occurrance %</Typography>
-=======
-                <Typography>Layer Occurrance</Typography>
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
                 <Typography variant="caption" color="gray">
                   How often this layer should appear?
                 </Typography>
               </Box>
               <FormControl required>
-<<<<<<< HEAD
                 <Box sx={{ width: 240 }}>
                   <Slider
                     defaultValue={100}
@@ -184,47 +155,23 @@ function CustomizeAssetForm() {
                     This layer will appears {layer.layerOccurrence}% of the time
                   </Typography>
                 </Box>
-=======
-                <TextField
-                  name={`layerOccurrence[${i}]`}
-                  value={layer.layerOccurrence}
-                  onChange={handleChange}
-                  id="name-input"
-                  data-testid="price-input"
-                  placeholder="WARDEN Event Ticket"
-                  variant="outlined"
-                  size="small"
-                  type="number"
-                  // error={errors.layers[layerIndex]?.layerOccurrence != null}
-                  // helperText={errors?.layerOccurrence && touched ? errors.layerOccurrence : undefined}
-                />
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
               </FormControl>
             </Stack>
             <Stack
               direction="row"
               justifyContent="space-between"
-<<<<<<< HEAD
-              sx={{ marginY: 2 }}
-=======
-              sx={{ marginBottom: 2 }}
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
-            >
-              <Typography fontWeight="600" sx={{ width: '100px' }}>
+              sx={{ marginY: 2 }}>
+              <Typography fontWeight="600" sx={{ width: "100px" }}>
                 ID
               </Typography>
-              <Typography fontWeight="600" sx={{ width: '200px' }}>
+              <Typography fontWeight="600" sx={{ width: "200px" }}>
                 Asset
               </Typography>
-              <Typography fontWeight="600" sx={{ width: '200px' }}>
+              <Typography fontWeight="600" sx={{ width: "200px" }}>
                 Name
               </Typography>
-              <Typography fontWeight="600" sx={{ width: '200px' }}>
-<<<<<<< HEAD
+              <Typography fontWeight="600" sx={{ width: "200px" }}>
                 Occurance %
-=======
-                Occurance
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
               </Typography>
             </Stack>
             {layers[i].assets.map((asset, j) => (
@@ -232,10 +179,9 @@ function CustomizeAssetForm() {
                 direction="row"
                 justifyContent="space-between"
                 key={asset.name}
-                sx={{ width: '100%' }}
-              >
-                <Typography sx={{ width: '100px' }}>{j + 1}</Typography>
-                <Box sx={{ width: '140px' }}>
+                sx={{ width: "100%" }}>
+                <Typography sx={{ width: "100px" }}>{j + 1}</Typography>
+                <Box sx={{ width: "140px" }}>
                   <Image
                     src={asset.data}
                     width="50"
@@ -250,9 +196,13 @@ function CustomizeAssetForm() {
                   onChange={handleChange}
                   name={`layers[${i}].assets[${j}].name`}
                   size="small"
-                  sx={{ width: '200px' }}
+                  //@ts-ignore
+                  error={errors.layers[i].assets[j].name != null}
+                  // @ts-ignore
+                  helperText={errors.layers[i].assets[j].name}
+                  sx={{ width: "200px" }}
                 />
-<<<<<<< HEAD
+
                 <Box sx={{ width: 200 }}>
                   <Slider
                     defaultValue={100}
@@ -267,27 +217,15 @@ function CustomizeAssetForm() {
                     variant="caption"
                     component="p"
                     color={grey[600]}
-                    fontSize="11px"
-                  >
-                    {values.layers[i].assets[j].name} will appears{' '}
+                    fontSize="11px">
+                    {values.layers[i].assets[j].name} will appears{" "}
                     {Math.floor(
                       (values.layers[i].assets[j].occurrence / 100) *
                         values.generationAmount
-                    ) / values.layers[i].assets.length}{' '}
+                    ) / values.layers[i].assets.length}{" "}
                     times
                   </Typography>
                 </Box>
-=======
-                <TextField
-                  placeholder="Asset Occurrence"
-                  value={values.layers[i].assets[j].occurrence}
-                  name={`layers[${i}].assets[${j}].occurrence`}
-                  onChange={handleChange}
-                  size="small"
-                  type="number"
-                  sx={{ width: '200px' }}
-                />
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
               </Stack>
             ))}
           </Stack>
