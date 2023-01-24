@@ -1,5 +1,5 @@
 import { Box, Step, StepLabel, Stepper } from '@mui/material'
-import React, { ReactNode, Dispatch, SetStateAction } from 'react'
+import React, { ReactNode } from 'react'
 import { StepperSteps } from '../../../constants/generate/steps'
 
 interface Props {

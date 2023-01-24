@@ -5,34 +5,34 @@ import {
   Grid,
   TextField,
   Typography
-} from '@mui/material'
-import { Box } from '@mui/system'
-import React, { useContext } from 'react'
-import ContainerCard from '../../components/UI/card/ContainerCard'
-import { useFormik } from 'formik'
-import ContainedButton from '../../components/UI/button/ContainedButton'
-import { LoginSchema } from '../../schema/auth/login.schema'
-import Link from 'next/link'
-import { client } from '../../configs/axios/axiosConfig'
-import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
-import { UserContext } from '../../contexts/user/UserContext'
-import { useRouter } from 'next/router'
-import FadeEntrance from '../../components/motion/FadeEntrance'
+} from "@mui/material"
+import { Box } from "@mui/system"
+import React, { useContext } from "react"
+import ContainerCard from "../../components/UI/card/ContainerCard"
+import { useFormik } from "formik"
+import ContainedButton from "../../components/UI/button/ContainedButton"
+import { LoginSchema } from "../../schema/auth/login.schema"
+import Link from "next/link"
+import { client } from "../../configs/axios/axiosConfig"
+import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
+import { UserContext } from "../../contexts/user/UserContext"
+import { useRouter } from "next/router"
+import FadeEntrance from "../../components/motion/FadeEntrance"
 
 function Login() {
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { values, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues: {
-      phoneNumber: '',
-      password: ''
+      phoneNumber: "",
+      password: ""
     },
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
       try {
-        const res = await client.post<SuccessfulAuthDTO>('/user/login', data)
+        const res = await client.post<SuccessfulAuthDTO>("/user/login", data)
         setUserInfo(res.data)
-        router.push('/')
+        router.push("/")
       } catch (error) {
         console.log(error)
         // setup sentry
@@ -52,7 +52,7 @@ function Login() {
 
               <Divider sx={{ my: 2 }} />
 
-              <FormControl required sx={{ width: '100%', height: 84 }}>
+              <FormControl required sx={{ width: "100%", height: 84 }}>
                 <FormLabel>Phone Number</FormLabel>
                 <TextField
                   name="phoneNumber"
@@ -71,7 +71,7 @@ function Login() {
                 />
               </FormControl>
 
-              <FormControl required sx={{ width: '100%', height: 84 }}>
+              <FormControl required sx={{ width: "100%", height: 84 }}>
                 <FormLabel>Password</FormLabel>
                 <TextField
                   name="password"
@@ -101,7 +101,7 @@ function Login() {
                 width="100%"
               />
 
-              <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
                 <Typography>
                   No account? <Link href="/auth/register">Register here</Link>
                 </Typography>

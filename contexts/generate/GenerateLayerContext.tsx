@@ -1,24 +1,19 @@
-import React, {
-  useState,
-  createContext,
-  SetStateAction,
-  Dispatch,
-  useEffect
-} from 'react'
-// import { LayeredCollectionInfo } from "../../interfaces/generate/collection.interface";
-import { LayeredAssetData } from '../../interfaces/generate/file.interface'
-import { AssetMetadata } from '../../interfaces/generate/metadata.interface'
+import React, { useState, createContext, SetStateAction, Dispatch } from 'react'
+import { LayeredAssetInfo } from '../../interfaces/generate/collection.interface'
+import { LayerData } from '../../interfaces/generate/file.interface'
+import { LayeredAssetMetadata } from '../../interfaces/generate/metadata.interface'
+
 interface GenerateLayerContextProps {
   activeStep: number
   setActiveStep: Dispatch<SetStateAction<number>>
   assets: File[]
   setAssets: Dispatch<SetStateAction<File[]>>
-  layeredAssets: LayeredAssetData[]
-  setLayeredAssets: Dispatch<SetStateAction<LayeredAssetData[]>>
-  collectionInfo: LayeredCollectionInfo | null
-  setCollectionInfo: Dispatch<SetStateAction<LayeredCollectionInfo | null>>
-  assetMetadata: AssetMetadata[]
-  setAssetMetadata: Dispatch<SetStateAction<AssetMetadata[]>>
+  layers: LayerData[]
+  setLayers: Dispatch<SetStateAction<LayerData[]>>
+  metadata: LayeredAssetMetadata[]
+  setMetadata: Dispatch<SetStateAction<LayeredAssetMetadata[]>>
+  formInfo: LayeredAssetInfo
+  setFormInfo: Dispatch<SetStateAction<LayeredAssetInfo>>
 }
 
 export const GenerateLayerContext = createContext(
@@ -27,26 +22,30 @@ export const GenerateLayerContext = createContext(
 const GenerateLayerContextProvider = ({ ...props }) => {
   const [activeStep, setActiveStep] = useState(1)
   const [assets, setAssets] = useState<File[]>([])
-  const [layeredAssets, setLayeredAssets] = useState<LayeredAssetData[]>([])
-  const [collectionInfo, setCollectionInfo] =
-    useState<LayeredCollectionInfo | null>(null)
-  const [assetMetadata, setAssetMetadata] = useState<AssetMetadata[]>([])
-
-  useEffect(() => {
-    console.log(layeredAssets)
-  }, [layeredAssets])
+  const [layers, setLayers] = useState<LayerData[]>([])
+  const [metadata, setMetadata] = useState<LayeredAssetMetadata[]>([])
+  const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
+    currency: 'ETH',
+    name: '',
+    description: '',
+    subjectOf: '',
+    ticketMetadata: { data: [] },
+    price: 0,
+    ticketType: 'GENERAL',
+    generationAmount: 1
+  })
 
   const values: GenerateLayerContextProps = {
     activeStep,
     setActiveStep,
     assets,
     setAssets,
-    layeredAssets,
-    setLayeredAssets,
-    collectionInfo,
-    setCollectionInfo,
-    assetMetadata,
-    setAssetMetadata
+    layers,
+    setLayers,
+    metadata,
+    setMetadata,
+    formInfo,
+    setFormInfo
   }
 
   return <GenerateLayerContext.Provider value={values} {...props} />

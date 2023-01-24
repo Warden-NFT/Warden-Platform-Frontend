@@ -5,6 +5,9 @@ declare global {
       NEXT_PUBLIC_APP_API_URL: string
       NEXT_PUBLIC_SENTRY_DSN: string
       NEXT_PUBLIC_ALCHEMY_KEY: string
+      SENTRY_AUTH_TOKEN: string
+
+      VERCEL_ENV: 'development' | 'production'
     }
   }
 }

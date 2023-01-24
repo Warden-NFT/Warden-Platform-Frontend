@@ -29,10 +29,12 @@ const sentryWebpackPluginOptions = {
   // recommended:
   //   release, url, org, project, authToken, configFile, stripPrefix,
   //   urlPrefix, include, ignore
-
-  silent: true // Suppresses all logs
   // For all available options, see:
   // https://github.com/getsentry/sentry-webpack-plugin#options.
+
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  dryRun: process.env.VERCEL_ENV !== 'production',
+  silent: true // Suppresses all logs
 }
 
 // Make sure adding Sentry options is the last code to run before exporting, to
