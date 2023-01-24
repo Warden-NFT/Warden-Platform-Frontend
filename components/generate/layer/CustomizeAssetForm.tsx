@@ -223,7 +223,7 @@ function CustomizeAssetForm() {
                     {Math.floor(
                       (values.layers[i].assets[j].occurrence / 100) *
                         values.generationAmount
-                    )}{' '}
+                    ) / values.layers[i].assets.length}{' '}
                     times
                   </Typography>
                 </Box>
