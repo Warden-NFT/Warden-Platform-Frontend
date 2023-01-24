@@ -2,11 +2,11 @@ import { Box, IconButton, Typography } from '@mui/material'
 import { GridCloseIcon } from '@mui/x-data-grid'
 import React, { useContext, useState } from 'react'
 import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import { UploadedLayeredAsset } from '../../../interfaces/generate/file.interface'
+import { UploadedAsset } from '../../../interfaces/generate/file.interface'
 import PNGAssetPreview from '../../assets/PNGAssetPreview'
 
 interface Props {
-  asset: UploadedLayeredAsset
+  asset: UploadedAsset
   layerIndex: number
   assetIndex: number
 }

@@ -46,7 +46,8 @@ function CompleteAssetDropzone({
           name: getAssetFileName(file),
           dimension: dimensions,
           data: url,
-          quantity: 1
+          quantity: 1,
+          occurrence: 100
         }
 
         setUploadedAssets((prev) => [...prev, asset])

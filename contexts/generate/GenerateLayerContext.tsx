@@ -1,9 +1,6 @@
 import React, { useState, createContext, SetStateAction, Dispatch } from 'react'
 import { LayeredAssetInfo } from '../../interfaces/generate/collection.interface'
-import {
-  LayerData,
-  UploadedLayeredAsset
-} from '../../interfaces/generate/file.interface'
+import { LayerData } from '../../interfaces/generate/file.interface'
 import { LayeredAssetMetadata } from '../../interfaces/generate/metadata.interface'
 
 interface GenerateLayerContextProps {
