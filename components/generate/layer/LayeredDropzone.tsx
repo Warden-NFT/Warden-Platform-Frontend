@@ -38,7 +38,6 @@ function LayeredDropzone() {
       })
     )
 
-    console.log(layerAssets)
     setLayers(layerAssets)
   }, [])
 
