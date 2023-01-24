@@ -1,5 +1,5 @@
 import {
-  UploadedLayeredAsset,
+  UploadedAsset,
   LayerData
 } from '../../interfaces/generate/file.interface'
 import { getAssetDimension, getAssetFileName, getAssetFileURL } from './detail'
@@ -15,9 +15,7 @@ export function categorizeAssetsIntoLayer(names: string[]) {
   })
 }
 
-export async function readLayeredAsset(
-  file: File
-): Promise<UploadedLayeredAsset> {
+export async function readLayeredAsset(file: File): Promise<UploadedAsset> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsArrayBuffer(file)
@@ -31,8 +29,8 @@ export async function readLayeredAsset(
         name: getAssetFileName(file),
         dimension: dimension,
         data: url,
-        occurrence: 1
-      } as UploadedLayeredAsset
+        occurrence: 100
+      } as UploadedAsset
 
       return resolve(asset)
     }

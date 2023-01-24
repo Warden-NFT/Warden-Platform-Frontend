@@ -8,7 +8,7 @@ interface FormUploadedAsset {
   name: string
   occurrence: number
 }
-interface UploadedAsset extends FormUploadedAsset {
+export interface UploadedAsset extends FormUploadedAsset {
   data: string
   dimension: AssetDimension
 }
