@@ -110,48 +110,6 @@ function NavBar() {
               if (appRoute.subroutes.length) return null
               return <NavLink route={appRoute} key={index} />
             })}
-            {user?.accountType === Account.EventOrganizer && (
-              <>
-                <Button
-                  variant="text"
-                  id="oned-button"
-                  aria-controls={menuElement ? "create-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={menuElement ? "true" : undefined}
-                  onClick={handleOpenMenu}
-                  sx={{
-                    fontWeight: "600",
-                    borderRadius: 20,
-                    paddingX: 2,
-                    "&:hover": {
-                      backgroundColor: "white"
-                    }
-                  }}
-                >
-                  CREATE
-                </Button>
-                <Menu
-                  id="create-menu"
-                  aria-labelledby="create-menu-button"
-                  anchorEl={menuElement}
-                  open={Boolean(menuElement)}
-                  onClose={handleCloseMenu}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center"
-                  }}
-                >
-                  {/* Event */}
-                  <MenuItem onClick={handleCloseMenu}>
-                    <NavLink route={appRoutes[2].subroutes[0]} />
-                  </MenuItem>
-                  {/* Ticket */}
-                  <MenuItem onClick={handleCloseMenu}>
-                    <NavLink route={appRoutes[2].subroutes[1]} />
-                  </MenuItem>
-                </Menu>
-              </>
-            )}
           </Box>
           <Box sx={{ display: "flex" }}>
             {user ? (

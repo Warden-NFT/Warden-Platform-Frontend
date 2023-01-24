@@ -1,0 +1,19 @@
+/* Events */
+
+.eventsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 16px;
+  margin-top: 16px;
+}
+
+.event {
+  padding: 0;
+  font-size: 30px;
+  border-radius: 12px;
+  border: 2px solid #000
+}
+
+.eventSearchInput {
+  width: 400px;
+}

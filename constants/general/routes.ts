@@ -11,67 +11,49 @@ interface SubRoute {
 
 export const APP_ROUTES: AppRoute[] = [
   {
-    name: 'Home',
-    url: '/home',
+    name: "Home",
+    url: "/home",
     subroutes: []
   },
   {
-    name: 'Marketplace',
-    url: '/marketplace',
+    name: "Marketplace",
+    url: "/marketplace",
     subroutes: []
-  },
-  {
-    name: 'Create',
-    url: '/create',
-    subroutes: [
-      {
-        name: 'Event',
-        url: '/create/event'
-      },
-      {
-        name: 'Ticket',
-        url: '/create/ticket'
-      }
-    ]
   }
 ]
 
 export const EVENT_ORGANIZER_APP_ROUTES: AppRoute[] = [
   {
-    name: 'Home',
-    url: '/home',
+    name: "Home",
+    url: "/home",
     subroutes: []
   },
   {
-    name: 'Marketplace',
-    url: '/marketplace',
+    name: "Marketplace",
+    url: "/marketplace",
     subroutes: []
   },
   {
-    name: 'Create',
-    url: '/create',
-    subroutes: [
-      {
-        name: 'Event',
-        url: '/create/event'
-      },
-      {
-        name: 'Ticket',
-        url: '/create/ticket'
-      }
-    ]
+    name: "Event",
+    url: "/event",
+    subroutes: []
+  },
+  {
+    name: "Ticket",
+    url: "/ticket",
+    subroutes: []
   }
 ]
 
 export const CUSTOMER_APP_ROUTES: AppRoute[] = [
   {
-    name: 'Home',
-    url: '/home',
+    name: "Home",
+    url: "/home",
     subroutes: []
   },
   {
-    name: 'Marketplace',
-    url: '/marketplace',
+    name: "Marketplace",
+    url: "/marketplace",
     subroutes: []
   }
 ]

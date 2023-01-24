@@ -9,6 +9,7 @@ import {
   Stack,
   TextField,
   Typography
+<<<<<<< HEAD
 } from '@mui/material'
 import { red } from '@mui/material/colors'
 import { useFormik } from 'formik'
@@ -20,6 +21,19 @@ import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
 import { CompleteAssetTicketFormSchema } from '../../../schema/generate/complete'
 import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
 import EventCreationAlert from '../form/EventCreationAlert'
+=======
+} from "@mui/material"
+import { grey, red } from "@mui/material/colors"
+import { useFormik } from "formik"
+import Link from "next/link"
+import queryString from "query-string"
+import React, { useContext, useEffect } from "react"
+import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
+import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
+import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
+import { CompleteAssetTicketFormSchema } from "../../../schema/generate/complete"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+>>>>>>> f655dec (feat: MyEvents UI, update routes, update styles)
 
 function CompleteAssetTicketForm() {
   const { formInfo, setActiveStep, setFormInfo } = useContext(
@@ -39,7 +53,7 @@ function CompleteAssetTicketForm() {
   useEffect(() => {
     const { query } = queryString.parseUrl(window.location.href)
     const { ticketType } = query
-    setFieldValue('ticketType', ticketType as TicketTypes)
+    setFieldValue("ticketType", ticketType as TicketTypes)
   }, [window.location])
 
   return (
@@ -48,7 +62,7 @@ function CompleteAssetTicketForm() {
         spacing={2}
         p={4}
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: "white",
           marginY: 4,
           borderRadius: 6,
           border: 2
@@ -106,7 +120,7 @@ function CompleteAssetTicketForm() {
             <MenuItem value={30}>Thirty</MenuItem>
           </Select>
           <FormHelperText sx={{ color: red[600] }}>
-            {errors.subjectOf && touched.subjectOf ? errors.subjectOf : ''}
+            {errors.subjectOf && touched.subjectOf ? errors.subjectOf : ""}
           </FormHelperText>
         </FormControl>
         <FormControl fullWidth required>
@@ -128,7 +142,7 @@ function CompleteAssetTicketForm() {
             ))}
           </Select>
           <FormHelperText>
-            {errors.currency && touched.currency ? errors.currency : ''}
+            {errors.currency && touched.currency ? errors.currency : ""}
           </FormHelperText>
         </FormControl>
         <FormControl required>
