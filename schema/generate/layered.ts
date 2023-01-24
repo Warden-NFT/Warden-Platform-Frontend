@@ -29,10 +29,10 @@ export function createLayerOccurrenceForm(layers: LayerData[]) {
 
   return object({
     generationAmount: number().test({
-      name: 'max',
+      name: "max",
       exclusive: false,
       params: {},
-      message: 'Quantity exceeds maximum combinations.',
+      message: "Quantity exceeds maximum combinations.",
       test: (_, context) => {
         return context.parent.generationAmount <= limit
       }
@@ -40,39 +40,21 @@ export function createLayerOccurrenceForm(layers: LayerData[]) {
     layers: array().of(
       object({
         layerName: string()
-          .max(100, 'Layer name is too long')
-          .required('Layer name is required'),
+          .max(100, "Layer name is too long")
+          .required("Layer name is required"),
         layerOccurrence: number()
-<<<<<<< HEAD
-          .min(0, 'Minumum is 0%')
-          .max(100, 'Maximum is 100%')
-          .required('Layer Occurrence is required'),
-=======
-          .positive('Occurrence must be positive')
-          .max(1, 'Occurrence cannot be more than 1')
-          .required(),
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
+          .min(0, "Minumum is 0%")
+          .max(100, "Maximum is 100%")
+          .required("Layer Occurrence is required"),
         assets: array().of(
           object({
             name: string()
-              .max(100, 'Asset name is too long')
-              .required('Asset name is required'),
-<<<<<<< HEAD
+              .max(100, "Asset name is too long")
+              .required("Asset name is required"),
             occurrence: number()
-              .min(0, 'Minumum is 0%')
-              .max(100, 'Maximum is 100%')
-              .required('Asset occurrence is required')
-=======
-            occurrence: number().test({
-              name: 'max',
-              exclusive: false,
-              params: {},
-              message: 'Occurrence exceeds maximum combinations.',
-              test: (_, context) => {
-                return context.parent.generationAmount <= limit
-              }
-            })
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
+              .min(0, "Minumum is 0%")
+              .max(100, "Maximum is 100%")
+              .required("Asset occurrence is required")
           })
         )
       })
