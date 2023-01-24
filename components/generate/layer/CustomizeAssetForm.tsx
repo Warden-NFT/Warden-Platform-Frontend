@@ -157,6 +157,7 @@ function CustomizeAssetForm() {
                     onChange={handleChange}
                     aria-label="Layer occurrence slider"
                     valueLabelDisplay="auto"
+                    valueLabelFormat={`${layer.layerOccurrence}%`}
                   />
                   <Typography variant="caption" component="p" color={grey[600]}>
                     This layer will appears {layer.layerOccurrence}% of the time
@@ -219,6 +220,7 @@ function CustomizeAssetForm() {
                     onChange={handleChange}
                     aria-label="Asset occurrence slider"
                     valueLabelDisplay="auto"
+                    valueLabelFormat={`${layers[i].assets[j].occurrence}%`}
                   />
                 </Box>
                 {/* <TextField
