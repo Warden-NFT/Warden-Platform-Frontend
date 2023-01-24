@@ -30,17 +30,11 @@ function Login() {
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
       try {
-<<<<<<< HEAD
         const res = await client.post<SuccessfulAuthDTO>("/user/login", data)
-=======
-        console.log(process.env.NEXT_PUBLIC_APP_API_URL)
-        const res = await client.post<SuccessfulAuthDTO>('/user/login', data)
->>>>>>> bd18f79 (feat: add yup validation to customize asset form)
         setUserInfo(res.data)
         router.push("/")
       } catch (error) {
         console.log(error)
-        // setup sentry
       }
     }
   })
