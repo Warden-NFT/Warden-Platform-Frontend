@@ -12,7 +12,6 @@ export const LayeredAssetTicketFormSchema = object({
     .required('Ticket name is required'),
   subjectOf: string().required('All ticket must be binded with an event'),
   description: string().max(500, 'Ticket description is too long'),
-  // ticketMetadata: object(),
   price: number()
     .min(0, 'Ticket price must be a positive number')
     .required('Ticket price is required'),

@@ -3,6 +3,7 @@ import {
   Divider,
   FormControl,
   FormLabel,
+  Slider,
   Stack,
   TextField,
   Typography
@@ -15,6 +16,7 @@ import { FormLayerData } from '../../../interfaces/generate/file.interface'
 import { createLayerOccurrenceForm } from '../../../schema/generate/layered'
 import { calculateCombination } from '../../../utils/random/combination'
 import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
+import { grey } from '@mui/material/colors'
 
 function CustomizeAssetForm() {
   const { layers, formInfo, setActiveStep } = useContext(GenerateLayerContext)
@@ -29,7 +31,6 @@ function CustomizeAssetForm() {
       onSubmit: (data) => {
         const _formInfo = { ...formInfo }
         _formInfo.generationAmount = data.generationAmount
-        console.log(data)
       }
     })
 
@@ -142,31 +143,31 @@ function CustomizeAssetForm() {
               justifyContent="space-between"
             >
               <Box>
-                <Typography>Layer Occurrance</Typography>
+                <Typography>Layer Occurrance %</Typography>
                 <Typography variant="caption" color="gray">
                   How often this layer should appear?
                 </Typography>
               </Box>
               <FormControl required>
-                <TextField
-                  name={`layerOccurrence[${i}]`}
-                  value={layer.layerOccurrence}
-                  onChange={handleChange}
-                  id="name-input"
-                  data-testid="price-input"
-                  placeholder="WARDEN Event Ticket"
-                  variant="outlined"
-                  size="small"
-                  type="number"
-                  // error={errors.layers[layerIndex]?.layerOccurrence != null}
-                  // helperText={errors?.layerOccurrence && touched ? errors.layerOccurrence : undefined}
-                />
+                <Box sx={{ width: 240 }}>
+                  <Slider
+                    defaultValue={100}
+                    name={`layers[${i}].layerOccurrence`}
+                    value={layer.layerOccurrence}
+                    onChange={handleChange}
+                    aria-label="Layer occurrence slider"
+                    valueLabelDisplay="auto"
+                  />
+                  <Typography variant="caption" component="p" color={grey[600]}>
+                    This layer will appears {layer.layerOccurrence}% of the time
+                  </Typography>
+                </Box>
               </FormControl>
             </Stack>
             <Stack
               direction="row"
               justifyContent="space-between"
-              sx={{ marginBottom: 2 }}
+              sx={{ marginY: 2 }}
             >
               <Typography fontWeight="600" sx={{ width: '100px' }}>
                 ID
@@ -178,7 +179,7 @@ function CustomizeAssetForm() {
                 Name
               </Typography>
               <Typography fontWeight="600" sx={{ width: '200px' }}>
-                Occurance
+                Occurance %
               </Typography>
             </Stack>
             {layers[i].assets.map((asset, j) => (
@@ -204,9 +205,23 @@ function CustomizeAssetForm() {
                   onChange={handleChange}
                   name={`layers[${i}].assets[${j}].name`}
                   size="small"
+                  //@ts-ignore
+                  error={errors.layers[i].assets[j].name != null}
+                  // @ts-ignore
+                  helperText={errors.layers[i].assets[j].name}
                   sx={{ width: '200px' }}
                 />
-                <TextField
+                <Box sx={{ width: 200 }}>
+                  <Slider
+                    defaultValue={100}
+                    name={`layers[${i}].assets[${j}].occurrence`}
+                    value={values.layers[i].assets[j].occurrence}
+                    onChange={handleChange}
+                    aria-label="Asset occurrence slider"
+                    valueLabelDisplay="auto"
+                  />
+                </Box>
+                {/* <TextField
                   placeholder="Asset Occurrence"
                   value={values.layers[i].assets[j].occurrence}
                   name={`layers[${i}].assets[${j}].occurrence`}
@@ -214,7 +229,7 @@ function CustomizeAssetForm() {
                   size="small"
                   type="number"
                   sx={{ width: '200px' }}
-                />
+                /> */}
               </Stack>
             ))}
           </Stack>

@@ -67,7 +67,6 @@ function LayeredAssetTicketForm() {
           </Stack>
           <Typography variant="h6">{values.ticketType}</Typography>
         </Stack>
-
         <FormControl required>
           <FormLabel>Ticket Name</FormLabel>
           <Typography variant="caption" color="gray">
@@ -82,7 +81,7 @@ function LayeredAssetTicketForm() {
             placeholder="WARDEN Event Ticket"
             variant="outlined"
             size="small"
-            error={errors.name != null}
+            error={touched.name && errors.name != null}
             helperText={touched.name ? errors.name : undefined}
           />
         </FormControl>
