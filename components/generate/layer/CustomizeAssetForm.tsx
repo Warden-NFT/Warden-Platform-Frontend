@@ -70,7 +70,6 @@ function CustomizeAssetForm() {
         borderRadius: 4
       }}
     >
-      <div>{JSON.stringify(values.layers)}</div>
       <FormControl required>
         <FormLabel>Generation Amount</FormLabel>
         <Typography variant="caption" color="gray">
@@ -130,10 +129,6 @@ function CustomizeAssetForm() {
                   placeholder="WARDEN Event Ticket"
                   variant="outlined"
                   size="small"
-                  // @ts-ignore
-                  helperText={errors.layers[i].layerName}
-                  //@ts-ignore
-                  error={errors.layers[i].layerName != null}
                 />
               </FormControl>
             </Stack>
@@ -206,10 +201,6 @@ function CustomizeAssetForm() {
                   onChange={handleChange}
                   name={`layers[${i}].assets[${j}].name`}
                   size="small"
-                  //@ts-ignore
-                  error={errors.layers[i].assets[j].name != null}
-                  // @ts-ignore
-                  helperText={errors.layers[i].assets[j].name}
                   sx={{ width: '200px' }}
                 />
                 <Box sx={{ width: 200 }}>
@@ -220,18 +211,22 @@ function CustomizeAssetForm() {
                     onChange={handleChange}
                     aria-label="Asset occurrence slider"
                     valueLabelDisplay="auto"
-                    valueLabelFormat={`${layers[i].assets[j].occurrence}%`}
+                    valueLabelFormat={`${values.layers[i].assets[j].occurrence}%`}
                   />
+                  <Typography
+                    variant="caption"
+                    component="p"
+                    color={grey[600]}
+                    fontSize="11px"
+                  >
+                    {values.layers[i].assets[j].name} will appears{' '}
+                    {Math.floor(
+                      (values.layers[i].assets[j].occurrence / 100) *
+                        values.generationAmount
+                    )}{' '}
+                    times
+                  </Typography>
                 </Box>
-                {/* <TextField
-                  placeholder="Asset Occurrence"
-                  value={values.layers[i].assets[j].occurrence}
-                  name={`layers[${i}].assets[${j}].occurrence`}
-                  onChange={handleChange}
-                  size="small"
-                  type="number"
-                  sx={{ width: '200px' }}
-                /> */}
               </Stack>
             ))}
           </Stack>
