@@ -2,15 +2,13 @@
 // The config you add here will be used whenever a page is visited.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import * as Sentry from '@sentry/nextjs'
+import Sentry from '@sentry/nextjs'
 
-// eslint-disable-next-line no-undef
-const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
+const SENTRY_DSN = process.env.NEXT_PUBLIC_SENTRY_DSN
 
 Sentry.init({
-  dsn:
-    SENTRY_DSN ||
-    'https://46d6f92b18914731b443374d11091fab@o4504520425275392.ingest.sentry.io/4504520427569152',
+  dsn: SENTRY_DSN,
+  environment: 'development',
   // Adjust this value in production, or use tracesSampler for greater control
   tracesSampleRate: 1.0
   // ...
