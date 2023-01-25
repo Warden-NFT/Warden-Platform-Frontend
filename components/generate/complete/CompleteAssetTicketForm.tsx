@@ -40,7 +40,7 @@ function CompleteAssetTicketForm() {
     const { query } = queryString.parseUrl(window.location.href)
     const { ticketType } = query
     setFieldValue("ticketType", ticketType as TicketTypes)
-  }, [window.location])
+  }, [])
 
   return (
     <Box>
