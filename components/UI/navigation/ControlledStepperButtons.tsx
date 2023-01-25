@@ -1,6 +1,6 @@
-import { Stack } from '@mui/material'
-import React from 'react'
-import ContainedButton from '../button/ContainedButton'
+import { Stack } from "@mui/material"
+import React from "react"
+import ContainedButton from "../button/ContainedButton"
 
 interface Props {
   handlePrevious?: () => void
@@ -19,7 +19,7 @@ function ControlledStepperButtons({
     <Stack
       direction="row"
       justifyContent="space-between"
-      sx={{ width: '100%' }}
+      sx={{ width: "100%" }}
     >
       <ContainedButton
         onClick={handlePrevious}

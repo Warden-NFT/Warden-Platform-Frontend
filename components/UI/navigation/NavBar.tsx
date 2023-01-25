@@ -72,15 +72,17 @@ function NavBar() {
 
   return (
     <AppBar
-      position="fixed"
       color="transparent"
       elevation={0}
       sx={{
-        width: "100vw",
-        background: "rgba(256, 256, 256, 0.75)",
+        position: "fixed",
+        width: "100%",
+        background: "rgba(256, 256, 256, 0.9)",
         backdropFilter: "blur(8px)",
         boxShadow: boxShadowStyle,
-        transition: "all 0.1s ease"
+        transition: "all 0.1s ease",
+        overflow: "hidden",
+        margin: "0 auto"
       }}
     >
       <Box
@@ -110,48 +112,6 @@ function NavBar() {
               if (appRoute.subroutes.length) return null
               return <NavLink route={appRoute} key={index} />
             })}
-            {user?.accountType === Account.EventOrganizer && (
-              <>
-                <Button
-                  variant="text"
-                  id="oned-button"
-                  aria-controls={menuElement ? "create-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={menuElement ? "true" : undefined}
-                  onClick={handleOpenMenu}
-                  sx={{
-                    fontWeight: "600",
-                    borderRadius: 20,
-                    paddingX: 2,
-                    "&:hover": {
-                      backgroundColor: "white"
-                    }
-                  }}
-                >
-                  CREATE
-                </Button>
-                <Menu
-                  id="create-menu"
-                  aria-labelledby="create-menu-button"
-                  anchorEl={menuElement}
-                  open={Boolean(menuElement)}
-                  onClose={handleCloseMenu}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center"
-                  }}
-                >
-                  {/* Event */}
-                  <MenuItem onClick={handleCloseMenu}>
-                    <NavLink route={appRoutes[2].subroutes[0]} />
-                  </MenuItem>
-                  {/* Ticket */}
-                  <MenuItem onClick={handleCloseMenu}>
-                    <NavLink route={appRoutes[2].subroutes[1]} />
-                  </MenuItem>
-                </Menu>
-              </>
-            )}
           </Box>
           <Box sx={{ display: "flex" }}>
             {user ? (

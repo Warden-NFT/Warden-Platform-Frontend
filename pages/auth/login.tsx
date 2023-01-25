@@ -7,7 +7,7 @@ import {
   Typography
 } from "@mui/material"
 import { Box } from "@mui/system"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import ContainerCard from "../../components/UI/card/ContainerCard"
 import { useFormik } from "formik"
 import ContainedButton from "../../components/UI/button/ContainedButton"
@@ -20,7 +20,7 @@ import { useRouter } from "next/router"
 import FadeEntrance from "../../components/motion/FadeEntrance"
 
 function Login() {
-  const { setUserInfo } = useContext(UserContext)
+  const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { values, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues: {
@@ -40,6 +40,11 @@ function Login() {
     }
   })
 
+  useEffect(() => {
+    if (user) router.push("/home")
+  }, [user])
+
+  if (user) return null
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
       <Grid item xs={12} sm={8} lg={6}>

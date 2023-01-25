@@ -1,17 +1,17 @@
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 import {
   createContext,
   Dispatch,
   SetStateAction,
   useEffect,
   useState
-} from 'react'
-import { useDisconnect } from 'wagmi'
-import { client } from '../../configs/axios/axiosConfig'
-import useAsyncEffect from '../../hooks/useAsyncEffect'
-import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
-import { Account, User } from '../../interfaces/auth/user.interface'
-import { getCookie, setCookie } from '../../utils/cookie/cookieHandler'
+} from "react"
+import { useDisconnect } from "wagmi"
+import { client } from "../../configs/axios/axiosConfig"
+import useAsyncEffect from "../../hooks/useAsyncEffect"
+import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
+import { Account, User } from "../../interfaces/auth/user.interface"
+import { getCookie, setCookie } from "../../utils/cookie/cookieHandler"
 
 interface UserContextStruct {
   user: User | undefined
@@ -34,30 +34,34 @@ const UserContextProvider = ({ ...props }) => {
 
   const setUserInfo = (data: SuccessfulAuthDTO) => {
     setUser(data.user)
-    setCookie('token', data.jwt, 30)
+    setCookie("token", data.jwt, 30)
     setToken(data.jwt)
   }
 
   const logOut = () => {
     setUser(undefined)
-    setToken('')
-    setCookie('token', null, 0)
+    setToken("")
+    setCookie("token", null, 0)
     disconnect()
   }
 
   const redirectToHome = () => {
-    router.push('/')
+    router.push("/")
   }
 
   const getAccountType = (): Account | undefined => {
     return user?.accountType
   }
 
-  useAsyncEffect(async () => {
+  const getUser = async () => {
+    if (!getCookie("token")) return
+    const user = await client.get("user")
+    if (user) setUser(user.data)
+  }
+
+  useEffect(() => {
     try {
-      if (!getCookie('token')) return
-      const user = await client.get('user')
-      if (user) setUser(user.data)
+      getUser()
     } catch (error) {
       console.log(error)
     }

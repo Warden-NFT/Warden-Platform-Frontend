@@ -1,7 +1,11 @@
 .MuiStepLabel-alternativeLabel {
-      font-weight: 600 !important;
+  font-weight: 600 !important;
 }
 
 .css-1014yos-MuiPaper-root-MuiAlert-root .MuiAlert-icon {
-      color: rgba(0,0,0,0.75);
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.MuiAppBar-positionFixed {
+  padding-right: 0 !important;
 }

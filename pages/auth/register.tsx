@@ -5,20 +5,24 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography
-} from '@mui/material'
-import { Box } from '@mui/system'
-import React, { useState } from 'react'
-import ContainerCard from '../../components/UI/card/ContainerCard'
-import Link from 'next/link'
-import EventOrganizerRegisterForm from '../../components/auth/EventOrganizerRegisterForm'
-import { grey } from '@mui/material/colors'
-import CustomerRegisterForm from '../../components/auth/CustomerRegisterForm'
-import FadeEntrance from '../../components/motion/FadeEntrance'
+} from "@mui/material"
+import { Box } from "@mui/system"
+import React, { useContext, useEffect, useState } from "react"
+import ContainerCard from "../../components/UI/card/ContainerCard"
+import Link from "next/link"
+import EventOrganizerRegisterForm from "../../components/auth/EventOrganizerRegisterForm"
+import { grey } from "@mui/material/colors"
+import CustomerRegisterForm from "../../components/auth/CustomerRegisterForm"
+import FadeEntrance from "../../components/motion/FadeEntrance"
+import { UserContext } from "../../contexts/user/UserContext"
+import { useRouter } from "next/navigation"
 
-type RegisterMode = 'Customer' | 'EventOrganizer'
+type RegisterMode = "Customer" | "EventOrganizer"
 
 function Register() {
-  const [registerMode, setRegisterMode] = useState<RegisterMode>('Customer')
+  const [registerMode, setRegisterMode] = useState<RegisterMode>("Customer")
+  const { user } = useContext(UserContext)
+  const router = useRouter()
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -27,6 +31,11 @@ function Register() {
     setRegisterMode(newMode)
   }
 
+  useEffect(() => {
+    if (user) router.push("/home")
+  }, [user])
+
+  if (user) return null
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
       <Grid item xs={12} sm={8} lg={6}>
@@ -39,7 +48,7 @@ function Register() {
               <Divider sx={{ my: 2 }} />
               <Box
                 sx={{
-                  borderRadius: '12px',
+                  borderRadius: "12px",
                   padding: 2,
                   backgroundColor: grey[100]
                 }}
@@ -65,14 +74,14 @@ function Register() {
               </Box>
               <Divider sx={{ my: 2 }} />
 
-              {registerMode === 'Customer' && <CustomerRegisterForm />}
-              {registerMode === 'EventOrganizer' && (
+              {registerMode === "Customer" && <CustomerRegisterForm />}
+              {registerMode === "EventOrganizer" && (
                 <EventOrganizerRegisterForm />
               )}
 
-              <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+              <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
                 <Typography>
-                  Already have an account?{' '}
+                  Already have an account?{" "}
                   <Link href="/auth/login">Log in here</Link>
                 </Typography>
               </Box>

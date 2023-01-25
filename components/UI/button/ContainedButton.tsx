@@ -1,15 +1,16 @@
-import React from 'react'
-import { Button } from '@mui/material'
-import { motion } from 'framer-motion'
+import React from "react"
+import { Button, SvgIconProps } from "@mui/material"
+import { motion } from "framer-motion"
 
 interface Props {
   label: string
   width?: string
   height?: string
-  variant: 'outlined' | 'text' | 'contained'
+  variant: "outlined" | "text" | "contained"
   onClick?: () => void
   disabled?: boolean
-  type?: 'button' | 'submit' | 'reset'
+  type?: "button" | "submit" | "reset"
+  icon?: React.ReactElement<SvgIconProps>
 }
 
 function ContainedButton({
@@ -19,7 +20,8 @@ function ContainedButton({
   variant,
   onClick,
   disabled,
-  type
+  type,
+  icon
 }: Props) {
   return (
     <motion.div
@@ -35,19 +37,20 @@ function ContainedButton({
       style={{ borderRadius: '20px', width }}
     >
       <Button
-        type={type ?? 'button'}
+        type={type ?? "button"}
         onClick={(e) => {
           e.preventDefault()
           onClick?.()
         }}
+        startIcon={icon}
         variant={variant}
         disabled={disabled}
         sx={{
-          borderRadius: '20px',
+          borderRadius: "20px",
           border: 2,
           width,
           height,
-          boxShadow: 'none'
+          boxShadow: "none"
         }}
       >
         {label}

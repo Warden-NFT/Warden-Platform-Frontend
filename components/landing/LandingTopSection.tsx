@@ -5,7 +5,6 @@ import { motion, useAnimation } from "framer-motion"
 import Image from "next/image"
 import { useRouter } from "next/router"
 import React from "react"
-import styles from "../../styles/landing/landing.module.css"
 import ContainedButton from "../UI/button/ContainedButton"
 import Ticket from "../UI/ticket/Ticket"
 
@@ -29,16 +28,27 @@ function LandingTopSection() {
           height="600"
           width="2500"
           alt="background"
-          className={styles.landingBackroundImage}
           draggable={false}
+          style={{
+            position: "absolute",
+            left: 0,
+            objectFit: "cover",
+            width: "100vw"
+          }}
         />
       </motion.div>
       <Grid
         container
         justifyContent="center"
-        className={styles.absoluteCenterGrid}
+        sx={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          margin: "0 auto",
+          maxWidth: "1200px"
+        }}
       >
-        <Grid xs={4} maxWidth="xl">
+        <Grid item xs={4} maxWidth="xl">
           <Box sx={{ height: 120 }} />
           <Typography variant="h3" component="h1">
             Warden
@@ -61,7 +71,16 @@ function LandingTopSection() {
             width="200px"
           />
         </Grid>
-        <Grid xs={7} maxWidth="xl" className={styles.ticketsDemoImages}>
+        <Grid
+          item
+          xs={7}
+          maxWidth="xl"
+          sx={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
           <motion.div animate={controls} transition={{ staggerChildren: 0.5 }}>
             <motion.div
               key={1}
