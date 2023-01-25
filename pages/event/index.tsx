@@ -2,8 +2,10 @@ import React from "react"
 import { withEventOrganizerGuard } from "../../guards/withAuth"
 import AddIcon from "@mui/icons-material/Add"
 import { useRouter } from "next/router"
-import MyEvents from "../../components/event/MyEvents"
+import MyEvents from "../../components/event/MyEvents/EventsList/EventsList"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
+import ContainerCard from "../../components/UI/card/ContainerCard"
+import EventsSearch from "../../components/event/MyEvents/EventsSearch/EventsSearch"
 
 function EventCreationPage() {
   const router = useRouter()
@@ -21,7 +23,10 @@ function EventCreationPage() {
       actionName="Create Event"
       actionIcon={<AddIcon />}
     >
-      <MyEvents />
+      <ContainerCard>
+        <EventsSearch />
+        <MyEvents />
+      </ContainerCard>
     </BannerLayout>
   )
 }
