@@ -3,7 +3,18 @@ import { Box } from "@mui/system"
 import Image from "next/image"
 import React from "react"
 import AnimateWhenInView from "../motion/AnimateWhenInView"
-import styles from "../../styles/landing/landing.module.css"
+
+const blackGradient = `radial-gradient(
+  116.3% 117.1% at 93.9% 40.4%,
+  rgb(43, 46, 49) 0%,
+  rgb(0, 0, 0) 100%
+);`
+
+const blueGradient = `radial-gradient(
+  116.3% 117.1% at 93.9% 40.4%,
+  rgb(146, 196, 255) 0%,
+  rgb(255, 255, 255) 100%
+);`
 
 function IssuesSection() {
   return (
@@ -12,8 +23,17 @@ function IssuesSection() {
         Issues with the ticketing industry
       </Typography>
       <Box sx={{ height: 24 }} />
-      <Box className={styles.issuesSection}>
-        <Box className={styles.issueCardBlack}>
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
+        <Box
+          sx={{
+            borderRadius: "12px",
+            height: "300px",
+            width: "50%",
+            padding: 4,
+            color: "#fff",
+            background: blackGradient
+          }}
+        >
           <AnimateWhenInView>
             <Image
               src="/images/landing/trust.png"
@@ -35,7 +55,16 @@ function IssuesSection() {
             ticket holders
           </Typography>
         </Box>
-        <Box className={styles.issueCardBlue}>
+        <Box
+          sx={{
+            borderRadius: "12px",
+            height: "300px",
+            width: "50%",
+            padding: 4,
+            color: "#000",
+            background: blueGradient
+          }}
+        >
           <AnimateWhenInView>
             <Image
               src="/images/landing/control.png"

@@ -8,7 +8,6 @@ import {
 } from "@mui/material"
 
 import React, { useState } from "react"
-import styles from "./styles.module.css"
 
 function EventsSearch() {
   enum SORT_BY {
@@ -33,7 +32,7 @@ function EventsSearch() {
           placeholder="ex: My Concert"
           variant="outlined"
           size="small"
-          className={styles.eventSearchInput}
+          sx={{ width: "400px" }}
         />
       </Box>
       <Box>

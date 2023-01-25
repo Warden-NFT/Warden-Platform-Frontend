@@ -2,7 +2,6 @@ import { Grid, Container, Typography, SvgIconProps } from "@mui/material"
 import { Box } from "@mui/system"
 import React from "react"
 import ContainedButton from "../button/ContainedButton"
-import styles from "./BannerLayout.module.css"
 
 type Props = {
   children: React.ReactNode
@@ -28,13 +27,29 @@ function BannerLayout({
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
       <Grid item xs={12}>
-        <Container className={styles.topSectionContainer}>
+        <Container sx={{ height: 300 }}>
           <Box
-            className={`${styles.backgroundImageContainer} ${styles[backgroundImage]}`}
-          ></Box>
+            sx={{
+              height: "300px",
+              backgroundSize: "cover",
+              backgroundPosition: "center center",
+              padding: 3,
+              width: "100vw",
+              position: "absolute",
+              left: 0,
+              backgroundImage: `linear-gradient(to bottom, rgba(86, 41, 231, 0.5), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`
+            }}
+          />
         </Container>
-        <Box className={styles.topSectionContent}>
-          <Box className={styles.titleSectionContainer}>
+        <Box sx={{ position: "relative", top: -160, mx: 8 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              width: "100%"
+            }}
+          >
             <Box>
               <Typography variant="h3" color="#fff">
                 {title}

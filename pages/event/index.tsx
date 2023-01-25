@@ -2,10 +2,10 @@ import React from "react"
 import { withEventOrganizerGuard } from "../../guards/withAuth"
 import AddIcon from "@mui/icons-material/Add"
 import { useRouter } from "next/router"
-import MyEvents from "../../components/event/MyEvents/EventsList/EventsList"
+import MyEvents from "../../components/event/MyEvents/EventsList"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
 import ContainerCard from "../../components/UI/card/ContainerCard"
-import EventsSearch from "../../components/event/MyEvents/EventsSearch/EventsSearch"
+import EventsSearch from "../../components/event/MyEvents/EventsSearch"
 
 function EventCreationPage() {
   const router = useRouter()
@@ -15,7 +15,7 @@ function EventCreationPage() {
 
   return (
     <BannerLayout
-      backgroundImage="eventBackground"
+      backgroundImage="/images/background/event-background.jpeg"
       title="Events"
       subtitle="Create and manage NFT-ticket based events"
       enableActionButton

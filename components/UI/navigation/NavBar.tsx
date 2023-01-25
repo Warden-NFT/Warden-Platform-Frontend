@@ -72,15 +72,17 @@ function NavBar() {
 
   return (
     <AppBar
-      position="fixed"
       color="transparent"
       elevation={0}
       sx={{
-        width: "100vw",
+        position: "fixed",
+        width: "100%",
         background: "rgba(256, 256, 256, 0.75)",
         backdropFilter: "blur(8px)",
         boxShadow: boxShadowStyle,
-        transition: "all 0.1s ease"
+        transition: "all 0.1s ease",
+        overflow: "hidden",
+        margin: "0 auto"
       }}
     >
       <Box

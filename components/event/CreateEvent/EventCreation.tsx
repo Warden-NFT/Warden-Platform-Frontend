@@ -5,9 +5,9 @@ import { CREATE_EVENT_STEPS } from "../../../constants/generate/steps"
 import { CreateEventContext } from "../../../contexts/event/CreateEventContext"
 import ActiveStepper from "../../UI/navigation/ActiveStepper"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
-import CreateEventStep1 from "./Step1/CreateEventStep1"
-import CreateEventStep2 from "./Step2/CreateEventStep2"
-import CreateEventStep3 from "./Step3/CreateEventStep3"
+import CreateEventStep1 from "./Steps/CreateEventStep1"
+import CreateEventStep2 from "./Steps/CreateEventStep2"
+import CreateEventStep3 from "./Steps/CreateEventStep3"
 
 function EventCreation() {
   const { activeStep, onClickBack, onClickNext } =
