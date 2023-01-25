@@ -77,7 +77,7 @@ function NavBar() {
       sx={{
         position: "fixed",
         width: "100%",
-        background: "rgba(256, 256, 256, 0.75)",
+        background: "rgba(256, 256, 256, 0.9)",
         backdropFilter: "blur(8px)",
         boxShadow: boxShadowStyle,
         transition: "all 0.1s ease",

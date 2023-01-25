@@ -1,4 +1,5 @@
 import { FormControl, FormLabel, TextField } from "@mui/material"
+import { Box } from "@mui/system"
 import { useFormik } from "formik"
 import React from "react"
 import { string } from "yup"
@@ -27,7 +28,7 @@ function CreateEventStep1() {
   })
 
   return (
-    <FlatCard>
+    <Box>
       <FormControl required sx={{ width: "100%", height: 84 }}>
         <FormLabel>Event Name</FormLabel>
         <TextField
@@ -44,7 +45,7 @@ function CreateEventStep1() {
           helperText={touched.name ? errors.name : undefined}
         />
       </FormControl>
-    </FlatCard>
+    </Box>
   )
 }
 

@@ -1,8 +1,8 @@
+import { Box } from "@mui/material"
 import React from "react"
-import FlatCard from "../../../UI/card/FlatCard"
 
 function CreateEventStep3() {
-  return <FlatCard>CreateEventStep3</FlatCard>
+  return <Box>CreateEventStep3</Box>
 }
 
 export default CreateEventStep3
