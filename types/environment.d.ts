@@ -7,7 +7,7 @@ declare global {
       NEXT_PUBLIC_ALCHEMY_KEY: string
       SENTRY_AUTH_TOKEN: string
 
-      VERCEL_ENV: 'development' | 'production'
+      VERCEL_ENV: "development" | "production"
     }
   }
 }

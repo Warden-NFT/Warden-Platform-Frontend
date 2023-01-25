@@ -1,4 +1,4 @@
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import {
   Box,
   Divider,
@@ -8,13 +8,13 @@ import {
   Stack,
   TextField,
   Typography
-} from '@mui/material'
-import { useFormik } from 'formik'
-import React, { useContext, useEffect } from 'react'
-import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
-import { CompleteAssetCustomizeUtilitySchema } from '../../../schema/generate/complete'
-import Image from 'next/image'
+} from "@mui/material"
+import { useFormik } from "formik"
+import React, { useContext, useEffect } from "react"
+import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { CompleteAssetCustomizeUtilitySchema } from "../../../schema/generate/complete"
+import Image from "next/image"
 
 interface AssetValue {
   id: number
@@ -74,7 +74,7 @@ function CustomizeUtilityForm() {
           quantity: asset.quantity
         }
       })
-      setFieldValue('assets', _assets)
+      setFieldValue("assets", _assets)
     }
 
     if (values.vipAssets.length === 0 && uploadedVipAssets.length > 0) {
@@ -85,7 +85,7 @@ function CustomizeUtilityForm() {
           quantity: asset.quantity
         }
       })
-      setFieldValue('vipAssets', _vipAssets)
+      setFieldValue("vipAssets", _vipAssets)
     }
   }, [])
 
@@ -96,7 +96,7 @@ function CustomizeUtilityForm() {
         spacing={2}
         p={4}
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: "white",
           marginY: 4,
           borderRadius: 6,
           border: 2
@@ -110,7 +110,7 @@ function CustomizeUtilityForm() {
           </Typography>
           <DateTimePicker
             value={values.publicationDatetime}
-            onChange={(val) => setFieldValue('publicationDatetime', val)}
+            onChange={(val) => setFieldValue("publicationDatetime", val)}
             renderInput={(params) => <TextField size="small" {...params} />}
           />
           {errors.publicationDatetime && touched.publicationDatetime && (
@@ -134,14 +134,14 @@ function CustomizeUtilityForm() {
                 justifyContent="space-between"
                 alignItems="center"
                 key={i}
-                sx={{ width: '100%' }}
+                sx={{ width: "100%" }}
               >
                 <Image
                   src={uploadedAssets[i].data}
                   width="100"
                   height="100"
                   alt={asset.name}
-                  style={{ objectFit: 'contain' }}
+                  style={{ objectFit: "contain" }}
                   draggable={false}
                 />
                 <TextField
@@ -154,7 +154,7 @@ function CustomizeUtilityForm() {
                   //@ts-ignore
                   error={errors.assets && errors.assets[i].name ? true : false}
                   //@ts-ignore
-                  helperText={errors.assets ? errors.assets[i].name : ''}
+                  helperText={errors.assets ? errors.assets[i].name : ""}
                 />
                 <TextField
                   value={values.assets[i].quantity}
@@ -168,7 +168,7 @@ function CustomizeUtilityForm() {
                     errors.assets && errors.assets[i].quantity ? true : false
                   }
                   //@ts-ignore
-                  helperText={errors.assets ? errors.assets[i].quantity : ''}
+                  helperText={errors.assets ? errors.assets[i].quantity : ""}
                 />
               </Stack>
             ))}
@@ -191,14 +191,14 @@ function CustomizeUtilityForm() {
                   justifyContent="space-between"
                   alignItems="center"
                   key={i}
-                  sx={{ width: '100%' }}
+                  sx={{ width: "100%" }}
                 >
                   <Image
                     src={uploadedVipAssets[i].data}
                     width="100"
                     height="100"
                     alt={asset.name}
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: "contain" }}
                     draggable={false}
                   />
                   <TextField
@@ -216,7 +216,7 @@ function CustomizeUtilityForm() {
                     }
                     helperText={
                       //@ts-ignore
-                      errors.vipAssets ? errors.vipAssets[i].name : ''
+                      errors.vipAssets ? errors.vipAssets[i].name : ""
                     }
                   />
                   <TextField
@@ -234,7 +234,7 @@ function CustomizeUtilityForm() {
                     }
                     helperText={
                       //@ts-ignore
-                      errors.vipAssets ? errors.vipAssets[i].quantity : ''
+                      errors.vipAssets ? errors.vipAssets[i].quantity : ""
                     }
                   />
                 </Stack>

@@ -1,4 +1,4 @@
-import { UploadedAsset } from './file.interface'
+import { UploadedAsset } from "./file.interface"
 
 export interface LayeredAssetMetadata {
   id: number // Generated ID (ex. 1)

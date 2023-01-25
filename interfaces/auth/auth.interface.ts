@@ -1,4 +1,4 @@
-import { UserGeneralInfo } from './user.interface'
+import { UserGeneralInfo } from "./user.interface"
 
 export interface SuccessfulAuthDTO {
   status: number
@@ -7,4 +7,4 @@ export interface SuccessfulAuthDTO {
   user: UserGeneralInfo
 }
 
-export type Verification = 'NotVerified' | 'Verified'
+export type Verification = "NotVerified" | "Verified"

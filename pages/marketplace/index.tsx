@@ -1,6 +1,6 @@
-import { Container } from '@mui/material'
-import React from 'react'
-import Ticket from '../../components/UI/ticket/Ticket'
+import { Container } from "@mui/material"
+import React from "react"
+import Ticket from "../../components/UI/ticket/Ticket"
 
 function MarketplacePage() {
   return (

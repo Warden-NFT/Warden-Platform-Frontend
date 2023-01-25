@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { client } from "../configs/axios/axiosConfig"
 import { UserContext } from "../contexts/user/UserContext"
 import { Account, User } from "../interfaces/auth/user.interface"

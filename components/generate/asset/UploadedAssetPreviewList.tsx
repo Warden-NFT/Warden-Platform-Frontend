@@ -1,9 +1,9 @@
-import { Box, IconButton, Stack, Typography } from '@mui/material'
-import React, { Dispatch, SetStateAction } from 'react'
-import { UploadedCompleteAsset } from '../../../interfaces/generate/file.interface'
-import { motion } from 'framer-motion'
-import CloseIcon from '@mui/icons-material/Close'
-import Image from 'next/image'
+import { Box, IconButton, Stack, Typography } from "@mui/material"
+import React, { Dispatch, SetStateAction } from "react"
+import { UploadedCompleteAsset } from "../../../interfaces/generate/file.interface"
+import { motion } from "framer-motion"
+import CloseIcon from "@mui/icons-material/Close"
+import Image from "next/image"
 
 interface Props {
   assets: File[]
@@ -43,7 +43,7 @@ function UploadedAssetPreviewList({
         {uploads.map((asset, i) => (
           <motion.div
             key={i}
-            transition={{ type: 'spring' }}
+            transition={{ type: "spring" }}
             whileHover={{ scale: 1.05 }}
           >
             <Stack
@@ -53,16 +53,16 @@ function UploadedAssetPreviewList({
                 width: 170,
                 height: 220,
                 mr: 1,
-                backgroundColor: 'white',
+                backgroundColor: "white",
                 boxShadow: 4
               }}
             >
               <Box
                 sx={{
                   pr: 2,
-                  width: '100%',
-                  display: 'grid',
-                  placeItems: 'end'
+                  width: "100%",
+                  display: "grid",
+                  placeItems: "end"
                 }}
               >
                 <IconButton
@@ -82,7 +82,7 @@ function UploadedAssetPreviewList({
                   alt={asset.name}
                   draggable={false}
                   style={{
-                    objectFit: 'cover'
+                    objectFit: "cover"
                   }}
                 />
               </Box>

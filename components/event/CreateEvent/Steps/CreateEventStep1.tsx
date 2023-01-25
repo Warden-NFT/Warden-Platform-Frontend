@@ -3,7 +3,6 @@ import { Box } from "@mui/system"
 import { useFormik } from "formik"
 import React from "react"
 import { string } from "yup"
-import FlatCard from "../../../UI/card/FlatCard"
 
 function CreateEventStep1() {
   // Page 1
@@ -13,7 +12,7 @@ function CreateEventStep1() {
   //   url: string
   //   eventKeywords: [string]
 
-  const { values, handleChange, touched, errors, handleSubmit } = useFormik({
+  const { values, handleChange, touched, errors } = useFormik({
     initialValues: {
       name: "",
       description: "",
@@ -24,6 +23,7 @@ function CreateEventStep1() {
     validationSchema: {}, // TODO
     onSubmit: async (data) => {
       // TODO
+      console.log(data)
     }
   })
 

@@ -1,14 +1,14 @@
-import { Box, Stack, Typography } from '@mui/material'
-import React, { useContext } from 'react'
-import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import LayeredDropzone from './LayeredDropzone'
-import LayerAssetPreviewCard from './LayerAssetPreviewCard'
+import { Box, Stack, Typography } from "@mui/material"
+import React, { useContext } from "react"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import LayeredDropzone from "./LayeredDropzone"
+import LayerAssetPreviewCard from "./LayerAssetPreviewCard"
 
 function LayerAssetGallery() {
-  const { layers, metadata, setMetadata } = useContext(GenerateLayerContext)
+  const { layers } = useContext(GenerateLayerContext)
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: "100%" }}>
       <Stack direction="column">
         {layers.map((layer, i) => (
           <Box
@@ -17,7 +17,7 @@ function LayerAssetGallery() {
               px: 2,
               py: 2,
               mb: 2,
-              backgroundColor: 'white',
+              backgroundColor: "white",
               height: 180
             }}
             key={i}
@@ -28,9 +28,9 @@ function LayerAssetGallery() {
 
             <Box
               sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                overflowX: 'scroll'
+                display: "flex",
+                flexDirection: "row",
+                overflowX: "scroll"
               }}
             >
               {layer.assets.map((asset, j) => (

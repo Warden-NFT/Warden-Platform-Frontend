@@ -1,17 +1,17 @@
-import { Alert, Grid, Link, Snackbar, Typography } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
-import FadeEntrance from '../../components/motion/FadeEntrance'
-import ContainerCard from '../../components/UI/card/ContainerCard'
-import OtpInput from 'react-otp-input'
-import { Box } from '@mui/system'
-import ContainedButton from '../../components/UI/button/ContainedButton'
-import { UserContext } from '../../contexts/user/UserContext'
-import { useRouter } from 'next/navigation'
-import { useOTP } from '../../hooks/useOTP'
-import { client } from '../../configs/axios/axiosConfig'
+import { Alert, Grid, Link, Snackbar, Typography } from "@mui/material"
+import React, { useContext, useEffect, useState } from "react"
+import FadeEntrance from "../../components/motion/FadeEntrance"
+import ContainerCard from "../../components/UI/card/ContainerCard"
+import OtpInput from "react-otp-input"
+import { Box } from "@mui/system"
+import ContainedButton from "../../components/UI/button/ContainedButton"
+import { UserContext } from "../../contexts/user/UserContext"
+import { useRouter } from "next/navigation"
+import { useOTP } from "../../hooks/useOTP"
+import { client } from "../../configs/axios/axiosConfig"
 
 function ConfirmPhone() {
-  const [otpToken, setOtpToken] = useState('')
+  const [otpToken, setOtpToken] = useState("")
   const [seconds, setSeconds] = useState<number>(0)
   const [openOtpErrorSnackbar, setOpenOtpErrorSnackbar] = useState(false)
   const [openOtpSuccessSnackbar, setOpenOtpSuccessSnackbar] = useState(false)
@@ -28,16 +28,16 @@ function ConfirmPhone() {
     const verificationSuccessful = await verifyOTP(otpToken, otp)
     if (verificationSuccessful) {
       const payload = {
-        verificationStatus: 'Verified'
+        verificationStatus: "Verified"
       }
       try {
-        await client.put('/user/setVerificationStatus', payload)
+        await client.put("/user/setVerificationStatus", payload)
       } catch (error) {
         console.log(error)
       }
       setOpenOtpSuccessSnackbar(true)
       setTimeout(() => {
-        router.push('/home')
+        router.push("/home")
       }, 3000)
     } else setOpenOtpErrorSnackbar(true)
   }
@@ -46,7 +46,7 @@ function ConfirmPhone() {
     event: React.SyntheticEvent | Event,
     reason?: string
   ) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return
     }
 
@@ -89,17 +89,17 @@ function ConfirmPhone() {
                 onChange={handleChange}
                 numInputs={6}
                 separator={<span>-</span>}
-                inputStyle={{ padding: '0.75rem', margin: '0.5rem' }}
+                inputStyle={{ padding: "0.75rem", margin: "0.5rem" }}
               />
               <Box sx={{ my: 2 }} />
               {seconds > 0 ? (
                 <Typography>Try again in {seconds} seconds.</Typography>
               ) : (
                 <Typography component="p">
-                  Click here to receive the OTP code.{' '}
+                  Click here to receive the OTP code.{" "}
                   <Link
                     onClick={requestOTP}
-                    sx={{ '&:hover': { cursor: 'pointer' } }}
+                    sx={{ "&:hover": { cursor: "pointer" } }}
                   >
                     Send OTP code
                   </Link>
@@ -120,7 +120,7 @@ function ConfirmPhone() {
       </Grid>
       <Snackbar
         open={openOtpErrorSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         autoHideDuration={6000}
         onClose={handleClose}
         message="Incorrect OTP. Please try again."
@@ -129,7 +129,7 @@ function ConfirmPhone() {
       </Snackbar>
       <Snackbar
         open={openOtpSuccessSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         autoHideDuration={6000}
         onClose={handleClose}
         message="OTP verified. Redirecting you to the home page."

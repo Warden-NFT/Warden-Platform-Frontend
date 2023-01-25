@@ -6,7 +6,7 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 // eslint-disable-next-line no-undef
-const { withSentryConfig } = require('@sentry/nextjs')
+const { withSentryConfig } = require("@sentry/nextjs")
 
 const moduleExports = {
   // Your existing module.exports
@@ -33,7 +33,7 @@ const sentryWebpackPluginOptions = {
   // https://github.com/getsentry/sentry-webpack-plugin#options.
 
   authToken: process.env.SENTRY_AUTH_TOKEN,
-  dryRun: process.env.VERCEL_ENV !== 'production',
+  dryRun: process.env.VERCEL_ENV !== "production",
   silent: true // Suppresses all logs
 }
 

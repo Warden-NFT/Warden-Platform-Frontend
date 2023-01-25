@@ -7,16 +7,16 @@ import {
   Stack,
   TextField,
   Typography
-} from '@mui/material'
-import { useFormik } from 'formik'
-import Image from 'next/image'
-import React, { useContext, useEffect } from 'react'
-import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import { FormLayerData } from '../../../interfaces/generate/file.interface'
-import { createLayerOccurrenceForm } from '../../../schema/generate/layered'
-import { calculateCombination } from '../../../utils/random/combination'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
-import { grey } from '@mui/material/colors'
+} from "@mui/material"
+import { useFormik } from "formik"
+import Image from "next/image"
+import React, { useContext, useEffect } from "react"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import { FormLayerData } from "../../../interfaces/generate/file.interface"
+import { createLayerOccurrenceForm } from "../../../schema/generate/layered"
+import { calculateCombination } from "../../../utils/random/combination"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { grey } from "@mui/material/colors"
 
 function CustomizeAssetForm() {
   const { layers, formInfo, setActiveStep } = useContext(GenerateLayerContext)
@@ -57,8 +57,8 @@ function CustomizeAssetForm() {
     const _assetOccurrences = layers.map((layer) =>
       layer.assets.map((asset) => asset.occurrence)
     )
-    setFieldValue('layers', _layers)
-    setFieldValue('assetOccurrences', _assetOccurrences)
+    setFieldValue("layers", _layers)
+    setFieldValue("assetOccurrences", _assetOccurrences)
   }, [layers, setFieldValue])
 
   return (
@@ -66,7 +66,7 @@ function CustomizeAssetForm() {
       sx={{
         padding: 4,
         marginY: 4,
-        backgroundColor: 'white',
+        backgroundColor: "white",
         borderRadius: 4
       }}
     >
@@ -95,8 +95,8 @@ function CustomizeAssetForm() {
           }
         />
         <Typography>
-          Maximum generation amount is:{' '}
-          <span style={{ fontWeight: '600' }}>
+          Maximum generation amount is:{" "}
+          <span style={{ fontWeight: "600" }}>
             {calculateCombination(layers.map((layer) => layer.assets.length))}
           </span>
         </Typography>
@@ -165,16 +165,16 @@ function CustomizeAssetForm() {
               justifyContent="space-between"
               sx={{ marginY: 2 }}
             >
-              <Typography fontWeight="600" sx={{ width: '100px' }}>
+              <Typography fontWeight="600" sx={{ width: "100px" }}>
                 ID
               </Typography>
-              <Typography fontWeight="600" sx={{ width: '200px' }}>
+              <Typography fontWeight="600" sx={{ width: "200px" }}>
                 Asset
               </Typography>
-              <Typography fontWeight="600" sx={{ width: '200px' }}>
+              <Typography fontWeight="600" sx={{ width: "200px" }}>
                 Name
               </Typography>
-              <Typography fontWeight="600" sx={{ width: '200px' }}>
+              <Typography fontWeight="600" sx={{ width: "200px" }}>
                 Occurance %
               </Typography>
             </Stack>
@@ -183,10 +183,10 @@ function CustomizeAssetForm() {
                 direction="row"
                 justifyContent="space-between"
                 key={asset.name}
-                sx={{ width: '100%' }}
+                sx={{ width: "100%" }}
               >
-                <Typography sx={{ width: '100px' }}>{j + 1}</Typography>
-                <Box sx={{ width: '140px' }}>
+                <Typography sx={{ width: "100px" }}>{j + 1}</Typography>
+                <Box sx={{ width: "140px" }}>
                   <Image
                     src={asset.data}
                     width="50"
@@ -201,7 +201,7 @@ function CustomizeAssetForm() {
                   onChange={handleChange}
                   name={`layers[${i}].assets[${j}].name`}
                   size="small"
-                  sx={{ width: '200px' }}
+                  sx={{ width: "200px" }}
                 />
                 <Box sx={{ width: 200 }}>
                   <Slider
@@ -219,11 +219,11 @@ function CustomizeAssetForm() {
                     color={grey[600]}
                     fontSize="11px"
                   >
-                    {values.layers[i].assets[j].name} will appears{' '}
+                    {values.layers[i].assets[j].name} will appears{" "}
                     {Math.floor(
                       (values.layers[i].assets[j].occurrence / 100) *
                         values.generationAmount
-                    ) / values.layers[i].assets.length}{' '}
+                    ) / values.layers[i].assets.length}{" "}
                     times
                   </Typography>
                 </Box>

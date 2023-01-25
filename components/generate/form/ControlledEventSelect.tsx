@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react"
 import {
   FormControl,
   FormHelperText,
   FormLabel,
   MenuItem,
   Select
-} from '@mui/material'
-import { red } from '@mui/material/colors'
+} from "@mui/material"
+import { red } from "@mui/material/colors"
 
 interface Props {
   subjectOf: string
@@ -41,7 +41,7 @@ function ControlledEventSelect({
         <MenuItem value={30}>Thirty</MenuItem>
       </Select>
       <FormHelperText sx={{ color: red[600] }}>
-        {error && touched ? error : ''}
+        {error && touched ? error : ""}
       </FormHelperText>
     </FormControl>
   )

@@ -1,12 +1,12 @@
-import { Box, Stack, Typography } from '@mui/material'
-import React, { useContext, useEffect, useState } from 'react'
-import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import { Reorder } from 'framer-motion'
-import AssetCanvasCard from '../asset/AssetCanvasCard'
-import { LayerData } from '../../../interfaces/generate/file.interface'
-import PNGAssetPreview from '../../assets/PNGAssetPreview'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
-import { motion } from 'framer-motion'
+import { Box, Stack, Typography } from "@mui/material"
+import React, { useContext, useEffect, useState } from "react"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import { Reorder } from "framer-motion"
+import AssetCanvasCard from "../asset/AssetCanvasCard"
+import { LayerData } from "../../../interfaces/generate/file.interface"
+import PNGAssetPreview from "../../assets/PNGAssetPreview"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { motion } from "framer-motion"
 
 function CustomizeLayer() {
   const { layers, setLayers, setActiveStep } = useContext(GenerateLayerContext)
@@ -22,11 +22,11 @@ function CustomizeLayer() {
     <Box
       sx={{
         padding: 4,
-        display: 'grid',
-        placeItems: 'center',
+        display: "grid",
+        placeItems: "center",
         borderRadius: 4,
         marginY: 4,
-        backgroundColor: 'white'
+        backgroundColor: "white"
       }}
     >
       <Stack spacing={2}>
@@ -53,23 +53,23 @@ function CustomizeLayer() {
                 <Reorder.Item
                   key={layer.layerName}
                   value={layer}
-                  style={{ listStyle: 'none', cursor: 'pointer' }}
+                  style={{ listStyle: "none", cursor: "pointer" }}
                 >
                   <motion.div
                     whileHover={{
                       y: -6,
-                      boxShadow: '5px 5px 0 rgb(0, 0, 0)',
-                      borderRadius: '20px'
+                      boxShadow: "5px 5px 0 rgb(0, 0, 0)",
+                      borderRadius: "20px"
                     }}
                     whileTap={{
-                      backgroundColor: 'rgba(0,0,0,1)',
-                      color: 'rgb(255,255,255)',
-                      boxShadow: '0px 0px 0 rgb(0, 0, 0)',
+                      backgroundColor: "rgba(0,0,0,1)",
+                      color: "rgb(255,255,255)",
+                      boxShadow: "0px 0px 0 rgb(0, 0, 0)",
                       y: 0
                     }}
                     style={{
-                      border: '2px solid black',
-                      borderRadius: '20px',
+                      border: "2px solid black",
+                      borderRadius: "20px",
                       marginBottom: 10
                     }}
                   >
@@ -87,15 +87,15 @@ function CustomizeLayer() {
                         key={layer.layerName}
                         sx={{
                           borderWidth: 1,
-                          borderColor: '#efefef',
-                          width: '500px',
+                          borderColor: "#efefef",
+                          width: "500px",
                           height: 50,
                           py: 2,
                           pl: 2,
                           borderRadius: 3,
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center'
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center"
                         }}
                       >
                         <Stack
@@ -117,21 +117,21 @@ function CustomizeLayer() {
                             direction="row"
                             sx={{
                               width: 600,
-                              overflowX: 'scroll',
-                              overflowY: 'hidden',
-                              position: 'relative'
+                              overflowX: "scroll",
+                              overflowY: "hidden",
+                              position: "relative"
                             }}
                           >
                             {layer.assets.map((asset, j) => (
                               <Box
                                 sx={{
                                   mr: 1,
-                                  backgroundColor: 'white',
+                                  backgroundColor: "white",
                                   border: 1,
-                                  borderColor: '#e0e0e0',
+                                  borderColor: "#e0e0e0",
                                   width: 54,
-                                  display: 'grid',
-                                  placeItems: 'center'
+                                  display: "grid",
+                                  placeItems: "center"
                                 }}
                                 key={j}
                               >
@@ -155,7 +155,7 @@ function CustomizeLayer() {
         </Stack>
       </Stack>
 
-      <Box sx={{ marginTop: 4, width: '100%' }}>
+      <Box sx={{ marginTop: 4, width: "100%" }}>
         <ControlledStepperButtons
           handlePrevious={() => setActiveStep((prev) => prev - 1)}
           handleNext={() => setActiveStep((prev) => prev + 1)}

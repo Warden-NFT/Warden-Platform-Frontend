@@ -1,6 +1,6 @@
-import { useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { motion } from 'framer-motion'
+import { useInView } from "framer-motion"
+import { useRef } from "react"
+import { motion } from "framer-motion"
 
 type Props = {
   children: JSX.Element | JSX.Element[]
@@ -19,7 +19,7 @@ export default function AnimateWhenInView({ children }: Props) {
         transition={{
           delay: 0.5,
           duration: 0.3,
-          type: 'spring',
+          type: "spring",
           bounce: 0.4
         }}
       >

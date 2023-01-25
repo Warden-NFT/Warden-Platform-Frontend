@@ -37,7 +37,7 @@ function GenerateModeSelector({ selectedType }: Props) {
           <div
             onClick={() => {
               // FIXME: update route
-              router.push('/create/ticket/layer', {
+              router.push("/create/ticket/layer", {
                 query: {
                   ticketType: selectedType
                 }

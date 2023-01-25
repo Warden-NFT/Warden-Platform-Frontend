@@ -1,7 +1,7 @@
-import React, { useState, createContext, SetStateAction, Dispatch } from 'react'
-import { LayeredAssetInfo } from '../../interfaces/generate/collection.interface'
-import { LayerData } from '../../interfaces/generate/file.interface'
-import { LayeredAssetMetadata } from '../../interfaces/generate/metadata.interface'
+import React, { useState, createContext, SetStateAction, Dispatch } from "react"
+import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
+import { LayerData } from "../../interfaces/generate/file.interface"
+import { LayeredAssetMetadata } from "../../interfaces/generate/metadata.interface"
 
 interface GenerateLayerContextProps {
   activeStep: number
@@ -25,13 +25,13 @@ const GenerateLayerContextProvider = ({ ...props }) => {
   const [layers, setLayers] = useState<LayerData[]>([])
   const [metadata, setMetadata] = useState<LayeredAssetMetadata[]>([])
   const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
-    currency: 'ETH',
-    name: '',
-    description: '',
-    subjectOf: '',
+    currency: "ETH",
+    name: "",
+    description: "",
+    subjectOf: "",
     ticketMetadata: { data: [] },
     price: 0,
-    ticketType: 'GENERAL',
+    ticketType: "GENERAL",
     generationAmount: 1
   })
 

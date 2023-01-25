@@ -1,19 +1,19 @@
-import { Container, Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import Image from 'next/image'
-import React, { useCallback, useContext } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
+import { Container, Typography } from "@mui/material"
+import { Box } from "@mui/system"
+import Image from "next/image"
+import React, { useCallback, useContext } from "react"
+import { useDropzone } from "react-dropzone"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
 
 import {
   extractFolderName,
   extractFolderNames
-} from '../../../utils/assets/detail'
+} from "../../../utils/assets/detail"
 import {
   categorizeAssetsIntoLayer,
   readLayeredAsset
-} from '../../../utils/assets/layer'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
+} from "../../../utils/assets/layer"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
 
 function LayeredDropzone() {
   const { setAssets, setLayers, setActiveStep } =
@@ -49,23 +49,23 @@ function LayeredDropzone() {
     onDrop,
     // note: accept only folders with images
     accept: {
-      'image/png': [],
-      'image/jpg': [],
-      'image/gif': []
+      "image/png": [],
+      "image/jpg": [],
+      "image/gif": []
     }
   })
   return (
     <Box>
       <Container
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: "white",
           minHeight: 140,
           borderWidth: 2,
-          borderColor: 'primary.main',
+          borderColor: "primary.main",
           borderRadius: 3,
-          borderStyle: 'dashed',
-          display: 'grid',
-          placeItems: 'center',
+          borderStyle: "dashed",
+          display: "grid",
+          placeItems: "center",
           marginY: 4
         }}
         {...getRootProps()}
