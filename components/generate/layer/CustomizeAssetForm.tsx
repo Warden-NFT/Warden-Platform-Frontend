@@ -228,8 +228,8 @@ function CustomizeAssetForm() {
                       //@ts-ignore
                       (errors.layers && errors.layers[i].assets[j].name) != null
                     }
-                    // @ts-ignore
                     helperText={
+                      // @ts-ignore
                       errors.layers && errors.layers[i].assets[j].name
                     }
                     sx={{ width: "200px" }}
