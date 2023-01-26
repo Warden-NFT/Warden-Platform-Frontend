@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, maximum-scale=1.0" />
+        <meta name="viewport" content="width=1200px maximum-scale=1.0" />
       </Head>
       <WagmiConfig client={WagmiClient.wagmiClient}>
         <RainbowKitProvider
