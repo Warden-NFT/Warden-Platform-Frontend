@@ -47,7 +47,7 @@ function CustomizeAssetForm() {
 
         setFormInfo(_formInfo)
         setLayers(_layers)
-        router.push("/create/ticket/layer/utilize")
+        router.push("/ticket/layer/utilize")
       }
     })
 

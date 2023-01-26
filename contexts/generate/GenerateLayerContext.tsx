@@ -1,7 +1,7 @@
-import React, { useState, createContext, SetStateAction, Dispatch } from 'react'
-import { LayeredAssetInfo } from '../../interfaces/generate/collection.interface'
-import { LayerData } from '../../interfaces/generate/file.interface'
-import { LayeredAssetMetadata } from '../../interfaces/generate/metadata.interface'
+import React, { useState, createContext, SetStateAction, Dispatch } from "react"
+import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
+import { LayerData } from "../../interfaces/generate/file.interface"
+import { LayeredTicketMetadata } from "../../interfaces/generate/metadata.interface"
 
 interface GenerateLayerContextProps {
   activeStep: number
@@ -10,8 +10,8 @@ interface GenerateLayerContextProps {
   setAssets: Dispatch<SetStateAction<File[]>>
   layers: LayerData[]
   setLayers: Dispatch<SetStateAction<LayerData[]>>
-  metadata: LayeredAssetMetadata[]
-  setMetadata: Dispatch<SetStateAction<LayeredAssetMetadata[]>>
+  metadata: LayeredTicketMetadata[]
+  setMetadata: Dispatch<SetStateAction<LayeredTicketMetadata[]>>
   formInfo: LayeredAssetInfo
   setFormInfo: Dispatch<SetStateAction<LayeredAssetInfo>>
 }
@@ -23,15 +23,15 @@ const GenerateLayerContextProvider = ({ ...props }) => {
   const [activeStep, setActiveStep] = useState(1)
   const [assets, setAssets] = useState<File[]>([])
   const [layers, setLayers] = useState<LayerData[]>([])
-  const [metadata, setMetadata] = useState<LayeredAssetMetadata[]>([])
+  const [metadata, setMetadata] = useState<LayeredTicketMetadata[]>([])
   const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
-    currency: 'ETH',
-    name: '',
-    description: '',
-    subjectOf: '',
+    currency: "ETH",
+    name: "",
+    description: "",
+    subjectOf: "",
     ticketMetadata: { data: [] },
     price: 0,
-    ticketType: 'GENERAL',
+    ticketType: "GENERAL",
     generationAmount: 1
   })
 
