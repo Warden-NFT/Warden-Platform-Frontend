@@ -68,7 +68,8 @@ function CustomizeAssetForm() {
         marginY: 4,
         backgroundColor: "white",
         borderRadius: 4
-      }}>
+      }}
+    >
       <FormControl required>
         <FormLabel>Generation Amount</FormLabel>
         <Typography variant="caption" color="gray">
@@ -110,7 +111,8 @@ function CustomizeAssetForm() {
             <Stack
               direction="row"
               alignItems="end"
-              justifyContent="space-between">
+              justifyContent="space-between"
+            >
               <Box>
                 <Typography>Layer Name</Typography>
                 <Typography variant="caption" color="gray">
@@ -133,7 +135,8 @@ function CustomizeAssetForm() {
             <Stack
               direction="row"
               alignItems="end"
-              justifyContent="space-between">
+              justifyContent="space-between"
+            >
               <Box>
                 <Typography>Layer Occurrance %</Typography>
                 <Typography variant="caption" color="gray">
@@ -160,7 +163,8 @@ function CustomizeAssetForm() {
             <Stack
               direction="row"
               justifyContent="space-between"
-              sx={{ marginY: 2 }}>
+              sx={{ marginY: 2 }}
+            >
               <Typography fontWeight="600" sx={{ width: "100px" }}>
                 ID
               </Typography>
@@ -179,7 +183,8 @@ function CustomizeAssetForm() {
                 direction="row"
                 justifyContent="space-between"
                 key={asset.name}
-                sx={{ width: "100%" }}>
+                sx={{ width: "100%" }}
+              >
                 <Typography sx={{ width: "100px" }}>{j + 1}</Typography>
                 <Box sx={{ width: "140px" }}>
                   <Image
@@ -196,10 +201,12 @@ function CustomizeAssetForm() {
                   onChange={handleChange}
                   name={`layers[${i}].assets[${j}].name`}
                   size="small"
-                  //@ts-ignore
-                  error={errors.layers[i].assets[j].name != null}
+                  error={
+                    //@ts-ignore
+                    (errors.layers && errors.layers[i].assets[j].name) != null
+                  }
                   // @ts-ignore
-                  helperText={errors.layers[i].assets[j].name}
+                  helperText={errors.layers && errors.layers[i].assets[j].name}
                   sx={{ width: "200px" }}
                 />
 
@@ -217,13 +224,15 @@ function CustomizeAssetForm() {
                     variant="caption"
                     component="p"
                     color={grey[600]}
-                    fontSize="11px">
-                    {values.layers[i].assets[j].name} will appears{" "}
-                    {Math.floor(
-                      (values.layers[i].assets[j].occurrence / 100) *
-                        values.generationAmount
-                    ) / values.layers[i].assets.length}{" "}
-                    times
+                    fontSize="11px"
+                  >
+                    {values.layers[i].assets[j].name} will appears ≈{" "}
+                    {(
+                      ((values.layers[i].assets[j].occurrence / 100) *
+                        values.generationAmount) /
+                      values.layers[i].assets.length
+                    ).toFixed(2)}{" "}
+                    time(s)
                   </Typography>
                 </Box>
               </Stack>
