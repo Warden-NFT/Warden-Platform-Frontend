@@ -1,11 +1,18 @@
 import { Box, Stack, Typography } from "@mui/material"
 import { Container } from "@mui/system"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import React from "react"
 import ContainedButton from "../components/UI/button/ContainedButton"
 import ContainerCard from "../components/UI/card/ContainerCard"
 
 function NotFoundPage() {
+  const router = useRouter()
+
+  const onClickHome = () => {
+    router.push("/")
+  }
+
   return (
     <Container
       maxWidth={false}
@@ -30,6 +37,7 @@ function NotFoundPage() {
             label="Go back home"
             variant="contained"
             width="300px"
+            onClick={onClickHome}
           />
         </Stack>
       </ContainerCard>
