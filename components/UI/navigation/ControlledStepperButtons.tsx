@@ -30,6 +30,7 @@ function ControlledStepperButtons({
         width="200px"
       />
       <ContainedButton
+        type="submit"
         onClick={handleNext}
         disabled={isRightDisabled}
         variant="contained"

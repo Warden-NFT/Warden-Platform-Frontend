@@ -18,7 +18,7 @@ export type TicketsMetadata = {
 export interface Event {
   _id?: string
   eventStatus: EventStatusType
-  eventKeywords: [string]
+  eventKeywords: string[]
   location: string
   ticketSupply: {
     general: number
@@ -34,11 +34,11 @@ export interface Event {
   image: string
   name: string
   url: string
-  doorTime: Date
-  startDate: Date
-  endDate: Date
+  doorTime?: Date | null
+  startDate?: Date | null
+  endDate?: Date | null
   ticketType: TicketType
   ownerAddress: string
   smartContractAddress: string
-  ticketsMetadata: TicketsMetadata
+  ticketsMetadata?: TicketsMetadata
 }
