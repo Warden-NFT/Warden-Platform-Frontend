@@ -42,7 +42,7 @@ function BannerLayout({
           />
         </Container>
         <Box sx={{ position: "relative", top: -160, mx: 8 }}>
-          <Box
+          <Container
             sx={{
               display: "flex",
               justifyContent: "space-between",
@@ -69,7 +69,7 @@ function BannerLayout({
                 />
               </Box>
             )}
-          </Box>
+          </Container>
           <Box sx={{ height: 12 }}></Box>
           {children}
         </Box>
