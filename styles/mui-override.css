@@ -8,4 +8,5 @@
 
 .MuiAppBar-positionFixed {
   padding-right: 0 !important;
+  padding-left: 15px;
 }
