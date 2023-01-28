@@ -9,34 +9,46 @@ import { useFormik } from "formik"
 import { isEmpty } from "../../../../utils/common/objectChecks"
 import GoogleMaps from "../../../UI/textfield/GoogleMapsAuthComplete"
 import { Event } from "../../../../interfaces/event/event.interface"
+import moment from "moment"
+import { PlaceType } from "../../../../interfaces/event/location.interface"
 
 function CreateEventStep2() {
-  // Page 2
-  //   doorTime: Date
-  //   location: string
-  //   startDate: Date
-  //   endDate: Date
-  const [eventStartDate, setEventStartDate] = useState<Date | null>(null)
-  const [eventEndDate, setEventEndDate] = useState<Date | null>(null)
-  const [eventDoorTime, setEventDoorTime] = useState<Date | null>(null)
-
-  const { event: currentEvent, setEvent } = useContext(CreateEventContext)
-  const { values, handleChange, errors, touched, handleSubmit, handleBlur } =
+  const {
+    event: currentEvent,
+    setEvent,
+    setActiveStep
+  } = useContext(CreateEventContext)
+  const { values, handleChange, errors, touched, handleSubmit, setFieldValue } =
     useFormik({
       initialValues: {
-        startDate: null,
-        endDate: null,
-        doorTime: null,
-        location: ""
+        startDate: currentEvent.startDate
+          ? moment(currentEvent.startDate).toDate()
+          : null,
+        endDate: currentEvent.endDate
+          ? moment(currentEvent.endDate).toDate()
+          : null,
+        doorTime: currentEvent.doorTime
+          ? moment(currentEvent.doorTime).toDate()
+          : null,
+        location: currentEvent.location
       },
       // validationSchema: CreateEventSchema,
       onSubmit: async (data) => {
-        const _event: Event = { ...currentEvent, ...data }
+        const _event: Event = {
+          ...currentEvent,
+          ...data,
+          location: locationValue
+        }
         setEvent(_event)
+        setActiveStep((step) => step + 1)
       }
     })
+  const [locationValue, setLocationValue] = useState<PlaceType | null>(
+    currentEvent.location ?? null
+  )
 
-  const { onClickBack, onClickNext } = useContext(CreateEventContext)
+  const { onClickBack } = useContext(CreateEventContext)
+
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <FlatCard>
@@ -51,9 +63,10 @@ function CreateEventStep2() {
                 {...props}
               />
             )}
-            value={eventStartDate}
+            value={values.startDate}
             onChange={(newValue) => {
-              if (newValue !== null) setEventStartDate(newValue)
+              if (!newValue) return
+              setFieldValue("startDate", moment(newValue).toDate())
             }}
           />
         </FormControl>
@@ -69,9 +82,10 @@ function CreateEventStep2() {
                 {...props}
               />
             )}
-            value={eventEndDate}
+            value={values.endDate}
             onChange={(newValue) => {
-              if (newValue !== null) setEventEndDate(newValue)
+              if (!newValue) return
+              setFieldValue("endDate", moment(newValue).toDate())
             }}
           />
         </FormControl>
@@ -87,16 +101,21 @@ function CreateEventStep2() {
                 {...props}
               />
             )}
-            value={eventDoorTime}
+            value={values.doorTime}
             onChange={(newValue) => {
-              setEventDoorTime(newValue)
+              if (!newValue) return
+              setFieldValue("doorTime", moment(newValue).toDate())
             }}
           />
         </FormControl>
 
         <FormControl sx={{ width: "100%", height: 84 }}>
           <FormLabel>Event Location</FormLabel>
-          <GoogleMaps />
+          <GoogleMaps
+            name="location"
+            locationValue={locationValue}
+            setLocationValue={setLocationValue}
+          />
         </FormControl>
       </FlatCard>
       <ControlledStepperButtons
@@ -104,6 +123,7 @@ function CreateEventStep2() {
         handleNext={handleSubmit}
         isBackDisabled={false}
         isRightDisabled={(false && isEmpty(touched)) || !isEmpty(errors)}
+        nextLabel="Save and Continue"
       />
     </LocalizationProvider>
   )

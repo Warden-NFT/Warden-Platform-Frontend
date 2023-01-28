@@ -1,3 +1,5 @@
+import { PlaceType } from "./location.interface"
+
 export type TicketType = "GENERAL" | "VIP" | "RESERVED_SEAT"
 
 export type EventStatusType =
@@ -19,7 +21,7 @@ export interface Event {
   _id?: string
   eventStatus: EventStatusType
   eventKeywords: string[]
-  location: string
+  location: PlaceType | null
   ticketSupply: {
     general: number
     vip: number

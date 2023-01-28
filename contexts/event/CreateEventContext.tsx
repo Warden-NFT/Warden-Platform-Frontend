@@ -15,15 +15,16 @@ interface CreateEventStruct {
   setIsNextDisabled: Dispatch<SetStateAction<boolean>>
   isFirstVisit: boolean
   setIsFirstVisit: Dispatch<SetStateAction<boolean>>
+  resetEvent: () => void
 }
 
 export const CreateEventContext = createContext({} as CreateEventStruct)
 
 const CreateEventContextProvider = ({ ...props }) => {
-  const [event, setEvent] = useState<Event>({
+  const DEFAULT_EVENT = {
     eventStatus: EVENT_STATUS.NOT_STARTED,
     eventKeywords: [],
-    location: "",
+    location: null,
     ticketSupply: {
       general: 0,
       vip: 0,
@@ -45,7 +46,8 @@ const CreateEventContextProvider = ({ ...props }) => {
     ownerAddress: "",
     smartContractAddress: "",
     ticketsMetadata: undefined
-  })
+  }
+  const [event, setEvent] = useState<Event>(DEFAULT_EVENT)
   const [activeStep, setActiveStep] = useState<number>(1)
   const [isBackDisabled, setIsBackDisabled] = useState<boolean>(true)
   const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false)
@@ -57,6 +59,10 @@ const CreateEventContextProvider = ({ ...props }) => {
 
   const onClickNext = () => {
     if (activeStep < 3) setActiveStep(activeStep + 1)
+  }
+
+  const resetEvent = () => {
+    setEvent(DEFAULT_EVENT)
   }
 
   const values: CreateEventStruct = {
@@ -71,7 +77,8 @@ const CreateEventContextProvider = ({ ...props }) => {
     isNextDisabled,
     setIsNextDisabled,
     isFirstVisit,
-    setIsFirstVisit
+    setIsFirstVisit,
+    resetEvent
   }
 
   return <CreateEventContext.Provider value={values} {...props} />

@@ -20,7 +20,7 @@ export const TextFieldWrapper = (props: TextFieldProps) => {
         props.onChange(event)
       }
     },
-    1000
+    500
   )
 
   const handleOnChange = useCallback(

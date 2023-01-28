@@ -9,18 +9,21 @@ import { CreateEventContext } from "../../../../contexts/event/CreateEventContex
 import FlatCard from "../../../UI/card/FlatCard"
 import { Event } from "../../../../interfaces/event/event.interface"
 import { isEmpty } from "../../../../utils/common/objectChecks"
+import { useRouter } from "next/router"
 
 function CreateEventStep1() {
-  const [eventKeywords, setEventKeywords] = React.useState<string[]>([])
+  const [eventKeywords, setEventKeywords] = useState<string[]>([])
 
   const {
-    onClickBack,
     setActiveStep,
     event: currentEvent,
     setEvent,
     isFirstVisit,
-    setIsFirstVisit
+    setIsFirstVisit,
+    resetEvent
   } = useContext(CreateEventContext)
+
+  const router = useRouter()
 
   const { values, handleChange, errors, touched, handleSubmit, handleBlur } =
     useFormik({
@@ -41,6 +44,11 @@ function CreateEventStep1() {
         setIsFirstVisit(false)
       }
     })
+
+  const handleCancel = () => {
+    resetEvent
+    router.push("/event/create")
+  }
 
   const handleKeywordsChange = (newChips: string[]) => {
     setEventKeywords(newChips)
@@ -114,10 +122,10 @@ function CreateEventStep1() {
         </FormControl>
       </FlatCard>
       <ControlledStepperButtons
-        handlePrevious={onClickBack}
+        handlePrevious={handleCancel}
         handleNext={handleSubmit}
-        isBackDisabled={true}
         isRightDisabled={(isFirstVisit && isEmpty(touched)) || !isEmpty(errors)}
+        backLabel="Cancel"
       />
     </>
   )

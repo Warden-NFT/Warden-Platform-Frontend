@@ -7,13 +7,17 @@ interface Props {
   handleNext?: () => void
   isBackDisabled?: boolean
   isRightDisabled?: boolean
+  backLabel?: string
+  nextLabel?: string
 }
 
 function ControlledStepperButtons({
   handlePrevious,
   handleNext,
   isBackDisabled,
-  isRightDisabled
+  isRightDisabled,
+  backLabel,
+  nextLabel
 }: Props) {
   return (
     <Stack
@@ -25,7 +29,7 @@ function ControlledStepperButtons({
         onClick={handlePrevious}
         disabled={isBackDisabled}
         variant="outlined"
-        label="Back"
+        label={backLabel ?? "Back"}
         height="40px"
         width="200px"
       />
@@ -34,7 +38,7 @@ function ControlledStepperButtons({
         onClick={handleNext}
         disabled={isRightDisabled}
         variant="contained"
-        label="Next"
+        label={nextLabel ?? "Next"}
         height="40px"
         width="200px"
       />

@@ -7,10 +7,11 @@ import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
 import parse from "autosuggest-highlight/parse"
 import { debounce } from "@mui/material/utils"
+import { PlaceType } from "../../../interfaces/event/location.interface"
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
-const GOOGLE_MAPS_API_KEY = "AIzaSyBYozWqYhVGMJeP98-fY1Z7AEFzkcRsuZM"
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
 
 function loadScript(src: string, position: HTMLElement | null, id: string) {
   if (!position) {
@@ -26,22 +27,17 @@ function loadScript(src: string, position: HTMLElement | null, id: string) {
 
 const autocompleteService = { current: null }
 
-interface MainTextMatchedSubstrings {
-  offset: number
-  length: number
-}
-interface StructuredFormatting {
-  main_text: string
-  secondary_text: string
-  main_text_matched_substrings?: readonly MainTextMatchedSubstrings[]
-}
-interface PlaceType {
-  description: string
-  structured_formatting: StructuredFormatting
+type Props = {
+  name: string
+  locationValue: PlaceType | null
+  setLocationValue: React.Dispatch<React.SetStateAction<PlaceType | null>>
 }
 
-export default function GoogleMaps() {
-  const [value, setValue] = React.useState<PlaceType | null>(null)
+export default function GoogleMaps({
+  name,
+  locationValue,
+  setLocationValue
+}: Props) {
   const [inputValue, setInputValue] = React.useState("")
   const [options, setOptions] = React.useState<readonly PlaceType[]>([])
   const loaded = React.useRef(false)
@@ -88,7 +84,7 @@ export default function GoogleMaps() {
     }
 
     if (inputValue === "") {
-      setOptions(value ? [value] : [])
+      setOptions(locationValue ? [locationValue] : [])
       return undefined
     }
 
@@ -96,8 +92,8 @@ export default function GoogleMaps() {
       if (active) {
         let newOptions: readonly PlaceType[] = []
 
-        if (value) {
-          newOptions = [value]
+        if (locationValue) {
+          newOptions = [locationValue]
         }
 
         if (results) {
@@ -111,7 +107,7 @@ export default function GoogleMaps() {
     return () => {
       active = false
     }
-  }, [value, inputValue, fetch])
+  }, [locationValue, inputValue, fetch])
 
   return (
     <Autocomplete
@@ -125,11 +121,11 @@ export default function GoogleMaps() {
       autoComplete
       includeInputInList
       filterSelectedOptions
-      value={value}
+      value={locationValue}
       noOptionsText="No locations"
       onChange={(event: any, newValue: PlaceType | null) => {
         setOptions(newValue ? [newValue, ...options] : options)
-        setValue(newValue)
+        setLocationValue(newValue)
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue)
@@ -137,6 +133,7 @@ export default function GoogleMaps() {
       renderInput={(params) => (
         <TextField
           {...params}
+          name={name}
           size="small"
           placeholder="Event Location"
           fullWidth
