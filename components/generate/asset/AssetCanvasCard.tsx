@@ -1,4 +1,4 @@
-import { Box, SxProps } from "@mui/material"
+import { Box, SxProps, Skeleton } from "@mui/material"
 import NextImage from "next/image"
 import React, { useEffect, useRef, useState } from "react"
 
@@ -8,9 +8,10 @@ interface Props {
   height: number
   width: number
   sx?: SxProps
+  skeletonSx?: SxProps
 }
 
-function AssetCanvasCard({ name, data, width, height, sx }: Props) {
+function AssetCanvasCard({ name, data, width, height, sx, skeletonSx }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [url, setUrl] = useState<string>("")
 
@@ -48,13 +49,21 @@ function AssetCanvasCard({ name, data, width, height, sx }: Props) {
       }}
     >
       <Box>
-        {url && (
+        {url ? (
           <NextImage
             src={url}
             width={width}
             height={height}
             alt={`Preview of ${name}`}
             draggable={false}
+          />
+        ) : (
+          <Skeleton
+            variant="rectangular"
+            width={200}
+            height={200}
+            animation="wave"
+            sx={{ ...skeletonSx }}
           />
         )}
       </Box>

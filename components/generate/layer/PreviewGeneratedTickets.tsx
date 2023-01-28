@@ -6,12 +6,13 @@ import React, {
   Suspense,
   lazy
 } from "react"
-import { Box, Stack } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
 import { generateRandomLayer } from "../../../utils/generate/layer"
 import { LayeredTicketMetadata } from "../../../interfaces/generate/metadata.interface"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
 import FlatCard from "../../UI/card/FlatCard"
+import ContainedButton from "../../UI/button/ContainedButton"
 
 const AssetCanvasCard = lazy(
   () => import("../../../components/generate/asset/AssetCanvasCard")
@@ -24,8 +25,6 @@ function PreviewGeneratedTickets() {
   >([])
 
   const handleGenerate = useCallback(() => {
-    if (generatedMetadata.length > 0) return
-
     const { metadata } = generateRandomLayer(formInfo, layers)
     setGeneratedMetadata(metadata)
   }, [layers, formInfo])
@@ -37,6 +36,22 @@ function PreviewGeneratedTickets() {
   return (
     <Box sx={{ marginY: 4 }}>
       <FlatCard sx={{ display: "grid", placeItems: "center" }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ width: "100%" }}
+        >
+          <Typography variant="h4" component="h1">
+            Preview your ticket assets
+          </Typography>
+          <ContainedButton
+            label="Regenerate"
+            variant="contained"
+            onClick={handleGenerate}
+          />
+        </Stack>
+
         <Stack direction="row" flexWrap="wrap" justifyContent="space-between">
           {generatedMetadata.map((data, i) => (
             <Suspense
