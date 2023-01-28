@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, TextField } from "@mui/material"
+import { FormControl, FormLabel, TextField } from "@mui/material"
 import React, { useContext, useState } from "react"
 import FlatCard from "../../../UI/card/FlatCard"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
@@ -14,41 +14,55 @@ import { PlaceType } from "../../../../interfaces/event/location.interface"
 import { CreateEventStep2Schema } from "../../../../schema/event/createEventStep2.schema"
 
 function CreateEventStep2() {
+  // Hooks
+
   const {
     event: currentEvent,
     setEvent,
     setActiveStep
   } = useContext(CreateEventContext)
-  const { values, handleChange, errors, touched, handleSubmit, setFieldValue } =
-    useFormik({
-      initialValues: {
-        startDate: currentEvent.startDate
-          ? moment(currentEvent.startDate).toDate()
-          : null,
-        endDate: currentEvent.endDate
-          ? moment(currentEvent.endDate).toDate()
-          : null,
-        doorTime: currentEvent.doorTime
-          ? moment(currentEvent.doorTime).toDate()
-          : null,
-        location: currentEvent.location
-      },
-      validationSchema: CreateEventStep2Schema,
-      onSubmit: async (data) => {
-        const _event: Event = {
-          ...currentEvent,
-          ...data,
-          location: locationValue
-        }
-        setEvent(_event)
-        setActiveStep((step) => step + 1)
+  const { values, errors, touched, handleSubmit, setFieldValue } = useFormik({
+    initialValues: {
+      startDate: currentEvent.startDate
+        ? moment(currentEvent.startDate).toDate()
+        : null,
+      endDate: currentEvent.endDate
+        ? moment(currentEvent.endDate).toDate()
+        : null,
+      doorTime: currentEvent.doorTime
+        ? moment(currentEvent.doorTime).toDate()
+        : null,
+      location: currentEvent.location
+    },
+    validationSchema: CreateEventStep2Schema,
+    onSubmit: async (data) => {
+      const _event: Event = {
+        ...currentEvent,
+        ...data,
+        location: locationValue
       }
-    })
+      setEvent(_event)
+      setActiveStep((step) => step + 1)
+    }
+  })
+
+  // States
+
   const [locationValue, setLocationValue] = useState<PlaceType | null>(
     currentEvent.location ?? null
   )
 
-  const { onClickBack } = useContext(CreateEventContext)
+  // Event handlers
+
+  const handleClickBack = () => {
+    const _event: Event = {
+      ...currentEvent,
+      ...values,
+      location: locationValue
+    }
+    setEvent(_event)
+    setActiveStep((step) => step - 1)
+  }
 
   const handleLocationSelect = (value: PlaceType | null) => {
     setLocationValue(value)
@@ -133,11 +147,10 @@ function CreateEventStep2() {
         </FormControl>
       </FlatCard>
       <ControlledStepperButtons
-        handlePrevious={onClickBack}
+        handlePrevious={handleClickBack}
         handleNext={handleSubmit}
         isBackDisabled={false}
         isRightDisabled={(false && isEmpty(touched)) || !isEmpty(errors)}
-        nextLabel="Save and Continue"
       />
     </LocalizationProvider>
   )

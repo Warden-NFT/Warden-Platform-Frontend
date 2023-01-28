@@ -10,19 +10,26 @@ export const CreateEventStep2Schema = object({
   doorTime: date()
     .typeError("Invalid date")
     .required("Event door time cannot be empty"),
-  location: object().shape({
-    description: string()
-      .typeError("Invalid location")
-      .required("Event location cannot be empty"),
-    structured_formatting: object().shape({
-      main_text: string(),
-      secondary_text: string(),
-      main_text_matched_substrings: object()
-        .shape({
-          offset: number(),
-          length: number()
-        })
+  location: object()
+    .typeError("Invalid Location")
+    .shape({
+      description: string()
+        .typeError("Invalid location")
+        .required("Event location cannot be empty"),
+      structured_formatting: object()
         .nullable()
+        .shape({
+          main_text: string(),
+          secondary_text: string(),
+          main_text_matched_substrings: object()
+            .nullable()
+            .shape({
+              offset: number(),
+              length: number()
+            })
+            .typeError("Invalid location")
+            .nullable()
+        })
+        .required("Event location can't be empty")
     })
-  })
 })

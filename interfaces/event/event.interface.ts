@@ -1,6 +1,7 @@
 import { PlaceType } from "./location.interface"
 
 export type TicketType = "GENERAL" | "VIP" | "RESERVED_SEAT"
+export type TicketTypeKey = "general" | "vip" | "reservedSeat"
 
 export type EventStatusType =
   | "NotStarted"
@@ -26,7 +27,6 @@ export interface Event {
     general: number
     vip: number
     reservedSeat: number
-    total: number
   }
   organizerId: string
   subEventId: string
@@ -43,4 +43,11 @@ export interface Event {
   ownerAddress: string
   smartContractAddress: string
   ticketsMetadata?: TicketsMetadata
+}
+
+export interface TicketSupplySettings {
+  type: string
+  checked: boolean
+  supply: number
+  label: string
 }

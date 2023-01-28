@@ -12,7 +12,7 @@ import { isEmpty } from "../../../../utils/common/objectChecks"
 import { useRouter } from "next/router"
 
 function CreateEventStep1() {
-  const [eventKeywords, setEventKeywords] = useState<string[]>([])
+  // Hooks
 
   const {
     setActiveStep,
@@ -44,6 +44,12 @@ function CreateEventStep1() {
         setIsFirstVisit(false)
       }
     })
+
+  // States
+
+  const [eventKeywords, setEventKeywords] = useState<string[]>([])
+
+  // Event handlers
 
   const handleCancel = () => {
     resetEvent
