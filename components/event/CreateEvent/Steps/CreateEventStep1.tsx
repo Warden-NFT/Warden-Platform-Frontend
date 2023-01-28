@@ -2,7 +2,7 @@ import { FormControl, FormLabel } from "@mui/material"
 import { useFormik } from "formik"
 import React, { useContext, useState } from "react"
 import { MuiChipsInput } from "mui-chips-input"
-import { CreateEventSchema } from "../../../../schema/event/createEvent.schema"
+import { CreateEventStep1Schema } from "../../../../schema/event/createEventStep1.schema"
 import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { CreateEventContext } from "../../../../contexts/event/CreateEventContext"
@@ -32,7 +32,7 @@ function CreateEventStep1() {
         description: currentEvent.description || "",
         url: currentEvent.url || ""
       },
-      validationSchema: CreateEventSchema,
+      validationSchema: CreateEventStep1Schema,
       onSubmit: async (data) => {
         const updatedEvent: Event = {
           ...currentEvent,

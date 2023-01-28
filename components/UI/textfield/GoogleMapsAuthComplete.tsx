@@ -30,13 +30,17 @@ const autocompleteService = { current: null }
 type Props = {
   name: string
   locationValue: PlaceType | null
-  setLocationValue: React.Dispatch<React.SetStateAction<PlaceType | null>>
+  setLocationValue: (value: PlaceType | null) => void
+  hasError?: boolean
+  errorMessage?: string
 }
 
 export default function GoogleMaps({
   name,
   locationValue,
-  setLocationValue
+  setLocationValue,
+  hasError,
+  errorMessage
 }: Props) {
   const [inputValue, setInputValue] = React.useState("")
   const [options, setOptions] = React.useState<readonly PlaceType[]>([])
@@ -137,6 +141,8 @@ export default function GoogleMaps({
           size="small"
           placeholder="Event Location"
           fullWidth
+          error={hasError}
+          helperText={errorMessage}
         />
       )}
       renderOption={(props, option) => {

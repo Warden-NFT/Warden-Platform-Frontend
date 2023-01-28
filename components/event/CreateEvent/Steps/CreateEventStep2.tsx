@@ -11,6 +11,7 @@ import GoogleMaps from "../../../UI/textfield/GoogleMapsAuthComplete"
 import { Event } from "../../../../interfaces/event/event.interface"
 import moment from "moment"
 import { PlaceType } from "../../../../interfaces/event/location.interface"
+import { CreateEventStep2Schema } from "../../../../schema/event/createEventStep2.schema"
 
 function CreateEventStep2() {
   const {
@@ -32,7 +33,7 @@ function CreateEventStep2() {
           : null,
         location: currentEvent.location
       },
-      // validationSchema: CreateEventSchema,
+      validationSchema: CreateEventStep2Schema,
       onSubmit: async (data) => {
         const _event: Event = {
           ...currentEvent,
@@ -49,6 +50,11 @@ function CreateEventStep2() {
 
   const { onClickBack } = useContext(CreateEventContext)
 
+  const handleLocationSelect = (value: PlaceType | null) => {
+    setLocationValue(value)
+    setFieldValue("location", value)
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <FlatCard>
@@ -61,6 +67,8 @@ function CreateEventStep2() {
                 size="small"
                 variant="outlined"
                 {...props}
+                error={touched.startDate && Boolean(errors.startDate)}
+                helperText={touched.startDate && errors.startDate}
               />
             )}
             value={values.startDate}
@@ -80,6 +88,8 @@ function CreateEventStep2() {
                 size="small"
                 variant="outlined"
                 {...props}
+                error={touched.endDate && Boolean(errors.endDate)}
+                helperText={touched.endDate && errors.endDate}
               />
             )}
             value={values.endDate}
@@ -99,6 +109,8 @@ function CreateEventStep2() {
                 size="small"
                 variant="outlined"
                 {...props}
+                error={touched.doorTime && Boolean(errors.doorTime)}
+                helperText={touched.doorTime && errors.doorTime}
               />
             )}
             value={values.doorTime}
@@ -114,7 +126,9 @@ function CreateEventStep2() {
           <GoogleMaps
             name="location"
             locationValue={locationValue}
-            setLocationValue={setLocationValue}
+            setLocationValue={handleLocationSelect}
+            hasError={touched.location && Boolean(errors.location)}
+            errorMessage={touched.location ? errors.location : undefined}
           />
         </FormControl>
       </FlatCard>
