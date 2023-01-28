@@ -17,10 +17,8 @@ import { createLayerOccurrenceForm } from "../../../schema/generate/layered"
 import { calculateCombination } from "../../../utils/random/combination"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
 import { grey } from "@mui/material/colors"
-import { useRouter } from "next/router"
 
 function CustomizeAssetForm() {
-  const router = useRouter()
   const { layers, setLayers, formInfo, setFormInfo, setActiveStep } =
     useContext(GenerateLayerContext)
 
@@ -47,7 +45,7 @@ function CustomizeAssetForm() {
 
         setFormInfo(_formInfo)
         setLayers(_layers)
-        router.push("/ticket/layer/utilize")
+        setActiveStep((prev) => prev + 1)
       }
     })
 
