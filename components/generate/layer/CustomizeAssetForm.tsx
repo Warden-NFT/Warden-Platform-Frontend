@@ -43,6 +43,10 @@ function CustomizeAssetForm() {
           })
         })
 
+        if (!_formInfo.hasAssetReversed) {
+          _layers.map((layer) => layer.assets.reverse())
+          _formInfo.hasAssetReversed = true
+        }
         setFormInfo(_formInfo)
         setLayers(_layers)
         setActiveStep((prev) => prev + 1)

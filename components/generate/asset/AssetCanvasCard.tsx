@@ -1,19 +1,18 @@
-import { Box } from "@mui/material"
+import { Box, SxProps } from "@mui/material"
 import NextImage from "next/image"
-import React, { useEffect, useRef, useMemo, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 interface Props {
+  name: string
   data: string[] // image data URL
   height: number
   width: number
+  sx?: SxProps
 }
 
-function AssetCanvasCard({ data, width, height }: Props) {
+function AssetCanvasCard({ name, data, width, height, sx }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [url, setUrl] = useState<string>("")
-  useEffect(() => {
-    console.log(url)
-  }, [url])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -25,13 +24,12 @@ function AssetCanvasCard({ data, width, height }: Props) {
     const ctx = canvas.getContext("2d")
     if (ctx === null) return
 
-    data.reverse().forEach((uri) => {
+    data.forEach((uri) => {
       const img = new Image()
       img.src = uri
       img.onload = () => {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
         const imageURL = canvas.toDataURL("image/png")
-        console.log(imageURL)
         setUrl(imageURL)
       }
     })
@@ -44,22 +42,22 @@ function AssetCanvasCard({ data, width, height }: Props) {
         boxShadow: 2,
         backgroundColor: "white",
         width: width,
-        height: height
+        height: height,
+        overflow: "hidden",
+        ...sx
       }}
     >
-      {/* <Box>
-        <div>{url}</div>
-        <NextImage src={url ?? ''} width={width} height={height} alt='Preview' />
-      </Box>
-
-      <canvas
-        ref={canvasRef}
-        id="canvas" /> */}
-
       <Box>
-        <NextImage src={url} width={width} height={height} alt="Preview" />
+        {url && (
+          <NextImage
+            src={url}
+            width={width}
+            height={height}
+            alt={`Preview of ${name}`}
+            draggable={false}
+          />
+        )}
       </Box>
-
       <canvas ref={canvasRef} id="canvas" style={{ display: "none" }} />
     </Box>
   )

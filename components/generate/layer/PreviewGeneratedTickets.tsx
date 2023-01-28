@@ -6,24 +6,19 @@ import React, {
   Suspense,
   lazy
 } from "react"
-import { Box, Button, Stack } from "@mui/material"
-import { useRouter } from "next/navigation"
-import { FixedSizeGrid as Grid, GridChildComponentProps } from "react-window"
-import FlatCard from "../../../components/UI/card/FlatCard"
+import { Box, Stack } from "@mui/material"
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
 import { generateRandomLayer } from "../../../utils/generate/layer"
 import { LayeredTicketMetadata } from "../../../interfaces/generate/metadata.interface"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import FlatCard from "../../UI/card/FlatCard"
 
 const AssetCanvasCard = lazy(
   () => import("../../../components/generate/asset/AssetCanvasCard")
 )
 
-const COLUMN_COUNT = 4
-
 function PreviewGeneratedTickets() {
   const { layers, formInfo, setActiveStep } = useContext(GenerateLayerContext)
-  const [loadingStatuses, setLoadingStatuses] = useState<boolean[]>([])
   const [generatedMetadata, setGeneratedMetadata] = useState<
     LayeredTicketMetadata[]
   >([])
@@ -41,21 +36,41 @@ function PreviewGeneratedTickets() {
 
   return (
     <Box sx={{ marginY: 4 }}>
-      {generatedMetadata.map((data, i) => (
-        <Box key={i}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <AssetCanvasCard
-              data={data.attributes.map((attr) => attr.asset.data)}
-              width={200}
-              height={200}
-            />
-          </Suspense>
-        </Box>
-      ))}
-      <ControlledStepperButtons
-        handlePrevious={() => setActiveStep((prev) => prev - 1)}
-        // handleNext={)}
-      />
+      <FlatCard sx={{ display: "grid", placeItems: "center" }}>
+        <Stack direction="row" flexWrap="wrap" justifyContent="space-between">
+          {generatedMetadata.map((data, i) => (
+            <Suspense
+              key={i}
+              fallback={
+                <Box
+                  sx={{
+                    display: "grid",
+                    placeItems: "center",
+                    width: "200px",
+                    height: "200px",
+                    mb: 2
+                  }}
+                >
+                  Generating Ticket Asset
+                </Box>
+              }
+            >
+              <AssetCanvasCard
+                name={data.name}
+                data={data.attributes.map((attr) => attr.asset.data)}
+                width={200}
+                height={200}
+                sx={{ borderRadius: 2, mb: 2 }}
+              />
+            </Suspense>
+          ))}
+        </Stack>
+
+        <ControlledStepperButtons
+          handlePrevious={() => setActiveStep((prev) => prev - 1)}
+          // handleNext={)}
+        />
+      </FlatCard>
     </Box>
   )
 }
