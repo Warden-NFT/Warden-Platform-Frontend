@@ -135,7 +135,7 @@ function Ticket({
             <Chip sx={{ mt: 1 }} size="small" label={ticketType} />
 
             {/* TODO: Loop all ticket attributes */}
-            <Box sx={{ mt: 4 }}>
+            <Box sx={{ mt: 4, height: "70px" }}>
               <Stack direction="row" justifyContent="space-between">
                 <Stack direction="row">
                   <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
