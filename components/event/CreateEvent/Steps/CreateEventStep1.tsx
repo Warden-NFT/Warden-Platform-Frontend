@@ -109,7 +109,7 @@ function CreateEventStep1() {
         </FormControl>
 
         <FormControl sx={{ width: "100%", minHeight: 84 }}>
-          <FormLabel>Event url</FormLabel>
+          <FormLabel>Event Image</FormLabel>
           <Box sx={{ height: 12 }} />
           <Box sx={{ maxWidth: "100%" }}>
             {eventImage && (
