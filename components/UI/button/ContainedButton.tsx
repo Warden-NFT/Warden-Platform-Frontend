@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, SvgIconProps } from "@mui/material"
+import { Button, SvgIconProps, SxProps } from "@mui/material"
 import { motion } from "framer-motion"
 
 interface Props {
@@ -11,6 +11,9 @@ interface Props {
   disabled?: boolean
   type?: "button" | "submit" | "reset"
   icon?: React.ReactElement<SvgIconProps>
+  sx?: SxProps
+  component?: any
+  children?: JSX.Element[] | JSX.Element
 }
 
 function ContainedButton({
@@ -21,7 +24,10 @@ function ContainedButton({
   onClick,
   disabled,
   type,
-  icon
+  icon,
+  sx,
+  component,
+  children
 }: Props) {
   return (
     <motion.div
@@ -30,30 +36,32 @@ function ContainedButton({
           ? {}
           : {
             y: -6,
-            boxShadow: '5px 5px 0 rgba(0, 0, 0, 1)',
-            borderRadius: '20px'
+            boxShadow: "5px 5px 0 rgba(0, 0, 0, 1)",
+            borderRadius: "20px"
           }
       }
-      style={{ borderRadius: '20px', width }}
+      style={{ borderRadius: "20px", width }}
     >
       <Button
         type={type ?? "button"}
-        onClick={(e) => {
-          e.preventDefault()
+        onClick={(e: any) => {
+          if (!component) e.preventDefault()
           onClick?.()
         }}
         startIcon={icon}
         variant={variant}
         disabled={disabled}
+        component={component}
         sx={{
           borderRadius: "20px",
           border: 2,
           width,
           height,
-          boxShadow: "none"
+          boxShadow: "none",
+          ...sx
         }}
       >
-        {label}
+        {children ?? label}
       </Button>
     </motion.div>
   )

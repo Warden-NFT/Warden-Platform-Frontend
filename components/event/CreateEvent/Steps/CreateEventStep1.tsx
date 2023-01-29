@@ -1,4 +1,4 @@
-import { FormControl, FormLabel } from "@mui/material"
+import { Button, FormControl, FormLabel, Typography } from "@mui/material"
 import { useFormik } from "formik"
 import React, { useContext, useState } from "react"
 import { MuiChipsInput } from "mui-chips-input"
@@ -10,6 +10,9 @@ import FlatCard from "../../../UI/card/FlatCard"
 import { Event } from "../../../../interfaces/event/event.interface"
 import { isEmpty } from "../../../../utils/common/objectChecks"
 import { useRouter } from "next/router"
+import ContainedButton from "../../../UI/button/ContainedButton"
+import { Box } from "@mui/system"
+import Image from "next/image"
 
 function CreateEventStep1() {
   // Hooks
@@ -37,7 +40,8 @@ function CreateEventStep1() {
         const updatedEvent: Event = {
           ...currentEvent,
           ...data,
-          eventKeywords: eventKeywords
+          eventKeywords: eventKeywords,
+          image: eventImage
         }
         setEvent(updatedEvent)
         setActiveStep((step) => step + 1)
@@ -48,6 +52,7 @@ function CreateEventStep1() {
   // States
 
   const [eventKeywords, setEventKeywords] = useState<string[]>([])
+  const [eventImage, setEventImage] = useState<File>(currentEvent.image as File)
 
   // Event handlers
 
@@ -58,6 +63,10 @@ function CreateEventStep1() {
 
   const handleKeywordsChange = (newChips: string[]) => {
     setEventKeywords(newChips)
+  }
+
+  const handleEventImageChange = (e: any) => {
+    setEventImage(e.target.files[0])
   }
 
   return (
@@ -97,6 +106,38 @@ function CreateEventStep1() {
             error={touched.description && Boolean(errors.description)}
             helperText={touched.description && errors.description}
           />
+        </FormControl>
+
+        <FormControl sx={{ width: "100%", minHeight: 84 }}>
+          <FormLabel>Event url</FormLabel>
+          <Box sx={{ height: 12 }} />
+          <Box sx={{ maxWidth: "100%" }}>
+            {eventImage && (
+              <Image
+                // @ts-ignore
+                src={URL.createObjectURL(eventImage)}
+                width={1280}
+                height={200}
+                alt="event image"
+                style={{ objectFit: "contain", width: "100%", height: "100%" }}
+              />
+            )}
+          </Box>
+          <ContainedButton
+            variant="outlined"
+            width="200px"
+            component="label"
+            label="Upload"
+          >
+            <Typography>Select Image</Typography>
+            <input
+              hidden
+              accept="image/*"
+              multiple
+              type="file"
+              onChange={handleEventImageChange}
+            />
+          </ContainedButton>
         </FormControl>
 
         <FormControl sx={{ width: "100%", height: 84 }}>

@@ -33,7 +33,7 @@ export interface Event {
   superEventId: string
   description: string
   identifier: string
-  image: string
+  image: File | string | undefined
   name: string
   url: string
   doorTime?: Date | null

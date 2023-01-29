@@ -72,7 +72,7 @@ function CreateEventStep2() {
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <FlatCard>
-        <FormControl sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 84 }}>
           <FormLabel>Event Start Date</FormLabel>
           <DateTimePicker
             renderInput={(props) => (
@@ -93,7 +93,7 @@ function CreateEventStep2() {
           />
         </FormControl>
 
-        <FormControl sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 84 }}>
           <FormLabel>Event End Date</FormLabel>
           <DateTimePicker
             renderInput={(props) => (
@@ -114,7 +114,7 @@ function CreateEventStep2() {
           />
         </FormControl>
 
-        <FormControl sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 84 }}>
           <FormLabel>Event Door Time</FormLabel>
           <DateTimePicker
             renderInput={(props) => (
@@ -135,7 +135,7 @@ function CreateEventStep2() {
           />
         </FormControl>
 
-        <FormControl sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 84 }}>
           <FormLabel>Event Location</FormLabel>
           <GoogleMaps
             name="location"
