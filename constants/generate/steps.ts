@@ -42,6 +42,11 @@ export const LAYERED_MODE_STEPPER = [
     step: 4,
     header: "Add utility",
     label: "Customize NFT with Warden's utility"
+  },
+  {
+    step: 5,
+    header: "Preview",
+    label: "Preview your tickets"
   }
 ]
 

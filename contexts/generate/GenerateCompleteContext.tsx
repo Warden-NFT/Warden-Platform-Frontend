@@ -4,9 +4,9 @@ import React, {
   SetStateAction,
   Dispatch,
   useEffect
-} from 'react'
-import { TicketInfo } from '../../interfaces/generate/collection.interface'
-import { UploadedCompleteAsset } from '../../interfaces/generate/file.interface'
+} from "react"
+import { TicketInfo } from "../../interfaces/generate/collection.interface"
+import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
 interface GenerateCompleteContextProps {
   activeStep: number
   setActiveStep: Dispatch<SetStateAction<number>>
@@ -36,20 +36,16 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
     UploadedCompleteAsset[]
   >([])
   const [formInfo, setFormInfo] = useState<TicketInfo>({
-    currency: 'ETH',
-    name: '',
-    description: '',
-    subjectOf: '',
+    currency: "ETH",
+    name: "",
+    description: "",
+    subjectOf: "",
     ticketMetadata: {
       data: []
     },
     price: 0,
-    ticketType: 'GENERAL'
+    ticketType: "GENERAL"
   })
-
-  useEffect(() => {
-    console.log(uploadedAssets)
-  }, [uploadedAssets])
 
   const values: GenerateCompleteContextProps = {
     activeStep,

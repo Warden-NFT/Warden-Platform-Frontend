@@ -1,78 +1,66 @@
-// import { LayeredAssetData } from "../../interfaces/generate/file.interface";
-// import {
-//   AssetMetadata,
-//   AssetAttribute,
-// } from "../../interfaces/generate/metadata.interface";
-// import { isLowerTail, weightedRandom } from "../random/random";
+import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
+import { LayerData } from "../../interfaces/generate/file.interface"
+import {
+  LayeredAssetAttribute,
+  LayeredTicketMetadata
+} from "../../interfaces/generate/metadata.interface"
+import { isLowerTail, weightedRandom } from "../random/random"
 
-export function generateRandomLayer() {
+export function generateRandomLayer(
+  form: LayeredAssetInfo,
+  layers: LayerData[]
+) {
   let generatedAmount = 0
-  while (generatedAmount < 100) {
-    generatedAmount++
+  let id = 1
+  const metadata: LayeredTicketMetadata[] = []
+  const checkHashes: string[] = []
+
+  while (generatedAmount < form.generationAmount) {
+    const assetAttributes: LayeredAssetAttribute[] = []
+
+    // Randomize attributes that will be generated
+    for (const layer of layers) {
+      // Randomly skip layer based on its layer occurrence value
+      const isLower = isLowerTail(layer.layerOccurrence / 100)
+      if (!isLower) {
+        continue
+      }
+
+      const occurrences = layer.assets.map((asset) => asset.occurrence)
+      const rndIndex = weightedRandom(occurrences, layer.assets)
+      assetAttributes.push({
+        layerId: layer.layerId,
+        layerName: layer.layerName,
+        layerOccurrence: layer.layerOccurrence,
+        asset: layer.assets[rndIndex]
+      })
+    }
+    // Check for duplicated asset
+    const checkHash = generateCheckHash(assetAttributes)
+    const isDuplicated = checkDuplicateHash(checkHashes, checkHash)
+    if (isDuplicated) {
+      continue
+    } else {
+      metadata.push({
+        id: id,
+        createdAt: new Date(),
+        name: `${form.name}_${id}`,
+        attributes: assetAttributes,
+        hash: checkHash
+      })
+      generatedAmount++
+      id++
+    }
   }
 
-  return []
+  return { metadata, generatedAmount, checkHashes }
 }
 
-// export function generateRandomLayer(
-//   layeredAssets: LayeredAssetData[],
-//   amount: number
-// ) {
-//   let generatedAmount = 0;
-//   const metadatas: AssetMetadata[] = [];
-//   const checkHashes: string[] = [];
+function generateCheckHash(layers: LayeredAssetAttribute[]) {
+  const hashes = layers.map((layer) => `${layer.layerId}#${layer.asset.id}`)
+  return hashes.join()
+}
 
-//   while (generatedAmount < amount) {
-//     const randomedAttributes: AssetAttribute[] = [];
-
-//     // Randomize attributes that will be generated into layer
-//     for (const layeredAsset of layeredAssets) {
-//       // Skip this layer from generation (from its occurrence)
-//       const isLower = isLowerTail(layeredAsset.occurrence / 100);
-//       if (!isLower) {
-//         continue;
-//       }
-
-//       // Include this layer from generation
-//       const assetsOccurances = layeredAsset.assets.map(
-//         (asset) => asset.occurrence
-//       );
-//       const rndIndex = weightedRandom(assetsOccurances, layeredAsset.assets);
-//       randomedAttributes.push({
-//         layerName: layeredAsset.layerName,
-//         layerOccurance: layeredAsset.occurrence,
-//         assetName: layeredAsset.assets[rndIndex].name,
-//         assetOccurance: layeredAsset.assets[rndIndex].occurrence,
-//         asset: layeredAsset.assets[rndIndex],
-//       });
-//     }
-
-//     // Check if asset is duplicated
-//     const checkHash = generateCheckHash(randomedAttributes);
-//     if (checkDuplicateHash(checkHashes, checkHash)) {
-//       continue;
-//     }
-
-//     checkHashes.push(checkHash);
-//     const version = generatedAmount + 1;
-//     metadatas.push({
-//       id: version,
-//       createdAt: new Date(),
-//       assetName: `${version} #${version}`,
-//       attributes: randomedAttributes,
-//       hash: checkHash,
-//     });
-//     generatedAmount++;
-//   }
-
-//   return { generatedAmount, metadatas, checkHashes };
-// }
-
-// function generateCheckHash(assets: AssetAttribute[]) {
-//   const hashes = assets.map((asset) => asset.assetName);
-//   return hashes.join();
-// }
-
-// function checkDuplicateHash(hashes: string[], hash: string) {
-//   return hashes.includes(hash);
-// }
+function checkDuplicateHash(hashes: string[], hash: string) {
+  return hashes.includes(hash)
+}
