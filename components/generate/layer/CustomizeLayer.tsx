@@ -15,6 +15,7 @@ function CustomizeLayer() {
       sx={{
         display: "grid",
         placeItems: "center",
+        marginY: 4,
         backgroundColor: "white"
       }}
     >
