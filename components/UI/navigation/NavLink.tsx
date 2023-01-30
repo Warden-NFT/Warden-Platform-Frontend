@@ -1,4 +1,5 @@
 import { Button, Typography } from "@mui/material"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import React from "react"
 
@@ -8,26 +9,24 @@ interface Props {
 
 function NavLink({ route }: Props) {
   const router = useRouter()
-  function navigate() {
-    router.push(route.url)
-  }
 
   return (
-    <Button
-      onClick={navigate}
-      variant="text"
-      sx={{
-        "&:hover": {
-          backgroundColor: "white"
-        },
-        mr: 2,
-        px: 1.5
-      }}
-    >
-      <Typography fontWeight="600" color="black" fontSize="14px">
-        {route.name}
-      </Typography>
-    </Button>
+    <Link href={route.url} style={{ textDecoration: "none" }}>
+      <Button
+        variant="text"
+        sx={{
+          "&:hover": {
+            backgroundColor: "white"
+          },
+          mr: 2,
+          px: 1.5
+        }}
+      >
+        <Typography fontWeight="600" color="black" fontSize="14px">
+          {route.name}
+        </Typography>
+      </Button>
+    </Link>
   )
 }
 
