@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }: AppProps) {
           theme={lightTheme({
             accentColor: "#000",
             accentColorForeground: "white",
-            borderRadius: "large"
+            borderRadius: "none"
           })}
         >
           <ThemeProvider theme={AppTheme}>

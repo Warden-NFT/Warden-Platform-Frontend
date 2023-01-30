@@ -14,7 +14,6 @@ function LayerAssetGallery() {
         {layers.map((layer, i) => (
           <Box
             sx={{
-              borderRadius: 2,
               px: 2,
               py: 2,
               mb: 2,

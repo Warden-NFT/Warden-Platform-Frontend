@@ -26,7 +26,6 @@ function IssuesSection() {
       <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
         <Box
           sx={{
-            borderRadius: "12px",
             height: "300px",
             width: "50%",
             padding: 4,
@@ -57,7 +56,6 @@ function IssuesSection() {
         </Box>
         <Box
           sx={{
-            borderRadius: "12px",
             height: "300px",
             width: "50%",
             padding: 4,

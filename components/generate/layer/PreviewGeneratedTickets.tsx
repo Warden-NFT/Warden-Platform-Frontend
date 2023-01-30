@@ -80,7 +80,7 @@ function PreviewGeneratedTickets() {
                 data={data.attributes.map((attr) => attr.asset.data)}
                 width={200}
                 height={200}
-                sx={{ borderRadius: 2, mb: 2 }}
+                sx={{ mb: 2 }}
               />
             </Suspense>
           ))}

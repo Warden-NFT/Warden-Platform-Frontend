@@ -16,7 +16,6 @@ function CustomizeLayer() {
         padding: 4,
         display: "grid",
         placeItems: "center",
-        borderRadius: 4,
         marginY: 4,
         backgroundColor: "white"
       }}
@@ -51,8 +50,7 @@ function CustomizeLayer() {
                   <motion.div
                     whileHover={{
                       y: -6,
-                      boxShadow: "5px 5px 0 rgb(0, 0, 0)",
-                      borderRadius: "20px"
+                      boxShadow: "5px 5px 0 rgb(0, 0, 0)"
                     }}
                     whileTap={{
                       backgroundColor: "rgba(0,0,0,1)",
@@ -62,7 +60,6 @@ function CustomizeLayer() {
                     }}
                     style={{
                       border: "2px solid black",
-                      borderRadius: "20px",
                       marginBottom: 10
                     }}
                   >
@@ -85,7 +82,6 @@ function CustomizeLayer() {
                           height: 50,
                           py: 2,
                           pl: 2,
-                          borderRadius: 3,
                           display: "flex",
                           flexDirection: "row",
                           alignItems: "center"

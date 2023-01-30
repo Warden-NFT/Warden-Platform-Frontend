@@ -21,8 +21,7 @@ function NavLink({ route }: Props) {
           backgroundColor: "white"
         },
         mr: 2,
-        px: 1.5,
-        borderRadius: "20px"
+        px: 1.5
       }}
     >
       <Typography fontWeight="600" color="black" fontSize="14px">

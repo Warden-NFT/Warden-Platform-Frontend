@@ -50,7 +50,6 @@ function LayeredAssetTicketForm() {
         sx={{
           backgroundColor: "white",
           marginY: 4,
-          borderRadius: 6,
           border: 2
         }}
       >

@@ -85,8 +85,7 @@ function CustomizeAssetForm() {
       sx={{
         padding: 4,
         marginY: 4,
-        backgroundColor: "white",
-        borderRadius: 4
+        backgroundColor: "white"
       }}
     >
       <form>

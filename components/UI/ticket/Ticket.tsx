@@ -74,8 +74,7 @@ function Ticket({
             },
             position: "relative",
             overflow: "hidden",
-            margin: 2,
-            borderRadius: "12px"
+            margin: 2
           },
           isDisabled ? { color: grey[500] } : null
         ]}

@@ -56,7 +56,6 @@ function LayeredDropzone() {
           minHeight: 140,
           borderWidth: 2,
           borderColor: "primary.main",
-          borderRadius: 3,
           borderStyle: "dashed",
           display: "grid",
           placeItems: "center",

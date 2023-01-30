@@ -48,7 +48,6 @@ function UploadedAssetPreviewList({
           >
             <Stack
               sx={{
-                borderRadius: 3,
                 mb: 2,
                 width: 170,
                 height: 220,

@@ -31,7 +31,6 @@ function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
         mr: 1,
         boxShadow: 1,
         height: "140px",
-        borderRadius: 1,
         my: 1,
         position: "relative"
       }}

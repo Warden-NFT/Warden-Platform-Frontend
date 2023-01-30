@@ -17,7 +17,6 @@ function ActiveStepper({ steps, activeStep, children }: Props) {
         alternativeLabel
         sx={{
           border: 2,
-          borderRadius: 4,
           padding: 2,
           backgroundColor: "white",
           boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)"
