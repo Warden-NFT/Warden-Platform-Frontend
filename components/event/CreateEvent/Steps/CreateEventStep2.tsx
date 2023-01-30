@@ -1,4 +1,11 @@
-import { FormControl, FormLabel, TextField } from "@mui/material"
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup
+} from "@mui/material"
 import React, { useContext, useState } from "react"
 import FlatCard from "../../../UI/card/FlatCard"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
@@ -12,6 +19,7 @@ import { Event } from "../../../../interfaces/event/event.interface"
 import moment from "moment"
 import { PlaceType } from "../../../../interfaces/event/location.interface"
 import { CreateEventStep2Schema } from "../../../../schema/event/createEventStep2.schema"
+import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
 
 function CreateEventStep2() {
   // Hooks
@@ -21,7 +29,15 @@ function CreateEventStep2() {
     setEvent,
     setActiveStep
   } = useContext(CreateEventContext)
-  const { values, errors, touched, handleSubmit, setFieldValue } = useFormik({
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    setFieldValue,
+    handleBlur,
+    handleChange
+  } = useFormik({
     initialValues: {
       startDate: currentEvent.startDate
         ? moment(currentEvent.startDate).toDate()
@@ -32,7 +48,8 @@ function CreateEventStep2() {
       doorTime: currentEvent.doorTime
         ? moment(currentEvent.doorTime).toDate()
         : null,
-      location: currentEvent.location
+      location: currentEvent.location,
+      online_url: currentEvent.online_url
     },
     validationSchema: CreateEventStep2Schema,
     onSubmit: async (data) => {
@@ -51,6 +68,7 @@ function CreateEventStep2() {
   const [locationValue, setLocationValue] = useState<PlaceType | null>(
     currentEvent.location ?? null
   )
+  const [isOnlineEvent, setIsOnlineEvent] = useState<boolean>(false)
 
   // Event handlers
 
@@ -67,6 +85,15 @@ function CreateEventStep2() {
   const handleLocationSelect = (value: PlaceType | null) => {
     setLocationValue(value)
     setFieldValue("location", value)
+  }
+
+  const handleChangeLocationMode = (
+    event: React.MouseEvent<HTMLElement>,
+    isOnlineEvent: boolean
+  ) => {
+    if (isOnlineEvent) setFieldValue("location", null)
+    else setFieldValue("online_url", "")
+    setIsOnlineEvent(isOnlineEvent)
   }
 
   return (
@@ -135,15 +162,48 @@ function CreateEventStep2() {
           />
         </FormControl>
 
-        <FormControl required sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 184 }}>
           <FormLabel>Event Location</FormLabel>
-          <GoogleMaps
-            name="location"
-            locationValue={locationValue}
-            setLocationValue={handleLocationSelect}
-            hasError={touched.location && Boolean(errors.location)}
-            errorMessage={touched.location ? errors.location : undefined}
-          />
+          <Box sx={{ my: 2 }} />
+          <Box>
+            <ToggleButtonGroup
+              color="primary"
+              value={isOnlineEvent}
+              exclusive
+              onChange={handleChangeLocationMode}
+              aria-label="Platform"
+            >
+              <ToggleButton value={false}>Offline Event</ToggleButton>
+              <ToggleButton value={true}>Online Event</ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
+          <Box sx={{ my: 2 }} />
+          {!isOnlineEvent && (
+            <GoogleMaps
+              name="location"
+              locationValue={locationValue}
+              setLocationValue={handleLocationSelect}
+              hasError={touched.location && Boolean(errors.location)}
+              errorMessage={touched.location ? errors.location : undefined}
+            />
+          )}
+
+          {isOnlineEvent && (
+            <TextFieldWrapper
+              name="online_url"
+              value={values.online_url}
+              onChange={handleChange}
+              onBlur={handleBlur("online_url")}
+              id="event-online_url-input"
+              data-testid="event-online_url-input"
+              placeholder="ex: http://your-event.com"
+              variant="outlined"
+              size="small"
+              type="text"
+              error={touched.online_url && Boolean(errors.online_url)}
+              helperText={touched.online_url && errors.online_url}
+            />
+          )}
         </FormControl>
       </FlatCard>
       <ControlledStepperButtons
