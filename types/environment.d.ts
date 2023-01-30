@@ -6,7 +6,13 @@ declare global {
       NEXT_PUBLIC_SENTRY_DSN: string
       NEXT_PUBLIC_ALCHEMY_KEY: string
       SENTRY_AUTH_TOKEN: string
+
       GOOGLE_MAPS_API_KEY: string
+
+      NEXT_PUBLIC_PINATA_API_KEY: string
+      NEXT_PUBLIC_PINATA_JWT: string
+      NEXT_PUBLIC_PINATA_SECRET: string
+
       VERCEL_ENV: "development" | "production"
     }
   }
