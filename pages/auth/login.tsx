@@ -22,7 +22,7 @@ import FadeEntrance from "../../components/motion/FadeEntrance"
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
-  const { values, handleChange, touched, errors, handleSubmit } = useFormik({
+  const { values, handleChange, touched, errors, handleSubmit, handleBlur } = useFormik({
     initialValues: {
       phoneNumber: "",
       password: ""
@@ -36,12 +36,15 @@ function Login() {
       } catch (error) {
         console.log(error)
       }
-    }
-  })
+    }})
 
   useEffect(() => {
     if (user) router.push("/home")
   }, [user])
+
+  useEffect(() => {
+    console.log(touched)
+  }, [touched])
 
   if (user) return null
   return (
@@ -62,16 +65,15 @@ function Login() {
                   name="phoneNumber"
                   value={values.phoneNumber}
                   onChange={handleChange}
+                  onKeyUp={handleBlur("phoneNumber")}
                   id="phone-number-input"
                   data-testid="phone-number-input"
                   placeholder="ex: 0912345678"
                   variant="outlined"
                   size="small"
                   autoComplete="username"
-                  error={errors.phoneNumber != null}
-                  helperText={
-                    touched.phoneNumber ? errors.phoneNumber : undefined
-                  }
+                  error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                  helperText={touched.phoneNumber && errors.phoneNumber}
                 />
               </FormControl>
 
@@ -81,6 +83,7 @@ function Login() {
                   name="password"
                   value={values.password}
                   onChange={handleChange}
+                  onKeyUp={handleBlur("password")}
                   id="password-input"
                   data-testid="password-input"
                   placeholder="ex: password"
@@ -88,8 +91,8 @@ function Login() {
                   size="small"
                   autoComplete="current-password"
                   type="password"
-                  error={errors.password != null}
-                  helperText={touched.password ? errors.password : undefined}
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password && errors.password}
                 />
               </FormControl>
 

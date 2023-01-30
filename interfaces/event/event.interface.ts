@@ -1,4 +1,7 @@
+import { PlaceType } from "./location.interface"
+
 export type TicketType = "GENERAL" | "VIP" | "RESERVED_SEAT"
+export type TicketTypeKey = "general" | "vip" | "reservedSeat"
 
 export type EventStatusType =
   | "NotStarted"
@@ -18,27 +21,33 @@ export type TicketsMetadata = {
 export interface Event {
   _id?: string
   eventStatus: EventStatusType
-  eventKeywords: [string]
-  location: string
+  eventKeywords: string[]
+  location: PlaceType | null
   ticketSupply: {
     general: number
     vip: number
     reservedSeat: number
-    total: number
   }
   organizerId: string
   subEventId: string
   superEventId: string
   description: string
   identifier: string
-  image: string
+  image: File | string | undefined
   name: string
   url: string
-  doorTime: Date
-  startDate: Date
-  endDate: Date
+  doorTime?: Date | null
+  startDate?: Date | null
+  endDate?: Date | null
   ticketType: TicketType
   ownerAddress: string
   smartContractAddress: string
-  ticketsMetadata: TicketsMetadata
+  ticketsMetadata?: TicketsMetadata
+}
+
+export interface TicketSupplySettings {
+  type: string
+  checked: boolean
+  supply: number
+  label: string
 }

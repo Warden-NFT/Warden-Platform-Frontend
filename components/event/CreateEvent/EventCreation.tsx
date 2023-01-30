@@ -13,8 +13,13 @@ import CreateEventStep3 from "./Steps/CreateEventStep3"
 import { motion } from "framer-motion"
 
 function EventCreation() {
-  const { activeStep, onClickBack, onClickNext } =
-    useContext(CreateEventContext)
+  const {
+    activeStep,
+    onClickBack,
+    onClickNext,
+    isBackDisabled,
+    isNextDisabled
+  } = useContext(CreateEventContext)
   useFormik({
     initialValues: {},
     enableReinitialize: true,
@@ -23,6 +28,13 @@ function EventCreation() {
       console.log(data)
     }
   })
+
+  // Page 1
+  //   name: string
+  //   description: string
+  //   image: string
+  //   url: string
+  //   eventKeywords: [string]
 
   // Page 2
   //   doorTime: Date
@@ -47,18 +59,11 @@ function EventCreation() {
             <ActiveStepper steps={CREATE_EVENT_STEPS} activeStep={activeStep}>
               <LayoutGroup>
                 <motion.div layout>
-                  <FlatCard>
-                    <>
-                      {activeStep === 1 && <CreateEventStep1 />}
-                      {activeStep === 2 && <CreateEventStep2 />}
-                      {activeStep === 3 && <CreateEventStep3 />}
-                    </>
-                  </FlatCard>
-                  <ControlledStepperButtons
-                    handlePrevious={onClickBack}
-                    handleNext={onClickNext}
-                    isBackDisabled={activeStep <= 1}
-                  />
+                  <>
+                    {activeStep === 1 && <CreateEventStep1 />}
+                    {activeStep === 2 && <CreateEventStep2 />}
+                    {activeStep === 3 && <CreateEventStep3 />}
+                  </>
                 </motion.div>
               </LayoutGroup>
             </ActiveStepper>
