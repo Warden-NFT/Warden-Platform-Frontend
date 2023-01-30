@@ -1,3 +1,4 @@
+import { Container } from "@mui/material"
 import React from "react"
 import CompleteGenerateContainer from "../../../components/generate/complete/CompleteGenerateContainer"
 import GenerateCompleteContextProvider from "../../../contexts/generate/GenerateCompleteContext"
@@ -5,7 +6,9 @@ import GenerateCompleteContextProvider from "../../../contexts/generate/Generate
 function CompleteGeneratePage() {
   return (
     <GenerateCompleteContextProvider>
-      <CompleteGenerateContainer />
+      <Container>
+        <CompleteGenerateContainer />
+      </Container>
     </GenerateCompleteContextProvider>
   )
 }
