@@ -13,7 +13,7 @@ interface Props {
   icon?: React.ReactElement<SvgIconProps>
   sx?: SxProps
   component?: any
-  children?: JSX.Element[] | JSX.Element
+  children?: React.ReactNode
 }
 
 function ContainedButton({
@@ -44,8 +44,8 @@ function ContainedButton({
     >
       <Button
         type={type ?? "button"}
-        onClick={(e: any) => {
-          if (!component) e.preventDefault()
+        onClick={(e?: any) => {
+          if (!component && e) e.preventDefault()
           onClick?.()
         }}
         startIcon={icon}
