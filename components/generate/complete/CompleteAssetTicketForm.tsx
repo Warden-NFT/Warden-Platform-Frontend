@@ -10,10 +10,9 @@ import {
   TextField,
   Typography
 } from "@mui/material"
-import { grey, red } from "@mui/material/colors"
+import { red } from "@mui/material/colors"
 import { useFormik } from "formik"
-import Link from "next/link"
-import queryString from "query-string"
+import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
 import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
@@ -37,11 +36,12 @@ function CompleteAssetTicketForm() {
       }
     })
 
+  const router = useRouter()
+
   useEffect(() => {
-    const { query } = queryString.parseUrl(window.location.href)
-    const { ticketType } = query
+    const { ticketType } = router.query
     setFieldValue("ticketType", ticketType as TicketTypes)
-  }, [window.location])
+  }, [])
 
   return (
     <Box>

@@ -1,6 +1,6 @@
-import { Button, Typography } from '@mui/material'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { Button, Typography } from "@mui/material"
+import { useRouter } from "next/navigation"
+import React from "react"
 
 interface Props {
   route: { name: string; url: string }
@@ -17,12 +17,12 @@ function NavLink({ route }: Props) {
       onClick={navigate}
       variant="text"
       sx={{
-        '&:hover': {
-          backgroundColor: 'white'
+        "&:hover": {
+          backgroundColor: "white"
         },
         mr: 2,
         px: 1.5,
-        borderRadius: '20px'
+        borderRadius: "20px"
       }}
     >
       <Typography fontWeight="600" color="black" fontSize="14px">

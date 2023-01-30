@@ -1,7 +1,7 @@
-import { getDefaultWallets } from '@rainbow-me/rainbowkit'
-import { chain, configureChains, createClient } from 'wagmi'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { publicProvider } from 'wagmi/providers/public'
+import { getDefaultWallets } from "@rainbow-me/rainbowkit"
+import { chain, configureChains, createClient } from "wagmi"
+import { alchemyProvider } from "wagmi/providers/alchemy"
+import { publicProvider } from "wagmi/providers/public"
 
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.polygonMumbai],
@@ -12,7 +12,7 @@ const { chains, provider } = configureChains(
 )
 
 const { connectors } = getDefaultWallets({
-  appName: 'Warden Platform',
+  appName: "Warden Platform",
   chains
 })
 

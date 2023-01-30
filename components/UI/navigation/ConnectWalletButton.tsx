@@ -1,6 +1,6 @@
-import React from 'react'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
-import '@rainbow-me/rainbowkit/styles.css'
+import React from "react"
+import { ConnectButton } from "@rainbow-me/rainbowkit"
+import "@rainbow-me/rainbowkit/styles.css"
 
 function ConnectWalletButton() {
   return (
@@ -10,8 +10,8 @@ function ConnectWalletButton() {
         largeScreen: false
       }}
       accountStatus={{
-        smallScreen: 'avatar',
-        largeScreen: 'avatar'
+        smallScreen: "avatar",
+        largeScreen: "avatar"
       }}
     />
   )

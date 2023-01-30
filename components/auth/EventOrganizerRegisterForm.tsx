@@ -1,25 +1,25 @@
-import { FormControl, FormLabel, TextField, Typography } from '@mui/material'
-import { Box } from '@mui/system'
-import { useFormik } from 'formik'
-import { useRouter } from 'next/router'
-import React, { useContext } from 'react'
-import { client } from '../../configs/axios/axiosConfig'
-import { UserContext } from '../../contexts/user/UserContext'
-import { SuccessfulAuthDTO } from '../../interfaces/auth/auth.interface'
-import { EventOrganizerRegisterSchema } from '../../schema/auth/register.schema'
-import ContainedButton from '../UI/button/ContainedButton'
+import { FormControl, FormLabel, TextField, Typography } from "@mui/material"
+import { Box } from "@mui/system"
+import { useFormik } from "formik"
+import { useRouter } from "next/router"
+import React, { useContext } from "react"
+import { client } from "../../configs/axios/axiosConfig"
+import { UserContext } from "../../contexts/user/UserContext"
+import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
+import { EventOrganizerRegisterSchema } from "../../schema/auth/register.schema"
+import ContainedButton from "../UI/button/ContainedButton"
 
 function EventOrganizerRegisterForm() {
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { values, handleChange, touched, errors, handleSubmit } = useFormik({
     initialValues: {
-      phoneNumber: '',
-      email: '',
-      username: '',
-      password: '',
-      repeatPassword: '',
-      organizationName: ''
+      phoneNumber: "",
+      email: "",
+      username: "",
+      password: "",
+      repeatPassword: "",
+      organizationName: ""
     },
     validationSchema: EventOrganizerRegisterSchema,
     onSubmit: async (data) => {
@@ -29,15 +29,15 @@ function EventOrganizerRegisterForm() {
         username: data.username,
         password: data.password,
         organizationName: data.organizationName,
-        verificationStatus: 'NotVerified'
+        verificationStatus: "NotVerified"
       }
       try {
         const res = await client.post<SuccessfulAuthDTO>(
-          '/user/registerEventOrganizer',
+          "/user/registerEventOrganizer",
           payload
         )
         setUserInfo(res.data)
-        router.push('/auth/confirm-phone')
+        router.push("/auth/confirm-phone")
       } catch (error) {
         console.log(error)
         // setup sentry

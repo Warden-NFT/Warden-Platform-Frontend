@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  createContext,
-  SetStateAction,
-  Dispatch,
-  useEffect
-} from "react"
+import React, { useState, createContext, SetStateAction, Dispatch } from "react"
 import { TicketInfo } from "../../interfaces/generate/collection.interface"
 import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
 interface GenerateCompleteContextProps {

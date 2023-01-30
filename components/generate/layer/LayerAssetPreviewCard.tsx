@@ -1,9 +1,9 @@
-import { Box, IconButton, Typography } from '@mui/material'
-import { GridCloseIcon } from '@mui/x-data-grid'
-import React, { useContext, useState } from 'react'
-import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import { UploadedAsset } from '../../../interfaces/generate/file.interface'
-import PNGAssetPreview from '../../assets/PNGAssetPreview'
+import { Box, IconButton, Typography } from "@mui/material"
+import { GridCloseIcon } from "@mui/x-data-grid"
+import React, { useContext, useState } from "react"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import { UploadedAsset } from "../../../interfaces/generate/file.interface"
+import PNGAssetPreview from "../../assets/PNGAssetPreview"
 
 interface Props {
   asset: UploadedAsset
@@ -26,19 +26,19 @@ function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
   return (
     <Box
       sx={{
-        display: 'grid',
-        placeItems: 'center',
+        display: "grid",
+        placeItems: "center",
         mr: 1,
         boxShadow: 1,
-        height: '140px',
+        height: "140px",
         borderRadius: 1,
         my: 1,
-        position: 'relative'
+        position: "relative"
       }}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <Box sx={{ height: '20px', backgroundColor: 'red' }}>
+      <Box sx={{ height: "20px", backgroundColor: "red" }}>
         <Box position="absolute" sx={{ right: 0, top: -6 }}>
           {isHovering && (
             <IconButton

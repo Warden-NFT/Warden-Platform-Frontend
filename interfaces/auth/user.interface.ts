@@ -1,9 +1,9 @@
 export enum Account {
-  Customer = 'Customer',
-  EventOrganizer = 'EventOrganizer'
+  Customer = "Customer",
+  EventOrganizer = "EventOrganizer"
 }
 
-export type Verification = 'NotVerified' | 'Verified'
+export type Verification = "NotVerified" | "Verified"
 
 export interface User {
   phoneNumber: string

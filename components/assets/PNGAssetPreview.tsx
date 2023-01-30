@@ -1,6 +1,6 @@
-import { Box } from '@mui/material'
-import Image from 'next/image'
-import React from 'react'
+import { Box } from "@mui/material"
+import Image from "next/image"
+import React from "react"
 
 interface Props {
   name: string
@@ -17,7 +17,7 @@ function PNGAssetPreview({ name, data, width, height }: Props) {
         width={width}
         height={height}
         alt={`Asset ${name}`}
-        style={{ objectFit: 'contain' }}
+        style={{ objectFit: "contain" }}
         draggable={false}
         className="png-bg"
       />
