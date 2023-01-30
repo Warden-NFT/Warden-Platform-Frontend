@@ -57,7 +57,6 @@ export const CreateEventStep2Schema = object().shape(
       .nullable()
       .notRequired()
       .when("online_url", (val) => {
-        console.log(val)
         if (val) {
           return object().notRequired().nullable()
         } else {
