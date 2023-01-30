@@ -7,6 +7,7 @@ import LayeredAssetTicketForm from "./LayerAssetTicketForm"
 import CustomizeAssetForm from "./CustomizeAssetForm"
 import { LAYERED_MODE_STEPPER } from "../../../constants/generate/steps"
 import PreviewGeneratedTickets from "./PreviewGeneratedTickets"
+import SaveTicketAsset from "../SaveTicketAsset"
 
 function LayeredGenerateContainer() {
   const { activeStep } = useContext(GenerateLayerContext)
@@ -17,6 +18,7 @@ function LayeredGenerateContainer() {
       {activeStep === 3 && <CustomizeLayer />}
       {activeStep === 4 && <CustomizeAssetForm />}
       {activeStep === 5 && <PreviewGeneratedTickets />}
+      {activeStep === 6 && <SaveTicketAsset />}
     </ActiveStepper>
   )
 }

@@ -88,7 +88,7 @@ function PreviewGeneratedTickets() {
 
         <ControlledStepperButtons
           handlePrevious={() => setActiveStep((prev) => prev - 1)}
-          // handleNext={)}
+          handleNext={() => setActiveStep((prev) => prev + 1)}
         />
       </FlatCard>
     </Box>

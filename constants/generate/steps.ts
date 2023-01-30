@@ -47,6 +47,11 @@ export const LAYERED_MODE_STEPPER = [
     step: 5,
     header: "Preview",
     label: "Preview your tickets"
+  },
+  {
+    step: 6,
+    header: "Finish Up",
+    label: "Save your tickets"
   }
 ]
 

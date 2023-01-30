@@ -1,3 +1,4 @@
+import { Container } from "@mui/material"
 import React from "react"
 import LayeredGenerateContainer from "../../../components/generate/layer/LayeredGenerateContainer"
 import GenerateLayerContextProvider from "../../../contexts/generate/GenerateLayerContext"
@@ -5,7 +6,9 @@ import GenerateLayerContextProvider from "../../../contexts/generate/GenerateLay
 function LayeredGeneratePage() {
   return (
     <GenerateLayerContextProvider>
-      <LayeredGenerateContainer />
+      <Container>
+        <LayeredGenerateContainer />
+      </Container>
     </GenerateLayerContextProvider>
   )
 }
