@@ -52,6 +52,7 @@ function ContainedButton({
         disabled={disabled}
         component={component}
         sx={{
+          borderRadius: 0,
           border: 2,
           width,
           height,
