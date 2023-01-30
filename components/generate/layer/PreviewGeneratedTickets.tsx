@@ -52,7 +52,12 @@ function PreviewGeneratedTickets() {
           />
         </Stack>
 
-        <Stack direction="row" flexWrap="wrap" justifyContent="space-between">
+        <Stack
+          direction="row"
+          flexWrap="wrap"
+          justifyContent="space-between"
+          sx={{ height: "600px", overflowY: "auto" }}
+        >
           {generatedMetadata.map((data, i) => (
             <Suspense
               key={i}
