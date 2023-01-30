@@ -13,12 +13,12 @@ import { useFormik } from "formik"
 import React, { useContext, useEffect } from "react"
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
 import ControlledEventSelect from "../form/ControlledEventSelect"
-import queryString from "query-string"
 import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
 import EventCreationAlert from "../form/EventCreationAlert"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
 import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
 import { LayeredAssetTicketFormSchema } from "../../../schema/generate/layered"
+import { useRouter } from "next/router"
 
 function LayeredAssetTicketForm() {
   const { formInfo, setFormInfo, setActiveStep } =
@@ -35,11 +35,12 @@ function LayeredAssetTicketForm() {
       }
     })
 
+  const router = useRouter()
+
   useEffect(() => {
-    const { query } = queryString.parseUrl(window.location.href)
-    const { ticketType } = query
+    const { ticketType } = router.query
     setFieldValue("ticketType", ticketType as TicketTypes)
-  }, [window.location])
+  }, [])
 
   return (
     <Stack width="100%">
