@@ -1,4 +1,4 @@
-import { TicketInfo } from '../../../interfaces/generate/collection.interface'
+import { TicketInfo } from "../../../interfaces/generate/collection.interface"
 
 export type EventId = string
 

@@ -1,4 +1,4 @@
-import { AssetDimension } from '../../interfaces/generate/file.interface'
+import { AssetDimension } from "../../interfaces/generate/file.interface"
 
 export function getAssetDimension(src: string): Promise<AssetDimension> {
   return new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ export function getAssetDimension(src: string): Promise<AssetDimension> {
 }
 
 export function getAssetFileName(file: File) {
-  const name = file.name.split('.')
+  const name = file.name.split(".")
   return name[0]
 }
 
@@ -42,10 +42,10 @@ interface PathedFile extends File {
 
 export function extractFolderName(file: File) {
   const _file = file as PathedFile
-  const filePath = _file.path.split('/')[1]
+  const filePath = _file.path.split("/")[1]
 
   if (!filePath) {
-    throw new Error('File does not contain name!')
+    throw new Error("File does not contain name!")
   }
 
   return filePath

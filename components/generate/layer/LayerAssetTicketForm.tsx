@@ -8,17 +8,17 @@ import {
   Stack,
   TextField,
   Typography
-} from '@mui/material'
-import { useFormik } from 'formik'
-import React, { useContext, useEffect } from 'react'
-import { GenerateLayerContext } from '../../../contexts/generate/GenerateLayerContext'
-import ControlledEventSelect from '../form/ControlledEventSelect'
-import queryString from 'query-string'
-import { TicketTypes } from '../../../interfaces/ticket/ticket.interface'
-import EventCreationAlert from '../form/EventCreationAlert'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
-import { SUPPORTED_DIGITAL_CURRENCIES } from '../../../constants/currencies/digital'
-import { LayeredAssetTicketFormSchema } from '../../../schema/generate/layered'
+} from "@mui/material"
+import { useFormik } from "formik"
+import React, { useContext, useEffect } from "react"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import ControlledEventSelect from "../form/ControlledEventSelect"
+import queryString from "query-string"
+import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
+import EventCreationAlert from "../form/EventCreationAlert"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
+import { LayeredAssetTicketFormSchema } from "../../../schema/generate/layered"
 
 function LayeredAssetTicketForm() {
   const { formInfo, setFormInfo, setActiveStep } =
@@ -38,7 +38,7 @@ function LayeredAssetTicketForm() {
   useEffect(() => {
     const { query } = queryString.parseUrl(window.location.href)
     const { ticketType } = query
-    setFieldValue('ticketType', ticketType as TicketTypes)
+    setFieldValue("ticketType", ticketType as TicketTypes)
   }, [window.location])
 
   return (
@@ -47,7 +47,7 @@ function LayeredAssetTicketForm() {
         spacing={2}
         p={4}
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: "white",
           marginY: 4,
           borderRadius: 6,
           border: 2
@@ -111,7 +111,7 @@ function LayeredAssetTicketForm() {
             ))}
           </Select>
           <FormHelperText>
-            {errors.currency && touched.currency ? errors.currency : ''}
+            {errors.currency && touched.currency ? errors.currency : ""}
           </FormHelperText>
         </FormControl>
 

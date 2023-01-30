@@ -1,33 +1,17 @@
 import { Box, Container } from "@mui/material"
-import { useFormik } from "formik"
 import { LayoutGroup } from "framer-motion"
 import React, { useContext } from "react"
 import { CREATE_EVENT_STEPS } from "../../../constants/generate/steps"
 import { CreateEventContext } from "../../../contexts/event/CreateEventContext"
-import FlatCard from "../../UI/card/FlatCard"
 import ActiveStepper from "../../UI/navigation/ActiveStepper"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+
 import CreateEventStep1 from "./Steps/CreateEventStep1"
 import CreateEventStep2 from "./Steps/CreateEventStep2"
 import CreateEventStep3 from "./Steps/CreateEventStep3"
 import { motion } from "framer-motion"
 
 function EventCreation() {
-  const {
-    activeStep,
-    onClickBack,
-    onClickNext,
-    isBackDisabled,
-    isNextDisabled
-  } = useContext(CreateEventContext)
-  useFormik({
-    initialValues: {},
-    enableReinitialize: true,
-    // validationSchema: CompleteAssetTicketFormSchema,
-    onSubmit: (data) => {
-      console.log(data)
-    }
-  })
+  const { activeStep } = useContext(CreateEventContext)
 
   // Page 1
   //   name: string

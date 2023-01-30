@@ -8,7 +8,6 @@ import {
 } from "react"
 import { useDisconnect } from "wagmi"
 import { client } from "../../configs/axios/axiosConfig"
-import useAsyncEffect from "../../hooks/useAsyncEffect"
 import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
 import { Account, User } from "../../interfaces/auth/user.interface"
 import { getCookie, setCookie } from "../../utils/cookie/cookieHandler"

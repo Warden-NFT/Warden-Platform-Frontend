@@ -1,5 +1,5 @@
-import Axios from 'axios'
-import { getCookie } from '../../utils/cookie/cookieHandler'
+import Axios from "axios"
+import { getCookie } from "../../utils/cookie/cookieHandler"
 
 export const client = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_WARDEN_API_URL
@@ -7,7 +7,7 @@ export const client = Axios.create({
 client.interceptors.request.use(
   (req) => {
     if (!req.headers.Authorization) {
-      const token = getCookie('token')
+      const token = getCookie("token")
       req.headers.Authorization = `Bearer ${token}`
       return req
     } else return req

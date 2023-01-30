@@ -1,12 +1,4 @@
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Toolbar
-} from "@mui/material"
+import { AppBar, Avatar, Box, Menu, MenuItem, Toolbar } from "@mui/material"
 import React, { MouseEvent, useContext, useEffect, useState } from "react"
 import ConnectWalletButton from "./ConnectWalletButton"
 import NavLink from "./NavLink"
@@ -22,19 +14,10 @@ import { UserContext } from "../../../contexts/user/UserContext"
 import { Account } from "../../../interfaces/auth/user.interface"
 
 function NavBar() {
-  const [menuElement, setMenuElement] = useState<HTMLElement | null>(null)
   const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)
   const [appRoutes, setAppRoutes] = useState<AppRoute[]>(APP_ROUTES)
   const [boxShadowStyle, setBoxShadowStyle] = useState<string>()
   const { user, logOut } = useContext(UserContext)
-
-  const handleOpenMenu = (e: MouseEvent<HTMLElement>) => {
-    setMenuElement(e.currentTarget)
-  }
-
-  const handleCloseMenu = () => {
-    setMenuElement(null)
-  }
 
   const handleOpenUserMenu = (e: MouseEvent<HTMLElement>) => {
     setAvatarElement(e.currentTarget)

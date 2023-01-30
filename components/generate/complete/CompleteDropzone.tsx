@@ -1,10 +1,10 @@
-import { Box, Divider, Switch } from '@mui/material'
-import React, { useState, useContext } from 'react'
-import { GenerateCompleteContext } from '../../../contexts/generate/GenerateCompleteContext'
-import CompleteAssetDropzone from './CompleteAssetDropzone'
-import ControlledStepperButtons from '../../UI/navigation/ControlledStepperButtons'
-import UploadedAssetPreviewList from '../asset/UploadedAssetPreviewList'
-import { grey } from '@mui/material/colors'
+import { Box, Divider, Switch } from "@mui/material"
+import React, { useState, useContext } from "react"
+import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
+import CompleteAssetDropzone from "./CompleteAssetDropzone"
+import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import UploadedAssetPreviewList from "../asset/UploadedAssetPreviewList"
+import { grey } from "@mui/material/colors"
 
 function CompleteDropzone() {
   const {
@@ -32,20 +32,20 @@ function CompleteDropzone() {
       <Switch
         checked={hasVip}
         onChange={(e) => setHasVip(e.currentTarget.checked)}
-        inputProps={{ 'aria-label': 'controlled' }}
+        inputProps={{ "aria-label": "controlled" }}
       />
       <Box
         sx={{
           p: 4,
-          display: 'grid',
-          placeItems: 'center',
-          backgroundColor: 'white',
+          display: "grid",
+          placeItems: "center",
+          backgroundColor: "white",
           marginY: 4,
           borderRadius: 6,
           border: 2
         }}
       >
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: "100%" }}>
           {uploadedAssets.length > 0 && (
             <>
               <UploadedAssetPreviewList
@@ -66,14 +66,14 @@ function CompleteDropzone() {
             sx={{ my: 2, backgroundColor: grey[200] }}
           />
         </Box>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: "100%" }}>
           {uploadedVipAssets.length > 0 && hasVip && (
             <Box>
               <Box
                 sx={{
-                  height: '1px',
-                  width: '100%',
-                  backgroundColor: '#000',
+                  height: "1px",
+                  width: "100%",
+                  backgroundColor: "#000",
                   marginTop: 2
                 }}
               />

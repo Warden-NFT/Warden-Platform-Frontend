@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import { client } from '../configs/axios/axiosConfig'
-import { RequestOtpResponseDTO } from '../interfaces/auth/otp.interface'
-import { User } from '../interfaces/auth/user.interface'
+import { useState } from "react"
+import { client } from "../configs/axios/axiosConfig"
+import { RequestOtpResponseDTO } from "../interfaces/auth/otp.interface"
+import { User } from "../interfaces/auth/user.interface"
 
 export const useOTP = (user?: User) => {
-  const [otp, setOtp] = useState('')
-  const [otpToken, setOtpToken] = useState('')
+  const [otp, setOtp] = useState("")
+  const [otpToken, setOtpToken] = useState("")
 
   const getOTP = async (): Promise<string | undefined> => {
-    if (!user) return ''
+    if (!user) return ""
     try {
       const otpRes = await client.get<RequestOtpResponseDTO>(
         `/otp/request/${user.phoneNumber}`
@@ -25,7 +25,7 @@ export const useOTP = (user?: User) => {
       pin: otp
     }
     const otpRes = await client.post<RequestOtpResponseDTO>(
-      `/otp/verifyOTP`,
+      "/otp/verifyOTP",
       data
     )
     if (otpRes.status === 200) return true

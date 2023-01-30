@@ -1,5 +1,5 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React from "react"
+import { motion } from "framer-motion"
 
 type Props = {
   children?: JSX.Element[] | JSX.Element
