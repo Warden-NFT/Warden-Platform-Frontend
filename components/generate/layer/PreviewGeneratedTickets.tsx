@@ -34,19 +34,20 @@ function PreviewGeneratedTickets() {
 
   return (
     <Box sx={{ marginY: 4 }}>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ width: "100%" }}>
-        <Typography variant="h4" component="h1">
-          Preview your ticket assets
-        </Typography>
-        <ContainedButton
-          label="Regenerate"
-          variant="contained"
-          onClick={handleGenerate}
-        />
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ width: "100%" }}
+        >
+          <Typography variant="h4" component="h1">
+            Preview your ticket assets
+          </Typography>
+          <ContainedButton
+            label="Regenerate"
+            variant="contained"
+            onClick={handleGenerate}
+          />
       </Stack>
 
       <Stack
