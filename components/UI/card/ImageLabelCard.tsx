@@ -1,21 +1,22 @@
 import { Box, Stack, SxProps, Typography } from "@mui/material"
 import React from "react"
-import Image from "next/image"
 import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
 
 interface Props {
-  imageSrc: string
+  LeftObject: React.FC
   title: string
   description: string
   containerStyles?: SxProps<Theme>
+  imageHoverAnimation?: Variants
 }
 
 function ImageLabelCard({
-  imageSrc,
+  LeftObject,
   title,
   description,
-  containerStyles
+  containerStyles,
+  imageHoverAnimation
 }: Props) {
   const containerMotion: Variants = {
     rest: {
@@ -26,26 +27,6 @@ function ImageLabelCard({
       }
     },
     hover: { y: -6, boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)" }
-  }
-
-  const imageMotion: Variants = {
-    rest: {
-      x: 0,
-      y: 0,
-      transition: {
-        duration: 0.5
-      }
-    },
-    hover: {
-      x: -20,
-      y: 100,
-      scale: 2.3,
-      rotate: [0, 20, 0, -20, 0, 10, 0, -10, 0],
-      transition: {
-        ease: "easeInOut",
-        duration: 0.2
-      }
-    }
   }
 
   return (
@@ -64,16 +45,17 @@ function ImageLabelCard({
           }}
         >
           <Stack direction="row">
-            <Box sx={{ width: 200, height: "100%" }}>
-              <motion.div variants={imageMotion}>
-                <Image
-                  alt={title}
-                  src={imageSrc}
-                  width="200"
-                  height="200"
-                  style={{ objectFit: "cover", borderRadius: "18px" }}
-                  draggable={false}
-                />
+            <Box sx={{ display: "grid", placeItems: "center" }}>
+              <motion.div
+                variants={imageHoverAnimation}
+                style={{
+                  maxWidth: 200,
+                  display: "grid",
+                  placeItems: "center",
+                  paddingLeft: 20
+                }}
+              >
+                <LeftObject />
               </motion.div>
             </Box>
             <Stack
