@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Box, Stack } from "@mui/material"
 import ImageLabelCard from "../UI/card/ImageLabelCard"
 import { amber, indigo, pink, purple } from "@mui/material/colors"
 import { Variants, motion } from "framer-motion"
 import Image from "next/image"
+import ControlledStepperButtons from "../UI/navigation/ControlledStepperButtons"
+import { GenerateCompleteContext } from "../../contexts/generate/GenerateCompleteContext"
 
 const UploadAnimationVariant: Variants = {
   rest: {
@@ -43,6 +45,8 @@ const DownloadAnimationVariant: Variants = {
 }
 
 function SaveTicketAsset() {
+  const { setActiveStep } = useContext(GenerateCompleteContext)
+
   return (
     <Box>
       <Stack spacing={2}>
@@ -87,6 +91,10 @@ function SaveTicketAsset() {
             </motion.div>
           )}
           containerStyles={{ backgroundColor: indigo[300] }}
+        />
+        <ControlledStepperButtons
+          handlePrevious={() => setActiveStep((prev) => prev - 1)}
+          handleNext={() => setActiveStep((prev) => prev + 1)}
         />
       </Stack>
     </Box>

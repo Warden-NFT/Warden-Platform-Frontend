@@ -26,8 +26,7 @@ function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
   const variant: Variants = {
     rest: {
       x: 0,
-      y: 0,
-      border: "2px solid black"
+      y: 0
     },
     hover: {
       y: -6,
