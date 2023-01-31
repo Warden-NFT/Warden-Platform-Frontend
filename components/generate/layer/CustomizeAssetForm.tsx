@@ -81,14 +81,7 @@ function CustomizeAssetForm() {
   }, [layers, setFieldValue])
 
   return (
-    <Box
-      sx={{
-        padding: 4,
-        marginY: 4,
-        backgroundColor: "white",
-        borderRadius: 4
-      }}
-    >
+    <Box>
       <form>
         <FormControl required>
           <FormLabel>Generation Amount</FormLabel>

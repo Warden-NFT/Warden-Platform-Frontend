@@ -48,7 +48,6 @@ function Register() {
               <Divider sx={{ my: 2 }} />
               <Box
                 sx={{
-                  borderRadius: "12px",
                   padding: 2,
                   backgroundColor: grey[100]
                 }}

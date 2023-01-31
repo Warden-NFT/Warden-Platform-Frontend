@@ -39,7 +39,6 @@ function AssetCanvasCard({ name, data, width, height, sx, skeletonSx }: Props) {
   return (
     <Box
       sx={{
-        borderRadius: 2,
         boxShadow: 2,
         backgroundColor: "white",
         width: width,

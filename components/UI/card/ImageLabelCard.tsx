@@ -1,59 +1,65 @@
 import { Box, Stack, SxProps, Typography } from "@mui/material"
 import React from "react"
-import Image from "next/image"
-import { motion } from "framer-motion"
+import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
 
 interface Props {
-  imageSrc: string
-  imageAlt: string
+  LeftMotionedComponent: React.FC
   title: string
   description: string
   containerStyles?: SxProps<Theme>
 }
 
 function ImageLabelCard({
-  imageSrc,
-  imageAlt,
+  LeftMotionedComponent,
   title,
   description,
   containerStyles
 }: Props) {
+  const containerMotion: Variants = {
+    rest: {
+      x: 0,
+      y: 0,
+      transition: {
+        duration: 1
+      }
+    },
+    hover: { y: -6, boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)" }
+  }
+
   return (
-    <motion.div
-      whileHover={{ y: -6, boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)" }}
-      style={{ borderRadius: "20px" }}
-    >
-      <Box
-        sx={{
-          border: 2,
-          borderColor: "black",
-          borderRadius: "20px",
-          overflow: "hidden",
-          "&:hover": {
-            cursor: "pointer"
-          },
-          ...containerStyles
-        }}
-      >
-        <Stack direction="row">
-          <Image
-            alt={imageAlt}
-            src={imageSrc}
-            width="200"
-            height="200"
-            style={{ objectFit: "contain" }}
-            draggable={false}
-          />
-          <Stack
-            justifyContent="space-between"
-            sx={{ marginLeft: 4, padding: 4 }}
-          >
-            <Typography variant="h5">{title}</Typography>
-            <Typography>{description}</Typography>
+    <motion.div initial="rest" animate="rest" whileHover="hover">
+      <motion.div variants={containerMotion}>
+        <Box
+          sx={{
+            border: 2,
+            height: 200,
+            borderColor: "black",
+            overflow: "hidden",
+            "&:hover": {
+              cursor: "pointer"
+            },
+            ...containerStyles
+          }}
+        >
+          <Stack direction="row">
+            <Box sx={{ display: "grid", placeItems: "center" }}>
+              <LeftMotionedComponent />
+            </Box>
+            <Stack
+              justifyContent="space-between"
+              sx={{ marginLeft: 4, padding: 4 }}
+            >
+              <Typography variant="h4" fontWeight="700">
+                {title}
+              </Typography>
+              <Typography variant="subtitle1" fontSize="18px" fontWeight="500">
+                {description}
+              </Typography>
+            </Stack>
           </Stack>
-        </Stack>
-      </Box>
+        </Box>
+      </motion.div>
     </motion.div>
   )
 }

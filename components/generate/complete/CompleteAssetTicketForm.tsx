@@ -10,7 +10,7 @@ import {
   TextField,
   Typography
 } from "@mui/material"
-import { red } from "@mui/material/colors"
+import { pink, red } from "@mui/material/colors"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
@@ -39,9 +39,11 @@ function CompleteAssetTicketForm() {
   const router = useRouter()
 
   useEffect(() => {
+    if (values.ticketType) return
+
     const { ticketType } = router.query
     setFieldValue("ticketType", ticketType as TicketTypes)
-  }, [])
+  }, [router])
 
   return (
     <Box>
@@ -51,11 +53,17 @@ function CompleteAssetTicketForm() {
         sx={{
           backgroundColor: "white",
           marginY: 4,
-          borderRadius: 6,
           border: 2
         }}
       >
-        <EventCreationAlert />
+        <EventCreationAlert
+          title="Have you create an event yet?"
+          href="/create/event"
+          hrefDescription="clicking here!"
+          description="Make sure to create an event before creating a ticket. You can create an event by"
+          sx={{ backgroundColor: pink[200] }}
+          iconTheme={{ color: pink[500] }}
+        />
         <Stack
           direction="row"
           justifyContent="space-between"

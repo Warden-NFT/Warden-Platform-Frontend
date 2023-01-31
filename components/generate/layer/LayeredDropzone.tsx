@@ -1,4 +1,5 @@
 import { Container, Typography } from "@mui/material"
+import { amber, grey, yellow } from "@mui/material/colors"
 import { Box } from "@mui/system"
 import Image from "next/image"
 import React, { useCallback, useContext } from "react"
@@ -52,11 +53,11 @@ function LayeredDropzone() {
     <Box>
       <Container
         sx={{
-          backgroundColor: "white",
+          backgroundColor: grey[200],
           minHeight: 140,
           borderWidth: 2,
+          borderRadius: 2,
           borderColor: "primary.main",
-          borderRadius: 3,
           borderStyle: "dashed",
           display: "grid",
           placeItems: "center",

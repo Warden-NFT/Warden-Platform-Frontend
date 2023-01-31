@@ -17,7 +17,6 @@ function PNGAssetPreview({ name, data, width, height }: Props) {
         width={width}
         height={height}
         alt={`Asset ${name}`}
-        style={{ objectFit: "contain" }}
         draggable={false}
         className="png-bg"
       />

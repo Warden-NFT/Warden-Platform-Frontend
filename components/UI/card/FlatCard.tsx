@@ -1,4 +1,5 @@
 import { Stack, SxProps } from "@mui/material"
+import { Box } from "@mui/system"
 import React from "react"
 
 type Props = {
@@ -10,16 +11,14 @@ function FlatCard({ children, sx }: Props) {
   return (
     <Stack
       spacing={2}
-      p={4}
       sx={{
         ...sx,
         backgroundColor: "white",
         marginY: 4,
-        borderRadius: 6,
         border: 2
       }}
     >
-      {children}
+      <Box p={4}>{children}</Box>
     </Stack>
   )
 }

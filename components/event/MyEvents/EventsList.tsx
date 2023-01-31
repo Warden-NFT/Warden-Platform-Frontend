@@ -22,11 +22,7 @@ function EventsList() {
     >
       {/* TODO: change placeholder data to real data */}
       {[1, 2, 3, 4, 5, 6, 7].map((card, index) => (
-        <Card
-          sx={{ p: 0, borderRadius: "12px", border: "2px solid #000" }}
-          key={index}
-          elevation={0}
-        >
+        <Card sx={{ p: 0, border: "2px solid #000" }} key={index} elevation={0}>
           <CardMedia
             sx={{ height: 140 }}
             image="https://bicevent.com/wp-content/uploads/2012/04/img-meeting-conference-home.jpg"
