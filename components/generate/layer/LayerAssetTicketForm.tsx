@@ -44,15 +44,7 @@ function LayeredAssetTicketForm() {
 
   return (
     <Stack width="100%">
-      <Stack
-        spacing={2}
-        p={4}
-        sx={{
-          backgroundColor: "white",
-          marginY: 4,
-          border: 2
-        }}
-      >
+      <Stack spacing={2} p={4}>
         <EventCreationAlert />
         <Stack
           direction="row"

@@ -28,7 +28,7 @@ function ActiveStepper({ steps, activeStep, children }: Props) {
           </Step>
         ))}
       </Stepper>
-      <Box sx={{ paddingY: 4 }}>{children}</Box>
+      <Box>{children}</Box>
     </Box>
   )
 }

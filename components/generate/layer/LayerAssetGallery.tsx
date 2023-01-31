@@ -9,8 +9,11 @@ function LayerAssetGallery() {
   const { layers, setActiveStep } = useContext(GenerateLayerContext)
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stack direction="column">
+    <Box>
+      <Typography variant="h4" component="h1">
+        View your uploaded assets
+      </Typography>
+      <Stack direction="column" sx={{ height: "400px", overflowY: "auto" }}>
         {layers.map((layer, i) => (
           <Box
             sx={{

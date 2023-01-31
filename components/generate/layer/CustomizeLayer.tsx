@@ -13,10 +13,8 @@ function CustomizeLayer() {
   return (
     <Box
       sx={{
-        padding: 4,
         display: "grid",
         placeItems: "center",
-        marginY: 4,
         backgroundColor: "white"
       }}
     >
