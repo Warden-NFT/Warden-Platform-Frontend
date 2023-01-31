@@ -10,6 +10,7 @@ import UserContextProvider from "../contexts/user/UserContext"
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
 import Head from "next/head"
+import CreateEventContextProvider from "../contexts/event/CreateEventContext"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -29,9 +30,11 @@ export default function App({ Component, pageProps }: AppProps) {
           <ThemeProvider theme={AppTheme}>
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <UserContextProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
+                <CreateEventContextProvider>
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </CreateEventContextProvider>
               </UserContextProvider>
             </LocalizationProvider>
           </ThemeProvider>

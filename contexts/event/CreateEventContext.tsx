@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction, useState } from "react"
 import { EVENT_STATUS, TICKET_TYPE } from "../../constants/event/event"
-import { Event } from "../../interfaces/event/event.interface"
+import { Event, EventStatusType } from "../../interfaces/event/event.interface"
 
 interface CreateEventStruct {
   event: Event
@@ -22,7 +22,7 @@ export const CreateEventContext = createContext({} as CreateEventStruct)
 
 const CreateEventContextProvider = ({ ...props }) => {
   const DEFAULT_EVENT = {
-    eventStatus: EVENT_STATUS.NOT_STARTED,
+    eventStatus: EVENT_STATUS.NOT_STARTED as unknown as EventStatusType,
     eventKeywords: [],
     location: null,
     online_url: "",
