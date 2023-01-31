@@ -23,6 +23,7 @@ export interface Event {
   eventStatus: EventStatusType
   eventKeywords: string[]
   location: PlaceType | null
+  online_url: string
   ticketSupply: {
     general: number
     vip: number

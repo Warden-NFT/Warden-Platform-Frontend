@@ -25,6 +25,7 @@ const CreateEventContextProvider = ({ ...props }) => {
     eventStatus: EVENT_STATUS.NOT_STARTED,
     eventKeywords: [],
     location: null,
+    online_url: "",
     ticketSupply: {
       general: 0,
       vip: 0,
