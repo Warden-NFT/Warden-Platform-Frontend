@@ -27,13 +27,26 @@ export function generateRandomLayer(
       }
 
       const occurrences = layer.assets.map((asset) => asset.occurrence)
-      const rndIndex = weightedRandom(occurrences, layer.assets)
-      assetAttributes.push({
-        layerId: layer.layerId,
-        layerName: layer.layerName,
-        layerOccurrence: layer.layerOccurrence,
-        asset: layer.assets[rndIndex]
-      })
+      if (layer.assets.length > 1) {
+        // requires checking since weightedRandom does not account for assets length of 1
+        const rndIndex = weightedRandom(occurrences, layer.assets)
+        assetAttributes.push({
+          layerId: layer.layerId,
+          layerName: layer.layerName,
+          layerOccurrence: layer.layerOccurrence,
+          asset: layer.assets[rndIndex]
+        })
+      } else {
+        const isAssetLower = isLowerTail(layer.assets[0].occurrence / 100)
+        if (isAssetLower) {
+          assetAttributes.push({
+            layerId: layer.layerId,
+            layerName: layer.layerName,
+            layerOccurrence: layer.layerOccurrence,
+            asset: layer.assets[0]
+          })
+        }
+      }
     }
     // Check for duplicated asset
     const checkHash = generateCheckHash(assetAttributes)
@@ -53,6 +66,7 @@ export function generateRandomLayer(
     }
   }
 
+  // console.table(metadata)
   return { metadata, generatedAmount, checkHashes }
 }
 

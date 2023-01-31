@@ -6,22 +6,22 @@
  */
 export function weightedRandom(weights: number[], items: any[]): number {
   if (weights.length === 0 || items.length === 0) {
-    throw new Error("Weights and items must not be empty.");
+    throw new Error("Weights and items must not be empty.")
   }
 
   if (weights.length !== items.length) {
-    throw new Error("List of weights and items do not have the same size.");
+    throw new Error("List of weights and items do not have the same size.")
   }
 
-  const totalWeights = weightSummation(weights);
+  const totalWeights = weightSummation(weights)
   if (totalWeights == 0) {
-    throw new Error("Total weight is zero.");
+    throw new Error("Total weight is zero.")
   }
 
-  const cumulativeWeights = cumulativeWeight(weights);
-  const weightedRnd = Math.random() * totalWeights;
+  const cumulativeWeights = cumulativeWeight(weights)
+  const weightedRnd = Math.random() * totalWeights
 
-  return getWeightedRandom(cumulativeWeights, weightedRnd) ?? 0;
+  return getWeightedRandom(cumulativeWeights, weightedRnd) ?? 0
 }
 
 /**
@@ -30,12 +30,12 @@ export function weightedRandom(weights: number[], items: any[]): number {
  * @returns cumulated weights
  */
 export function cumulativeWeight(weights: number[]) {
-  const cumulativeWeights: number[] = [];
+  const cumulativeWeights: number[] = []
   weights.forEach((weight, i) => {
-    cumulativeWeights.push(weight + (cumulativeWeights[i - 1] || 0));
-  });
+    cumulativeWeights.push(weight + (cumulativeWeights[i - 1] || 0))
+  })
 
-  return cumulativeWeights;
+  return cumulativeWeights
 }
 
 /**
@@ -44,8 +44,8 @@ export function cumulativeWeight(weights: number[]) {
  * @returns weights sum
  */
 export function weightSummation(weights: number[]) {
-  const cumulated = weights.reduce((weight, tot) => weight + tot);
-  return cumulated;
+  const cumulated = weights.reduce((weight, tot) => weight + tot)
+  return cumulated
 }
 
 /**
@@ -57,26 +57,26 @@ export function weightSummation(weights: number[]) {
 export function getWeightedRandom(cumulativeWeights: number[], random: number) {
   for (let i = 0; i < cumulativeWeights.length; i++) {
     if (cumulativeWeights[i] >= random) {
-      return i;
+      return i
     }
   }
 }
 
 /**
- * Return if the random value is less than the degsinated value.
- * Used to determine if a layer should be generated.
+ * Return a boolean that determine if an asset/ layer should be generated.
+ * If it's true, that asset shall be generated.
  * @param val occurance of the layer
  * @returns boolean (True if the rnd value is in the lower tail)
  */
 export function isLowerTail(val: number) {
   if (val > 1) {
-    throw new Error("Probability cannot be > 1");
+    throw new Error("Probability cannot be > 1")
   }
 
   if (val < 0) {
-    throw new Error("Probability cannot be negative");
+    throw new Error("Probability cannot be negative")
   }
 
-  const rnd = Math.random();
-  return rnd < val;
+  const rnd = Math.random()
+  return rnd < val
 }
