@@ -9,12 +9,16 @@ import { LAYERED_MODE_STEPPER } from "../../../constants/generate/steps"
 import PreviewGeneratedTickets from "./PreviewGeneratedTickets"
 import SaveTicketAsset from "../SaveTicketAsset"
 import FlatCard from "../../UI/card/FlatCard"
-import { lightBlue } from "@mui/material/colors"
+import { amber } from "@mui/material/colors"
 
 function LayeredGenerateContainer() {
   const { activeStep } = useContext(GenerateLayerContext)
   return (
-    <ActiveStepper steps={LAYERED_MODE_STEPPER} activeStep={activeStep}>
+    <ActiveStepper
+      steps={LAYERED_MODE_STEPPER}
+      activeStep={activeStep}
+      sx={{ backgroundColor: "white" }}
+    >
       <FlatCard>
         {activeStep === 1 && <LayeredAssetTicketForm />}
         {activeStep === 2 && <LayerAssetGallery />}

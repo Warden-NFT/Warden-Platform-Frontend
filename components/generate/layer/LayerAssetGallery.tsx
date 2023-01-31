@@ -4,49 +4,86 @@ import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerCo
 import LayeredDropzone from "./LayeredDropzone"
 import LayerAssetPreviewCard from "./LayerAssetPreviewCard"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import Image from "next/image"
+import { grey } from "@mui/material/colors"
+import ContainedButton from "../../UI/button/ContainedButton"
+import HeaderText from "../../UI/typography/SectionHeader"
 
 function LayerAssetGallery() {
-  const { layers, setActiveStep } = useContext(GenerateLayerContext)
+  const { layers, setLayers, setActiveStep, setAssets } =
+    useContext(GenerateLayerContext)
+
+  function handleClearAll() {
+    setLayers([])
+    setAssets([])
+  }
 
   return (
     <Box>
-      <Typography variant="h4" component="h1">
-        View your uploaded assets
-      </Typography>
-      <Stack direction="column" sx={{ height: "400px", overflowY: "auto" }}>
-        {layers.map((layer, i) => (
+      <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <HeaderText
+          text="View your assets"
+          RightObject={() => (
+            <ContainedButton
+              label="Clear all"
+              type="button"
+              variant="contained"
+              onClick={handleClearAll}
+            />
+          )}
+        />
+      </Stack>
+      <Stack direction="column" sx={{ maxHeight: "520px", overflowY: "auto" }}>
+        {layers.length > 0 ? (
+          <Box>
+            {layers.map((layer, i) => (
+              <Box key={i}>
+                <Typography
+                  variant="h5"
+                  fontWeight="600"
+                  sx={{ marginY: 2, textDecoration: "underline" }}
+                >
+                  {layer.layerName}
+                </Typography>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}
+                  sx={{ overflowX: "auto", height: "240px" }}
+                >
+                  {layer.assets.map((asset, j) => (
+                    <LayerAssetPreviewCard
+                      key={j}
+                      asset={asset}
+                      layerIndex={i}
+                      assetIndex={j}
+                    />
+                  ))}
+                </Stack>
+              </Box>
+            ))}
+          </Box>
+        ) : (
           <Box
             sx={{
-              px: 2,
-              py: 2,
-              mb: 2,
-              backgroundColor: "white",
-              height: 180
+              height: 400,
+              display: "grid",
+              placeItems: "center",
+              marginTop: 4
             }}
-            key={i}
           >
-            <Typography fontWeight="600" sx={{ mb: 2 }}>
-              {layer.layerName}
+            <Image
+              src="/images/generate/empty-dropzone-placeholder.png"
+              width="700"
+              height="600"
+              alt="Empty Placeholder"
+              style={{ objectFit: "cover", height: "100%" }}
+            />
+            <Typography component="p" fontSize="11px" color={grey[500]}>
+              This is not your asset, it's just a cat.
             </Typography>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                overflowX: "scroll"
-              }}
-            >
-              {layer.assets.map((asset, j) => (
-                <LayerAssetPreviewCard
-                  key={j}
-                  asset={asset}
-                  layerIndex={i}
-                  assetIndex={j}
-                />
-              ))}
-            </Box>
           </Box>
-        ))}
+        )}
       </Stack>
       <LayeredDropzone />
       <ControlledStepperButtons

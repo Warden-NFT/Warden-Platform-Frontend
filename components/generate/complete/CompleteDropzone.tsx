@@ -5,6 +5,7 @@ import CompleteAssetDropzone from "./CompleteAssetDropzone"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
 import UploadedAssetPreviewList from "../asset/UploadedAssetPreviewList"
 import { grey } from "@mui/material/colors"
+import Image from "next/image"
 
 function CompleteDropzone() {
   const {
@@ -66,6 +67,12 @@ function CompleteDropzone() {
           />
         </Box>
         <Box sx={{ width: "100%" }}>
+          <Image
+            src="/images/generateempty-dropzone-placeholder.png"
+            width="400"
+            height="400"
+            alt="Empty placeholder"
+          />
           {uploadedVipAssets.length > 0 && hasVip && (
             <Box>
               <Box
