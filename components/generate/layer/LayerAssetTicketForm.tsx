@@ -19,6 +19,7 @@ import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButto
 import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
 import { LayeredAssetTicketFormSchema } from "../../../schema/generate/layered"
 import { useRouter } from "next/router"
+import { pink } from "@mui/material/colors"
 
 function LayeredAssetTicketForm() {
   const { formInfo, setFormInfo, setActiveStep } =
@@ -44,8 +45,15 @@ function LayeredAssetTicketForm() {
 
   return (
     <Stack width="100%">
-      <Stack spacing={2} p={4}>
-        <EventCreationAlert />
+      <Stack spacing={2}>
+        <EventCreationAlert
+          title="Have you create an event yet?"
+          href="/create/event"
+          hrefDescription="clicking here!"
+          description="Make sure to create an event before creating a ticket. You can create an event by"
+          sx={{ backgroundColor: pink[200] }}
+          iconTheme={{ color: pink[500] }}
+        />
         <Stack
           direction="row"
           justifyContent="space-between"

@@ -1,14 +1,17 @@
-import { Box, Step, StepLabel, Stepper } from "@mui/material"
+import { Box, Divider, Step, StepLabel, Stepper, SxProps } from "@mui/material"
+import { Theme } from "@mui/system"
 import React, { ReactNode } from "react"
 import { StepperSteps } from "../../../constants/generate/steps"
+import FlatCard from "../card/FlatCard"
 
 interface Props {
   steps: StepperSteps[]
   activeStep: number
   children: ReactNode
+  sx?: SxProps<Theme>
 }
 
-function ActiveStepper({ steps, activeStep, children }: Props) {
+function ActiveStepper({ steps, activeStep, children, sx }: Props) {
   return (
     <Box>
       <Stepper
@@ -16,10 +19,10 @@ function ActiveStepper({ steps, activeStep, children }: Props) {
         activeStep={activeStep - 1}
         alternativeLabel
         sx={{
-          border: 2,
           padding: 2,
-          backgroundColor: "white",
-          boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)"
+          border: 2,
+          boxShadow: "10px 6px 0 rgba(0, 0, 0, 1)",
+          ...sx
         }}
       >
         {steps.map((step, index) => (

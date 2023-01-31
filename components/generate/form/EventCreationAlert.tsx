@@ -1,26 +1,82 @@
-import { Alert, AlertTitle } from "@mui/material"
-import { grey } from "@mui/material/colors"
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  Stack,
+  SxProps,
+  Typography
+} from "@mui/material"
+import { Theme } from "@mui/system"
 import Link from "next/link"
 import React from "react"
+import AnnouncementIcon from "@mui/icons-material/Announcement"
 
-function EventCreationAlert() {
+interface Props {
+  sx?: SxProps<Theme>
+  title: string
+  description: string
+  hrefDescription: string
+  href: string
+  iconTheme?: SxProps<Theme>
+}
+
+function EventCreationAlert({
+  sx,
+  title,
+  description,
+  href,
+  hrefDescription,
+  iconTheme
+}: Props) {
   return (
-    <Alert
-      variant="outlined"
-      severity="info"
-      sx={{ borderColor: grey[300], backgroundColor: grey[100] }}
+    <Box
+      sx={{
+        ...sx,
+        borderRadius: 0,
+        border: 1,
+        padding: 2,
+        position: "relative",
+        overflow: "hidden"
+      }}
     >
-      <AlertTitle sx={{ color: "black" }}>
-        Have you create an event yet?
-      </AlertTitle>
-      Make sure to create an event before creating a ticket.{" "}
-      <strong>
-        You can create an event by
-        <Link href="/create/event" style={{ marginLeft: 6 }}>
-          clicking here!
-        </Link>
-      </strong>
-    </Alert>
+      <Box>
+        <AnnouncementIcon
+          sx={{
+            fontSize: "80px",
+            position: "absolute",
+            rotate: "-20deg",
+            opacity: 0.6,
+            ...iconTheme
+          }}
+        />
+        <Box sx={{ paddingLeft: 14 }}>
+          <Typography
+            variant="h6"
+            component="h3"
+            color="black"
+            fontWeight="600"
+          >
+            {title}
+          </Typography>
+          <Stack direction="row" alignItems="center">
+            <Typography
+              variant="caption"
+              component="p"
+              fontSize="16px"
+              color="black"
+            >
+              {description}
+            </Typography>
+
+            <Link href={href} style={{ marginLeft: 6 }}>
+              <Typography variant="caption" component="p" fontSize="16px">
+                {hrefDescription}
+              </Typography>
+            </Link>
+          </Stack>
+        </Box>
+      </Box>
+    </Box>
   )
 }
 

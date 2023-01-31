@@ -23,7 +23,7 @@ function ControlledStepperButtons({
     <Stack
       direction="row"
       justifyContent="space-between"
-      sx={{ width: "100%" }}
+      sx={{ width: "100%", marginTop: 4 }}
     >
       <ContainedButton
         onClick={handlePrevious}
