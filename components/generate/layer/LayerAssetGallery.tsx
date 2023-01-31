@@ -66,11 +66,10 @@ function LayerAssetGallery() {
         ) : (
           <Box
             sx={{
-              px: 2,
-              py: 2,
-              mb: 2,
-              backgroundColor: "white",
-              height: 180
+              height: 400,
+              display: "grid",
+              placeItems: "center",
+              marginTop: 4
             }}
           >
             <Image
