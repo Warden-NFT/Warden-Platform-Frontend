@@ -29,7 +29,7 @@ function GenerateModeSelector({ selectedType }: Props) {
             }}
           >
             <ImageLabelCard
-              LeftObject={() => (
+              LeftMotionedComponent={() => (
                 <Image
                   alt="Upload Assets and Mint"
                   src="/images/generate/picture-placeholder.png"
@@ -56,7 +56,7 @@ function GenerateModeSelector({ selectedType }: Props) {
             }}
           >
             <ImageLabelCard
-              LeftObject={() => (
+              LeftMotionedComponent={() => (
                 <Image
                   alt="Upload Assets and Mint"
                   src="/images/generate/dimensions.png"
