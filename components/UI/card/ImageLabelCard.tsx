@@ -4,19 +4,17 @@ import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
 
 interface Props {
-  LeftObject: React.FC
+  LeftMotionedComponent: React.FC
   title: string
   description: string
   containerStyles?: SxProps<Theme>
-  imageHoverAnimation?: Variants
 }
 
 function ImageLabelCard({
-  LeftObject,
+  LeftMotionedComponent,
   title,
   description,
-  containerStyles,
-  imageHoverAnimation
+  containerStyles
 }: Props) {
   const containerMotion: Variants = {
     rest: {
@@ -46,17 +44,7 @@ function ImageLabelCard({
         >
           <Stack direction="row">
             <Box sx={{ display: "grid", placeItems: "center" }}>
-              <motion.div
-                variants={imageHoverAnimation}
-                style={{
-                  maxWidth: 200,
-                  display: "grid",
-                  placeItems: "center",
-                  paddingLeft: 20
-                }}
-              >
-                <LeftObject />
-              </motion.div>
+              <LeftMotionedComponent />
             </Box>
             <Stack
               justifyContent="space-between"
