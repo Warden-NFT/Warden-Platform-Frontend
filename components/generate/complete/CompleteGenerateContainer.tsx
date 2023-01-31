@@ -4,7 +4,6 @@ import { COMPLETE_MODE_STEPS } from "../../../constants/generate/steps"
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
 import ActiveStepper from "../../UI/navigation/ActiveStepper"
 import CompleteDropzone from "./CompleteDropzone"
-import queryString from "query-string"
 import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
 
 import CustomizeUtilityForm from "./CustomizeUtilityForm"
@@ -17,8 +16,7 @@ function CompleteGenerateContainer() {
   const router = useRouter()
 
   useEffect(() => {
-    const { query } = queryString.parseUrl(window.location.href)
-    const { ticketType } = query
+    const { ticketType } = router.query
     const _form = { ...formInfo }
     if (ticketType) {
       _form.ticketType = ticketType as TicketTypes

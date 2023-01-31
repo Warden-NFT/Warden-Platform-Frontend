@@ -20,7 +20,8 @@ function GenerateModeSelector({ selectedType }: Props) {
         <Stack direction="column" gap={4}>
           <div
             onClick={() => {
-              router.push("/ticket/asset", {
+              router.push({
+                pathname: "ticket/asset",
                 query: {
                   ticketType: selectedType
                 }

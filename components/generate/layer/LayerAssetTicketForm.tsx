@@ -37,11 +37,12 @@ function LayeredAssetTicketForm() {
     })
 
   const router = useRouter()
-
   useEffect(() => {
+    if (values.ticketType) return
+
     const { ticketType } = router.query
     setFieldValue("ticketType", ticketType as TicketTypes)
-  }, [])
+  }, [router])
 
   return (
     <Stack width="100%">

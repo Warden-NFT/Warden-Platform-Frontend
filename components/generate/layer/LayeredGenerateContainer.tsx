@@ -9,7 +9,6 @@ import { LAYERED_MODE_STEPPER } from "../../../constants/generate/steps"
 import PreviewGeneratedTickets from "./PreviewGeneratedTickets"
 import SaveTicketAsset from "../SaveTicketAsset"
 import FlatCard from "../../UI/card/FlatCard"
-import { amber } from "@mui/material/colors"
 
 function LayeredGenerateContainer() {
   const { activeStep } = useContext(GenerateLayerContext)
