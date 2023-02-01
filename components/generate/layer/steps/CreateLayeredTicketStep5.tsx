@@ -32,27 +32,28 @@ function CreateLayeredTicketStep5() {
 
   return (
     <Box sx={{ marginY: 4 }}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ width: "100%" }}
-        >
-          <Typography variant="h4" component="h1">
-            Preview your ticket assets
-          </Typography>
-          <ContainedButton
-            label="Regenerate"
-            variant="contained"
-            onClick={handleGenerate}
-          />
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ width: "100%" }}
+      >
+        <Typography variant="h4" component="h1">
+          Preview your ticket assets
+        </Typography>
+        <ContainedButton
+          label="Regenerate"
+          variant="contained"
+          onClick={handleGenerate}
+        />
       </Stack>
 
       <Stack
         direction="row"
         flexWrap="wrap"
         justifyContent="space-between"
-        sx={{ height: "600px", overflowY: "auto", marginY: 2 }}>
+        sx={{ height: "600px", overflowY: "auto", marginY: 2 }}
+      >
         {generatedMetadata.map((data, i) => (
           <Suspense
             key={i}
@@ -64,10 +65,12 @@ function CreateLayeredTicketStep5() {
                   width: "200px",
                   height: "200px",
                   mb: 2
-                }}>
+                }}
+              >
                 Generating Ticket Asset
               </Box>
-            }>
+            }
+          >
             <AssetCanvasCard
               name={data.name}
               data={data.attributes.map((attr) => attr.asset.data)}
