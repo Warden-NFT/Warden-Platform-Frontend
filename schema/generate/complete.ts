@@ -16,7 +16,7 @@ export const CompleteAssetFormSchema = object({
     .required("This field is required")
 })
 
-export const CompleteAssetTicketFormSchema = object({
+export const CreateCompleteTicketStep1Schema = object({
   currency: string()
     .oneOf(["ETH", "MATIC"], "This currency is not yet supported")
     .required("Currency is required"),

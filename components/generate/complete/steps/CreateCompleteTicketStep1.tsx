@@ -14,14 +14,14 @@ import { pink, red } from "@mui/material/colors"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
-import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
-import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
-import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
-import { CompleteAssetTicketFormSchema } from "../../../schema/generate/complete"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
-import EventCreationAlert from "../form/EventCreationAlert"
+import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../../constants/currencies/digital"
+import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
+import { TicketTypes } from "../../../../interfaces/ticket/ticket.interface"
+import { CreateCompleteTicketStep1Schema } from "../../../../schema/generate/complete"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
+import EventCreationAlert from "../../form/EventCreationAlert"
 
-function CompleteAssetTicketForm() {
+function CreateCompleteTicketStep1() {
   const { formInfo, setActiveStep, setFormInfo } = useContext(
     GenerateCompleteContext
   )
@@ -29,7 +29,7 @@ function CompleteAssetTicketForm() {
     useFormik({
       initialValues: { ...formInfo },
       enableReinitialize: true,
-      validationSchema: CompleteAssetTicketFormSchema,
+      validationSchema: CreateCompleteTicketStep1Schema,
       onSubmit: (data) => {
         setFormInfo(data)
         setActiveStep((prev) => prev + 1)
@@ -196,4 +196,4 @@ function CompleteAssetTicketForm() {
   )
 }
 
-export default CompleteAssetTicketForm
+export default CreateCompleteTicketStep1

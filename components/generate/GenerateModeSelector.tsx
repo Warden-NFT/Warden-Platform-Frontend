@@ -1,9 +1,9 @@
-import { Box, Container, Stack, Typography } from "@mui/material"
+import { Container, Stack, Typography } from "@mui/material"
 import React from "react"
 import ImageLabelCard from "../UI/card/ImageLabelCard"
 import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
 import { useRouter } from "next/router"
-import { cyan, orange, purple } from "@mui/material/colors"
+import { cyan, orange } from "@mui/material/colors"
 import Image from "next/image"
 
 interface Props {

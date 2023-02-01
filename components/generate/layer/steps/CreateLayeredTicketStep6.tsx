@@ -1,11 +1,11 @@
 import React, { useContext } from "react"
 import { Box, Stack } from "@mui/material"
-import ImageLabelCard from "../UI/card/ImageLabelCard"
-import { amber, indigo, pink, purple } from "@mui/material/colors"
+import ImageLabelCard from "../../../UI/card/ImageLabelCard"
+import { amber, indigo } from "@mui/material/colors"
 import { Variants, motion } from "framer-motion"
 import Image from "next/image"
-import ControlledStepperButtons from "../UI/navigation/ControlledStepperButtons"
-import { GenerateCompleteContext } from "../../contexts/generate/GenerateCompleteContext"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
+import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 
 const UploadAnimationVariant: Variants = {
   rest: {
@@ -44,7 +44,7 @@ const DownloadAnimationVariant: Variants = {
   }
 }
 
-function SaveTicketAsset() {
+function CreateLayeredTicketStep6() {
   const { setActiveStep } = useContext(GenerateCompleteContext)
 
   return (
@@ -101,4 +101,4 @@ function SaveTicketAsset() {
   )
 }
 
-export default SaveTicketAsset
+export default CreateLayeredTicketStep6

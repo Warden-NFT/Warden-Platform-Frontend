@@ -59,7 +59,7 @@ function CompleteAssetDropzone({
 
   return (
     <Container
-      sx={{ minHeight: 200, display: "grid", placeItems: "center", ...sx }}
+      sx={{ minHeight: 140, display: "grid", placeItems: "center", ...sx }}
       {...getRootProps()}
     >
       <input {...getInputProps()} />

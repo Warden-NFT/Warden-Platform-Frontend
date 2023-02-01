@@ -1,6 +1,5 @@
 import { Button, Typography } from "@mui/material"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import React from "react"
 
 interface Props {
@@ -8,8 +7,6 @@ interface Props {
 }
 
 function NavLink({ route }: Props) {
-  const router = useRouter()
-
   return (
     <Link href={route.url} style={{ textDecoration: "none" }}>
       <Button

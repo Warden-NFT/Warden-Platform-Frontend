@@ -1,8 +1,7 @@
-import { Box, Divider, Step, StepLabel, Stepper, SxProps } from "@mui/material"
+import { Box, Step, StepLabel, Stepper, SxProps } from "@mui/material"
 import { Theme } from "@mui/system"
 import React, { ReactNode } from "react"
 import { StepperSteps } from "../../../constants/generate/steps"
-import FlatCard from "../card/FlatCard"
 
 interface Props {
   steps: StepperSteps[]

@@ -1,5 +1,5 @@
 import { Container, Typography } from "@mui/material"
-import { amber, grey, yellow } from "@mui/material/colors"
+import { grey } from "@mui/material/colors"
 import { Box } from "@mui/system"
 import Image from "next/image"
 import React, { useCallback, useContext } from "react"
@@ -27,8 +27,8 @@ function LayeredDropzone() {
     const layerAssets = categorizeAssetsIntoLayer(layerNames)
 
     await Promise.all(
-      acceptedFiles.map(async (file) => {
-        const asset = await readLayeredAsset(file)
+      acceptedFiles.map(async (file, i) => {
+        const asset = await readLayeredAsset(file, i)
         const name = extractFolderName(file)
         const index = layerAssets.findIndex((asset) => asset.layerName === name)
         if (index !== -1) {

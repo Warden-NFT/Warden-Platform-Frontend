@@ -1,4 +1,5 @@
-import { Box } from "@mui/material"
+import { Box, SxProps } from "@mui/material"
+import { Theme } from "@mui/system"
 import Image from "next/image"
 import React from "react"
 
@@ -7,11 +8,12 @@ interface Props {
   data: string
   width: number
   height: number
+  sx?: SxProps<Theme>
 }
 
-function PNGAssetPreview({ name, data, width, height }: Props) {
+function PNGAssetPreview({ name, data, width, height, sx }: Props) {
   return (
-    <Box sx={{ width: width, height: height }}>
+    <Box sx={{ width: width, height: height, ...sx }}>
       <Image
         src={data}
         width={width}
@@ -19,6 +21,7 @@ function PNGAssetPreview({ name, data, width, height }: Props) {
         alt={`Asset ${name}`}
         draggable={false}
         className="png-bg"
+        style={{ objectFit: "cover" }}
       />
     </Box>
   )

@@ -3,7 +3,7 @@ import { LayerData } from "../../interfaces/generate/file.interface"
 import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
 import { calculateCombination } from "../../utils/random/combination"
 
-export const LayeredAssetTicketFormSchema = object({
+export const CreateLayeredTicketStep1Schema = object({
   currency: string()
     .oneOf(["ETH", "MATIC"], "This currency is not yet supported")
     .required("Currency is required"),

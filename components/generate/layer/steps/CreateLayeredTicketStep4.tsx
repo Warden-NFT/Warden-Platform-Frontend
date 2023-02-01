@@ -11,14 +11,14 @@ import {
 import { useFormik } from "formik"
 import Image from "next/image"
 import React, { useContext, useEffect } from "react"
-import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
-import { FormLayerData } from "../../../interfaces/generate/file.interface"
-import { createLayerOccurrenceForm } from "../../../schema/generate/layered"
-import { calculateCombination } from "../../../utils/random/combination"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
+import { FormLayerData } from "../../../../interfaces/generate/file.interface"
+import { createLayerOccurrenceForm } from "../../../../schema/generate/layered"
+import { calculateCombination } from "../../../../utils/random/combination"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { grey } from "@mui/material/colors"
 
-function CustomizeAssetForm() {
+function CreateLayeredTicketStep4() {
   const { layers, setLayers, formInfo, setFormInfo, setActiveStep } =
     useContext(GenerateLayerContext)
 
@@ -270,4 +270,4 @@ function CustomizeAssetForm() {
   )
 }
 
-export default CustomizeAssetForm
+export default CreateLayeredTicketStep4
