@@ -1,5 +1,5 @@
 import { Container, Typography } from "@mui/material"
-import { amber, grey, yellow } from "@mui/material/colors"
+import { grey } from "@mui/material/colors"
 import { Box } from "@mui/system"
 import Image from "next/image"
 import React, { useCallback, useContext } from "react"

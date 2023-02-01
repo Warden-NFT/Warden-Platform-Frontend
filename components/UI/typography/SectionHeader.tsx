@@ -1,5 +1,4 @@
 import { Box, Stack, SxProps, Typography } from "@mui/material"
-import { grey, pink } from "@mui/material/colors"
 import { Theme } from "@mui/system"
 import React from "react"
 

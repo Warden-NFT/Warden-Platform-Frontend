@@ -1,7 +1,7 @@
 import React, { useContext } from "react"
 import { Box, Stack } from "@mui/material"
 import ImageLabelCard from "../../../UI/card/ImageLabelCard"
-import { amber, indigo, pink, purple } from "@mui/material/colors"
+import { amber, indigo } from "@mui/material/colors"
 import { Variants, motion } from "framer-motion"
 import Image from "next/image"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
