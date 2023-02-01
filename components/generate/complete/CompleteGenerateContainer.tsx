@@ -27,7 +27,11 @@ function CompleteGenerateContainer() {
   }, [])
 
   return (
-    <ActiveStepper steps={COMPLETE_MODE_STEPS} activeStep={activeStep}>
+    <ActiveStepper
+      steps={COMPLETE_MODE_STEPS}
+      activeStep={activeStep}
+      sx={{ backgroundColor: "#fff" }}
+    >
       {activeStep === 1 && <CompleteAssetTicketForm />}
       {activeStep === 2 && <CompleteDropzone />}
       {activeStep === 3 && formInfo.ticketType === "GENERAL" && (
