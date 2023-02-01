@@ -1,11 +1,11 @@
-import { Box, Divider, Switch } from "@mui/material"
+import { Box, Divider, Stack, Switch, Typography } from "@mui/material"
 import React, { useState, useContext } from "react"
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
 import CompleteAssetDropzone from "./CompleteAssetDropzone"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
-import UploadedAssetPreviewList from "../asset/UploadedAssetPreviewList"
 import { grey } from "@mui/material/colors"
 import Image from "next/image"
+import CompleteAssetPreviewCard from "./CompleteAssetPreviewCard"
 
 function CompleteDropzone() {
   const {
@@ -46,17 +46,36 @@ function CompleteDropzone() {
         }}
       >
         <Box sx={{ width: "100%" }}>
-          {uploadedAssets.length > 0 && (
-            <>
-              <UploadedAssetPreviewList
-                assets={assets}
-                setAssets={setAssets}
-                uploads={uploadedAssets}
-                setUploads={setUploadedAssets}
-                header="Regular Tickets"
+          {uploadedAssets.length > 0 ? (
+            <Stack direction="row" alignItems="center" flexWrap="wrap">
+              {uploadedAssets.map((asset, i) => (
+                <CompleteAssetPreviewCard
+                  key={i}
+                  asset={asset}
+                  assetIndex={i}
+                />
+              ))}
+            </Stack>
+          ) : (
+            <Box
+              sx={{
+                height: 400,
+                display: "grid",
+                placeItems: "center",
+                marginTop: 4
+              }}
+            >
+              <Image
+                src="/images/generate/empty-dropzone-placeholder.png"
+                width="700"
+                height="600"
+                alt="Empty Placeholder"
+                style={{ objectFit: "cover", height: "100%" }}
               />
-              <Divider />
-            </>
+              <Typography component="p" fontSize="11px" color={grey[500]}>
+                This is not your asset, it's just a cat.
+              </Typography>
+            </Box>
           )}
           <CompleteAssetDropzone
             assets={assets}
@@ -74,24 +93,16 @@ function CompleteDropzone() {
             alt="Empty placeholder"
           />
           {uploadedVipAssets.length > 0 && hasVip && (
-            <Box>
-              <Box
-                sx={{
-                  height: "1px",
-                  width: "100%",
-                  backgroundColor: "#000",
-                  marginTop: 2
-                }}
-              />
-              <UploadedAssetPreviewList
-                assets={vipAssets}
-                setAssets={setVipAssets}
-                uploads={uploadedVipAssets}
-                setUploads={setUploadedVipAssets}
-                header="VIP Tickets"
-              />
-              <Divider />
-            </Box>
+            <Stack direction="row" alignItems="center" flexWrap="wrap">
+              {uploadedVipAssets.map((asset, i) => (
+                <CompleteAssetPreviewCard
+                  key={i}
+                  asset={asset}
+                  assetIndex={i}
+                  isVip
+                />
+              ))}
+            </Stack>
           )}
           {hasVip && (
             <CompleteAssetDropzone

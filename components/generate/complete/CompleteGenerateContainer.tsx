@@ -22,7 +22,7 @@ function CompleteGenerateContainer() {
       _form.ticketType = ticketType as TicketTypes
       setFormInfo(_form)
     } else {
-      router.push("/generate")
+      router.push("/ticket")
     }
   }, [])
 
