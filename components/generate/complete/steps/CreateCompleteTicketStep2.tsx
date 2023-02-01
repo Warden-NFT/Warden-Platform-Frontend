@@ -1,12 +1,12 @@
 import { Box, Stack, Typography } from "@mui/material"
 import React, { useState, useContext } from "react"
-import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
-import CompleteAssetDropzone from "./CompleteAssetDropzone"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
+import CompleteAssetDropzone from "../CompleteAssetDropzone"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { grey } from "@mui/material/colors"
-import CompleteAssetPreviewCard from "./CompleteAssetPreviewCard"
+import CompleteAssetPreviewCard from "../CompleteAssetPreviewCard"
 
-function CompleteDropzone() {
+function CreateCompleteTicketStep2() {
   const {
     vipAssets,
     setVipAssets,
@@ -118,4 +118,4 @@ function CompleteDropzone() {
   )
 }
 
-export default CompleteDropzone
+export default CreateCompleteTicketStep2

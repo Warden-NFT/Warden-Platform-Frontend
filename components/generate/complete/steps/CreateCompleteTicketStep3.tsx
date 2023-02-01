@@ -11,9 +11,9 @@ import {
 } from "@mui/material"
 import { useFormik } from "formik"
 import React, { useContext, useEffect } from "react"
-import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
-import { CompleteAssetCustomizeUtilitySchema } from "../../../schema/generate/complete"
+import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
+import { CompleteAssetCustomizeUtilitySchema } from "../../../../schema/generate/complete"
 import Image from "next/image"
 
 interface AssetValue {
@@ -22,7 +22,7 @@ interface AssetValue {
   quantity: number
 }
 
-function CustomizeUtilityForm() {
+function CreateCompleteTicketStep3() {
   const {
     setActiveStep,
     uploadedAssets,
@@ -250,4 +250,4 @@ function CustomizeUtilityForm() {
   )
 }
 
-export default CustomizeUtilityForm
+export default CreateCompleteTicketStep3

@@ -3,11 +3,11 @@ import React, { useContext, useEffect } from "react"
 import { COMPLETE_MODE_STEPS } from "../../../constants/generate/steps"
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
 import ActiveStepper from "../../UI/navigation/ActiveStepper"
-import CompleteDropzone from "./CompleteDropzone"
+import CreateCompleteTicketStep2 from "./steps/CreateCompleteTicketStep2"
 import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
 
-import CustomizeUtilityForm from "./CustomizeUtilityForm"
-import CompleteAssetTicketForm from "./CompleteAssetTicketForm"
+import CreateCompleteTicketStep3 from "./steps/CreateCompleteTicketStep3"
+import CreateCompleteTicketStep1 from "./steps/CreateCompleteTicketStep1"
 
 function CompleteGenerateContainer() {
   const { activeStep, formInfo, setFormInfo } = useContext(
@@ -32,10 +32,10 @@ function CompleteGenerateContainer() {
       activeStep={activeStep}
       sx={{ backgroundColor: "#fff" }}
     >
-      {activeStep === 1 && <CompleteAssetTicketForm />}
-      {activeStep === 2 && <CompleteDropzone />}
+      {activeStep === 1 && <CreateCompleteTicketStep1 />}
+      {activeStep === 2 && <CreateCompleteTicketStep2 />}
       {activeStep === 3 && formInfo.ticketType === "GENERAL" && (
-        <CustomizeUtilityForm />
+        <CreateCompleteTicketStep3 />
       )}
       {activeStep === 3 && formInfo.ticketType === "RESERVED_SEAT" && (
         <div>Work in progress...</div>
