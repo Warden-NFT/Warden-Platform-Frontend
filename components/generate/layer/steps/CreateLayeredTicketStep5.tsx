@@ -7,17 +7,15 @@ import React, {
   lazy
 } from "react"
 import { Box, Stack, Typography } from "@mui/material"
-import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
-import { generateRandomLayer } from "../../../utils/generate/layer"
-import { LayeredTicketMetadata } from "../../../interfaces/generate/metadata.interface"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
-import ContainedButton from "../../UI/button/ContainedButton"
+import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
+import { generateRandomLayer } from "../../../../utils/generate/layer"
+import { LayeredTicketMetadata } from "../../../../interfaces/generate/metadata.interface"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
+import ContainedButton from "../../../UI/button/ContainedButton"
 
-const AssetCanvasCard = lazy(
-  () => import("../../../components/generate/asset/AssetCanvasCard")
-)
+const AssetCanvasCard = lazy(() => import("../../asset/AssetCanvasCard"))
 
-function PreviewGeneratedTickets() {
+function CreateLayeredTicketStep5() {
   const { layers, formInfo, setActiveStep } = useContext(GenerateLayerContext)
   const [generatedMetadata, setGeneratedMetadata] = useState<
     LayeredTicketMetadata[]
@@ -89,4 +87,4 @@ function PreviewGeneratedTickets() {
   )
 }
 
-export default PreviewGeneratedTickets
+export default CreateLayeredTicketStep5

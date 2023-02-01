@@ -1,13 +1,13 @@
 import { Box, Stack, Typography } from "@mui/material"
 import React, { useContext } from "react"
-import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import { Reorder } from "framer-motion"
-import AssetCanvasCard from "../asset/AssetCanvasCard"
-import PNGAssetPreview from "../../assets/PNGAssetPreview"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import AssetCanvasCard from "../../asset/AssetCanvasCard"
+import PNGAssetPreview from "../../../assets/PNGAssetPreview"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { motion } from "framer-motion"
 
-function CustomizeLayer() {
+function CreateLayeredTicketStep3() {
   const { layers, setLayers, setActiveStep } = useContext(GenerateLayerContext)
 
   return (
@@ -152,4 +152,4 @@ function CustomizeLayer() {
   )
 }
 
-export default CustomizeLayer
+export default CreateLayeredTicketStep3

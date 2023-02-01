@@ -1,15 +1,15 @@
 import { Box, Stack, Typography } from "@mui/material"
 import React, { useContext } from "react"
-import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
-import LayeredDropzone from "./LayeredDropzone"
-import LayerAssetPreviewCard from "./LayerAssetPreviewCard"
-import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
+import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
+import LayeredDropzone from "../LayeredDropzone"
+import LayerAssetPreviewCard from "../LayerAssetPreviewCard"
+import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import Image from "next/image"
 import { grey } from "@mui/material/colors"
-import ContainedButton from "../../UI/button/ContainedButton"
-import HeaderText from "../../UI/typography/SectionHeader"
+import ContainedButton from "../../../UI/button/ContainedButton"
+import HeaderText from "../../../UI/typography/SectionHeader"
 
-function LayerAssetGallery() {
+function CreateLayeredTicketStep2() {
   const { layers, setLayers, setActiveStep, setAssets } =
     useContext(GenerateLayerContext)
 
@@ -94,4 +94,4 @@ function LayerAssetGallery() {
   )
 }
 
-export default LayerAssetGallery
+export default CreateLayeredTicketStep2
