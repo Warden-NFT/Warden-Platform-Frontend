@@ -1,13 +1,11 @@
-import { Box, Chip, IconButton, Stack, Typography } from "@mui/material"
-import { GridCloseIcon } from "@mui/x-data-grid"
-import React, { useContext, useState } from "react"
-import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
+import { Box, Stack, Typography } from "@mui/material"
+import React, { useContext } from "react"
 import { UploadedAsset } from "../../../interfaces/generate/file.interface"
 import PNGAssetPreview from "../../assets/PNGAssetPreview"
 import { motion, Variants } from "framer-motion"
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
 import ContainedButton from "../../UI/button/ContainedButton"
-import { amber, grey } from "@mui/material/colors"
+import { grey } from "@mui/material/colors"
 
 interface Props {
   asset: UploadedAsset
