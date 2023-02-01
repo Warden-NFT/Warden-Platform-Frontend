@@ -8,7 +8,10 @@ interface Props {
 
 function NavLink({ route }: Props) {
   return (
-    <Link href={route.url} style={{ textDecoration: "none" }}>
+    <Link
+      href={route.url}
+      style={{ textDecoration: "none", display: "flex", alignItems: "center" }}
+    >
       <Button
         variant="text"
         sx={{
