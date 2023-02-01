@@ -24,11 +24,15 @@ function CompleteAssetPreviewCard({ asset, assetIndex, isVip }: Props) {
   } = useContext(GenerateCompleteContext)
 
   function removeAsset(assetIndex: number) {
-    // const _layers = [...layers]
-    // const _assets = [..._layers[layerIndex].assets]
-    // _assets.splice(assetIndex, 1)
-    // _layers[layerIndex].assets = _assets
-    // setLayers(_layers)
+    if (!isVip) {
+      const _uploadedAssets = [...uploadedAssets]
+      _uploadedAssets.splice(assetIndex, 1)
+      setUploadedAssets(_uploadedAssets)
+    } else {
+      const _uploadedVipAssets = [...uploadedVipAssets]
+      _uploadedVipAssets.splice(assetIndex, 1)
+      setUploadedVipAssets(_uploadedVipAssets)
+    }
   }
 
   const variant: Variants = {

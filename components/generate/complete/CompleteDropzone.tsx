@@ -1,10 +1,9 @@
-import { Box, Divider, Stack, Switch, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import React, { useState, useContext } from "react"
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
 import CompleteAssetDropzone from "./CompleteAssetDropzone"
 import ControlledStepperButtons from "../../UI/navigation/ControlledStepperButtons"
 import { grey } from "@mui/material/colors"
-import Image from "next/image"
 import CompleteAssetPreviewCard from "./CompleteAssetPreviewCard"
 
 function CompleteDropzone() {
@@ -20,7 +19,7 @@ function CompleteDropzone() {
     setActiveStep
   } = useContext(GenerateCompleteContext)
 
-  const [hasVip, setHasVip] = useState(false)
+  const [hasVip, setHasVip] = useState(!false)
 
   function handleNext() {
     if (assets.length > 0) {
@@ -30,92 +29,91 @@ function CompleteDropzone() {
 
   return (
     <Box>
-      <Switch
-        checked={hasVip}
-        onChange={(e) => setHasVip(e.currentTarget.checked)}
-        inputProps={{ "aria-label": "controlled" }}
-      />
       <Box
         sx={{
           p: 4,
-          display: "grid",
-          placeItems: "center",
           backgroundColor: "white",
           marginY: 4,
           border: 2
         }}
       >
-        <Box sx={{ width: "100%" }}>
-          {uploadedAssets.length > 0 ? (
-            <Stack direction="row" alignItems="center" flexWrap="wrap">
-              {uploadedAssets.map((asset, i) => (
-                <CompleteAssetPreviewCard
-                  key={i}
-                  asset={asset}
-                  assetIndex={i}
-                />
-              ))}
-            </Stack>
-          ) : (
+        <Box sx={{ marginBottom: 3 }}>
+          <Typography variant="h4">Assets for Regular Tickets</Typography>
+          {uploadedAssets.length > 0 && (
             <Box
               sx={{
-                height: 400,
-                display: "grid",
-                placeItems: "center",
-                marginTop: 4
+                paddingY: 2,
+                maxHeight: "660px",
+                overflowY: "auto"
               }}
             >
-              <Image
-                src="/images/generate/empty-dropzone-placeholder.png"
-                width="700"
-                height="600"
-                alt="Empty Placeholder"
-                style={{ objectFit: "cover", height: "100%" }}
-              />
-              <Typography component="p" fontSize="11px" color={grey[500]}>
-                This is not your asset, it's just a cat.
-              </Typography>
+              <Stack direction="row" alignItems="center" flexWrap="wrap">
+                {uploadedAssets.map((asset, i) => (
+                  <CompleteAssetPreviewCard
+                    key={i}
+                    asset={asset}
+                    assetIndex={i}
+                  />
+                ))}
+              </Stack>
             </Box>
           )}
           <CompleteAssetDropzone
             assets={assets}
             setAssets={setAssets}
             setUploadedAssets={setUploadedAssets}
-            dragLabel="Drag & Drop to Non-VIP zone"
-            sx={{ my: 2, backgroundColor: grey[200] }}
+            dragLabel="Drag & Drop to regular zone"
+            sx={{
+              my: 2,
+              backgroundColor: grey[200],
+              border: "dashed 2px black",
+              borderRadius: 2
+            }}
           />
         </Box>
-        <Box sx={{ width: "100%" }}>
-          <Image
-            src="/images/generateempty-dropzone-placeholder.png"
-            width="400"
-            height="400"
-            alt="Empty placeholder"
-          />
-          {uploadedVipAssets.length > 0 && hasVip && (
-            <Stack direction="row" alignItems="center" flexWrap="wrap">
-              {uploadedVipAssets.map((asset, i) => (
-                <CompleteAssetPreviewCard
-                  key={i}
-                  asset={asset}
-                  assetIndex={i}
-                  isVip
-                />
-              ))}
-            </Stack>
-          )}
-          {hasVip && (
-            <CompleteAssetDropzone
-              assets={vipAssets}
-              setAssets={setVipAssets}
-              setUploadedAssets={setUploadedVipAssets}
-              dragLabel="Drag & Drop to VIP zone"
-              sx={{ my: 2, backgroundColor: grey[200] }}
-            />
-          )}
-        </Box>
+        {hasVip && (
+          <Box>
+            <Box sx={{ borderBottom: 2, marginY: 4 }} />
+            <Typography variant="h4">Assets for VIP Tickets</Typography>
+            <Box
+              sx={{
+                paddingY: 2,
+                maxHeight: "660px",
+                overflowY: "auto"
+              }}
+            >
+              {uploadedVipAssets.length > 0 && hasVip && (
+                <Stack direction="row" alignItems="center" flexWrap="wrap">
+                  {uploadedVipAssets.map((asset, i) => (
+                    <CompleteAssetPreviewCard
+                      key={i}
+                      asset={asset}
+                      assetIndex={i}
+                      isVip
+                    />
+                  ))}
+                </Stack>
+              )}
+              <CompleteAssetDropzone
+                assets={vipAssets}
+                setAssets={setVipAssets}
+                setUploadedAssets={setUploadedVipAssets}
+                dragLabel="Drag & Drop to VIP zone"
+                sx={{
+                  my: 2,
+                  backgroundColor: grey[200],
+                  border: "dashed 2px black",
+                  borderRadius: 2
+                }}
+              />
+            </Box>
+          </Box>
+        )}
       </Box>
-      <ControlledStepperButtons handleNext={handleNext} />
+      <ControlledStepperButtons
+        handlePrevious={() => setActiveStep((prev) => prev - 1)}
+        handleNext={handleNext}
+      />
     </Box>
   )
 }
