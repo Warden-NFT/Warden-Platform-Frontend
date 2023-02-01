@@ -57,7 +57,6 @@ function CompleteAssetPreviewCard({ asset, assetIndex, isVip }: Props) {
     }
   }
   const textVariant: Variants = {
-    rest: {},
     hover: {
       color: "#f50057",
       transition: {
