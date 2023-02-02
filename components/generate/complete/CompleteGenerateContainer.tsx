@@ -21,8 +21,6 @@ function CompleteGenerateContainer() {
     if (ticketType) {
       _form.ticketType = ticketType as TicketTypes
       setFormInfo(_form)
-    } else {
-      router.push("/ticket")
     }
   }, [])
 
