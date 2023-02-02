@@ -26,7 +26,7 @@ interface Props {
   seat?: string
   location: string
   isDisabled?: boolean
-  codeDisplayMode: "BAR" | "QR" // NOTE: Barcode should only has numeric value
+  codeDisplayMode: "BAR" | "QR" | "TEXT" // NOTE: Barcode should only has numeric value
   codeValue?: string
   onClick?: () => void
   cardSx?: SxProps<Theme>
@@ -70,25 +70,27 @@ function Ticket({
             height={240}
           />
           <Stack spacing={1} sx={{ padding: 2, borderBottom: "dashed 2px" }}>
-            <Typography
-              component="h2"
-              fontSize="18"
-              fontWeight="700"
-              whiteSpace="nowrap"
-              textOverflow="ellipsis"
-            >
-              {eventName}
-            </Typography>
-            <Typography
-              component="p"
-              fontSize="14px"
-              whiteSpace="nowrap"
-              textOverflow="ellipsis"
-            >
-              {eventOrganizer}
-            </Typography>
-            <Box>
-              <Chip sx={{ marginY: 1 }} size="small" label={ticketType} />
+            <Box sx={{ textAlign: "start" }}>
+              <Typography
+                component="h2"
+                fontSize="18"
+                fontWeight="700"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+              >
+                {eventName}
+              </Typography>
+              <Typography
+                component="p"
+                fontSize="14px"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+              >
+                {eventOrganizer}
+              </Typography>
+              <Box>
+                <Chip sx={{ marginY: 1 }} size="small" label={ticketType} />
+              </Box>
             </Box>
 
             <Stack direction="row" justifyContent="space-between">
@@ -107,13 +109,15 @@ function Ticket({
                 {moment(date).format("DD/MM/YYYY hh:mm a")}
               </Typography>
             </Stack>
-            <Stack direction="row" justifyContent="space-between">
-              <Stack direction="row">
-                <EventSeatIcon fontSize="small" sx={{ mr: 1 }} />
-                <Typography>Seat</Typography>
+            {seat && (
+              <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row">
+                  <EventSeatIcon fontSize="small" sx={{ mr: 1 }} />
+                  <Typography>Seat</Typography>
+                </Stack>
+                <Typography>{seat}</Typography>
               </Stack>
-              <Typography>{seat}</Typography>
-            </Stack>
+            )}
           </Stack>
 
           <Box sx={{ display: "grid", placeItems: "center", padding: 2 }}>
@@ -136,6 +140,9 @@ function Ticket({
                         displayValue={false}
                         height={50}
                       />
+                    )}
+                    {codeDisplayMode === "TEXT" && (
+                      <Typography>{codeValue}</Typography>
                     )}
                   </Box>
                 ) : (

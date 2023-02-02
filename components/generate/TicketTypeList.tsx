@@ -12,36 +12,30 @@ function TicketTypeList({ handleSelectTicket }: Props) {
     <Stack
       direction="row"
       alignItems="center"
-      sx={{ width: "100%", height: "650px", overflowX: "scroll" }}
+      sx={{ width: "100%", height: "650px", overflowX: "auto" }}
     >
       <Ticket
-        img="/images/ticket-types/general-admission.jpg"
+        assetSrc="/images/ticket-types/general-admission.jpg"
+        assetName="General Admission"
         ticketType="GENERAL"
         eventName="Creating a ticket"
         eventOrganizer="Organizer name"
         date={new Date()}
         location="Warden Platform"
-        QRCodeValue="Permit attendee entry to an event or activity."
+        codeDisplayMode="TEXT"
+        codeValue="Permit attendee entry to an event or activity."
         onClick={() => handleSelectTicket("GENERAL")}
       />
       <Ticket
-        img="/images/ticket-types/reserved-seats.jpg"
+        assetSrc="/images/ticket-types/reserved-seats.jpg"
+        assetName="Researved Seats"
         ticketType="RESERVED_SEAT"
         eventName="Creating a ticket"
         eventOrganizer="Organizer name"
         date={new Date()}
         location="Warden Platform"
-        QRCodeValue="Grant attendee option to choose their seats."
-        onClick={() => handleSelectTicket("RESERVED_SEAT")}
-      />
-      <Ticket
-        img="/images/ticket-types/reserved-seats.jpg"
-        ticketType="RESERVED_SEAT"
-        eventName="Creating a ticket"
-        eventOrganizer="Organizer name"
-        date={new Date()}
-        location="Warden Platform"
-        QRCodeValue="Grant attendee option to choose their seats."
+        codeDisplayMode="TEXT"
+        codeValue="Grant attendee option to choose their seats."
         onClick={() => handleSelectTicket("RESERVED_SEAT")}
       />
     </Stack>
