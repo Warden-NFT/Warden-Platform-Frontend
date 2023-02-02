@@ -53,7 +53,7 @@ function EventsList() {
                 <CardMedia
                   sx={{ height: 140 }}
                   image={event.image as string}
-                  title="green iguana"
+                  title={event.name}
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">

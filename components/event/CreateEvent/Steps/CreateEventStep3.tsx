@@ -188,7 +188,6 @@ function CreateEventStep3() {
             </FormHelperText>
           )}
         </FormControl>
-        <div>{JSON.stringify(errors)}</div>
       </FlatCard>
       <ControlledStepperButtons
         handlePrevious={handleClickBack}

@@ -11,6 +11,7 @@ export const useEvents = () => {
       const res = await client.get<Event[]>("/event/getEventFromOrganizer")
       const events: Event[] = res.data
       setEvents(events)
+      return events
     } catch (error) {
       // TODO: display error alert
     }
@@ -19,8 +20,9 @@ export const useEvents = () => {
   const getEvent = async (id: string): Promise<Event | undefined> => {
     try {
       const res = await client.get<Event>("/event/getEvent", { params: { id } })
-      setCurrentEvent(res.data)
-      return res.data
+      const event = res.data
+      setCurrentEvent(event)
+      return event
     } catch (error) {
       // TODO: display error alert
     }
