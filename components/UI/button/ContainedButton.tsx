@@ -46,7 +46,7 @@ function ContainedButton({
       <Button
         type={type ?? "button"}
         onClick={(e?: any) => {
-          if (isLink) return null
+          if (isLink) return
           if (!component && e) e.preventDefault()
           onClick?.()
         }}
