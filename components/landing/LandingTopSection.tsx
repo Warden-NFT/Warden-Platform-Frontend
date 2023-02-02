@@ -25,7 +25,7 @@ function LandingTopSection() {
       >
         <Image
           src="/images/landing/background.webp"
-          height="600"
+          height="700"
           width="2500"
           alt="background"
           draggable={false}
@@ -95,14 +95,16 @@ function LandingTopSection() {
               id="card1"
             >
               <Ticket
-                img="/images/background/ticket-cover-test.jpg"
+                assetSrc="/images/background/ticket-cover-test.jpg"
+                assetName="Test1"
                 eventName="Among Us Party"
                 eventOrganizer="Warden"
                 ticketType="GENERAL"
                 date={new Date()}
                 seat="A 14"
                 location="MIRA HQ"
-                QRCodeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                codeDisplayMode="QR"
+                codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               />
             </motion.div>
             <motion.div
@@ -118,14 +120,16 @@ function LandingTopSection() {
               id="card2"
             >
               <Ticket
-                img="/images/background/ticket-cover-test.jpg"
+                assetSrc="/images/background/ticket-cover-test.jpg"
+                assetName="Test1"
                 eventName="Among Us Party"
                 eventOrganizer="Warden"
                 ticketType="GENERAL"
                 date={new Date()}
                 seat="A 14"
                 location="MIRA HQ"
-                QRCodeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                codeDisplayMode="QR"
+                codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               />
             </motion.div>
             <motion.div
@@ -141,20 +145,22 @@ function LandingTopSection() {
               id="card3"
             >
               <Ticket
-                img="/images/background/ticket-cover-test.jpg"
+                assetSrc="/images/background/ticket-cover-test.jpg"
+                assetName="Test1"
                 eventName="Among Us Party"
                 eventOrganizer="Warden"
                 ticketType="GENERAL"
                 date={new Date()}
                 seat="A 14"
                 location="MIRA HQ"
-                QRCodeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                codeDisplayMode="QR"
+                codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               />
             </motion.div>
           </motion.div>
         </Grid>
       </Grid>
-      <Box sx={{ height: "600px" }} />
+      <Box sx={{ height: "700px" }} />
     </Box>
   )
 }

@@ -127,6 +127,7 @@ function CreateLayeredTicketStep3() {
                                   data={asset.data}
                                   width={50}
                                   height={50}
+                                  showPngGrid
                                 />
                               </Box>
                             ))}

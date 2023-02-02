@@ -8,10 +8,18 @@ interface Props {
   data: string
   width: number
   height: number
+  showPngGrid?: boolean
   sx?: SxProps<Theme>
 }
 
-function PNGAssetPreview({ name, data, width, height, sx }: Props) {
+function PNGAssetPreview({
+  name,
+  data,
+  width,
+  height,
+  showPngGrid,
+  sx
+}: Props) {
   return (
     <Box sx={{ width: width, height: height, ...sx }}>
       <Image
@@ -20,7 +28,7 @@ function PNGAssetPreview({ name, data, width, height, sx }: Props) {
         height={height}
         alt={`Asset ${name}`}
         draggable={false}
-        className="png-bg"
+        className={showPngGrid ? "png-bg" : ""}
         style={{ objectFit: "cover" }}
       />
     </Box>

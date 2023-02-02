@@ -103,6 +103,7 @@ function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
               data={asset.data}
               width={160}
               height={160}
+              showPngGrid
             />
             <Box sx={{ height: "60px", padding: 2 }}>
               <motion.div variants={textVariant}>

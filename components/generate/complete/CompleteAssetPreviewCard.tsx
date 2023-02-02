@@ -92,6 +92,7 @@ function CompleteAssetPreviewCard({ asset, assetIndex, isVip }: Props) {
                 data={asset.data}
                 width={200}
                 height={200}
+                showPngGrid
                 sx={{ border: 2 }}
               />
             </Box>
