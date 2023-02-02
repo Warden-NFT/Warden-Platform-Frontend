@@ -1,6 +1,14 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react"
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState
+} from "react"
+import { client } from "../../configs/axios/axiosConfig"
 import { EVENT_STATUS, TICKET_TYPE } from "../../constants/event/event"
 import { Event, EventStatusType } from "../../interfaces/event/event.interface"
+import { UserContext } from "../user/UserContext"
 
 interface CreateEventStruct {
   event: Event
@@ -16,11 +24,14 @@ interface CreateEventStruct {
   isFirstVisit: boolean
   setIsFirstVisit: Dispatch<SetStateAction<boolean>>
   resetEvent: () => void
+  saveEvent: () => Promise<Event | undefined>
 }
 
 export const CreateEventContext = createContext({} as CreateEventStruct)
 
 const CreateEventContextProvider = ({ ...props }) => {
+  const { user } = useContext(UserContext)
+
   const DEFAULT_EVENT = {
     eventStatus: EVENT_STATUS.NOT_STARTED as unknown as EventStatusType,
     eventKeywords: [],
@@ -66,6 +77,25 @@ const CreateEventContextProvider = ({ ...props }) => {
     setEvent(DEFAULT_EVENT)
   }
 
+  const saveEvent = async (): Promise<Event | undefined> => {
+    setEvent({ ...event, organizerId: user?._id ?? "" })
+    const _event = { ...event }
+    try {
+      const formData = new FormData()
+      type E = keyof Event
+      for (const key in _event) {
+        if (key === "ticketSupply") continue
+        formData.append(key, JSON.stringify(_event[key as E]))
+      }
+      formData.append("ticketSupply", JSON.stringify(event.ticketSupply))
+      const res = await client.post<Event>("event/createEvent", formData)
+      setEvent(res.data)
+      return res.data
+    } catch (error) {
+      // TODO display error alert
+    }
+  }
+
   const values: CreateEventStruct = {
     event,
     setEvent,
@@ -79,7 +109,8 @@ const CreateEventContextProvider = ({ ...props }) => {
     setIsNextDisabled,
     isFirstVisit,
     setIsFirstVisit,
-    resetEvent
+    resetEvent,
+    saveEvent
   }
 
   return <CreateEventContext.Provider value={values} {...props} />

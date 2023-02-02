@@ -1,13 +1,14 @@
 import { Container } from "@mui/system"
+import { useRouter } from "next/router"
 import React from "react"
 import EventSummary from "../../../components/event/CreateEvent/Steps/EventSummary"
 import { withEventOrganizerGuard } from "../../../guards/withAuth"
 
 function PublishEvent() {
+  const router = useRouter()
+  const { eid } = router.query
   return (
-    <Container>
-      <EventSummary />
-    </Container>
+    <Container>{eid && <EventSummary eventId={eid.toString()} />}</Container>
   )
 }
 

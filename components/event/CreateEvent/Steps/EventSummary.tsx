@@ -1,65 +1,51 @@
 import { Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import Image from "next/image"
-import React, { useContext, useEffect, useState } from "react"
-import { client } from "../../../../configs/axios/axiosConfig"
-import { CreateEventContext } from "../../../../contexts/event/CreateEventContext"
-import { UserContext } from "../../../../contexts/user/UserContext"
+import React, { useEffect, useState } from "react"
+import useAsyncEffect from "../../../../hooks/useAsyncEffect"
+import { useEvents } from "../../../../hooks/useEvents"
 import { Event } from "../../../../interfaces/event/event.interface"
 import FadeEntrance from "../../../motion/FadeEntrance"
-import ContainedButton from "../../../UI/button/ContainedButton"
+
 import FlatCard from "../../../UI/card/FlatCard"
 
-function EventSummary() {
-  const { event, setEvent } = useContext(CreateEventContext)
-  const { user } = useContext(UserContext)
-  const [eventImage, setEventImage] = useState<File>()
+type Props = {
+  eventId: string
+}
 
-  const handleSaveEvent = async () => {
-    setEvent({ ...event, organizerId: user?._id ?? "" })
-    const _event = { ...event }
-    try {
-      const formData = new FormData()
-      type E = keyof Event
-      for (const key in _event) {
-        if (key === "ticketSupply") continue
-        formData.append(key, JSON.stringify(_event[key as E]))
-      }
-      formData.append("ticketSupply", JSON.stringify(event.ticketSupply))
-      const res = await client.post<Event>("event/createEvent", formData)
-      setEvent({ ...event, ...res.data })
-    } catch (error) {
-      // TODO display error alert
-    }
-  }
+function EventSummary({ eventId }: Props) {
+  const { getEvent } = useEvents()
+  const [currentEvent, setCurrentEvent] = useState<Event>()
+  const [loading, setLoading] = useState<boolean>(true)
 
-  useEffect(() => {
-    setEventImage(event.image as File)
-  }, [event.image])
+  useAsyncEffect(async () => {
+    if (!eventId) return
+    if (currentEvent && currentEvent._id === eventId) return
+    const _event = await getEvent(eventId)
+    setCurrentEvent(_event)
+    setLoading(false)
+  }, [eventId])
 
+  if (loading) return <Box>Loading...</Box>
   return (
     <FadeEntrance>
       <FlatCard sx={{ p: 0, overflow: "hidden" }}>
-        {eventImage && (
-          <Box>
-            <Image
-              src={URL.createObjectURL(eventImage)}
-              width={1200}
-              height={500}
-              alt="event image"
-              style={{ objectFit: "cover", width: "100%", height: "100%" }}
-            />
-          </Box>
-        )}
-        <Box sx={{ borderColor: "#000", borderTop: 2, borderBottom: 2, p: 2 }}>
+        <Box>
+          <Image
+            src={currentEvent?.image as string}
+            width={1200}
+            height={500}
+            alt="event image"
+            style={{ objectFit: "cover", width: "100%", height: "500px" }}
+          />
+        </Box>
+        <Box sx={{ borderColor: "#000", borderBottom: 2, py: 2 }}>
           <Typography variant="h4">HI</Typography>
         </Box>
+        <Box sx={{ borderColor: "#000" }}>
+          <Typography>{currentEvent?.description}</Typography>
+        </Box>
       </FlatCard>
-      <ContainedButton
-        label="Save Event"
-        variant="contained"
-        onClick={handleSaveEvent}
-      />
     </FadeEntrance>
   )
 }

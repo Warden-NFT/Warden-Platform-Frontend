@@ -26,7 +26,8 @@ function CreateEventStep3() {
   const {
     event: currentEvent,
     setEvent,
-    setActiveStep
+    setActiveStep,
+    saveEvent
   } = useContext(CreateEventContext)
   const router = useRouter()
   const { values, errors, touched, handleSubmit, setFieldValue } = useFormik({
@@ -45,12 +46,13 @@ function CreateEventStep3() {
         ticketSupply: data
       }
       setEvent(_event)
-      router.push("/event/publish")
+      const savedEvent: Event | undefined = await saveEvent()
+      if (savedEvent) router.push(`/event/detail/${savedEvent._id}`)
+      // TODO: display error when failing to get a new event
     }
   })
 
   // States
-
   const [ticketSupply, setTicketSupply] = useState<TicketSupplySettings[]>([
     {
       checkName: "enableGeneral",
