@@ -1,5 +1,4 @@
 import { Chip, Grid, Stack, Typography } from "@mui/material"
-import { grey } from "@mui/material/colors"
 import { Box } from "@mui/system"
 import moment from "moment"
 import Image from "next/image"
@@ -12,6 +11,7 @@ import ContainedButton from "../../UI/button/ContainedButton"
 import FallbackImage from "../../../public/images/common/fallback-image.svg"
 
 import FlatCard from "../../UI/card/FlatCard"
+import Link from "next/link"
 
 type Props = {
   eventId: string
@@ -45,6 +45,7 @@ function EventSummary({ eventId }: Props) {
               width={1200}
               height={520}
               alt="event image"
+              draggable={false}
               onError={() => {
                 setEventImage(FallbackImage)
                 setTimeout(() => {
@@ -84,13 +85,13 @@ function EventSummary({ eventId }: Props) {
             </Grid>
             <Grid item xs={4}>
               <Box sx={{ p: 2 }}>
-                <Box sx={{ background: grey[100], p: 2 }}>
+                <Box sx={{ bgcolor: "info.main", p: 2 }}>
                   {event.online_url && (
-                    <Box>
+                    <Box sx={{ height: 80 }}>
                       <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}>
                         Online Event
                       </Typography>
-                      <a
+                      <Link
                         href={event.online_url}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -101,19 +102,20 @@ function EventSummary({ eventId }: Props) {
                             variant="outlined"
                             label="Join online event"
                             width="200px"
+                            onClick={undefined}
                             isLink
                           />
                         </Box>
-                      </a>
+                      </Link>
                     </Box>
                   )}
                   {event.location && (
-                    <Box>
+                    <Box sx={{ height: 80 }}>
                       <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}>
                         Event Location
                       </Typography>
-                      <a
-                        href={event.online_url}
+                      <Link
+                        href={`https://www.google.com/maps/place/?q=place_id:${event.location.place_id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         style={{ textDecoration: "none" }}
@@ -123,17 +125,18 @@ function EventSummary({ eventId }: Props) {
                             variant="outlined"
                             label="Open in maps"
                             width="200px"
+                            onClick={undefined}
                             isLink
                           />
                         </Box>
-                      </a>
+                      </Link>
                     </Box>
                   )}
                 </Box>
                 <Box sx={{ height: 16 }} />
                 <Box
                   sx={{
-                    background: grey[100],
+                    bgcolor: "info.main",
                     p: 2
                   }}
                 >
