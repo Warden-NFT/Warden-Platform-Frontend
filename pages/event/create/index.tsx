@@ -1,13 +1,9 @@
 import React from "react"
 import EventCreation from "../../../components/event/CreateEvent/EventCreation"
-import CreateEventContextProvider from "../../../contexts/event/CreateEventContext"
+import { withEventOrganizerGuard } from "../../../guards/withAuth"
 
 function CreateEvent() {
-  return (
-    <CreateEventContextProvider>
-      <EventCreation />
-    </CreateEventContextProvider>
-  )
+  return <EventCreation />
 }
 
-export default CreateEvent
+export default withEventOrganizerGuard(CreateEvent)

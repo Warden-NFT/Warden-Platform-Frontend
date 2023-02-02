@@ -19,47 +19,60 @@ import {
 } from "../../../../interfaces/event/event.interface"
 import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
 import { CreateEventStep3Schema } from "../../../../schema/event/createEventStep3.schema"
+import { useRouter } from "next/navigation"
+import { UserContext } from "../../../../contexts/user/UserContext"
 
 function CreateEventStep3() {
   // Hooks
   const {
     event: currentEvent,
     setEvent,
-    setActiveStep
+    setActiveStep,
+    saveEvent
   } = useContext(CreateEventContext)
+  const { user } = useContext(UserContext)
+  const router = useRouter()
   const { values, errors, touched, handleSubmit, setFieldValue } = useFormik({
     initialValues: {
+      enableGeneral: currentEvent.ticketSupply.general > 0,
       general: currentEvent.ticketSupply.general,
+      enableVip: currentEvent.ticketSupply.vip > 0,
       vip: currentEvent.ticketSupply.vip,
+      enableReservedSeat: currentEvent.ticketSupply.reservedSeat > 0,
       reservedSeat: currentEvent.ticketSupply.reservedSeat
     },
     validationSchema: CreateEventStep3Schema,
     onSubmit: async (data) => {
-      console.log(data)
+      if (!user || !user._id) return
       const _event: Event = {
         ...currentEvent,
         ticketSupply: data
       }
       setEvent(_event)
+      const savedEvent: Event | undefined = await saveEvent(_event, user._id)
+      if (savedEvent) router.push(`/event/detail/${savedEvent._id}`)
+      // TODO: display error when failing to get a new event
     }
   })
 
   // States
-
   const [ticketSupply, setTicketSupply] = useState<TicketSupplySettings[]>([
     {
+      checkName: "enableGeneral",
       type: "general",
-      checked: currentEvent.ticketSupply.general > 0 || true,
+      checked: currentEvent.ticketSupply.general > 0 || false,
       supply: 0,
       label: "General Admission Tickets"
     },
     {
+      checkName: "enableVip",
       type: "vip",
       checked: currentEvent.ticketSupply.vip > 0 || false,
       supply: 0,
       label: "VIP Tickets"
     },
     {
+      checkName: "enableReservedSeat",
       type: "reservedSeat",
       checked: currentEvent.ticketSupply.reservedSeat > 0 || false,
       supply: 0,
@@ -74,9 +87,12 @@ function CreateEventStep3() {
     index: number
   ) => {
     const newTicketSupply = [...ticketSupply]
+
+    setFieldValue(newTicketSupply[index].checkName, event.target.checked)
     newTicketSupply[index] = {
       ...ticketSupply[index],
-      checked: event.target.checked
+      checked: event.target.checked,
+      supply: event.target.checked ? ticketSupply[index].supply : 0
     }
     setTicketSupply(newTicketSupply)
   }
@@ -136,6 +152,7 @@ function CreateEventStep3() {
                   <FormControlLabel
                     control={
                       <Checkbox
+                        name={item.checkName}
                         checked={Boolean(item.checked)}
                         onChange={(e) => handleChange(e, index)}
                       />

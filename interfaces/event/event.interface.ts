@@ -4,10 +4,17 @@ export type TicketType = "GENERAL" | "VIP" | "RESERVED_SEAT"
 export type TicketTypeKey = "general" | "vip" | "reservedSeat"
 
 export type EventStatusType =
-  | "NotStarted"
-  | "AdmissionStarted"
-  | "EventStarted"
-  | "EventEnded"
+  | "NOT_STARTED"
+  | "ADMISSION_STARTED"
+  | "EVENT_STARTED"
+  | "EVENT_ENDED"
+
+export enum EVENT_STATUS_TYPE {
+  NOT_STARTED = "NOT_STARTED",
+  ADMISSION_STARTED = "ADMISSION_STARTED",
+  EVENT_STARTED = "EVENT_STARTED",
+  EVENT_ENDED = "EVENT_ENDED"
+}
 
 export type TicketsMetadata = {
   data: {
@@ -34,7 +41,7 @@ export interface Event {
   superEventId: string
   description: string
   identifier: string
-  image: File | string | undefined
+  image: File | string
   name: string
   url: string
   doorTime?: Date | null
@@ -47,6 +54,7 @@ export interface Event {
 }
 
 export interface TicketSupplySettings {
+  checkName: string
   type: string
   checked: boolean
   supply: number

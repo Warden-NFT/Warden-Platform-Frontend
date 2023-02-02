@@ -4,7 +4,7 @@ import { client } from "../configs/axios/axiosConfig"
 import { UserContext } from "../contexts/user/UserContext"
 import { Account, User } from "../interfaces/auth/user.interface"
 
-export const withAuth = (Component: React.ComponentType) => {
+export const withAuth = (Component: React.ComponentType<any>) => {
   const AuthenticatedComponent = () => {
     const router = useRouter()
     const { user, setUser } = useContext(UserContext)
@@ -32,7 +32,9 @@ export const withAuth = (Component: React.ComponentType) => {
   return AuthenticatedComponent
 }
 
-export const withEventOrganizerGuard = (Component: React.ComponentType) => {
+export const withEventOrganizerGuard = (
+  Component: React.ComponentType<any>
+) => {
   const AuthenticatedComponent = () => {
     const router = useRouter()
     const { user, setUser } = useContext(UserContext)
@@ -61,7 +63,7 @@ export const withEventOrganizerGuard = (Component: React.ComponentType) => {
   return AuthenticatedComponent
 }
 
-export const withCustomerGuard = (Component: React.ComponentType) => {
+export const withCustomerGuard = (Component: React.ComponentType<any>) => {
   const AuthenticatedComponent = () => {
     const router = useRouter()
     const { user, setUser } = useContext(UserContext)
