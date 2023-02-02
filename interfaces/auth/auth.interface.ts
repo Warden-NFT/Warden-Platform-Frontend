@@ -2,7 +2,7 @@ import { UserGeneralInfo } from "./user.interface"
 
 export interface SuccessfulAuthDTO {
   status: number
-  messageg: string
+  message: string
   jwt: string
   user: UserGeneralInfo
 }
