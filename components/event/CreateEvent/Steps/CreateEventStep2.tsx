@@ -68,7 +68,9 @@ function CreateEventStep2() {
   const [locationValue, setLocationValue] = useState<PlaceType | null>(
     currentEvent.location ?? null
   )
-  const [isOnlineEvent, setIsOnlineEvent] = useState<boolean>(false)
+  const [isOnlineEvent, setIsOnlineEvent] = useState<boolean>(
+    currentEvent.online_url !== ""
+  )
 
   // Event handlers
 
@@ -108,14 +110,17 @@ function CreateEventStep2() {
                 size="small"
                 variant="outlined"
                 {...props}
-                error={touched.startDate && Boolean(errors.startDate)}
-                helperText={touched.startDate && errors.startDate}
+                error={Boolean(errors.startDate)}
+                helperText={errors.startDate}
               />
             )}
             value={values.startDate}
             onChange={(newValue) => {
               if (!newValue) return
-              setFieldValue("startDate", moment(newValue).toDate())
+              setFieldValue(
+                "startDate",
+                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+              )
             }}
           />
         </FormControl>
@@ -129,14 +134,17 @@ function CreateEventStep2() {
                 size="small"
                 variant="outlined"
                 {...props}
-                error={touched.endDate && Boolean(errors.endDate)}
+                error={Boolean(errors.endDate)}
                 helperText={touched.endDate && errors.endDate}
               />
             )}
             value={values.endDate}
             onChange={(newValue) => {
               if (!newValue) return
-              setFieldValue("endDate", moment(newValue).toDate())
+              setFieldValue(
+                "endDate",
+                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+              )
             }}
           />
         </FormControl>
@@ -150,14 +158,17 @@ function CreateEventStep2() {
                 size="small"
                 variant="outlined"
                 {...props}
-                error={touched.doorTime && Boolean(errors.doorTime)}
-                helperText={touched.doorTime && errors.doorTime}
+                error={Boolean(errors.doorTime)}
+                helperText={errors.doorTime}
               />
             )}
             value={values.doorTime}
             onChange={(newValue) => {
               if (!newValue) return
-              setFieldValue("doorTime", moment(newValue).toDate())
+              setFieldValue(
+                "doorTime",
+                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+              )
             }}
           />
         </FormControl>
@@ -183,8 +194,8 @@ function CreateEventStep2() {
               name="location"
               locationValue={locationValue}
               setLocationValue={handleLocationSelect}
-              hasError={touched.location && Boolean(errors.location)}
-              errorMessage={touched.location ? errors.location : undefined}
+              hasError={Boolean(errors.location)}
+              errorMessage={errors.location}
             />
           )}
 
@@ -200,8 +211,8 @@ function CreateEventStep2() {
               variant="outlined"
               size="small"
               type="text"
-              error={touched.online_url && Boolean(errors.online_url)}
-              helperText={touched.online_url && errors.online_url}
+              error={Boolean(errors.online_url)}
+              helperText={errors.online_url}
             />
           )}
         </FormControl>

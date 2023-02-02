@@ -6,6 +6,7 @@ export enum Account {
 export type Verification = "NotVerified" | "Verified"
 
 export interface User {
+  _id?: string
   phoneNumber: string
   email: string
   username: string

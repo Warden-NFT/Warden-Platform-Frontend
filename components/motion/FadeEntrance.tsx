@@ -2,7 +2,7 @@ import React from "react"
 import { motion } from "framer-motion"
 
 type Props = {
-  children?: JSX.Element[] | JSX.Element
+  children?: React.ReactNode
 }
 
 function FadeEntrance({ children }: Props) {
@@ -17,7 +17,7 @@ function FadeEntrance({ children }: Props) {
         ease: [0, 0.71, 0.2, 1.01]
       }}
     >
-      {children && { ...children }}
+      {children}
     </motion.div>
   )
 }

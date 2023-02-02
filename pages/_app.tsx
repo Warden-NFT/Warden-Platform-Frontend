@@ -10,6 +10,8 @@ import UserContextProvider from "../contexts/user/UserContext"
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
 import Head from "next/head"
+import CreateEventContextProvider from "../contexts/event/CreateEventContext"
+import LayoutContextProvider from "../contexts/layout/LayoutContext"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -27,13 +29,17 @@ export default function App({ Component, pageProps }: AppProps) {
           })}
         >
           <ThemeProvider theme={AppTheme}>
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-              <UserContextProvider>
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </UserContextProvider>
-            </LocalizationProvider>
+            <LayoutContextProvider>
+              <LocalizationProvider dateAdapter={AdapterMoment}>
+                <UserContextProvider>
+                  <CreateEventContextProvider>
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </CreateEventContextProvider>
+                </UserContextProvider>
+              </LocalizationProvider>
+            </LayoutContextProvider>
           </ThemeProvider>
         </RainbowKitProvider>
       </WagmiConfig>

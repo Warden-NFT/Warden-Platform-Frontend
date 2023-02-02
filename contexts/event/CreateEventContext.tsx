@@ -1,6 +1,14 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react"
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState
+} from "react"
+import { client } from "../../configs/axios/axiosConfig"
 import { EVENT_STATUS, TICKET_TYPE } from "../../constants/event/event"
-import { Event } from "../../interfaces/event/event.interface"
+import { Event, EventStatusType } from "../../interfaces/event/event.interface"
+import { UserContext } from "../user/UserContext"
 
 interface CreateEventStruct {
   event: Event
@@ -16,13 +24,14 @@ interface CreateEventStruct {
   isFirstVisit: boolean
   setIsFirstVisit: Dispatch<SetStateAction<boolean>>
   resetEvent: () => void
+  saveEvent: (value: Event, organizerId: string) => Promise<Event | undefined>
 }
 
 export const CreateEventContext = createContext({} as CreateEventStruct)
 
 const CreateEventContextProvider = ({ ...props }) => {
   const DEFAULT_EVENT = {
-    eventStatus: EVENT_STATUS.NOT_STARTED,
+    eventStatus: EVENT_STATUS.NOT_STARTED as unknown as EventStatusType,
     eventKeywords: [],
     location: null,
     online_url: "",
@@ -66,6 +75,30 @@ const CreateEventContextProvider = ({ ...props }) => {
     setEvent(DEFAULT_EVENT)
   }
 
+  const saveEvent = async (event: Event, organizerId: string) => {
+    setEvent({ ...event, organizerId: organizerId ?? "" })
+    const data = { ...event, organizerId: organizerId ?? "" }
+    const eventImage = data.image
+    data.image = ""
+
+    try {
+      const res = await client.post<Event>("event/createEvent", data)
+      const eventId = res.data._id
+      const updatedEvent = res.data
+
+      if (eventImage) {
+        const formData = new FormData()
+        formData.append("image", eventImage)
+        formData.append("eventId", eventId ?? "")
+        const res = await client.post("/event/uploadEventImage", formData)
+        updatedEvent.image = res.data
+      }
+      return updatedEvent
+    } catch (error) {
+      // TODO display error alert
+    }
+  }
+
   const values: CreateEventStruct = {
     event,
     setEvent,
@@ -79,7 +112,8 @@ const CreateEventContextProvider = ({ ...props }) => {
     setIsNextDisabled,
     isFirstVisit,
     setIsFirstVisit,
-    resetEvent
+    resetEvent,
+    saveEvent
   }
 
   return <CreateEventContext.Provider value={values} {...props} />

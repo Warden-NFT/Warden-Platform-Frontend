@@ -5,9 +5,10 @@ import React from "react"
 type Props = {
   children: React.ReactNode
   sx?: SxProps
+  noPadding?: boolean
 }
 
-function FlatCard({ children, sx }: Props) {
+function FlatCard({ children, sx, noPadding }: Props) {
   return (
     <Stack
       spacing={2}
@@ -18,7 +19,7 @@ function FlatCard({ children, sx }: Props) {
         border: 2
       }}
     >
-      <Box p={4}>{children}</Box>
+      <Box p={noPadding ? 0 : 4}>{children}</Box>
     </Stack>
   )
 }

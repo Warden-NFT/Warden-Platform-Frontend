@@ -16,7 +16,8 @@ const theme = createTheme({
       "Droid Sans",
       "Helvetica Neue",
       "sans-serif"
-    ].join()
+    ].join(),
+    fontSize: 14
   },
   palette: {
     mode: "light",
@@ -27,7 +28,7 @@ const theme = createTheme({
       main: "#C397FE"
     },
     info: {
-      main: "#faf8ff"
+      main: "#F4F4F0"
     }
   }
 })
