@@ -1,7 +1,7 @@
 import { Container } from "@mui/system"
 import { useRouter } from "next/router"
 import React from "react"
-import EventSummary from "../../../components/event/CreateEvent/Steps/EventSummary"
+import EventSummary from "../../../components/event/Detail/EventSummary"
 import { withEventOrganizerGuard } from "../../../guards/withAuth"
 
 function PublishEvent() {

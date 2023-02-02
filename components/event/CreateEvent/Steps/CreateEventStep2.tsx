@@ -117,7 +117,10 @@ function CreateEventStep2() {
             value={values.startDate}
             onChange={(newValue) => {
               if (!newValue) return
-              setFieldValue("startDate", moment(newValue).toDate())
+              setFieldValue(
+                "startDate",
+                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+              )
             }}
           />
         </FormControl>
@@ -138,7 +141,10 @@ function CreateEventStep2() {
             value={values.endDate}
             onChange={(newValue) => {
               if (!newValue) return
-              setFieldValue("endDate", moment(newValue).toDate())
+              setFieldValue(
+                "endDate",
+                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+              )
             }}
           />
         </FormControl>
@@ -159,7 +165,10 @@ function CreateEventStep2() {
             value={values.doorTime}
             onChange={(newValue) => {
               if (!newValue) return
-              setFieldValue("doorTime", moment(newValue).toDate())
+              setFieldValue(
+                "doorTime",
+                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+              )
             }}
           />
         </FormControl>

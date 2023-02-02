@@ -24,14 +24,12 @@ interface CreateEventStruct {
   isFirstVisit: boolean
   setIsFirstVisit: Dispatch<SetStateAction<boolean>>
   resetEvent: () => void
-  saveEvent: () => Promise<Event | undefined>
+  saveEvent: (value: Event, organizerId: string) => Promise<Event | undefined>
 }
 
 export const CreateEventContext = createContext({} as CreateEventStruct)
 
 const CreateEventContextProvider = ({ ...props }) => {
-  const { user } = useContext(UserContext)
-
   const DEFAULT_EVENT = {
     eventStatus: EVENT_STATUS.NOT_STARTED as unknown as EventStatusType,
     eventKeywords: [],
@@ -77,20 +75,25 @@ const CreateEventContextProvider = ({ ...props }) => {
     setEvent(DEFAULT_EVENT)
   }
 
-  const saveEvent = async (): Promise<Event | undefined> => {
-    setEvent({ ...event, organizerId: user?._id ?? "" })
-    const _event = { ...event }
+  const saveEvent = async (event: Event, organizerId: string) => {
+    setEvent({ ...event, organizerId: organizerId ?? "" })
+    const data = { ...event, organizerId: organizerId ?? "" }
+    const eventImage = data.image
+    data.image = ""
+
     try {
-      const formData = new FormData()
-      type E = keyof Event
-      for (const key in _event) {
-        if (key === "ticketSupply") continue
-        formData.append(key, JSON.stringify(_event[key as E]))
+      const res = await client.post<Event>("event/createEvent", data)
+      const eventId = res.data._id
+      const updatedEvent = res.data
+
+      if (eventImage) {
+        const formData = new FormData()
+        formData.append("image", eventImage)
+        formData.append("eventId", eventId ?? "")
+        const res = await client.post("/event/uploadEventImage", formData)
+        updatedEvent.image = res.data
       }
-      formData.append("ticketSupply", JSON.stringify(event.ticketSupply))
-      const res = await client.post<Event>("event/createEvent", formData)
-      setEvent(res.data)
-      return res.data
+      return updatedEvent
     } catch (error) {
       // TODO display error alert
     }

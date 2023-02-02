@@ -14,6 +14,7 @@ interface Props {
   sx?: SxProps
   component?: any
   children?: React.ReactNode
+  isLink?: boolean
 }
 
 function ContainedButton({
@@ -27,7 +28,8 @@ function ContainedButton({
   icon,
   sx,
   component,
-  children
+  children,
+  isLink
 }: Props) {
   return (
     <motion.div
@@ -44,6 +46,7 @@ function ContainedButton({
       <Button
         type={type ?? "button"}
         onClick={(e?: any) => {
+          if (isLink) return null
           if (!component && e) e.preventDefault()
           onClick?.()
         }}

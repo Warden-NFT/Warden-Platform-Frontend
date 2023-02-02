@@ -20,6 +20,7 @@ import {
 import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
 import { CreateEventStep3Schema } from "../../../../schema/event/createEventStep3.schema"
 import { useRouter } from "next/navigation"
+import { UserContext } from "../../../../contexts/user/UserContext"
 
 function CreateEventStep3() {
   // Hooks
@@ -29,6 +30,7 @@ function CreateEventStep3() {
     setActiveStep,
     saveEvent
   } = useContext(CreateEventContext)
+  const { user } = useContext(UserContext)
   const router = useRouter()
   const { values, errors, touched, handleSubmit, setFieldValue } = useFormik({
     initialValues: {
@@ -41,12 +43,13 @@ function CreateEventStep3() {
     },
     validationSchema: CreateEventStep3Schema,
     onSubmit: async (data) => {
+      if (!user || !user._id) return
       const _event: Event = {
         ...currentEvent,
         ticketSupply: data
       }
       setEvent(_event)
-      const savedEvent: Event | undefined = await saveEvent()
+      const savedEvent: Event | undefined = await saveEvent(_event, user._id)
       if (savedEvent) router.push(`/event/detail/${savedEvent._id}`)
       // TODO: display error when failing to get a new event
     }
@@ -185,6 +188,7 @@ function CreateEventStep3() {
             </FormHelperText>
           )}
         </FormControl>
+        <div>{JSON.stringify(errors)}</div>
       </FlatCard>
       <ControlledStepperButtons
         handlePrevious={handleClickBack}
