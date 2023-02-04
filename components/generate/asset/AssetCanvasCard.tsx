@@ -1,6 +1,7 @@
 import { Box, SxProps, Skeleton } from "@mui/material"
 import NextImage from "next/image"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useRef, useState } from "react"
+import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
 
 interface Props {
   name: string
@@ -9,6 +10,7 @@ interface Props {
   width: number
   sx?: SxProps
   skeletonSx?: SxProps
+  isFirstCanvas?: boolean
   isLastCanvas?: boolean
   handleFinishGenerate?: () => void
 }
@@ -20,13 +22,19 @@ function AssetCanvasCard({
   height,
   sx,
   skeletonSx,
+  isFirstCanvas,
   isLastCanvas,
   handleFinishGenerate
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [url, setUrl] = useState<string>("")
+  const { setMetadataURI } = useContext(GenerateLayerContext)
 
   useEffect(() => {
+    if (isFirstCanvas) {
+      setMetadataURI([])
+    }
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -43,6 +51,9 @@ function AssetCanvasCard({
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
         const imageURL = canvas.toDataURL("image/png")
         setUrl(imageURL)
+        if (i === data.length - 1) {
+          setMetadataURI((prev) => [...prev, imageURL])
+        }
         if (isLastCanvas && handleFinishGenerate) {
           handleFinishGenerate()
         }

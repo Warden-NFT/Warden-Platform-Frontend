@@ -14,6 +14,8 @@ interface GenerateLayerContextProps {
   setMetadata: Dispatch<SetStateAction<LayeredTicketMetadata[]>>
   formInfo: LayeredAssetInfo
   setFormInfo: Dispatch<SetStateAction<LayeredAssetInfo>>
+  metadataURI: string[]
+  setMetadataURI: Dispatch<SetStateAction<string[]>>
 }
 
 export const GenerateLayerContext = createContext(
@@ -24,6 +26,7 @@ const GenerateLayerContextProvider = ({ ...props }) => {
   const [assets, setAssets] = useState<File[]>([])
   const [layers, setLayers] = useState<LayerData[]>([])
   const [metadata, setMetadata] = useState<LayeredTicketMetadata[]>([])
+  const [metadataURI, setMetadataURI] = useState<string[]>([])
   const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
     currency: "ETH",
     name: "",
@@ -46,7 +49,9 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     metadata,
     setMetadata,
     formInfo,
-    setFormInfo
+    setFormInfo,
+    metadataURI,
+    setMetadataURI
   }
 
   return <GenerateLayerContext.Provider value={values} {...props} />

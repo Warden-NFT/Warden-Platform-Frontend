@@ -79,6 +79,7 @@ function CreateLayeredTicketStep5() {
               data={data.attributes.map((attr) => attr.asset.data)}
               width={200}
               height={200}
+              isFirstCanvas={i === 0}
               isLastCanvas={i === formInfo.generationAmount - 1}
               handleFinishGenerate={handleFinishLoading}
               sx={{ mb: 2 }}
