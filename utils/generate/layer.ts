@@ -15,7 +15,7 @@ export function generateRandomLayer(
   const metadata: LayeredTicketMetadata[] = []
   const checkHashes: string[] = []
 
-  while (generatedAmount < form.generationAmount) {
+  while (generatedAmount <= form.generationAmount) {
     const assetAttributes: LayeredAssetAttribute[] = []
 
     // Randomize attributes that will be generated
