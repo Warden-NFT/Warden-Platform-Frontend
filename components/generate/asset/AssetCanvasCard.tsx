@@ -9,9 +9,20 @@ interface Props {
   width: number
   sx?: SxProps
   skeletonSx?: SxProps
+  isLastCanvas?: boolean
+  handleFinishGenerate?: () => void
 }
 
-function AssetCanvasCard({ name, data, width, height, sx, skeletonSx }: Props) {
+function AssetCanvasCard({
+  name,
+  data,
+  width,
+  height,
+  sx,
+  skeletonSx,
+  isLastCanvas,
+  handleFinishGenerate
+}: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [url, setUrl] = useState<string>("")
 
@@ -25,13 +36,16 @@ function AssetCanvasCard({ name, data, width, height, sx, skeletonSx }: Props) {
     const ctx = canvas.getContext("2d")
     if (ctx === null) return
 
-    data.forEach((uri) => {
+    data.forEach((uri, i) => {
       const img = new Image()
       img.src = uri
       img.onload = () => {
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
         const imageURL = canvas.toDataURL("image/png")
         setUrl(imageURL)
+        if (isLastCanvas && handleFinishGenerate) {
+          handleFinishGenerate()
+        }
       }
     })
   }, [data])

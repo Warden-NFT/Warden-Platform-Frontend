@@ -33,7 +33,7 @@ function CreateLayeredTicketStep2() {
           )}
         />
       </Stack>
-      <Stack direction="column" sx={{ maxHeight: "520px", overflowY: "auto" }}>
+      <Stack direction="column">
         {layers.length > 0 ? (
           <Box>
             {layers.map((layer, i) => (

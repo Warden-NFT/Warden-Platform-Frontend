@@ -5,7 +5,7 @@ import { amber, indigo } from "@mui/material/colors"
 import { Variants, motion } from "framer-motion"
 import Image from "next/image"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
-import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
+import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 
 const UploadAnimationVariant: Variants = {
   rest: {
@@ -45,7 +45,7 @@ const DownloadAnimationVariant: Variants = {
 }
 
 function CreateLayeredTicketStep6() {
-  const { setActiveStep } = useContext(GenerateCompleteContext)
+  const { setActiveStep } = useContext(GenerateLayerContext)
 
   return (
     <Box>
