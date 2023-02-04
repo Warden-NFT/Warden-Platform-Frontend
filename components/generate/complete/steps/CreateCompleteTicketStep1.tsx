@@ -10,7 +10,7 @@ import {
   TextField,
   Typography
 } from "@mui/material"
-import { pink, red } from "@mui/material/colors"
+import { pink } from "@mui/material/colors"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
@@ -19,6 +19,7 @@ import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateC
 import { TicketTypes } from "../../../../interfaces/ticket/ticket.interface"
 import { CreateCompleteTicketStep1Schema } from "../../../../schema/generate/complete"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
+import ControlledEventSelect from "../../form/ControlledEventSelect"
 import EventCreationAlert from "../../form/EventCreationAlert"
 
 function CreateCompleteTicketStep1() {
@@ -96,28 +97,13 @@ function CreateCompleteTicketStep1() {
             helperText={touched.name ? errors.name : undefined}
           />
         </FormControl>
-        <FormControl fullWidth required>
-          <FormLabel id="subject-of-label">Associated Event</FormLabel>
-          <Select
-            labelId="subject-of-label"
-            id="subject-of-select"
-            name="subjectOf"
-            value={values.subjectOf}
-            label="Associated Event"
-            size="small"
-            displayEmpty
-            onChange={handleChange}
-          >
-            <MenuItem value="" disabled>
-              <em>Select the event that this ticket is meant for</em>
-            </MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-          <FormHelperText sx={{ color: red[600] }}>
-            {errors.subjectOf && touched.subjectOf ? errors.subjectOf : ""}
-          </FormHelperText>
-        </FormControl>
+
+        <ControlledEventSelect
+          subjectOf={values.subjectOf}
+          touched={touched.subjectOf}
+          handleChange={handleChange}
+          error={errors.subjectOf}
+        />
         <FormControl fullWidth required>
           <FormLabel id="ticket-currency-label">Ticket Currency</FormLabel>
           <Select

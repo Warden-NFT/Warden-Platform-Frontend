@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useState } from "react"
 import {
   FormControl,
   FormHelperText,
@@ -7,6 +7,9 @@ import {
   Select
 } from "@mui/material"
 import { red } from "@mui/material/colors"
+import { useEvents } from "../../../hooks/useEvents"
+import { Event } from "../../../interfaces/event/event.interface"
+import useAsyncEffect from "../../../hooks/useAsyncEffect"
 
 interface Props {
   subjectOf: string
@@ -21,6 +24,16 @@ function ControlledEventSelect({
   touched,
   error
 }: Props) {
+  const { getEventFromOrganizer } = useEvents()
+  const [events, setEvents] = useState<Event[]>([])
+
+  useAsyncEffect(async () => {
+    const _events = await getEventFromOrganizer()
+    if (_events) {
+      setEvents(_events)
+    }
+  }, [])
+
   return (
     <FormControl fullWidth required>
       <FormLabel id="subject-of-label">Associated Event</FormLabel>
@@ -37,8 +50,11 @@ function ControlledEventSelect({
         <MenuItem value="" disabled>
           <em>Select the event that this ticket is meant for</em>
         </MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+        {events.map((event, i) => (
+          <MenuItem value={event._id} key={i}>
+            {event.name}
+          </MenuItem>
+        ))}
       </Select>
       <FormHelperText sx={{ color: red[600] }}>
         {error && touched ? error : ""}
