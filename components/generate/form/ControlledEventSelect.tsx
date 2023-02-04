@@ -7,8 +7,6 @@ import {
   Select
 } from "@mui/material"
 import { red } from "@mui/material/colors"
-import useAsyncEffect from "../../../hooks/useAsyncEffect"
-import { UserContext } from "../../../contexts/user/UserContext"
 
 interface Props {
   subjectOf: string
@@ -23,11 +21,6 @@ function ControlledEventSelect({
   touched,
   error
 }: Props) {
-  // const { user, userI } = useContext(UserContext)
-  // useAsyncEffect(async () => {
-
-  // }, [])
-
   return (
     <FormControl fullWidth required>
       <FormLabel id="subject-of-label">Associated Event</FormLabel>
