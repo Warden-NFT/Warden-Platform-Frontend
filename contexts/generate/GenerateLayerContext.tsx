@@ -1,6 +1,15 @@
-import React, { useState, createContext, SetStateAction, Dispatch } from "react"
+import React, {
+  useState,
+  createContext,
+  SetStateAction,
+  Dispatch,
+  useEffect
+} from "react"
 import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
-import { LayerData } from "../../interfaces/generate/file.interface"
+import {
+  AssetDimension,
+  LayerData
+} from "../../interfaces/generate/file.interface"
 import { LayeredTicketMetadata } from "../../interfaces/generate/metadata.interface"
 
 interface GenerateLayerContextProps {
@@ -16,6 +25,8 @@ interface GenerateLayerContextProps {
   setFormInfo: Dispatch<SetStateAction<LayeredAssetInfo>>
   metadataURI: string[]
   setMetadataURI: Dispatch<SetStateAction<string[]>>
+  largestDimension: AssetDimension
+  setLargestDimension: Dispatch<SetStateAction<AssetDimension>>
 }
 
 export const GenerateLayerContext = createContext(
@@ -27,6 +38,10 @@ const GenerateLayerContextProvider = ({ ...props }) => {
   const [layers, setLayers] = useState<LayerData[]>([])
   const [metadata, setMetadata] = useState<LayeredTicketMetadata[]>([])
   const [metadataURI, setMetadataURI] = useState<string[]>([])
+  const [largestDimension, setLargestDimension] = useState<AssetDimension>({
+    width: 0,
+    height: 0
+  })
   const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
     currency: "ETH",
     name: "",
@@ -38,6 +53,10 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     generationAmount: 1,
     hasAssetReversed: false
   })
+
+  useEffect(() => {
+    console.log(largestDimension)
+  }, [largestDimension])
 
   const values: GenerateLayerContextProps = {
     activeStep,
@@ -51,7 +70,9 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     formInfo,
     setFormInfo,
     metadataURI,
-    setMetadataURI
+    setMetadataURI,
+    largestDimension,
+    setLargestDimension
   }
 
   return <GenerateLayerContext.Provider value={values} {...props} />

@@ -1,7 +1,6 @@
 import {
   UploadedAsset,
-  LayerData,
-  AssetDimension
+  LayerData
 } from "../../interfaces/generate/file.interface"
 import { getAssetDimension, getAssetFileName, getAssetFileURL } from "./detail"
 
@@ -40,18 +39,4 @@ export async function readLayeredAsset(
       return resolve(asset)
     }
   })
-}
-
-export function getLayerLargestDimension(
-  dimensions: AssetDimension[]
-): AssetDimension {
-  const heights = dimensions.map((dimension) => dimension.height)
-  const widths = dimensions.map((dimension) => dimension.width)
-  const sortedHeights = heights.sort()
-  const shortedWidths = widths.sort()
-
-  return {
-    width: shortedWidths[shortedWidths.length - 1],
-    height: sortedHeights[sortedHeights.length - 1]
-  }
 }

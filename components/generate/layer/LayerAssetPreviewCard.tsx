@@ -14,7 +14,8 @@ interface Props {
 }
 
 function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
-  const { layers, setLayers } = useContext(GenerateLayerContext)
+  const { layers, setLayers, setLargestDimension } =
+    useContext(GenerateLayerContext)
 
   function removeAsset(layerIndex: number, assetIndex: number) {
     const _layers = [...layers]
@@ -26,6 +27,20 @@ function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
       _layers.splice(layerIndex, 1)
     }
     setLayers(_layers)
+
+    // Recalculate largest dimension
+    const heights: number[] = []
+    const widths: number[] = []
+    _layers.forEach((_layer) => {
+      _layer.assets.forEach((_asset) => {
+        heights.push(_asset.dimension.height)
+        widths.push(_asset.dimension.width)
+      })
+    })
+
+    const _heights = heights.sort()
+    const _widths = widths.sort()
+    setLargestDimension({ width: _widths[0], height: _heights[0] })
   }
 
   const variant: Variants = {
