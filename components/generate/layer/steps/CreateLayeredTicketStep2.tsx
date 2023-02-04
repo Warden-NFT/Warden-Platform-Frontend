@@ -49,7 +49,7 @@ function CreateLayeredTicketStep2() {
                   direction="row"
                   alignItems="center"
                   spacing={1}
-                  sx={{ overflowX: "auto", height: "240px" }}
+                  sx={{ overflowX: "auto", py: 2 }}
                 >
                   {layer.assets.map((asset, j) => (
                     <LayerAssetPreviewCard
