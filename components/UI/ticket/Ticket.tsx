@@ -1,4 +1,4 @@
-import { Box, Chip, Divider, Stack, Typography } from "@mui/material"
+import { Box, Chip, Divider, Stack, SxProps, Typography } from "@mui/material"
 import Image from "next/image"
 import React from "react"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
@@ -9,188 +9,149 @@ import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
 import moment from "moment"
 import { grey } from "@mui/material/colors"
 import { motion } from "framer-motion"
+import PNGAssetPreview from "../../assets/PNGAssetPreview"
+import { Theme } from "@mui/system"
+import Barcode from "react-barcode"
 
 // https://codepen.io/z-/pen/MJKNJZ
 // https://codepen.io/amr-ibrahem/pen/wdrLjL
 
 interface Props {
-  backgroundColor?: string
-  img: string
+  assetSrc: string // Image string
+  assetName: string
   eventName: string
   eventOrganizer: string
   ticketType: TicketTypes
   date: Date
   seat?: string
   location: string
-  QRCodeValue?: string
-  showAsQRCode?: boolean
   isDisabled?: boolean
+  codeDisplayMode: "BAR" | "QR" | "TEXT" // NOTE: Barcode should only has numeric value
+  codeValue?: string
   onClick?: () => void
+  cardSx?: SxProps<Theme>
 }
 
 function Ticket({
-  backgroundColor,
-  img,
+  assetSrc,
+  assetName,
   eventName,
   eventOrganizer,
   ticketType,
   date,
   seat,
   location,
-  QRCodeValue,
+  codeValue,
   isDisabled,
-  showAsQRCode,
-  onClick
+  codeDisplayMode,
+  onClick,
+  cardSx
 }: Props) {
-  function getBgColor() {
-    if (isDisabled) {
-      return grey[100]
-    }
-
-    return backgroundColor ? backgroundColor : "white"
-  }
-
-  function getImageOpacity() {
-    return isDisabled ? 0.6 : 1
-  }
-
   return (
-    <motion.div
-      whileHover={{
-        scale: isDisabled ? 1 : 1.03
-      }}
-      style={{ width: "330px !important" }}
-      onClick={onClick}
-      className="motion-div"
-    >
+    <motion.div whileHover={{ y: -12 }} style={{ position: "relative" }}>
       <Box
-        sx={[
-          {
-            height: "100%",
-            width: "330px",
-            minHeight: 580,
-            "&:hover": {
-              cursor: "pointer"
-            },
-            position: "relative",
-            overflow: "hidden",
-            margin: 2
-          },
-          isDisabled ? { color: grey[500] } : null
-        ]}
+        onClick={!isDisabled ? onClick : undefined}
+        sx={{
+          position: "relative",
+          width: "320px",
+          overflow: "hidden",
+          border: 2,
+          backgroundColor: "white",
+          borderRadius: 4,
+          margin: 2,
+          ...cardSx
+        }}
       >
-        <Box
-          sx={{
-            backgroundColor: getBgColor(),
-            width: "100%"
-          }}
-        >
-          <Image
-            src={img}
-            width="330"
-            alt={`${eventName} cover`}
-            height="200"
-            style={{
-              borderTopLeftRadius: 12,
-              borderTopRightRadius: 12,
-              opacity: getImageOpacity()
-            }}
+        <Stack>
+          <PNGAssetPreview
+            name={assetName}
+            data={assetSrc}
+            width={320}
+            height={240}
           />
-          <Box
-            sx={{
-              position: "absolute",
-              width: "51%",
-              height: "100%",
-              background: grey[100]
-            }}
-            className="shape right-cutout"
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              right: 0,
-              width: "51%",
-              height: "100%",
-              background: grey[100]
-            }}
-            className="shape left-cutout"
-          />
-          <Box
-            sx={{
-              position: "absolute",
-              height: "200px",
-              width: "296px",
-              p: 2
-            }}
-          >
-            <Box>
-              <Typography fontSize={18} fontWeight="800">
+          <Stack spacing={1} sx={{ padding: 2, borderBottom: "dashed 2px" }}>
+            <Box sx={{ textAlign: "start" }}>
+              <Typography
+                component="h2"
+                fontSize="18"
+                fontWeight="700"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+              >
                 {eventName}
               </Typography>
-              <Typography fontSize={12} fontWeight="300">
+              <Typography
+                component="p"
+                fontSize="14px"
+                whiteSpace="nowrap"
+                textOverflow="ellipsis"
+              >
                 {eventOrganizer}
               </Typography>
+              <Box>
+                <Chip sx={{ marginY: 1 }} size="small" label={ticketType} />
+              </Box>
             </Box>
-            <Chip sx={{ mt: 1 }} size="small" label={ticketType} />
 
-            {/* TODO: Loop all ticket attributes */}
-            <Box sx={{ mt: 4, height: "70px" }}>
-              <Stack direction="row" justifyContent="space-between">
-                <Stack direction="row">
-                  <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
-                  <Typography>Location</Typography>
-                </Stack>
-                <Typography>{location}</Typography>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row">
+                <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
+                <Typography>Location</Typography>
               </Stack>
+              <Typography>{location}</Typography>
+            </Stack>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row">
+                <EventIcon fontSize="small" sx={{ mr: 1 }} />
+                <Typography>Date</Typography>
+              </Stack>
+              <Typography>
+                {moment(date).format("DD/MM/YYYY hh:mm a")}
+              </Typography>
+            </Stack>
+            {seat && (
               <Stack direction="row" justifyContent="space-between">
                 <Stack direction="row">
-                  <EventIcon fontSize="small" sx={{ mr: 1 }} />
-                  <Typography>Date</Typography>
+                  <EventSeatIcon fontSize="small" sx={{ mr: 1 }} />
+                  <Typography>Seat</Typography>
                 </Stack>
-                <Typography>
-                  {moment(date).format("DD/MM/YYYY hh:mm a")}
+                <Typography>{seat}</Typography>
+              </Stack>
+            )}
+          </Stack>
+
+          <Box sx={{ display: "grid", placeItems: "center", padding: 2 }}>
+            {isDisabled ? (
+              <Box>
+                <Typography fontSize="18px" color={grey[600]}>
+                  Ticket Disabled
                 </Typography>
-              </Stack>
-              {seat && (
-                <Stack direction="row" justifyContent="space-between">
-                  <Stack direction="row">
-                    <EventSeatIcon fontSize="small" sx={{ mr: 1 }} />
-                    <Typography>Seat</Typography>
-                  </Stack>
-                  <Typography>{seat}</Typography>
-                </Stack>
-              )}
-            </Box>
-            <Divider
-              sx={{ borderStyle: "dashed", borderWidth: "2px", mt: 3 }}
-            />
-            {QRCodeValue && (
-              <Box
-                sx={{
-                  width: "100%",
-                  height: 160,
-                  display: "grid",
-                  placeItems: "center",
-                  wordWrap: "break-word"
-                }}
-              >
-                {showAsQRCode ? (
-                  <>
-                    {!isDisabled ? (
-                      <QRCodeCanvas value={QRCodeValue} />
-                    ) : (
-                      <Typography>Ticket Disabled</Typography>
+              </Box>
+            ) : (
+              <Box>
+                {codeValue ? (
+                  <Box>
+                    {codeDisplayMode === "QR" && (
+                      <QRCodeCanvas value={codeValue} />
                     )}
-                  </>
-                ) : (
-                  <Box sx={{ width: "200px", textAlign: "center" }}>
-                    <Typography>{QRCodeValue}</Typography>
+                    {codeDisplayMode === "BAR" && (
+                      <Barcode
+                        value={codeValue}
+                        displayValue={false}
+                        height={50}
+                      />
+                    )}
+                    {codeDisplayMode === "TEXT" && (
+                      <Typography>{codeValue}</Typography>
+                    )}
                   </Box>
+                ) : (
+                  <Typography>Waiting</Typography>
                 )}
               </Box>
             )}
           </Box>
-        </Box>
+        </Stack>
       </Box>
     </motion.div>
   )

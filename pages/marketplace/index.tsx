@@ -6,25 +6,41 @@ function MarketplacePage() {
   return (
     <Container>
       <Ticket
-        img="/images/background/ticket-cover-test.jpg"
+        assetSrc="/images/background/ticket-cover-test.jpg"
+        assetName="Test1"
         eventName="Among Us Party"
         eventOrganizer="Warden"
         ticketType="GENERAL"
         date={new Date()}
         seat="A 14"
         location="MIRA HQ"
-        QRCodeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        codeDisplayMode="QR"
+        codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
       />
       <Ticket
-        img="/images/background/ticket-cover-test.jpg"
+        assetSrc="/images/background/ticket-cover-test.jpg"
+        assetName="Test1"
         eventName="Among Us Party"
         eventOrganizer="Warden"
         ticketType="GENERAL"
         date={new Date()}
         seat="A 14"
         location="MIRA HQ"
-        QRCodeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        codeDisplayMode="BAR"
+        codeValue="12312847199879"
+      />
+      <Ticket
+        assetSrc="/images/background/ticket-cover-test.jpg"
+        assetName="Test2"
+        eventName="Among Us Party"
+        eventOrganizer="Warden"
+        ticketType="GENERAL"
+        date={new Date()}
+        seat="A 14"
+        location="MIRA HQ"
         isDisabled
+        codeDisplayMode="BAR"
+        codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
       />
     </Container>
   )
