@@ -34,10 +34,10 @@ function NavBar() {
 
   useEffect(() => {
     switch (user?.accountType) {
-    case Account.Customer:
+    case Account.CUSTOMER:
       setAppRoutes(CUSTOMER_APP_ROUTES)
       break
-    case Account.EventOrganizer:
+    case Account.EVENT_ORGANIZER:
       setAppRoutes(EVENT_ORGANIZER_APP_ROUTES)
       break
     default:

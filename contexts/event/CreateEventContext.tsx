@@ -1,14 +1,7 @@
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState
-} from "react"
+import { createContext, Dispatch, SetStateAction, useState } from "react"
 import { client } from "../../configs/axios/axiosConfig"
 import { EVENT_STATUS, TICKET_TYPE } from "../../constants/event/event"
 import { Event, EventStatusType } from "../../interfaces/event/event.interface"
-import { UserContext } from "../user/UserContext"
 
 interface CreateEventStruct {
   event: Event
@@ -25,6 +18,8 @@ interface CreateEventStruct {
   setIsFirstVisit: Dispatch<SetStateAction<boolean>>
   resetEvent: () => void
   saveEvent: (value: Event, organizerId: string) => Promise<Event | undefined>
+  openEventDeployModal: boolean
+  setOpenEventDeployModal: Dispatch<SetStateAction<boolean>>
 }
 
 export const CreateEventContext = createContext({} as CreateEventStruct)
@@ -62,6 +57,9 @@ const CreateEventContextProvider = ({ ...props }) => {
   const [isBackDisabled, setIsBackDisabled] = useState<boolean>(true)
   const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false)
   const [isFirstVisit, setIsFirstVisit] = useState(true)
+
+  // Event publish
+  const [openEventDeployModal, setOpenEventDeployModal] = useState(false)
 
   const onClickBack = () => {
     if (activeStep > 1) setActiveStep(activeStep - 1)
@@ -113,7 +111,9 @@ const CreateEventContextProvider = ({ ...props }) => {
     isFirstVisit,
     setIsFirstVisit,
     resetEvent,
-    saveEvent
+    saveEvent,
+    openEventDeployModal,
+    setOpenEventDeployModal
   }
 
   return <CreateEventContext.Provider value={values} {...props} />

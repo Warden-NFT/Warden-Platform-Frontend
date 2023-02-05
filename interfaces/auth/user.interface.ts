@@ -1,6 +1,6 @@
 export enum Account {
-  Customer = "Customer",
-  EventOrganizer = "EventOrganizer"
+  CUSTOMER = "CUSTOMER",
+  EVENT_ORGANIZER = "EVENT_ORGANIZER"
 }
 
 export type Verification = "NotVerified" | "Verified"
@@ -17,12 +17,12 @@ export interface User {
 export interface CustomerUser extends User {
   firstName: string
   lastName: string
-  accountType: Account.Customer
+  accountType: Account.CUSTOMER
 }
 
 export interface EventOrganizerUser extends User {
   organizationName: string
-  accountType: Account.EventOrganizer
+  accountType: Account.EVENT_ORGANIZER
 }
 
 export interface UserGeneralInfo {
