@@ -5,26 +5,37 @@ import React, { useContext } from "react"
 import EventSummary from "../../../components/event/Detail/EventSummary"
 import { withEventOrganizerGuard } from "../../../guards/withAuth"
 import DeployEventBanner from "../../../components/event/CreateEvent/DeployEvent/DeployEventBanner"
-import DeployEventModal from "../../../components/event/CreateEvent/DeployEvent/DeployEventModal"
-import { CreateEventContext } from "../../../contexts/event/CreateEventContext"
+import { useEvents } from "../../../hooks/useEvents"
+import useAsyncEffect from "../../../hooks/useAsyncEffect"
+import { LayoutContext } from "../../../contexts/layout/LayoutContext"
+import ViewEventBanner from "../../../components/event/CreateEvent/DeployEvent/ViewEventBanner"
 
 function PublishEvent() {
   const router = useRouter()
-  const { openEventDeployModal, setOpenEventDeployModal } =
-    useContext(CreateEventContext)
-
   const { eid } = router.query
+  const { getEvent, currentEvent: event, setCurrentEvent } = useEvents()
+  const { setShowLoadingBackdrop } = useContext(LayoutContext)
+
+  useAsyncEffect(async () => {
+    if (!eid) return
+    setShowLoadingBackdrop(true)
+    const _event = await getEvent(eid as string)
+    setCurrentEvent(_event)
+    setShowLoadingBackdrop(false)
+  }, [eid])
+
   return (
     <>
       <Container>
         <Box sx={{ height: 16 }} />
-        <DeployEventBanner />
-        {eid && <EventSummary eventId={eid.toString()} />}
+        {event && !event.smartContractAddress && (
+          <DeployEventBanner event={event} setCurrentEvent={setCurrentEvent} />
+        )}
+        {event && event.smartContractAddress && (
+          <ViewEventBanner smartContractAddress={event.smartContractAddress} />
+        )}
+        {event && <EventSummary event={event} />}
       </Container>
-      <DeployEventModal
-        open={openEventDeployModal}
-        handleClose={() => setOpenEventDeployModal(false)}
-      />
     </>
   )
 }
