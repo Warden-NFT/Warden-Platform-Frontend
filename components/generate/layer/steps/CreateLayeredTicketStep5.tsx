@@ -73,8 +73,8 @@ function CreateLayeredTicketStep5() {
       <Stack
         direction="row"
         flexWrap="wrap"
-        spacing={2}
-        sx={{ height: "600px", overflowY: "auto", marginY: 2 }}
+        justifyContent="space-between"
+        sx={{ height: "600px", overflowY: "auto" }}
       >
         {metadata.map((data, i) => (
           <Suspense

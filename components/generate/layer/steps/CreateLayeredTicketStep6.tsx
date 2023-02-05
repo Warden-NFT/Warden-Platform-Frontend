@@ -53,7 +53,6 @@ function CreateLayeredTicketStep6() {
   function handleDownloadAssetFiles() {
     const zip = new JSZip()
 
-    // zip.file("Hello.txt", "Hello World\n");
     const img = zip.folder(formInfo.name)
     metadata.forEach((data, i) => {
       if (img) {
