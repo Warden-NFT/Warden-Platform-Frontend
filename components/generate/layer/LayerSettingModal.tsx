@@ -124,7 +124,7 @@ function LayerSettingModal({ isOpen, setIsOpen }: Props) {
               onChange={(e) => handleChangeHeight(e.target.value)}
               sx={{ width: "200px" }}
             >
-              {heights.map((height) => (
+              {heights.map((height, i) => (
                 <MenuItem key={i} value={height}>{`${height} px`}</MenuItem>
               ))}
             </Select>
