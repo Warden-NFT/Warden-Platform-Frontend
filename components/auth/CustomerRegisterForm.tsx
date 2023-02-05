@@ -28,7 +28,7 @@ function CustomerRegisterForm() {
       try {
         const res = await client.post<SuccessfulAuthDTO>(
           "/user/registerCustomer",
-          { ...data, accountType: Account.Customer }
+          { ...data, accountType: Account.CUSTOMER }
         )
         setUserInfo(res.data)
         router.push("/auth/confirm-phone")

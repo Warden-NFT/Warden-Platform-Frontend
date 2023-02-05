@@ -45,7 +45,7 @@ export const withEventOrganizerGuard = (
         try {
           const response = await client.get<User>("user")
           const userData = response.data
-          if (!userData || userData.accountType !== Account.EventOrganizer) {
+          if (!userData || userData.accountType !== Account.EVENT_ORGANIZER) {
             router.push("/auth/login")
           } else {
             setUser(userData)
@@ -73,7 +73,7 @@ export const withCustomerGuard = (Component: React.ComponentType<any>) => {
         try {
           const response = await client.get<User>("user")
           const userData = response.data
-          if (!userData || userData.accountType !== Account.EventOrganizer) {
+          if (!userData || userData.accountType !== Account.CUSTOMER) {
             router.push("/auth/login")
           } else {
             setUser(userData)
