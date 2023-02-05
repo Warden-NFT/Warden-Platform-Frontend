@@ -41,10 +41,10 @@ function LayerSettingModal({ isOpen, setIsOpen }: Props) {
     layers.forEach((layer) => {
       layer.assets.forEach((asset) => {
         const { width, height } = asset.dimension
-        if (!widths.includes(width)) {
+        if (!_widths.includes(width)) {
           _widths.push(width)
         }
-        if (!heights.includes(height)) {
+        if (!_heights.includes(height)) {
           _heights.push(height)
         }
       })
