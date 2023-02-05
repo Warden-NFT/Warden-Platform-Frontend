@@ -1,4 +1,5 @@
 import React, { useState, createContext, SetStateAction, Dispatch } from "react"
+import { DEFAULT_CANVAS_SIZE } from "../../constants/generate/canvas"
 import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
 import {
   AssetDimension,
@@ -17,8 +18,10 @@ interface GenerateLayerContextProps {
   setMetadata: Dispatch<SetStateAction<LayeredTicketMetadata[]>>
   formInfo: LayeredAssetInfo
   setFormInfo: Dispatch<SetStateAction<LayeredAssetInfo>>
-  metadataURI: string[]
-  setMetadataURI: Dispatch<SetStateAction<string[]>>
+  metadataBlob: Blob[]
+  setMetadataBlob: Dispatch<SetStateAction<Blob[]>>
+  assetDimension: AssetDimension
+  setAssetDimension: Dispatch<SetStateAction<AssetDimension>>
 }
 
 export const GenerateLayerContext = createContext(
@@ -29,7 +32,11 @@ const GenerateLayerContextProvider = ({ ...props }) => {
   const [assets, setAssets] = useState<File[]>([])
   const [layers, setLayers] = useState<LayerData[]>([])
   const [metadata, setMetadata] = useState<LayeredTicketMetadata[]>([])
-  const [metadataURI, setMetadataURI] = useState<string[]>([])
+  const [metadataBlob, setMetadataBlob] = useState<Blob[]>([])
+  const [assetDimension, setAssetDimension] = useState<AssetDimension>({
+    width: DEFAULT_CANVAS_SIZE,
+    height: DEFAULT_CANVAS_SIZE
+  })
   const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
     currency: "ETH",
     name: "",
@@ -53,8 +60,10 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     setMetadata,
     formInfo,
     setFormInfo,
-    metadataURI,
-    setMetadataURI
+    metadataBlob,
+    setMetadataBlob,
+    assetDimension,
+    setAssetDimension
   }
 
   return <GenerateLayerContext.Provider value={values} {...props} />

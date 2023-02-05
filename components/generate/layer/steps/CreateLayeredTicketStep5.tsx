@@ -3,20 +3,30 @@ import React, {
   useContext,
   useEffect,
   Suspense,
-  lazy
+  lazy,
+  useState
 } from "react"
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, IconButton, Stack, Typography } from "@mui/material"
 import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import { generateRandomLayer } from "../../../../utils/generate/layer"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import ContainedButton from "../../../UI/button/ContainedButton"
+import SettingsIcon from "@mui/icons-material/Settings"
+import LayerSettingModal from "../LayerSettingModal"
 
 const AssetCanvasCard = lazy(() => import("../../asset/AssetCanvasCard"))
 
 function CreateLayeredTicketStep5() {
-  const { layers, formInfo, setActiveStep, metadata, setMetadata } =
-    useContext(GenerateLayerContext)
+  const [isSettingOpen, setIsSettingOpen] = useState(false)
+  const {
+    layers,
+    formInfo,
+    setActiveStep,
+    assetDimension,
+    metadata,
+    setMetadata
+  } = useContext(GenerateLayerContext)
   const { setShowLoadingBackdrop } = useContext(LayoutContext)
 
   const handleGenerate = useCallback(() => {
@@ -36,6 +46,7 @@ function CreateLayeredTicketStep5() {
 
   return (
     <Box sx={{ marginY: 4 }}>
+      <LayerSettingModal isOpen={isSettingOpen} setIsOpen={setIsSettingOpen} />
       <Stack
         direction="row"
         alignItems="center"
@@ -45,16 +56,24 @@ function CreateLayeredTicketStep5() {
         <Typography variant="h4" component="h1">
           Preview your ticket assets
         </Typography>
-        <ContainedButton
-          label="Regenerate"
-          variant="contained"
-          onClick={handleGenerate}
-        />
+        <Stack direction="row" justifyContent="flex-end">
+          <IconButton
+            aria-label="setting"
+            onClick={() => setIsSettingOpen(true)}
+          >
+            <SettingsIcon />
+          </IconButton>
+          <ContainedButton
+            label="Regenerate"
+            variant="contained"
+            onClick={handleGenerate}
+          />
+        </Stack>
       </Stack>
       <Stack
         direction="row"
         flexWrap="wrap"
-        justifyContent="space-between"
+        spacing={2}
         sx={{ height: "600px", overflowY: "auto", marginY: 2 }}
       >
         {metadata.map((data, i) => (
@@ -77,8 +96,10 @@ function CreateLayeredTicketStep5() {
             <AssetCanvasCard
               name={data.name}
               data={data.attributes.map((attr) => attr.asset.data)}
-              width={200}
-              height={200}
+              renderWidth={200}
+              renderHeight={200}
+              width={assetDimension.width}
+              height={assetDimension.height}
               isFirstCanvas={i === 0}
               isLastCanvas={i === formInfo.generationAmount - 1}
               handleFinishGenerate={handleFinishLoading}

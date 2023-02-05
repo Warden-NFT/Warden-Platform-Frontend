@@ -7,7 +7,7 @@ import Image from "next/image"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import { saveAs } from "file-saver"
-import AssetCanvasCard from "../../asset/AssetCanvasCard"
+import JSZip from "jszip"
 
 const UploadAnimationVariant: Variants = {
   rest: {
@@ -47,23 +47,27 @@ const DownloadAnimationVariant: Variants = {
 }
 
 function CreateLayeredTicketStep6() {
-  const { setActiveStep, metadataURI, metadata } =
+  const { setActiveStep, metadataBlob, metadata, formInfo } =
     useContext(GenerateLayerContext)
 
   function handleDownloadAssetFiles() {
-    metadataURI.forEach((uri, i) => {
-      saveAs(uri, `${metadata[i]?.name}.png`)
+    const zip = new JSZip()
+
+    // zip.file("Hello.txt", "Hello World\n");
+    const img = zip.folder(formInfo.name)
+    metadata.forEach((data, i) => {
+      if (img) {
+        img.file(`${data?.name}.png`, metadataBlob[i], { binary: true })
+      }
+    })
+
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      saveAs(content, `${formInfo.name}.zip`)
     })
   }
 
   return (
     <Box>
-      <AssetCanvasCard
-        name="asdf"
-        data={[metadataURI[0]]}
-        width={200}
-        height={200}
-      />
       <Stack spacing={2}>
         <ImageLabelCard
           title="Upload Generated Assets and Mint"
