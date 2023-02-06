@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, Chip, Stack, Typography } from "@mui/material"
 import React, { useContext } from "react"
 import { UploadedAsset } from "../../../interfaces/generate/file.interface"
 import PNGAssetPreview from "../../assets/PNGAssetPreview"
@@ -120,21 +120,7 @@ function CompleteAssetPreviewCard({ asset, assetIndex, isVip }: Props) {
                     {asset.dimension.width} x {asset.dimension.height}
                   </Typography>
                   {isVip && (
-                    <Box
-                      sx={{
-                        borderRadius: "20px",
-                        border: 1.5,
-                        display: "grid",
-                        placeItems: "center",
-                        width: "40px",
-                        height: "20px",
-                        "&:hover": {
-                          cursor: "pointer"
-                        }
-                      }}
-                    >
-                      <Typography fontSize="11px">VIP</Typography>
-                    </Box>
+                    <Chip size="small" label="VIP" variant="outlined" />
                   )}
                 </Stack>
               </motion.div>

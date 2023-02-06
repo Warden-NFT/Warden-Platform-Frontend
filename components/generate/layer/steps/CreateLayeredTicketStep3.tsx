@@ -26,6 +26,8 @@ function CreateLayeredTicketStep3() {
               data={layers.map((layer) => layer.assets[0].data)}
               width={200}
               height={200}
+              renderHeight={200}
+              renderWidth={200}
             />
             <Typography component="p" sx={{ mt: 2 }}>
               Preview Image

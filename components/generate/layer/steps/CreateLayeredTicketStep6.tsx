@@ -5,7 +5,9 @@ import { amber, indigo } from "@mui/material/colors"
 import { Variants, motion } from "framer-motion"
 import Image from "next/image"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
-import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
+import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
+import { saveAs } from "file-saver"
+import JSZip from "jszip"
 
 const UploadAnimationVariant: Variants = {
   rest: {
@@ -45,7 +47,23 @@ const DownloadAnimationVariant: Variants = {
 }
 
 function CreateLayeredTicketStep6() {
-  const { setActiveStep } = useContext(GenerateCompleteContext)
+  const { setActiveStep, metadataBlob, metadata, formInfo } =
+    useContext(GenerateLayerContext)
+
+  function handleDownloadAssetFiles() {
+    const zip = new JSZip()
+
+    const img = zip.folder(formInfo.name)
+    metadata.forEach((data, i) => {
+      if (img) {
+        img.file(`${data?.name}.png`, metadataBlob[i], { binary: true })
+      }
+    })
+
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      saveAs(content, `${formInfo.name}.zip`)
+    })
+  }
 
   return (
     <Box>
@@ -75,23 +93,25 @@ function CreateLayeredTicketStep6() {
           )}
           containerStyles={{ backgroundColor: amber[400] }}
         />
-        <ImageLabelCard
-          title="Download Generated Assets"
-          description="Tame these tickets onto your computer storage, unleash it when you are ready to."
-          LeftMotionedComponent={() => (
-            <motion.div variants={DownloadAnimationVariant}>
-              <Image
-                alt="Upload Assets and Mint"
-                src="/images/generate/computer.svg"
-                width="200"
-                height="200"
-                style={{ objectFit: "cover" }}
-                draggable={false}
-              />
-            </motion.div>
-          )}
-          containerStyles={{ backgroundColor: indigo[300] }}
-        />
+        <div onClick={handleDownloadAssetFiles}>
+          <ImageLabelCard
+            title="Download Generated Assets"
+            description="Tame these tickets onto your computer storage, unleash it when you are ready to."
+            LeftMotionedComponent={() => (
+              <motion.div variants={DownloadAnimationVariant}>
+                <Image
+                  alt="Upload Assets and Mint"
+                  src="/images/generate/computer.svg"
+                  width="200"
+                  height="200"
+                  style={{ objectFit: "cover" }}
+                  draggable={false}
+                />
+              </motion.div>
+            )}
+            containerStyles={{ backgroundColor: indigo[300] }}
+          />
+        </div>
         <ControlledStepperButtons
           handlePrevious={() => setActiveStep((prev) => prev - 1)}
           handleNext={() => setActiveStep((prev) => prev + 1)}

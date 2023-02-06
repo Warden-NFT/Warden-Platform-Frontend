@@ -33,7 +33,7 @@ function CreateLayeredTicketStep2() {
           )}
         />
       </Stack>
-      <Stack direction="column" sx={{ maxHeight: "520px", overflowY: "auto" }}>
+      <Stack direction="column">
         {layers.length > 0 ? (
           <Box>
             {layers.map((layer, i) => (
@@ -49,7 +49,7 @@ function CreateLayeredTicketStep2() {
                   direction="row"
                   alignItems="center"
                   spacing={1}
-                  sx={{ overflowX: "auto", height: "240px" }}
+                  sx={{ overflowX: "auto", py: 2 }}
                 >
                   {layer.assets.map((asset, j) => (
                     <LayerAssetPreviewCard
