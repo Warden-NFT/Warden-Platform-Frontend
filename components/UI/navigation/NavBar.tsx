@@ -127,7 +127,7 @@ function NavBar() {
             >
               <MenuItem onClick={handleLogout}>Log out</MenuItem>
             </Menu>
-            {<ConnectWalletButton />}
+            <ConnectWalletButton />
           </Box>
         </Toolbar>
       </Box>

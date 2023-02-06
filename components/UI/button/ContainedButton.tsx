@@ -1,6 +1,7 @@
 import React from "react"
 import { Button, SvgIconProps, SxProps } from "@mui/material"
 import { motion } from "framer-motion"
+import { LoadingButton } from "@mui/lab"
 
 interface Props {
   label: string
@@ -15,6 +16,7 @@ interface Props {
   component?: any
   children?: React.ReactNode
   isLink?: boolean
+  isLoading?: boolean
 }
 
 function ContainedButton({
@@ -29,7 +31,8 @@ function ContainedButton({
   sx,
   component,
   children,
-  isLink
+  isLink,
+  isLoading
 }: Props) {
   return (
     <motion.div
@@ -43,7 +46,7 @@ function ContainedButton({
       }
       style={{ width }}
     >
-      <Button
+      <LoadingButton
         type={type ?? "button"}
         onClick={(e?: any) => {
           if (isLink) return
@@ -54,6 +57,7 @@ function ContainedButton({
         variant={variant}
         disabled={disabled}
         component={component}
+        loading={isLoading}
         sx={{
           borderRadius: 0,
           border: 2,
@@ -64,7 +68,7 @@ function ContainedButton({
         }}
       >
         {children ?? label}
-      </Button>
+      </LoadingButton>
     </motion.div>
   )
 }

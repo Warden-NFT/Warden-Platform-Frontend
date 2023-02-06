@@ -14,6 +14,8 @@ declare global {
       NEXT_PUBLIC_PINATA_SECRET: string
 
       VERCEL_ENV: "development" | "production"
+
+      NEXT_PUBLIC_POLYGONSCAN_URL: string
     }
   }
 }
