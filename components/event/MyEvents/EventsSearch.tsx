@@ -18,6 +18,7 @@ function EventsSearch() {
   const handleSearchChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    // TODO
     console.log(e.currentTarget.value)
   }
 

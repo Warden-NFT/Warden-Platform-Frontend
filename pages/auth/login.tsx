@@ -18,11 +18,24 @@ import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
 import { UserContext } from "../../contexts/user/UserContext"
 import { useRouter } from "next/router"
 import FadeEntrance from "../../components/motion/FadeEntrance"
+import Axios, { AxiosError } from "axios"
+import { LayoutContext } from "../../contexts/layout/LayoutContext"
+import { AlertType } from "../../interfaces/modal/alert.interface"
 
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
-  const { values, handleChange, touched, errors, handleSubmit, handleBlur } = useFormik({
+  const { showErrorAlert } = useContext(LayoutContext)
+
+  const {
+    values,
+    handleChange,
+    touched,
+    errors,
+    handleSubmit,
+    handleBlur,
+    setErrors
+  } = useFormik({
     initialValues: {
       phoneNumber: "",
       password: ""
@@ -34,17 +47,28 @@ function Login() {
         setUserInfo(res.data)
         router.push("/")
       } catch (error) {
-        console.log(error)
+        if (
+          Axios.isAxiosError(error) &&
+          (error as AxiosError).response?.status === 401
+        ) {
+          setErrors({
+            phoneNumber: "Incorrect phone number or password",
+            password: "Incorrect phone number or password"
+          })
+        } else {
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title: "Authentication error",
+            description: "Unable to login at this time. Please try again later."
+          })
+        }
       }
-    }})
+    }
+  })
 
   useEffect(() => {
     if (user) router.push("/home")
   }, [user])
-
-  useEffect(() => {
-    console.log(touched)
-  }, [touched])
 
   if (user) return null
   return (
