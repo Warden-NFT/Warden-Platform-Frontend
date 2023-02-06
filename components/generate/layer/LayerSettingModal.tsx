@@ -55,22 +55,13 @@ function LayerSettingModal({ isOpen, setIsOpen }: Props) {
 
   function handleChangeWidth(w: number | string) {
     const _dimension = { ...assetDimension }
-    if (typeof w === "number") {
-      _dimension.width = w
-    } else if (typeof w === "string") {
-      _dimension.width = parseInt(w)
-    }
-
+    _dimension.width = parseInt(w.toString())
     setAssetDimension(_dimension)
   }
 
   function handleChangeHeight(h: number | string) {
     const _dimension = { ...assetDimension }
-    if (typeof h === "number") {
-      _dimension.height = h
-    } else if (typeof h === "string") {
-      _dimension.width = parseInt(h)
-    }
+    _dimension.height = parseInt(h.toString())
     setAssetDimension(_dimension)
   }
 
