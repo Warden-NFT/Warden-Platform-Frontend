@@ -2,38 +2,23 @@ import { Chip, Grid, Stack, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import Image from "next/image"
-import React, { useContext, useState } from "react"
-import { LayoutContext } from "../../../contexts/layout/LayoutContext"
-import useAsyncEffect from "../../../hooks/useAsyncEffect"
-import { useEvents } from "../../../hooks/useEvents"
+import React, { useState } from "react"
 import FadeEntrance from "../../motion/FadeEntrance"
 import ContainedButton from "../../UI/button/ContainedButton"
 import FallbackImage from "../../../public/images/common/fallback-image.svg"
 
 import FlatCard from "../../UI/card/FlatCard"
 import Link from "next/link"
+import { Event } from "../../../interfaces/event/event.interface"
 
 type Props = {
-  eventId: string
+  event: Event
 }
 
-function EventSummary({ eventId }: Props) {
-  // Hooks
-  const { getEvent, currentEvent: event, setCurrentEvent } = useEvents()
-  const { showLoadingBackdrop, setShowLoadingBackdrop } =
-    useContext(LayoutContext)
-
-  useAsyncEffect(async () => {
-    setShowLoadingBackdrop(true)
-    const _event = await getEvent(eventId)
-    setCurrentEvent(_event)
-    setShowLoadingBackdrop(false)
-  }, [eventId])
-
+function EventSummary({ event }: Props) {
   // States
   const [eventImage, setEventImage] = useState(event?.image)
 
-  if (showLoadingBackdrop) return <Box>Loading...</Box>
   if (!event) return null
   return (
     <FadeEntrance>
