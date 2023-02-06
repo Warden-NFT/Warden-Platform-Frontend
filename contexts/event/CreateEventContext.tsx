@@ -1,7 +1,15 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react"
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState
+} from "react"
 import { client } from "../../configs/axios/axiosConfig"
 import { EVENT_STATUS, TICKET_TYPE } from "../../constants/event/event"
 import { Event, EventStatusType } from "../../interfaces/event/event.interface"
+import { AlertType } from "../../interfaces/modal/alert.interface"
+import { LayoutContext } from "../layout/LayoutContext"
 
 interface CreateEventStruct {
   event: Event
@@ -25,6 +33,10 @@ interface CreateEventStruct {
 export const CreateEventContext = createContext({} as CreateEventStruct)
 
 const CreateEventContextProvider = ({ ...props }) => {
+  // Hooks
+  const { showErrorAlert } = useContext(LayoutContext)
+
+  // States
   const DEFAULT_EVENT = {
     eventStatus: EVENT_STATUS.NOT_STARTED as unknown as EventStatusType,
     eventKeywords: [],
@@ -93,7 +105,12 @@ const CreateEventContextProvider = ({ ...props }) => {
       }
       return updatedEvent
     } catch (error) {
-      // TODO display error alert
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Save event unsuccessful",
+        description:
+          "Unable to save yoru event at this time. Please try again later."
+      })
     }
   }
 

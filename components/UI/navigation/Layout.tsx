@@ -3,6 +3,7 @@ import Footer from "./Footer"
 import React, { useContext } from "react"
 import { Backdrop, Box, CircularProgress, Container } from "@mui/material"
 import { LayoutContext } from "../../../contexts/layout/LayoutContext"
+import AlertModal from "../../alert/AlertModal"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { showLoadingBackdrop } = useContext(LayoutContext)
@@ -30,6 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+      <AlertModal />
     </Box>
   )
 }

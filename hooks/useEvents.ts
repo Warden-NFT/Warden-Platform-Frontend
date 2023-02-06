@@ -1,8 +1,14 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { client } from "../configs/axios/axiosConfig"
+import { LayoutContext } from "../contexts/layout/LayoutContext"
 import { Event } from "../interfaces/event/event.interface"
+import { AlertType } from "../interfaces/modal/alert.interface"
 
 export const useEvents = () => {
+  // Hooks
+  const { showErrorAlert } = useContext(LayoutContext)
+
+  // States
   const [events, setEvents] = useState<Event[]>([])
   const [currentEvent, setCurrentEvent] = useState<Event>()
 
@@ -13,7 +19,12 @@ export const useEvents = () => {
       setEvents(events)
       return events
     } catch (error) {
-      // TODO: display error alert
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Error",
+        description:
+          "Unable to fetch your events at this time. Please try again later."
+      })
     }
   }
 
@@ -24,7 +35,12 @@ export const useEvents = () => {
       setCurrentEvent(event)
       return event
     } catch (error) {
-      // TODO: display error alert
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Error",
+        description:
+          "Unable to fetch event information at this time. Please try again later."
+      })
     }
   }
 

@@ -9,35 +9,54 @@ import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
 import { Account } from "../../interfaces/auth/user.interface"
 import { RegisterSchema } from "../../schema/auth/register.schema"
 import ContainedButton from "../UI/button/ContainedButton"
+import Axios, { AxiosError } from "axios"
+import { LayoutContext } from "../../contexts/layout/LayoutContext"
+import { AlertType } from "../../interfaces/modal/alert.interface"
 
 function CustomerRegisterForm() {
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
-  const { values, handleChange, touched, errors, handleSubmit } = useFormik({
-    initialValues: {
-      phoneNumber: "",
-      email: "",
-      username: "",
-      password: "",
-      repeatPassword: "",
-      firstName: "",
-      lastName: ""
-    },
-    validationSchema: RegisterSchema,
-    onSubmit: async (data) => {
-      try {
-        const res = await client.post<SuccessfulAuthDTO>(
-          "/user/registerCustomer",
-          { ...data, accountType: Account.CUSTOMER }
-        )
-        setUserInfo(res.data)
-        router.push("/auth/confirm-phone")
-      } catch (error) {
-        console.log(error)
-        // setup sentry
+  const { showErrorAlert } = useContext(LayoutContext)
+  const { values, handleChange, touched, errors, handleSubmit, setErrors } =
+    useFormik({
+      initialValues: {
+        phoneNumber: "",
+        email: "",
+        username: "",
+        password: "",
+        repeatPassword: "",
+        firstName: "",
+        lastName: ""
+      },
+      validationSchema: RegisterSchema,
+      onSubmit: async (data) => {
+        try {
+          const res = await client.post<SuccessfulAuthDTO>(
+            "/user/registerCustomer",
+            { ...data, accountType: Account.CUSTOMER }
+          )
+          setUserInfo(res.data)
+          router.push("/auth/confirm-phone")
+        } catch (error) {
+          if (
+            Axios.isAxiosError(error) &&
+            (error as AxiosError).response?.status === 409
+          ) {
+            setErrors({
+              phoneNumber: "Email or phone number has already been used.",
+              email: "Email or phone number has already been used."
+            })
+          } else {
+            showErrorAlert({
+              type: AlertType.ERROR,
+              title: "Authentication error",
+              description:
+                "Unable to register your account this time. Please try again later."
+            })
+          }
+        }
       }
-    }
-  })
+    })
 
   return (
     <form onSubmit={handleSubmit}>

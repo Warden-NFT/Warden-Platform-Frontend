@@ -9,6 +9,8 @@ import { UserContext } from "../../contexts/user/UserContext"
 import { useRouter } from "next/navigation"
 import { useOTP } from "../../hooks/useOTP"
 import { client } from "../../configs/axios/axiosConfig"
+import { AlertType } from "../../interfaces/modal/alert.interface"
+import { LayoutContext } from "../../contexts/layout/LayoutContext"
 
 function ConfirmPhone() {
   const [otpToken, setOtpToken] = useState("")
@@ -19,6 +21,7 @@ function ConfirmPhone() {
   const { user } = useContext(UserContext)
   const { getOTP, verifyOTP, otp, setOtp } = useOTP(user)
   const router = useRouter()
+  const { showErrorAlert } = useContext(LayoutContext)
 
   const handleChange = (newValue: string) => {
     setOtp(newValue)
@@ -33,7 +36,11 @@ function ConfirmPhone() {
       try {
         await client.put("/user/setVerificationStatus", payload)
       } catch (error) {
-        console.log(error)
+        showErrorAlert({
+          type: AlertType.ERROR,
+          title: "Error",
+          description: "Error updating verification status. Please try again."
+        })
       }
       setOpenOtpSuccessSnackbar(true)
       setTimeout(() => {
