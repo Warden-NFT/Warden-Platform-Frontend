@@ -38,21 +38,6 @@ export const CreateCompleteTicketStep1Schema = object({
 })
 
 export const CompleteAssetCustomizeUtilitySchema = object({
-  publicationDatetime: date()
-    .test(
-      "isDateFuture",
-      "Publication date must be at least 1 day from now",
-      (date) => {
-        const time = moment(date)
-        const now = moment()
-
-        if (time.diff(now, "days") >= 1) {
-          return true
-        }
-        return false
-      }
-    )
-    .required("Publication date is required"),
   assets: array().of(
     object({
       id: number(),

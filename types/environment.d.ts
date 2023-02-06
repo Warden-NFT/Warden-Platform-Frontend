@@ -9,6 +9,7 @@ declare global {
 
       GOOGLE_MAPS_API_KEY: string
 
+      NEXT_PUBLIC_PINATA_BASE_API: string
       NEXT_PUBLIC_PINATA_API_KEY: string
       NEXT_PUBLIC_PINATA_JWT: string
       NEXT_PUBLIC_PINATA_SECRET: string

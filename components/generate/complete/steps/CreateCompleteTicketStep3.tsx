@@ -34,11 +34,9 @@ function CreateCompleteTicketStep3() {
   const { values, handleChange, touched, setFieldValue, errors, handleSubmit } =
     useFormik({
       initialValues: {
-        publicationDatetime: null,
         assets: [],
         vipAssets: []
       } as {
-        publicationDatetime: null | Date
         assets: AssetValue[]
         vipAssets: AssetValue[]
       },
@@ -62,6 +60,8 @@ function CreateCompleteTicketStep3() {
           })
           setUploadedVipAssets(_uploadedVipAssets)
         }
+
+        setActiveStep((prev) => prev + 1)
       }
     })
 
@@ -91,7 +91,6 @@ function CreateCompleteTicketStep3() {
 
   return (
     <Box>
-      <div>{JSON.stringify(errors)}</div>
       <Stack
         spacing={2}
         p={4}
@@ -101,23 +100,6 @@ function CreateCompleteTicketStep3() {
           border: 2
         }}
       >
-        <FormControl required>
-          <FormLabel>Publication date</FormLabel>
-          <Typography variant="caption" color="gray">
-            The Publication date of this ticket. A ticket must be publicize at
-            least 1 day from now.
-          </Typography>
-          <DateTimePicker
-            value={values.publicationDatetime}
-            onChange={(val) => setFieldValue("publicationDatetime", val)}
-            renderInput={(params) => <TextField size="small" {...params} />}
-          />
-          {errors.publicationDatetime && touched.publicationDatetime && (
-            <FormHelperText>{errors.publicationDatetime}</FormHelperText>
-          )}
-        </FormControl>
-        <Divider />
-
         {/* Customize Regular */}
         <FormControl required>
           <FormLabel>Customize Regular Ticket</FormLabel>

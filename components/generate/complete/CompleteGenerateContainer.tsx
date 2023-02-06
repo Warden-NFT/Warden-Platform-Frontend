@@ -8,6 +8,7 @@ import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
 
 import CreateCompleteTicketStep3 from "./steps/CreateCompleteTicketStep3"
 import CreateCompleteTicketStep1 from "./steps/CreateCompleteTicketStep1"
+import CreateCompleteTicketStep4 from "./steps/CreateCompleteTicketStep4"
 
 function CompleteGenerateContainer() {
   const { activeStep, formInfo, setFormInfo } = useContext(
@@ -38,6 +39,7 @@ function CompleteGenerateContainer() {
       {activeStep === 3 && formInfo.ticketType === "RESERVED_SEAT" && (
         <div>Work in progress...</div>
       )}
+      {activeStep === 4 && <CreateCompleteTicketStep4 />}
     </ActiveStepper>
   )
 }
