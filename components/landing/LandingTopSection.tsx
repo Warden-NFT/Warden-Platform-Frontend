@@ -1,6 +1,5 @@
-import { Grid, Typography } from "@mui/material"
+import { Grid, Typography, Box } from "@mui/material"
 import { grey } from "@mui/material/colors"
-import { Box } from "@mui/system"
 import { motion, useAnimation } from "framer-motion"
 import Image from "next/image"
 import { useRouter } from "next/router"
@@ -18,14 +17,14 @@ function LandingTopSection() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
-          delay: 1,
+          delay: 0.4,
           duration: 0.6,
           type: "tween"
         }}
       >
         <Image
           src="/images/landing/background.webp"
-          height="700"
+          height="640"
           width="2500"
           alt="background"
           draggable={false}
@@ -33,7 +32,8 @@ function LandingTopSection() {
             position: "absolute",
             left: 0,
             objectFit: "cover",
-            width: "100vw"
+            width: "100vw",
+            height: "640px"
           }}
         />
       </motion.div>
@@ -84,10 +84,10 @@ function LandingTopSection() {
           <motion.div animate={controls} transition={{ staggerChildren: 0.5 }}>
             <motion.div
               key={1}
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 0.6, transform: "rotate(20deg)" }}
+              initial={{ opacity: 0, transform: "rotate(20deg)" }}
+              animate={{ opacity: 0.6, transform: "rotate(20deg)" }}
               transition={{
-                delay: 0.7,
+                delay: 0.4,
                 duration: 0.6,
                 type: "spring",
                 bounce: 0.4
@@ -109,10 +109,10 @@ function LandingTopSection() {
             </motion.div>
             <motion.div
               key={2}
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 0.8, transform: "rotate(10deg)" }}
+              initial={{ opacity: 0, transform: "rotate(10deg)" }}
+              animate={{ opacity: 0.8, transform: "rotate(10deg)" }}
               transition={{
-                delay: 0.6,
+                delay: 0.2,
                 duration: 0.5,
                 type: "spring",
                 bounce: 0.4
@@ -137,7 +137,6 @@ function LandingTopSection() {
               initial={{ y: 100, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{
-                delay: 0.5,
                 duration: 0.3,
                 type: "spring",
                 bounce: 0.4

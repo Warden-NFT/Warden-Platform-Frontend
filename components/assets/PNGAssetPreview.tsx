@@ -28,6 +28,7 @@ function PNGAssetPreview({
         height={height}
         alt={`Asset ${name}`}
         draggable={false}
+        priority
         className={showPngGrid ? "png-bg" : ""}
         style={{ objectFit: "cover" }}
       />

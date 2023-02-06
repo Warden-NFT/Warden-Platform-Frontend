@@ -14,8 +14,8 @@ export default function AnimateWhenInView({ children }: Props) {
     <section ref={ref}>
       <motion.div
         key={3}
-        initial={{ y: 100, opacity: 0 }}
-        animate={isInView ? { y: 0, opacity: 1 } : { y: 100, opacity: 0 }}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { y: 0, opacity: 1 } : { opacity: 0 }}
         transition={{
           delay: 0.5,
           duration: 0.3,
