@@ -10,6 +10,7 @@ import { Container } from "@mui/system"
 
 function EventCreationPage() {
   const router = useRouter()
+
   const onCLickCreateEvent = () => {
     router.push("/event/create")
   }
