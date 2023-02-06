@@ -73,7 +73,6 @@ function LayerSettingModal({ isOpen, setIsOpen }: Props) {
       aria-describedby="setting-modal"
     >
       <Box sx={style}>
-        <div>{JSON.stringify(assetDimension)}</div>
         <Typography variant="h4" component="h1">
           Setting
         </Typography>

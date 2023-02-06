@@ -101,7 +101,6 @@ function LayerAssetPreviewCard({ asset, layerIndex, assetIndex }: Props) {
             >
               <motion.div variants={textVariant}>
                 <Typography
-                  component="p"
                   fontSize={15}
                   fontWeight="600"
                   whiteSpace="nowrap"
