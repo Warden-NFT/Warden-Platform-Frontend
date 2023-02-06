@@ -25,7 +25,7 @@ function ViewEventBanner({ smartContractAddress }: Props) {
       </Typography>
       {/* TODO: Detect the url for polygonscan prod and dev from env. For now, use dev only */}
       <Link
-        href={`https://mumbai.polygonscan.com/address/${smartContractAddress}`}
+        href={`${process.env.NEXT_PUBLIC_POLYGONSCAN_URL}/address/${smartContractAddress}`}
         style={{ textDecoration: "none" }}
         target="_blank"
         rel="noopener noreferrer"
@@ -34,7 +34,6 @@ function ViewEventBanner({ smartContractAddress }: Props) {
           label="View Smart Contract"
           variant="contained"
           width="240px"
-          onClick={undefined}
           isLink
         />
       </Link>

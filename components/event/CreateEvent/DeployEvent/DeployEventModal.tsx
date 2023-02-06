@@ -7,9 +7,9 @@ import { useSmartContract } from "../../../../hooks/useSmartContract"
 import { Event } from "../../../../interfaces/event/event.interface"
 import ContainedButton from "../../../UI/button/ContainedButton"
 import FlatCard from "../../../UI/card/FlatCard"
-import Web3 from "web3"
 import { client } from "../../../../configs/axios/axiosConfig"
 import { UserContext } from "../../../../contexts/user/UserContext"
+import Web3 from "web3"
 
 type Props = {
   open: boolean
@@ -34,14 +34,15 @@ function DeployEventModal({
   setCurrentEvent
 }: Props) {
   const { address } = useAccount()
-  const { abi, bytecode } = useSmartContract()
+  const { abi, bytecode, web3 } = useSmartContract()
   const { user } = useContext(UserContext)
+
+  const [isDeployingContract, setDeployingContract] = useState<boolean>(false)
 
   const getTicketSupply = (event: Event) => {
     return (
-      event.ticketSupply.general +
-      event.ticketSupply.reservedSeat +
-      event.ticketSupply.vip
+      // Placeholder. To be determined from the tickets information
+      100
     )
   }
 
@@ -54,7 +55,7 @@ function DeployEventModal({
     moment(event.startDate).unix(), // uint64 _eventStartDate,
     moment(event.endDate).unix(), // uint64 _eventEndDate,
     getTicketSupply(event), // TODO uint64 _ticketSupply maximum tickets allowed for this event
-    61000000000000, // TODO uint256 _initialTicketPrice: ticket price in wei unit
+    61_000_000_000_000, // TODO uint256 _initialTicketPrice: ticket price in wei unit
     20, // TODO uint64 _maxPriceFactor: percentage of ticket price factor allowed
     20 // TODO uint64 _transferFee: percentage of royalty fee collected by the event organizer when the ticket is resold
   ]
@@ -62,11 +63,13 @@ function DeployEventModal({
   const onCLickDeployContract = async (
     account: `0x${string}`,
     abi: any,
-    bytecode: any
+    bytecode: any,
+    web3: Web3 | undefined
   ) => {
-    const web3 = new Web3(window.ethereum as any)
+    if (!web3) throw new Error("web3 is undefined")
     const contract = new web3.eth.Contract(abi.abi)
     try {
+      setDeployingContract(true)
       contract
         // @ts-ignore
         .deploy({
@@ -75,8 +78,6 @@ function DeployEventModal({
         })
         .send({ from: account })
         .on("receipt", async (receipt) => {
-          // Contract Address will be returned here
-          console.log("Contract Address:", receipt.contractAddress)
           const updateEventPayload = {
             ...event,
             smartContractAddress: receipt.contractAddress,
@@ -92,6 +93,8 @@ function DeployEventModal({
     } catch (err) {
       // TODO: show error alert
       console.log(err)
+    } finally {
+      setDeployingContract(false)
     }
   }
 
@@ -129,7 +132,10 @@ function DeployEventModal({
                   label="Deploy Now"
                   variant="contained"
                   disabled={!abi || !bytecode}
-                  onClick={() => onCLickDeployContract(address, abi, bytecode)}
+                  isLoading={isDeployingContract}
+                  onClick={() =>
+                    onCLickDeployContract(address, abi, bytecode, web3)
+                  }
                 />
               )}
             </Stack>

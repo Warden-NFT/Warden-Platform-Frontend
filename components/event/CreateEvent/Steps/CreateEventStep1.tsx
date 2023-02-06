@@ -57,8 +57,8 @@ function CreateEventStep1() {
   // Event handlers
 
   const handleCancel = () => {
-    resetEvent
-    router.push("/event/create")
+    resetEvent()
+    router.push("/event/")
   }
 
   const handleKeywordsChange = (newChips: string[]) => {
