@@ -41,9 +41,8 @@ function DeployEventModal({
 
   const getTicketSupply = (event: Event) => {
     return (
-      event.ticketSupply.general +
-      event.ticketSupply.reservedSeat +
-      event.ticketSupply.vip
+      // Placeholder. To be determined from the tickets information
+      100
     )
   }
 

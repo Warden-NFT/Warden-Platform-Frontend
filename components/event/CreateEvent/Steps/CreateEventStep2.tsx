@@ -20,6 +20,8 @@ import moment from "moment"
 import { PlaceType } from "../../../../interfaces/event/location.interface"
 import { CreateEventStep2Schema } from "../../../../schema/event/createEventStep2.schema"
 import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
+import { useRouter } from "next/router"
+import { UserContext } from "../../../../contexts/user/UserContext"
 
 function CreateEventStep2() {
   // Hooks
@@ -27,8 +29,11 @@ function CreateEventStep2() {
   const {
     event: currentEvent,
     setEvent,
-    setActiveStep
+    setActiveStep,
+    saveEvent
   } = useContext(CreateEventContext)
+  const { user } = useContext(UserContext)
+  const router = useRouter()
   const {
     values,
     errors,
@@ -59,7 +64,15 @@ function CreateEventStep2() {
         location: locationValue
       }
       setEvent(_event)
-      setActiveStep((step) => step + 1)
+      try {
+        if (!user || !user._id) {
+          throw new Error("Invalid user. Please authenticate again.")
+        }
+        const savedEvent: Event | undefined = await saveEvent(_event, user._id)
+        if (savedEvent) router.push(`/event/detail/${savedEvent._id}`)
+      } catch (error) {
+        // TODO: display error when failing to get a new event
+      }
     }
   })
 
@@ -220,6 +233,7 @@ function CreateEventStep2() {
       <ControlledStepperButtons
         handlePrevious={handleClickBack}
         handleNext={handleSubmit}
+        nextLabel="Save and Continue"
         isBackDisabled={false}
         isRightDisabled={(false && isEmpty(touched)) || !isEmpty(errors)}
       />
