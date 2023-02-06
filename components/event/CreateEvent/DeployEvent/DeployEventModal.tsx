@@ -10,6 +10,8 @@ import FlatCard from "../../../UI/card/FlatCard"
 import { client } from "../../../../configs/axios/axiosConfig"
 import { UserContext } from "../../../../contexts/user/UserContext"
 import Web3 from "web3"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 
 type Props = {
   open: boolean
@@ -36,6 +38,7 @@ function DeployEventModal({
   const { address } = useAccount()
   const { abi, bytecode, web3 } = useSmartContract()
   const { user } = useContext(UserContext)
+  const { showErrorAlert } = useContext(LayoutContext)
 
   const [isDeployingContract, setDeployingContract] = useState<boolean>(false)
 
@@ -91,8 +94,12 @@ function DeployEventModal({
           setCurrentEvent(updatedEventResponse.data)
         })
     } catch (err) {
-      // TODO: show error alert
-      console.log(err)
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Smart contract deployment unsuccessful",
+        description:
+          "Unable to deploy the smart contract for your event at this time. Please try again later."
+      })
     } finally {
       setDeployingContract(false)
     }

@@ -1,10 +1,16 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { client } from "../configs/axios/axiosConfig"
+import { LayoutContext } from "../contexts/layout/LayoutContext"
+import { AlertType } from "../interfaces/modal/alert.interface"
 import { ABIItem } from "../interfaces/smartContract/smartContract.interface"
 import useAsyncEffect from "./useAsyncEffect"
 import Web3 from "web3"
 
 export const useSmartContract = () => {
+  // Hooks
+  const { showErrorAlert } = useContext(LayoutContext)
+
+  // States
   const [abi, setAbi] = useState<ABIItem[]>([])
   const [bytecode, setBytecode] = useState<any>()
   const [web3, setWeb3] = useState<Web3>()
@@ -21,7 +27,12 @@ export const useSmartContract = () => {
       const _bytecode = await client.get<any>("/smart-contract/bytecode")
       setBytecode(_bytecode.data)
     } catch (error) {
-      // TODO: add error alert
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Error",
+        description:
+          "Error fetching smart contract ABI and/or Bytecode. Please try again later."
+      })
     }
   }, [])
 

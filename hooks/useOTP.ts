@@ -1,9 +1,15 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { client } from "../configs/axios/axiosConfig"
+import { LayoutContext } from "../contexts/layout/LayoutContext"
 import { RequestOtpResponseDTO } from "../interfaces/auth/otp.interface"
 import { User } from "../interfaces/auth/user.interface"
+import { AlertType } from "../interfaces/modal/alert.interface"
 
 export const useOTP = (user?: User) => {
+  // Hooks
+  const { showErrorAlert } = useContext(LayoutContext)
+
+  // States
   const [otp, setOtp] = useState("")
   const [otpToken, setOtpToken] = useState("")
 
@@ -15,7 +21,11 @@ export const useOTP = (user?: User) => {
       )
       return otpRes.data.data.token
     } catch (error) {
-      console.log(error)
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Verification Error",
+        description: "Incorrect OTP. Please enter the correct 6-digit code."
+      })
     }
   }
 

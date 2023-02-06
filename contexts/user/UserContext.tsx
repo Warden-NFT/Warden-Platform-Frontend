@@ -62,7 +62,8 @@ const UserContextProvider = ({ ...props }) => {
     try {
       getUser()
     } catch (error) {
-      console.log(error)
+      logOut()
+      router.push("/auth/login")
     }
   }, [token])
 
