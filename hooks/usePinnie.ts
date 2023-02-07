@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react"
-import { client } from "../configs/axios/axiosConfig"
+import axios from "axios"
 import {
   AssetUploadMetadata,
   PinataPinResponse
 } from "../interfaces/mint/pinata.interface"
+import { v4 as uuidv4 } from "uuid"
 
 const BASE_API = process.env.NEXT_PUBLIC_PINATA_BASE_API
 const JWT = `Bearer ${process.env.NEXT_PUBLIC_PINATA_JWT}`
@@ -13,7 +14,7 @@ export function usePinnie() {
 
   async function authenticate() {
     try {
-      const res = await client(`${BASE_API}/data/testAuthentication`, {
+      const res = await axios(`${BASE_API}/data/testAuthentication`, {
         headers: {
           Authorization: JWT
         }
@@ -35,17 +36,15 @@ export function usePinnie() {
     cidVersion?: number
   ) {
     const formData = new FormData()
-
-    Array.from(files).forEach((file, i) => {
-      formData.append("file", file, file?.name)
-      formData.append("pinataMetadata", JSON.stringify(metadata[i]))
-      const options = {
-        cidVersion: cidVersion ?? 0
-      }
-      formData.append("pinataOptions", JSON.stringify(options))
+    Array.from(files).forEach((file) => {
+      formData.append("file", file)
     })
 
-    const res = await client.post<PinataPinResponse>(
+    const options = {
+      cidVersion: cidVersion ?? 0
+    }
+    formData.append("pinataOptions", JSON.stringify(options))
+    const res = await axios.post<PinataPinResponse>(
       `${BASE_API}/pinning/pinFileToIPFS`,
       formData,
       {
@@ -62,7 +61,7 @@ export function usePinnie() {
   }
 
   async function removePinFileToIPFS(cid: string) {
-    await client.delete<PinataPinResponse>(`${BASE_API}/unpin/${cid}`)
+    await axios.delete<PinataPinResponse>(`${BASE_API}/unpin/${cid}`)
   }
 
   useEffect(() => {

@@ -37,6 +37,7 @@ function CompleteAssetDropzone({
       reader.onabort = () => console.log("file reading was aborted")
       reader.onerror = () => console.log("file reading has failed")
       reader.onload = async () => {
+        console.log(file)
         const url = await getAssetFileURL(file)
         const dimensions = await getAssetDimension(url)
         if (!url || !dimensions) return
@@ -55,14 +56,23 @@ function CompleteAssetDropzone({
       reader.readAsArrayBuffer(file)
     })
   }, [])
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    multiple: true
+  })
 
   return (
     <Container
       sx={{ minHeight: 140, display: "grid", placeItems: "center", ...sx }}
       {...getRootProps()}
     >
-      <input {...getInputProps()} />
+      <input
+        {...getInputProps()}
+        // @ts-ignore
+        directory=""
+        webkitDirectory="test"
+        type="file"
+      />
       {isDragActive ? (
         <Image
           src="/images/generate/dropzone-drag-active.png"

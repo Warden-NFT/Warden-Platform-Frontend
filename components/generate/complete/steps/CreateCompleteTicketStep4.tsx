@@ -47,10 +47,17 @@ function CreateCompleteTicketStep4() {
       })
 
       try {
-        const _assetPin = await pinFilesToIPFS(assets, assetMetadata)
-        const _vipAssetPin = await pinFilesToIPFS(vipAssets, vipAssetMetadata)
-        setAssetPin((prev) => [...prev, _assetPin])
-        setVipAssetPin((prev) => [...prev, _vipAssetPin])
+        if (assets.length > 0) {
+          // const _assetPin = await pinFilesToIPFS(assets, assetMetadata)
+
+          const _assetPin = await pinFilesToIPFS(assets, assetMetadata)
+          setAssetPin((prev) => [...prev, _assetPin])
+        }
+
+        // if (vipAssets.length > 0) {
+        //   const _vipAssetPin = await pinFilesToIPFS(vipAssets, vipAssetMetadata)
+        //   setVipAssetPin((prev) => [...prev, _vipAssetPin])
+        // }
       } catch (e) {
         console.log(e)
       }
