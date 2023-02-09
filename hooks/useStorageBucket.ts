@@ -29,7 +29,7 @@ export function useStorageBucket() {
     return res.data
   }
 
-  async function getFilesFromDirectory(pathName: string, fileNames: string[]) {
+  async function getFiles(pathName: string, fileNames: string[]) {
     const data: StoredAsset[] = []
     fileNames.forEach(async (name) => {
       const res = await axios.post<StoredAsset>(`${URL}/media/getMedia`, {
@@ -49,7 +49,7 @@ export function useStorageBucket() {
 
   return {
     saveFile,
-    getFilesFromDirectory,
+    getFiles,
     deleteFile
   }
 }

@@ -17,10 +17,8 @@ function CreateCompleteTicketStep4() {
     uploadedVipAssets,
     formInfo
   } = useContext(GenerateCompleteContext)
-  const { saveFile, getFilesFromDirectory } = useStorageBucket()
+  const { saveFile } = useStorageBucket()
   const { setShowLoadingBackdrop } = useContext(LayoutContext)
-
-  const [storedAsset, setStoredAsset] = useState<StoredAsset[]>([])
 
   useEffect(() => {
     setShowLoadingBackdrop(true)
@@ -63,8 +61,6 @@ function CreateCompleteTicketStep4() {
 
   return (
     <FlatCard>
-      <div>{formInfo.subjectOf}</div>
-      <div>{JSON.stringify(storedAsset)}</div>
       <Typography variant="h3" component="h1">
         Create Ticket For You
       </Typography>
@@ -77,8 +73,6 @@ function CreateCompleteTicketStep4() {
           alt="Minting"
         />
         <Typography fontWeight="500">Generating</Typography>
-        {/* <Typography>{JSON.stringify(assetPin)}</Typography> */}
-        {/* <Typography>{JSON.stringify(assetVipPin)}</Typography> */}
       </Stack>
       <ControlledStepperButtons
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
