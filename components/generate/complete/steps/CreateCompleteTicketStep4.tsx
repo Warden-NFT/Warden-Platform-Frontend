@@ -1,10 +1,10 @@
-import { Box, Stack, Typography } from "@mui/material"
+import { Stack, Typography } from "@mui/material"
 import Image from "next/image"
 import React, { useContext, useEffect, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
-import { usePinnie } from "../../../../hooks/usePinnie"
-import { PinataPinResponse } from "../../../../interfaces/mint/pinata.interface"
-import ContainedButton from "../../../UI/button/ContainedButton"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
+import { useStorageBucket } from "../../../../hooks/useStorageBucket"
+import { StoredAsset } from "../../../../interfaces/gcp/storage.interface"
 import FlatCard from "../../../UI/card/FlatCard"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 
@@ -14,19 +14,16 @@ function CreateCompleteTicketStep4() {
     assets,
     vipAssets,
     uploadedAssets,
-    uploadedVipAssets
+    uploadedVipAssets,
+    formInfo
   } = useContext(GenerateCompleteContext)
-  const [uploadedAssetAmount, setUploadedAssetAmount] = useState(0)
-  const [uploadedVipAmount, setUploadedVipAmount] = useState(0)
-  const { authenticated, pinFilesToIPFS } = usePinnie()
+  const { saveFile, getFilesFromDirectory } = useStorageBucket()
+  const { setShowLoadingBackdrop } = useContext(LayoutContext)
 
-  const [assetPin, setAssetPin] = useState<PinataPinResponse[]>([])
-  const [assetVipPin, setVipAssetPin] = useState<PinataPinResponse[]>([])
+  const [storedAsset, setStoredAsset] = useState<StoredAsset[]>([])
 
   useEffect(() => {
-    if (!authenticated) return
-    setUploadedAssetAmount(0)
-    setUploadedVipAmount(0)
+    setShowLoadingBackdrop(true)
 
     async function fn() {
       const assetMetadata = uploadedAssets.map((asset) => {
@@ -48,32 +45,31 @@ function CreateCompleteTicketStep4() {
 
       try {
         if (assets.length > 0) {
-          // const _assetPin = await pinFilesToIPFS(assets, assetMetadata)
-
-          const _assetPin = await pinFilesToIPFS(assets, assetMetadata)
-          setAssetPin((prev) => [...prev, _assetPin])
+          await saveFile(assets, formInfo.subjectOf, assetMetadata)
         }
 
-        // if (vipAssets.length > 0) {
-        //   const _vipAssetPin = await pinFilesToIPFS(vipAssets, vipAssetMetadata)
-        //   setVipAssetPin((prev) => [...prev, _vipAssetPin])
-        // }
+        if (vipAssets.length > 0) {
+          await saveFile(vipAssets, formInfo.subjectOf, vipAssetMetadata)
+        }
+        setShowLoadingBackdrop(false)
       } catch (e) {
+        setShowLoadingBackdrop(false)
         console.log(e)
       }
     }
 
     fn()
-  }, [authenticated])
+  }, [])
 
   return (
     <FlatCard>
+      <div>{formInfo.subjectOf}</div>
+      <div>{JSON.stringify(storedAsset)}</div>
       <Typography variant="h3" component="h1">
         Create Ticket For You
       </Typography>
       <Typography>Hang tight! your ticket is being create...</Typography>
       <Stack direction="column" sx={{ placeItems: "center" }}>
-        <div>{authenticated.toString()}</div>
         <Image
           src="/gifs/generate/nft-minting.gif"
           width="400"
@@ -81,18 +77,8 @@ function CreateCompleteTicketStep4() {
           alt="Minting"
         />
         <Typography fontWeight="500">Generating</Typography>
-        {assets.length > 0 && (
-          <Typography fontWeight="500">
-            Regular Assets {uploadedAssetAmount}/{assets.length}
-          </Typography>
-        )}
-        {vipAssets.length > 0 && (
-          <Typography fontWeight="500">
-            VIP Assets {uploadedVipAmount}/{vipAssets.length}
-          </Typography>
-        )}
-        <Typography>{JSON.stringify(assetPin)}</Typography>
-        <Typography>{JSON.stringify(assetVipPin)}</Typography>
+        {/* <Typography>{JSON.stringify(assetPin)}</Typography> */}
+        {/* <Typography>{JSON.stringify(assetVipPin)}</Typography> */}
       </Stack>
       <ControlledStepperButtons
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
