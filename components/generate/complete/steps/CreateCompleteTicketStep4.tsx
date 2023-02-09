@@ -19,6 +19,7 @@ function CreateCompleteTicketStep4() {
   } = useContext(GenerateCompleteContext)
   const { saveFile } = useStorageBucket()
   const { setShowLoadingBackdrop } = useContext(LayoutContext)
+  const [uploaded, setUploaded] = useState(false)
 
   useEffect(() => {
     setShowLoadingBackdrop(true)
@@ -50,9 +51,10 @@ function CreateCompleteTicketStep4() {
           await saveFile(vipAssets, formInfo.subjectOf, vipAssetMetadata)
         }
         setShowLoadingBackdrop(false)
+        setUploaded(true)
       } catch (e) {
         setShowLoadingBackdrop(false)
-        console.log(e)
+        setUploaded(false)
       }
     }
 

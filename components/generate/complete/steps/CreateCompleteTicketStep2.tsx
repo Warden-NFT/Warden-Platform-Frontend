@@ -29,15 +29,16 @@ function CreateCompleteTicketStep2() {
 
   return (
     <Box>
-      <Box
+      <Stack
+        spacing={2}
         sx={{
-          p: 4,
+          p: 2,
           backgroundColor: "white",
           marginY: 4,
           border: 2
         }}
       >
-        <Box sx={{ marginBottom: 3 }}>
+        <Box sx={{ padding: 2, borderRadius: 2, backgroundColor: grey[100] }}>
           <Typography variant="h4">Assets for Regular Tickets</Typography>
           {uploadedAssets.length > 0 && (
             <Box
@@ -64,7 +65,6 @@ function CreateCompleteTicketStep2() {
             setUploadedAssets={setUploadedAssets}
             dragLabel="Drag & Drop to regular zone"
             sx={{
-              my: 2,
               backgroundColor: grey[200],
               border: "dashed 2px black",
               borderRadius: 2
@@ -72,14 +72,13 @@ function CreateCompleteTicketStep2() {
           />
         </Box>
         {hasVip && (
-          <Box>
-            <Box sx={{ borderBottom: 2, marginY: 4 }} />
+          <Box sx={{ backgroundColor: grey[100], padding: 2, borderRadius: 2 }}>
             <Typography variant="h4">Assets for VIP Tickets</Typography>
             <Box
               sx={{
-                paddingY: 2,
                 maxHeight: "660px",
-                overflowY: "auto"
+                overflowY: "auto",
+                paddingY: 2
               }}
             >
               {uploadedVipAssets.length > 0 && hasVip && (
@@ -100,7 +99,6 @@ function CreateCompleteTicketStep2() {
                 setUploadedAssets={setUploadedVipAssets}
                 dragLabel="Drag & Drop to VIP zone"
                 sx={{
-                  my: 2,
                   backgroundColor: grey[200],
                   border: "dashed 2px black",
                   borderRadius: 2
@@ -109,7 +107,7 @@ function CreateCompleteTicketStep2() {
             </Box>
           </Box>
         )}
-      </Box>
+      </Stack>
       <ControlledStepperButtons
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
         handleNext={handleNext}

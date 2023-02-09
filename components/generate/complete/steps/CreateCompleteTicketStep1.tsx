@@ -10,7 +10,7 @@ import {
   TextField,
   Typography
 } from "@mui/material"
-import { pink } from "@mui/material/colors"
+import { grey, pink, purple } from "@mui/material/colors"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
@@ -60,22 +60,18 @@ function CreateCompleteTicketStep1() {
         <EventCreationAlert
           title="Have you create an event yet?"
           href="/create/event"
-          hrefDescription="clicking here!"
-          description="Make sure to create an event before creating a ticket. You can create an event by"
-          sx={{ backgroundColor: pink[200] }}
-          iconTheme={{ color: pink[500] }}
+          hrefDescription="Go to Create Event"
+          description="Make sure to create an event before creating a ticket."
+          sx={{ backgroundColor: purple[50] }}
+          iconTheme={{ color: purple[100] }}
         />
+
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
         >
-          <Stack>
-            <FormLabel>Ticket Type</FormLabel>
-            <Typography variant="caption" color="gray">
-              Selected ticket type
-            </Typography>
-          </Stack>
+          <FormLabel>Ticket Type</FormLabel>
           <Typography variant="h6">{values.ticketType}</Typography>
         </Stack>
 
@@ -104,6 +100,7 @@ function CreateCompleteTicketStep1() {
           handleChange={handleChange}
           error={errors.subjectOf}
         />
+
         <FormControl fullWidth required>
           <FormLabel id="ticket-currency-label">Ticket Currency</FormLabel>
           <Select

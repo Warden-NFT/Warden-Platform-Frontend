@@ -3,6 +3,7 @@ import { Theme } from "@mui/system"
 import Link from "next/link"
 import React from "react"
 import AnnouncementIcon from "@mui/icons-material/Announcement"
+import ContainedButton from "../../UI/button/ContainedButton"
 
 interface Props {
   sx?: SxProps<Theme>
@@ -25,8 +26,7 @@ function EventCreationAlert({
     <Box
       sx={{
         ...sx,
-        borderRadius: 0,
-        border: 1,
+        borderRadius: 2,
         padding: 2,
         position: "relative",
         overflow: "hidden"
@@ -35,23 +35,29 @@ function EventCreationAlert({
       <Box>
         <AnnouncementIcon
           sx={{
-            fontSize: "80px",
+            fontSize: "60px",
             position: "absolute",
-            rotate: "-20deg",
             opacity: 0.6,
             ...iconTheme
           }}
         />
-        <Box sx={{ paddingLeft: 14 }}>
-          <Typography
-            variant="h6"
-            component="h3"
-            color="black"
-            fontWeight="600"
-          >
-            {title}
-          </Typography>
-          <Stack direction="row" alignItems="center">
+        <Stack
+          direction="row"
+          sx={{
+            paddingLeft: 10,
+            alignItems: "center",
+            justifyContent: "space-between"
+          }}
+        >
+          <Box>
+            <Typography
+              variant="h6"
+              component="h3"
+              color="black"
+              fontWeight="600"
+            >
+              {title}
+            </Typography>
             <Typography
               variant="caption"
               component="p"
@@ -60,14 +66,16 @@ function EventCreationAlert({
             >
               {description}
             </Typography>
+          </Box>
 
-            <Link href={href} style={{ marginLeft: 6 }}>
-              <Typography variant="caption" component="p" fontSize="16px">
-                {hrefDescription}
-              </Typography>
-            </Link>
-          </Stack>
-        </Box>
+          <Link href={href} style={{ marginLeft: 6, textDecoration: "none" }}>
+            <ContainedButton
+              label={hrefDescription}
+              variant="outlined"
+              sx={{ backgroundColor: "white" }}
+            />
+          </Link>
+        </Stack>
       </Box>
     </Box>
   )
