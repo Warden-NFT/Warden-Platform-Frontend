@@ -237,8 +237,7 @@ function CreateCompleteTicketStep1() {
             />
           </>
         )}
-        {/* @ts-ignore */}
-        <div>{JSON.stringify(errors)}</div>
+
         {values.vipEnabled && (
           <>
             <Typography variant="h6" component="h2">
@@ -261,21 +260,6 @@ function CreateCompleteTicketStep1() {
               enableResale={values.enableResale}
             />
           </>
-        )}
-        {values.vipEnabled && (
-          <ControlledCurrencyPriceSelect
-            label="VIP ticket cost"
-            labelDescription="How much does your VIP admission ticket cost"
-            amountName="price.researchSeat.default"
-            amountValue={values.price.reservedSeat?.default ?? 0}
-            handleChange={handleChange}
-            amountError={errors.price?.reservedSeat}
-            amountTouched={touched.price?.reservedSeat}
-            currencyName="currency"
-            currencyValue={values.currency}
-            currencyError={Boolean(errors.currency)}
-            currencyTouched={touched.currency}
-          />
         )}
       </Stack>
       <ControlledStepperButtons
