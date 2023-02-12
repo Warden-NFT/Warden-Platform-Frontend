@@ -1,20 +1,4 @@
-import { number, object, string, date, array } from "yup"
-import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
-import moment from "moment"
-
-export const CompleteAssetFormSchema = object({
-  eventName: string()
-    .required("This field is required")
-    .max(100, "Event name is too long"),
-  organizerName: string()
-    .required("This field is required")
-    .max(100, "Event organizer name is too long"),
-  eventExternalUrl: string().url("Please enter a valid URL"),
-  description: string(),
-  ticketType: string()
-    .oneOf(["GENERAL", "RESERVED_SEAT"] as TicketTypes[])
-    .required("This field is required")
-})
+import { number, object, string, boolean, array } from "yup"
 
 export const CreateCompleteTicketStep1Schema = object({
   currency: string()
@@ -24,17 +8,43 @@ export const CreateCompleteTicketStep1Schema = object({
     .max(100, "Ticket name is too long")
     .required("Ticket name is required"),
   subjectOf: string().required("All ticket must be binded with an event"),
-  description: string().max(500, "Ticket description is too long"),
-  // ticketMetadata: object(),
-  price: number()
-    .min(0, "Ticket price must be a positive number")
-    .required("Ticket price is required"),
-  ticketType: string()
-    .oneOf(
-      ["GENERAL", "RESERVED_SEAT"] as TicketTypes[],
-      "This ticket type is not supported"
-    )
-    .required("Ticket type is required")
+  description: string()
+    .notRequired()
+    .max(500, "Ticket description is too long"),
+  generalAdmissionEnabled: boolean().required(
+    "At least one ticket type must be enabled"
+  ),
+  vipEnabled: boolean().notRequired(),
+  price: object({
+    general: object({
+      default: number()
+        .min(0, "Ticket price must be a positive number")
+        .required("Ticket price is required"),
+      min: number()
+        .positive("Price must be positive")
+        .required("Ticket price is required"),
+      max: number()
+        .positive("Price must be positive")
+        .required("Ticket price is required")
+    }).test({
+      name: "required",
+      exclusive: false,
+      params: {},
+      message: "Pricing of General Admission ticket is required",
+      test: (_, context) => context.parent.generalAdmissionEnabled === true
+    }),
+    vip: object({
+      default: number()
+        .min(0, "Ticket price must be a positive number")
+        .required("Ticket price is required"),
+      min: number()
+        .positive("Price must be positive")
+        .required("Ticket price is required"),
+      max: number()
+        .positive("Price must be positive")
+        .required("Ticket price is required")
+    })
+  }).required()
 })
 
 export const CompleteAssetCustomizeUtilitySchema = object({
@@ -57,3 +67,79 @@ export const CompleteAssetCustomizeUtilitySchema = object({
     })
   )
 })
+
+export function getCompleteCustomizeUtilitySchema(
+  generalPrice: number,
+  vipPriec: number
+) {
+  return object({
+    enableResale: boolean().required("This field is required"),
+    enableRoyaltyFee: boolean().notRequired(),
+    resaleCeilingPrice: number()
+      .notRequired()
+      .when(["enableResale"], {
+        is: (resale: boolean) => resale === true,
+        then: number().min(0, "Lowest is 0").max(100, "Highest is 100")
+      }),
+    resaleFloorPrice: number(),
+    royaltyFeePercentage: number()
+      .notRequired()
+      .when(["enableResale", "enableRoyaltyFee"], {
+        is: (resale: boolean, royalty: boolean) => resale && royalty,
+        then: number().min(0, "Lowest is 0").max(100, "Highest is 100")
+      })
+    // .when(['enableResale'], {
+    //   is: (enableResale: boolean) => {
+    //     enableResale === true
+    //   }
+    //   then:
+    // }),
+  })
+}
+
+// export const CreateEventStep3Schema = object().shape(
+//   {
+//     enableGeneral: boolean(),
+//     enableVip: boolean(),
+//     enableReservedSeat: boolean(),
+//     general: number()
+//       .notRequired()
+//       .when(["general", "enableGeneral"], {
+//         is: (general: number, enableGeneral: boolean) =>
+//           enableGeneral && general === 0,
+//         then: number().min(1, "Require at least 1 ticket")
+//       })
+//       .when(["general", "enableGeneral"], {
+//         is: (general: number, enableGeneral: boolean) =>
+//           !enableGeneral && general === 0,
+//         then: number().notRequired()
+//       }),
+//     vip: number()
+//       .notRequired()
+//       .when(["vip", "enableVip"], {
+//         is: (vip: number, enableVip: boolean) => enableVip && vip === 0,
+//         then: number().min(1, "Require at least 1 ticket")
+//       })
+//       .when(["vip", "enableVip"], {
+//         is: (vip: number, enableVip: boolean) => !enableVip && vip === 0,
+//         then: number().notRequired()
+//       }),
+//     reservedSeat: number()
+//       .notRequired()
+//       .when(["reservedSeat", "enableReservedSeat"], {
+//         is: (reservedSeat: number, enableReservedSeat: boolean) =>
+//           enableReservedSeat && reservedSeat === 0,
+//         then: number().min(1, "Require at least 1 ticket")
+//       })
+//       .when(["reservedSeat", "enableReservedSeat"], {
+//         is: (reservedSeat: number, enableReservedSeat: boolean) =>
+//           !enableReservedSeat && reservedSeat === 0,
+//         then: number().notRequired()
+//       })
+//   },
+//   [
+//     ["general", "general"],
+//     ["vip", "vip"],
+//     ["reservedSeat", "reservedSeat"]
+//   ]
+// )

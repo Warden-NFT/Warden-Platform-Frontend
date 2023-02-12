@@ -4,12 +4,14 @@ import {
   FormControl,
   FormLabel,
   MenuItem,
+  Slider,
   Stack,
+  Switch,
   TextField,
   Typography
 } from "@mui/material"
 import { purple } from "@mui/material/colors"
-import { useFormik } from "formik"
+import { Form, useFormik } from "formik"
 import Image from "next/image"
 import React, { useContext, useEffect, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
@@ -19,6 +21,7 @@ import { StoredAsset } from "../../../../interfaces/gcp/storage.interface"
 import FlatCard from "../../../UI/card/FlatCard"
 import ControlledCurrencyPriceSelect from "../../../UI/input/ControlledCurrencyPriceSelect"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
+import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
 
 function CreateCompleteTicketStep4() {
   const {
@@ -33,18 +36,19 @@ function CreateCompleteTicketStep4() {
   const { setShowLoadingBackdrop } = useContext(LayoutContext)
   const [uploaded, setUploaded] = useState(false)
 
-  const { values, handleChange, touched, errors, handleSubmit } = useFormik({
-    initialValues: {
-      allowResale: true,
-      resaleCeilingPrice: 0,
-      resaleFloorPrice: 0,
-      enableRoyaltyFee: true,
-      royaltyFeePercentage: 5
-    },
-    onSubmit: (data) => {
-      console.log(data)
-    }
-  })
+  const { values, handleChange, touched, errors, setFieldValue, handleSubmit } =
+    useFormik({
+      initialValues: {
+        enableResale: true,
+        resaleCeilingPrice: 0,
+        resaleFloorPrice: 0,
+        enableRoyaltyFee: true,
+        royaltyFeePercentage: 5
+      },
+      onSubmit: (data) => {
+        console.log(data)
+      }
+    })
 
   useEffect(() => {
     setShowLoadingBackdrop(true)
@@ -93,7 +97,7 @@ function CreateCompleteTicketStep4() {
           Customize NFTs Utility
         </Typography>
       </Box>
-
+      <div>{JSON.stringify(values)}</div>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -109,20 +113,6 @@ function CreateCompleteTicketStep4() {
           </Typography>
         </Box>
         <CircularProgress />
-      </Stack>
-
-      <Stack spacing={2} sx={{ marginTop: 4 }}>
-        <Typography variant="h6">Resellings</Typography>
-        <ControlledCurrencyPriceSelect
-          label="Select minimum resale price"
-          amountName="resaleFloorPrice"
-          amountValue={values.resaleFloorPrice}
-          handleChange={handleChange}
-          amountError={Boolean(errors.resaleCeilingPrice)}
-          amountTouched={touched.resaleFloorPrice}
-          currencyValue={formInfo.currency}
-          selectDisabled
-        />
       </Stack>
 
       <ControlledStepperButtons

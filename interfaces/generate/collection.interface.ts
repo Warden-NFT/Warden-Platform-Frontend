@@ -1,9 +1,5 @@
-import {
-  EventId,
-  TicketsMetadataDTO
-} from "../../dtos/generate/ticket/ticket.dto"
+import { EventId } from "../../dtos/generate/ticket/ticket.dto"
 import { SupportedDigitalCurrency } from "../currency/currency.interface"
-import { TicketTypes } from "../ticket/ticket.interface"
 
 export type GenerationMode = "LAYERED" | "ASSET"
 
@@ -12,9 +8,23 @@ export interface TicketInfo {
   name: string
   description: string
   subjectOf: EventId
-  ticketMetadata: TicketsMetadataDTO
-  price: number
-  ticketType: TicketTypes
+  generalAdmissionEnabled: boolean
+  vipEnabled: boolean
+  reservedSeatEnabled: boolean
+  price: {
+    general?: TicketPriceSetting
+    vip?: TicketPriceSetting
+    reservedSeat?: TicketPriceSetting
+  }
+  enableResale: boolean
+  enableRoyaltyFee: boolean
+  royaltyFeePercentage: number
+}
+
+export interface TicketPriceSetting {
+  default: number
+  min: number
+  max: number
 }
 
 export interface LayeredAssetInfo extends TicketInfo {

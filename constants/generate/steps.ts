@@ -22,8 +22,8 @@ export const COMPLETE_MODE_STEPS: StepperSteps[] = [
   },
   {
     step: 4,
-    header: "Add Utility",
-    label: "Customize NFT with Warden's utility"
+    header: "Upload Assets",
+    label: "Hang tight and let us upload assets for you"
   }
 ]
 

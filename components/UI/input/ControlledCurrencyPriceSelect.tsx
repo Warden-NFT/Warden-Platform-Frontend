@@ -10,6 +10,7 @@ import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digi
 
 interface Props {
   label: string
+  labelDescription: string
   amountName: string
   amountValue: number
   handleChange: any
@@ -24,6 +25,7 @@ interface Props {
 
 function ControlledCurrencyPriceSelect({
   label,
+  labelDescription,
   amountName,
   amountValue,
   amountTouched,
@@ -39,7 +41,7 @@ function ControlledCurrencyPriceSelect({
     <FormControl required>
       <FormLabel>{label}</FormLabel>
       <Typography variant="caption" color="gray">
-        {label}
+        {labelDescription}
       </Typography>
       <TextField
         name={amountName}
@@ -56,6 +58,7 @@ function ControlledCurrencyPriceSelect({
           endAdornment: (
             <TextField
               disabled={selectDisabled}
+              name={currencyName}
               variant="filled"
               size="small"
               id={`${currencyName}-input`}
