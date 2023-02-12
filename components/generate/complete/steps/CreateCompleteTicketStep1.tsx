@@ -1,39 +1,25 @@
 import {
   Box,
-  Checkbox,
   Divider,
   FormControl,
-  FormControlLabel,
-  FormGroup,
-  FormHelperText,
   FormLabel,
-  IconButton,
-  InputAdornment,
-  MenuItem,
-  Select,
   Slider,
   Stack,
   Switch,
-  TextField,
-  Tooltip,
   Typography
 } from "@mui/material"
-import { grey, pink, purple } from "@mui/material/colors"
+import { red, purple } from "@mui/material/colors"
 import { useFormik } from "formik"
-import { useRouter } from "next/router"
-import React, { useContext, useEffect } from "react"
-import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../../constants/currencies/digital"
-import { TICKET_TYPES } from "../../../../constants/event/event"
+import React, { useContext } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
-import { TicketTypes } from "../../../../interfaces/ticket/ticket.interface"
 import { CreateCompleteTicketStep1Schema } from "../../../../schema/generate/complete"
 import ControlledCurrencyPriceSelect from "../../../UI/input/ControlledCurrencyPriceSelect"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import ControlledEventSelect from "../../form/ControlledEventSelect"
 import EventCreationAlert from "../../form/EventCreationAlert"
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
 import ControlledTicketTypeCheckBoxes from "../../form/ControlledTicketTypeCheckBoxes"
 import ControlledTicketPriceFields from "../../form/ControlledTicketPriceFields"
+import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
 
 function CreateCompleteTicketStep1() {
   const { formInfo, setActiveStep, setFormInfo } = useContext(
@@ -53,7 +39,7 @@ function CreateCompleteTicketStep1() {
   return (
     <Box>
       <div>{JSON.stringify(values)}</div>
-      {/* <div>{JSON.stringify(errors)}</div> */}
+      <div>{JSON.stringify(errors)}</div>
       <Stack
         spacing={2}
         p={4}
@@ -72,12 +58,15 @@ function CreateCompleteTicketStep1() {
           iconTheme={{ color: purple[100] }}
         />
 
+        <Typography variant="h6" component="h2">
+          About the Ticket
+        </Typography>
         <FormControl required>
           <FormLabel>Ticket Name</FormLabel>
           <Typography variant="caption" color="gray">
             What is the ticket name?
           </Typography>
-          <TextField
+          <TextFieldWrapper
             name="name"
             value={values.name}
             onChange={handleChange}
@@ -101,7 +90,7 @@ function CreateCompleteTicketStep1() {
           <Typography variant="caption" color="gray">
             Description
           </Typography>
-          <TextField
+          <TextFieldWrapper
             name="description"
             value={values.description}
             onChange={handleChange}
@@ -119,6 +108,9 @@ function CreateCompleteTicketStep1() {
 
         <Divider />
 
+        <Typography variant="h6" component="h2">
+          Ticket's Type & Rules
+        </Typography>
         <FormControl required>
           <FormLabel>Choose ticket types</FormLabel>
           <Typography variant="caption" color="gray">
@@ -138,9 +130,15 @@ function CreateCompleteTicketStep1() {
             ]}
             handleChange={handleChange}
           />
-          <Typography>{errors.generalAdmissionEnabled}</Typography>
-          <Typography>{errors.vipEnabled}</Typography>
-          <Typography>{errors.reservedSeatEnabled}</Typography>
+          <Typography variant="caption" color={red[500]}>
+            {errors.generalAdmissionEnabled}
+          </Typography>
+          <Typography variant="caption" color={red[500]}>
+            {errors.vipEnabled}
+          </Typography>
+          <Typography variant="caption" color={red[500]}>
+            {errors.reservedSeatEnabled}
+          </Typography>
         </FormControl>
 
         <FormControl required>
@@ -211,39 +209,59 @@ function CreateCompleteTicketStep1() {
           </FormControl>
         )}
         <Divider />
-        <ControlledTicketPriceFields
-          values={[
-            values.price.general?.default,
-            values.price.general?.min,
-            values.price.general?.max
-          ]}
-          names={[
-            "price.general.default",
-            "price.general.min",
-            "price.general.max"
-          ]}
-          error={errors.price?.general}
-          touched={Boolean(touched.price?.general)}
-          handleChange={handleChange}
-          currencyName="currency"
-          currencyValue={values.currency}
-          currencyError={errors?.currency}
-          currencyTouched={Boolean(touched.currency)}
-          enableResale={values.enableResale}
-        />
-        {/* <ControlledCurrencyPriceSelect
-          label="General admission ticket cost"
-          labelDescription="How much does your general admission ticket cost"
-          amountName="price.general.default"
-          amountValue={values.price.general?.default ?? 0}
-          handleChange={handleChange}
-          amountError={Boolean(errors.price?.general)}
-          amountTouched={touched.price?.general}
-          currencyName="currency"
-          currencyValue={values.currency}
-          currencyError={Boolean(errors.currency)}
-          currencyTouched={touched.currency}
-        /> */}
+        {values.generalAdmissionEnabled && (
+          <>
+            <Typography variant="h6" component="h2">
+              General Admission Pricings
+            </Typography>
+            <ControlledTicketPriceFields
+              values={[
+                values.price.general?.default,
+                values.price.general?.min,
+                values.price.general?.max
+              ]}
+              names={[
+                "price.general.default",
+                "price.general.min",
+                "price.general.max"
+              ]}
+              // @ts-ignore
+              error={errors.price?.general}
+              touched={Boolean(touched.price?.general)}
+              handleChange={handleChange}
+              currencyName="currency"
+              currencyValue={values.currency}
+              currencyError={errors?.currency}
+              currencyTouched={Boolean(touched.currency)}
+              enableResale={values.enableResale}
+            />
+          </>
+        )}
+        {/* @ts-ignore */}
+        <div>{JSON.stringify(errors)}</div>
+        {values.vipEnabled && (
+          <>
+            <Typography variant="h6" component="h2">
+              VIP Tickets Pricings
+            </Typography>
+            <ControlledTicketPriceFields
+              values={[
+                values.price.vip?.default,
+                values.price.vip?.min,
+                values.price.vip?.max
+              ]}
+              names={["price.vip.default", "price.vip.min", "price.vip.max"]}
+              error={errors.price?.vip}
+              touched={Boolean(touched.price?.vip)}
+              handleChange={handleChange}
+              currencyName="currency"
+              currencyValue={values.currency}
+              currencyError={errors?.currency}
+              currencyTouched={Boolean(touched.currency)}
+              enableResale={values.enableResale}
+            />
+          </>
+        )}
         {values.vipEnabled && (
           <ControlledCurrencyPriceSelect
             label="VIP ticket cost"
@@ -251,7 +269,7 @@ function CreateCompleteTicketStep1() {
             amountName="price.researchSeat.default"
             amountValue={values.price.reservedSeat?.default ?? 0}
             handleChange={handleChange}
-            amountError={Boolean(errors.price?.reservedSeat)}
+            amountError={errors.price?.reservedSeat}
             amountTouched={touched.price?.reservedSeat}
             currencyName="currency"
             currencyValue={values.currency}

@@ -7,6 +7,7 @@ import {
 } from "@mui/material"
 import React from "react"
 import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
+import { TextFieldWrapper } from "../textfield/TextFieldWrapper"
 
 interface Props {
   label: string
@@ -14,7 +15,7 @@ interface Props {
   amountName: string
   amountValue: number
   handleChange: any
-  amountError?: boolean
+  amountError?: string
   amountTouched?: boolean
   currencyName?: string
   currencyValue: string
@@ -28,13 +29,11 @@ function ControlledCurrencyPriceSelect({
   labelDescription,
   amountName,
   amountValue,
-  amountTouched,
   amountError,
   handleChange,
   currencyName,
   currencyValue,
   currencyError,
-  currencyTouched,
   selectDisabled
 }: Props) {
   return (
@@ -52,11 +51,11 @@ function ControlledCurrencyPriceSelect({
         type="number"
         variant="outlined"
         size="small"
-        error={amountError != null}
-        helperText={amountTouched && amountError ? amountError : undefined}
+        error={Boolean(amountError)}
+        helperText={amountError ? amountError : undefined}
         InputProps={{
           endAdornment: (
-            <TextField
+            <TextFieldWrapper
               disabled={selectDisabled}
               name={currencyName}
               variant="filled"
@@ -65,10 +64,8 @@ function ControlledCurrencyPriceSelect({
               select
               value={currencyValue}
               onChange={handleChange}
-              error={currencyError != null}
-              helperText={
-                currencyTouched && currencyError ? currencyError : undefined
-              }
+              error={Boolean(currencyError)}
+              helperText={currencyError}
               sx={{
                 width: "300px",
                 backgroundColor: "white",
@@ -84,7 +81,7 @@ function ControlledCurrencyPriceSelect({
                   {currency.name}
                 </MenuItem>
               ))}
-            </TextField>
+            </TextFieldWrapper>
           )
         }}
       />

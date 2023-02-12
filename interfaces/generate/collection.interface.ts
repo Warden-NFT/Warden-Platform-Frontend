@@ -11,14 +11,16 @@ export interface TicketInfo {
   generalAdmissionEnabled: boolean
   vipEnabled: boolean
   reservedSeatEnabled: boolean
-  price: {
-    general?: TicketPriceSetting
-    vip?: TicketPriceSetting
-    reservedSeat?: TicketPriceSetting
-  }
+  price: TicketTypePricing
   enableResale: boolean
   enableRoyaltyFee: boolean
   royaltyFeePercentage: number
+}
+
+export interface TicketTypePricing {
+  general?: TicketPriceSetting
+  vip?: TicketPriceSetting
+  reservedSeat?: TicketPriceSetting
 }
 
 export interface TicketPriceSetting {

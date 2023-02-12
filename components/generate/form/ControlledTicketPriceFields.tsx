@@ -6,7 +6,7 @@ import ControlledCurrencyPriceSelect from "../../UI/input/ControlledCurrencyPric
 interface Props {
   values: [number | undefined, number | undefined, number | undefined]
   names: [string, string, string]
-  error?: string
+  error?: any
   touched: boolean
   handleChange: any
   currencyName: string
@@ -41,17 +41,18 @@ function ControlledTicketPriceFields({
 }: Props) {
   return (
     <Stack spacing={2}>
+      {/* <div>{JSON.stringify(error)}</div> */}
       <ControlledCurrencyPriceSelect
         label={LABELS[0]}
         labelDescription={LABELS_DESC[0]}
         amountName={names[0]}
         amountValue={values[0] ?? 0}
         handleChange={handleChange}
-        amountError={Boolean(error)}
+        amountError={error && error.default}
         amountTouched={touched}
         currencyName={currencyName}
         currencyValue={currencyValue}
-        currencyError={Boolean(currencyError)}
+        currencyError={currencyTouched && Boolean(currencyError)}
         currencyTouched={currencyTouched}
       />
       {enableResale && (
@@ -62,11 +63,11 @@ function ControlledTicketPriceFields({
             amountName={names[1]}
             amountValue={values[1] ?? 0}
             handleChange={handleChange}
-            amountError={Boolean(error)}
+            amountError={error && error?.min}
             amountTouched={touched}
             currencyName={currencyName}
             currencyValue={currencyValue}
-            currencyError={Boolean(currencyError)}
+            currencyError={currencyTouched && Boolean(currencyError)}
             currencyTouched={currencyTouched}
           />
           <ControlledCurrencyPriceSelect
@@ -75,11 +76,11 @@ function ControlledTicketPriceFields({
             amountName={names[2]}
             amountValue={values[2] ?? 0}
             handleChange={handleChange}
-            amountError={Boolean(error)}
+            amountError={error && error.max}
             amountTouched={touched}
             currencyName={currencyName}
             currencyValue={currencyValue}
-            currencyError={Boolean(currencyError)}
+            currencyError={currencyTouched && Boolean(currencyError)}
             currencyTouched={currencyTouched}
           />
         </>
