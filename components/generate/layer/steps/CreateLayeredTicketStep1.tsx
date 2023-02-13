@@ -37,12 +37,12 @@ function CreateLayeredTicketStep1() {
     })
 
   const router = useRouter()
-  useEffect(() => {
-    if (values.ticketType) return
+  // useEffect(() => {
+  //   if (values.ticketType) return
 
-    const { ticketType } = router.query
-    setFieldValue("ticketType", ticketType as TicketTypes)
-  }, [router])
+  //   const { ticketType } = router.query
+  //   setFieldValue("ticketType", ticketType as TicketTypes)
+  // }, [router])
 
   return (
     <Stack width="100%">
@@ -66,7 +66,7 @@ function CreateLayeredTicketStep1() {
               Selected ticket type
             </Typography>
           </Stack>
-          <Typography variant="h6">{values.ticketType}</Typography>
+          {/* <Typography variant="h6">{values.ticketType}</Typography> */}
         </Stack>
         <FormControl required>
           <FormLabel>Ticket Name</FormLabel>
@@ -139,7 +139,7 @@ function CreateLayeredTicketStep1() {
             variant="outlined"
             size="small"
             error={errors.price != null}
-            helperText={touched.price ? errors.price : undefined}
+            // helperText={touched.price ? errors.price : undefined}
           />
         </FormControl>
         <FormControl>

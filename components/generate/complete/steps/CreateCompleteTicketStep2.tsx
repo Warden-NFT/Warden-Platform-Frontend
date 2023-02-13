@@ -1,10 +1,12 @@
 import { Box, Stack, Typography } from "@mui/material"
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import CompleteAssetDropzone from "../CompleteAssetDropzone"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { grey } from "@mui/material/colors"
 import CompleteAssetPreviewCard from "../CompleteAssetPreviewCard"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
 
 function CreateCompleteTicketStep2() {
   const {
@@ -16,12 +18,29 @@ function CreateCompleteTicketStep2() {
     uploadedAssets,
     uploadedVipAssets,
     setUploadedAssets,
-    setActiveStep
+    setActiveStep,
+    formInfo
   } = useContext(GenerateCompleteContext)
-
-  const [hasVip, setHasVip] = useState(!false)
+  const { showErrorAlert } = useContext(LayoutContext)
 
   function handleNext() {
+    if (assets.length === 0) {
+      showErrorAlert({
+        type: AlertType.INFO,
+        title: "Upload asset for your ticket",
+        description: "Please upload asset for your ticket"
+      })
+      return
+    }
+    if (formInfo.vipEnabled && vipAssets.length === 0) {
+      showErrorAlert({
+        type: AlertType.INFO,
+        title: "Upload asset for your VIP ticket",
+        description: "Please upload asset for your VIP ticket"
+      })
+      return
+    }
+
     if (assets.length > 0) {
       setActiveStep((prev) => prev + 1)
     }
@@ -29,15 +48,16 @@ function CreateCompleteTicketStep2() {
 
   return (
     <Box>
-      <Box
+      <Stack
+        spacing={2}
         sx={{
-          p: 4,
+          p: 2,
           backgroundColor: "white",
           marginY: 4,
           border: 2
         }}
       >
-        <Box sx={{ marginBottom: 3 }}>
+        <Box sx={{ padding: 2, borderRadius: 2, backgroundColor: grey[100] }}>
           <Typography variant="h4">Assets for Regular Tickets</Typography>
           {uploadedAssets.length > 0 && (
             <Box
@@ -64,25 +84,23 @@ function CreateCompleteTicketStep2() {
             setUploadedAssets={setUploadedAssets}
             dragLabel="Drag & Drop to regular zone"
             sx={{
-              my: 2,
               backgroundColor: grey[200],
               border: "dashed 2px black",
               borderRadius: 2
             }}
           />
         </Box>
-        {hasVip && (
-          <Box>
-            <Box sx={{ borderBottom: 2, marginY: 4 }} />
+        {formInfo.vipEnabled && (
+          <Box sx={{ backgroundColor: grey[100], padding: 2, borderRadius: 2 }}>
             <Typography variant="h4">Assets for VIP Tickets</Typography>
             <Box
               sx={{
-                paddingY: 2,
                 maxHeight: "660px",
-                overflowY: "auto"
+                overflowY: "auto",
+                paddingY: 2
               }}
             >
-              {uploadedVipAssets.length > 0 && hasVip && (
+              {uploadedVipAssets.length > 0 && (
                 <Stack direction="row" alignItems="center" flexWrap="wrap">
                   {uploadedVipAssets.map((asset, i) => (
                     <CompleteAssetPreviewCard
@@ -100,7 +118,6 @@ function CreateCompleteTicketStep2() {
                 setUploadedAssets={setUploadedVipAssets}
                 dragLabel="Drag & Drop to VIP zone"
                 sx={{
-                  my: 2,
                   backgroundColor: grey[200],
                   border: "dashed 2px black",
                   borderRadius: 2
@@ -109,7 +126,7 @@ function CreateCompleteTicketStep2() {
             </Box>
           </Box>
         )}
-      </Box>
+      </Stack>
       <ControlledStepperButtons
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
         handleNext={handleNext}

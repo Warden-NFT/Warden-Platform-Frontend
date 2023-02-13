@@ -18,18 +18,28 @@ function CompleteAssetPreviewCard({ asset, assetIndex, isVip }: Props) {
     uploadedAssets,
     uploadedVipAssets,
     setUploadedAssets,
-    setUploadedVipAssets
+    setUploadedVipAssets,
+    assets,
+    setAssets,
+    vipAssets,
+    setVipAssets
   } = useContext(GenerateCompleteContext)
 
   function removeAsset(assetIndex: number) {
     if (!isVip) {
       const _uploadedAssets = [...uploadedAssets]
+      const _assets = [...assets]
       _uploadedAssets.splice(assetIndex, 1)
+      _assets.splice(assetIndex, 1)
+      setAssets(_assets)
       setUploadedAssets(_uploadedAssets)
     } else {
       const _uploadedVipAssets = [...uploadedVipAssets]
+      const _vipAssets = [...vipAssets]
       _uploadedVipAssets.splice(assetIndex, 1)
+      _vipAssets.splice(assetIndex, 1)
       setUploadedVipAssets(_uploadedVipAssets)
+      setVipAssets(_vipAssets)
     }
   }
 

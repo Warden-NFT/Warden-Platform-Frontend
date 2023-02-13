@@ -34,11 +34,20 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
     name: "",
     description: "",
     subjectOf: "",
-    ticketMetadata: {
-      data: []
+    generalAdmissionEnabled: true,
+    vipEnabled: false,
+    vipDescription: undefined,
+    reservedSeatEnabled: false,
+    price: {
+      general: {
+        default: 0,
+        max: 0,
+        min: 0
+      }
     },
-    price: 0,
-    ticketType: "GENERAL"
+    enableResale: true,
+    enableRoyaltyFee: false,
+    royaltyFeePercentage: 0
   })
 
   const values: GenerateCompleteContextProps = {

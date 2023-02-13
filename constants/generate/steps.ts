@@ -7,18 +7,23 @@ export interface StepperSteps {
 export const COMPLETE_MODE_STEPS: StepperSteps[] = [
   {
     step: 1,
-    header: "Upload Assets",
-    label: "Upload and edit your assets"
+    header: "General Information",
+    label: "Fill in information about your ticket"
   },
   {
     step: 2,
-    header: "Complete Form",
-    label: "General information about ticket NFTs"
+    header: "Upload Assets",
+    label: "Upload asset to the right event type"
   },
   {
     step: 3,
-    header: "Add Utility",
-    label: "Customize NFT with Warden's utility"
+    header: "Customize Assets",
+    label: "Set some data about each of your asset"
+  },
+  {
+    step: 4,
+    header: "Upload Assets",
+    label: "Hang tight and let us upload assets for you"
   }
 ]
 

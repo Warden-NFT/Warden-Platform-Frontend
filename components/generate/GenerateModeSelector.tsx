@@ -1,16 +1,11 @@
 import { Container, Stack, Typography } from "@mui/material"
 import React from "react"
 import ImageLabelCard from "../UI/card/ImageLabelCard"
-import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
 import { useRouter } from "next/router"
 import { cyan, orange } from "@mui/material/colors"
 import Image from "next/image"
 
-interface Props {
-  selectedType: TicketTypes | null
-}
-
-function GenerateModeSelector({ selectedType }: Props) {
+function GenerateModeSelector() {
   const router = useRouter()
 
   return (
@@ -21,10 +16,7 @@ function GenerateModeSelector({ selectedType }: Props) {
           <div
             onClick={() => {
               router.push({
-                pathname: "ticket/asset",
-                query: {
-                  ticketType: selectedType
-                }
+                pathname: "ticket/asset"
               })
             }}
           >
@@ -41,17 +33,14 @@ function GenerateModeSelector({ selectedType }: Props) {
               )}
               title="Create with Complete Assets"
               description="Ticket will be created with your uploaded assets such as image or video. You can also customize the quantity of each assets to be distributed to your customers."
-              containerStyles={{ backgroundColor: orange[400], width: "100%" }}
+              containerStyles={{ backgroundColor: orange[400] }}
             />
           </div>
 
           <div
             onClick={() => {
               router.push({
-                pathname: "ticket/layer",
-                query: {
-                  ticketType: selectedType
-                }
+                pathname: "ticket/layer"
               })
             }}
           >
@@ -67,7 +56,7 @@ function GenerateModeSelector({ selectedType }: Props) {
               )}
               title="Create with Layered Assets"
               description="Ticket will be created with your uploaded assets and randomly generate by its rarity. You can customize the rarity of each asset or layer."
-              containerStyles={{ backgroundColor: cyan[500], width: "100%" }}
+              containerStyles={{ backgroundColor: cyan[500] }}
             />
           </div>
         </Stack>

@@ -10,3 +10,12 @@
   padding-right: 0 !important;
   padding-left: 15px;
 }
+
+.css-uejwxd-MuiInputBase-root-MuiFilledInput-root {
+  background-color: transparent !important;
+
+}
+
+.css-1gzkxga-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input {
+  padding: 8px;
+}

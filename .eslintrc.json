@@ -28,7 +28,8 @@
       "react/react-in-jsx-scope": 0,
       "react/no-unescaped-entities": 0,
       "quotes": [2, "double", { "avoidEscape": true }],
-      "@typescript-eslint/no-explicit-any": "off"
+      "@typescript-eslint/no-explicit-any": "off",
+      "react/no-unknown-property": "warn"
     },
     "ignorePatterns": ["src/library/*"]
   }

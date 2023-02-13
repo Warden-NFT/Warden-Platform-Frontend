@@ -55,7 +55,10 @@ function CompleteAssetDropzone({
       reader.readAsArrayBuffer(file)
     })
   }, [])
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    multiple: true
+  })
 
   return (
     <Container

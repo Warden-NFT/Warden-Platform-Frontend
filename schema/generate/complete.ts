@@ -1,58 +1,146 @@
-import { number, object, string, date, array } from "yup"
-import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
-import moment from "moment"
+import { number, object, string, boolean, array } from "yup"
 
-export const CompleteAssetFormSchema = object({
-  eventName: string()
-    .required("This field is required")
-    .max(100, "Event name is too long"),
-  organizerName: string()
-    .required("This field is required")
-    .max(100, "Event organizer name is too long"),
-  eventExternalUrl: string().url("Please enter a valid URL"),
-  description: string(),
-  ticketType: string()
-    .oneOf(["GENERAL", "RESERVED_SEAT"] as TicketTypes[])
-    .required("This field is required")
-})
-
-export const CreateCompleteTicketStep1Schema = object({
-  currency: string()
-    .oneOf(["ETH", "MATIC"], "This currency is not yet supported")
-    .required("Currency is required"),
-  name: string()
-    .max(100, "Ticket name is too long")
-    .required("Ticket name is required"),
-  subjectOf: string().required("All ticket must be binded with an event"),
-  description: string().max(500, "Ticket description is too long"),
-  // ticketMetadata: object(),
-  price: number()
-    .min(0, "Ticket price must be a positive number")
-    .required("Ticket price is required"),
-  ticketType: string()
-    .oneOf(
-      ["GENERAL", "RESERVED_SEAT"] as TicketTypes[],
-      "This ticket type is not supported"
-    )
-    .required("Ticket type is required")
-})
+export const CreateCompleteTicketStep1Schema = object().shape(
+  {
+    currency: string()
+      .oneOf(["ETH", "MATIC"], "This currency is not yet supported")
+      .required("Currency is required"),
+    name: string()
+      .max(100, "Ticket name is too long")
+      .required("Ticket name is required"),
+    subjectOf: string().required("All ticket must be binded with an event"),
+    description: string().max(500, "Ticket description is too long"),
+    enableResale: boolean().required("This field is required"),
+    enableRoyaltyFee: boolean().when(["enableResale"], {
+      is: true,
+      then: (schema) => schema.required("This field is required")
+    }),
+    royaltyFeePercentage: number().when(["enableResale", "enableRoyaltyFee"], {
+      is: [true, true],
+      then: number()
+        .min(0, "Minimum is 0")
+        .max(20, "Number cannot exceed 20%")
+        .required("This field is required")
+    }),
+    // Not allow enabling ticket type that contradict General Admission
+    generalAdmissionEnabled: boolean()
+      .when(["generalAdmissionEnabled", "reservedSeatEnabled"], {
+        is: [true, false],
+        then: (schema) => schema.required("This field is required")
+      })
+      .test(
+        "hasContradictTicketType",
+        "You cannot enable Researved Seats",
+        (value, ctx) => {
+          const { reservedSeatEnabled } = ctx.parent
+          return (value && reservedSeatEnabled) === false
+        }
+      ),
+    // Not allow enabling ticket type that contradict Reserved Seats
+    reservedSeatEnabled: boolean(),
+    vipDescription: string().when(["vipEnabled"], {
+      is: true,
+      then: (schema) =>
+        schema
+          .max(200, "Mamimum words reached")
+          .required("This field is required")
+    }),
+    vipEnabled: boolean().test(
+      "hasOtherEnabled",
+      "You must enable other ticket types before enabling VIP ticket",
+      (_, ctx) => {
+        const { generalAdmissionEnabled, reservedSeatEnabled } = ctx.parent
+        if (generalAdmissionEnabled || reservedSeatEnabled) {
+          return true
+        } else {
+          return false
+        }
+      }
+    ),
+    price: object()
+      .when("generalAdmissionEnabled", {
+        is: true,
+        then: object().shape({
+          general: object().shape({
+            default: number()
+              .min(0, "Minimum is 0")
+              .required("This field is required"),
+            min: number()
+              .min(0, "Minimum is 0")
+              .test(
+                "lowerThanDefault",
+                "Min price should be lower than the default price.",
+                (val, ctx) => {
+                  return val != null && ctx.parent && val <= ctx.parent.default
+                }
+              )
+              .when("enableResale", {
+                is: true,
+                then: (schema) => schema.required()
+              }),
+            max: number()
+              .min(0, "Minimum is 0")
+              .test(
+                "max",
+                "Max price should be lower than the resale minimum price.",
+                (val, ctx) => {
+                  return (
+                    val != null &&
+                    ctx.parent &&
+                    val <= ctx.parent.default &&
+                    val >= ctx.parent.min
+                  )
+                }
+              )
+              .when("enableResale", {
+                is: true,
+                then: (schema) => schema.required("This field is required")
+              })
+          })
+        })
+      })
+      .when("vipEnabled", {
+        is: (vipEnabled: boolean) => vipEnabled,
+        then: object().shape({
+          vip: object().shape({
+            default: number()
+              .min(0, "Minimum is 0")
+              .required("This field is required"),
+            min: number()
+              .min(0, "Minimum is 0")
+              .test(
+                "lowerThanDefault",
+                "Min price should be lower than the default price max price.",
+                (val, ctx) => {
+                  return val != null && ctx.parent && val <= ctx.parent.default
+                }
+              ),
+            max: number()
+              .min(0, "Minimum is 0")
+              .test(
+                "max",
+                "Max price should be lower than the resale minimum price.",
+                (val, ctx) => {
+                  return (
+                    val != null &&
+                    ctx.parent &&
+                    val <= ctx.parent.default &&
+                    val >= ctx.parent.min
+                  )
+                }
+              )
+          })
+        })
+      })
+  },
+  [
+    ["generalAdmissionEnabled", "generalAdmissionEnabled"],
+    ["reservedSeatEnabled", "reservedSeatEnabled"],
+    ["vipEnabled", "vipEnabled"]
+  ]
+)
 
 export const CompleteAssetCustomizeUtilitySchema = object({
-  publicationDatetime: date()
-    .test(
-      "isDateFuture",
-      "Publication date must be at least 1 day from now",
-      (date) => {
-        const time = moment(date)
-        const now = moment()
-
-        if (time.diff(now, "days") >= 1) {
-          return true
-        }
-        return false
-      }
-    )
-    .required("Publication date is required"),
   assets: array().of(
     object({
       id: number(),
