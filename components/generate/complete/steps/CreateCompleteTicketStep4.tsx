@@ -1,27 +1,18 @@
-import {
-  Box,
-  CircularProgress,
-  FormControl,
-  FormLabel,
-  MenuItem,
-  Slider,
-  Stack,
-  Switch,
-  TextField,
-  Typography
-} from "@mui/material"
+import { Box, CircularProgress, Stack, Typography } from "@mui/material"
 import { purple } from "@mui/material/colors"
-import { Form, useFormik } from "formik"
-import Image from "next/image"
 import React, { useContext, useEffect, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import { useStorageBucket } from "../../../../hooks/useStorageBucket"
-import { StoredAsset } from "../../../../interfaces/gcp/storage.interface"
 import FlatCard from "../../../UI/card/FlatCard"
-import ControlledCurrencyPriceSelect from "../../../UI/input/ControlledCurrencyPriceSelect"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
-import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
+import { useAuthAccount } from "../../../../hooks/useAuthAccount"
+import {
+  createTicketMetadata,
+  uploadEventTicketMetadata
+} from "../../../../utils/generate/complete"
+import { TicketsMetadata } from "../../../../dtos/ticket/metadata.dto"
 
 function CreateCompleteTicketStep4() {
   const {
@@ -32,58 +23,47 @@ function CreateCompleteTicketStep4() {
     uploadedVipAssets,
     formInfo
   } = useContext(GenerateCompleteContext)
+  const { address } = useAuthAccount()
   const { saveFile } = useStorageBucket()
-  const { setShowLoadingBackdrop } = useContext(LayoutContext)
-  const [uploaded, setUploaded] = useState(false)
-
-  const { values, handleChange, touched, errors, setFieldValue, handleSubmit } =
-    useFormik({
-      initialValues: {
-        enableResale: true,
-        resaleCeilingPrice: 0,
-        resaleFloorPrice: 0,
-        enableRoyaltyFee: true,
-        royaltyFeePercentage: 5
-      },
-      onSubmit: (data) => {
-        console.log(data)
-      }
-    })
+  const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     setShowLoadingBackdrop(true)
 
     async function fn() {
-      const assetMetadata = uploadedAssets.map((asset) => {
-        return {
-          id: asset.id,
-          name: asset.name,
-          quantity: asset.quantity,
-          occurrence: asset.occurrence
-        }
-      })
-      const vipAssetMetadata = uploadedVipAssets.map((asset) => {
-        return {
-          id: asset.id,
-          name: asset.name,
-          quantity: asset.quantity,
-          occurrence: asset.occurrence
-        }
-      })
+      setUploading(true)
+      const ticketMetadata: TicketsMetadata[] = createTicketMetadata(
+        uploadedAssets,
+        formInfo,
+        "GENERAL"
+      )
+      const vipTicketMetadata: TicketsMetadata[] = createTicketMetadata(
+        uploadedVipAssets,
+        formInfo,
+        "VIP"
+      )
 
       try {
-        if (assets.length > 0) {
-          await saveFile(assets, formInfo.subjectOf, assetMetadata)
+        if (ticketMetadata.length > 0) {
+          await saveFile(assets, formInfo.subjectOf, ticketMetadata)
+          await uploadEventTicketMetadata(ticketMetadata, formInfo, address)
         }
 
-        if (vipAssets.length > 0) {
-          await saveFile(vipAssets, formInfo.subjectOf, vipAssetMetadata)
+        if (vipTicketMetadata.length > 0 && formInfo.vipEnabled) {
+          await saveFile(vipAssets, formInfo.subjectOf, vipTicketMetadata)
         }
+
         setShowLoadingBackdrop(false)
-        setUploaded(true)
+        setUploading(false)
       } catch (e) {
         setShowLoadingBackdrop(false)
-        setUploaded(false)
+        setUploading(false)
+        showErrorAlert({
+          type: AlertType.ERROR,
+          title: "Asset upload failed",
+          description: "Your asset failed to upload. Please try again"
+        })
       }
     }
 
@@ -97,7 +77,6 @@ function CreateCompleteTicketStep4() {
           Customize NFTs Utility
         </Typography>
       </Box>
-      <div>{JSON.stringify(values)}</div>
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -112,7 +91,7 @@ function CreateCompleteTicketStep4() {
             Hang tight! Your files are uploading...
           </Typography>
         </Box>
-        <CircularProgress />
+        {uploading && <CircularProgress />}
       </Stack>
 
       <ControlledStepperButtons

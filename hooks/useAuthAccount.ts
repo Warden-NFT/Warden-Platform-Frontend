@@ -20,4 +20,6 @@ export function useAuthAccount() {
       })
     }
   }, [address, openConnectModal])
+
+  return { address }
 }

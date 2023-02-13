@@ -1,4 +1,4 @@
-import { EventId } from "../../dtos/generate/ticket/ticket.dto"
+import { EventId } from "../../dtos/ticket/ticket.dto"
 import { SupportedDigitalCurrency } from "../currency/currency.interface"
 
 export type GenerationMode = "LAYERED" | "ASSET"

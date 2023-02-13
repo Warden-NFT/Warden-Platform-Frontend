@@ -16,10 +16,9 @@ function CreateCompleteTicketStep2() {
     uploadedAssets,
     uploadedVipAssets,
     setUploadedAssets,
-    setActiveStep
+    setActiveStep,
+    formInfo
   } = useContext(GenerateCompleteContext)
-
-  const [hasVip, setHasVip] = useState(!false)
 
   function handleNext() {
     if (assets.length > 0) {
@@ -71,7 +70,7 @@ function CreateCompleteTicketStep2() {
             }}
           />
         </Box>
-        {hasVip && (
+        {formInfo.vipEnabled && (
           <Box sx={{ backgroundColor: grey[100], padding: 2, borderRadius: 2 }}>
             <Typography variant="h4">Assets for VIP Tickets</Typography>
             <Box
@@ -81,7 +80,7 @@ function CreateCompleteTicketStep2() {
                 paddingY: 2
               }}
             >
-              {uploadedVipAssets.length > 0 && hasVip && (
+              {uploadedVipAssets.length > 0 && (
                 <Stack direction="row" alignItems="center" flexWrap="wrap">
                   {uploadedVipAssets.map((asset, i) => (
                     <CompleteAssetPreviewCard

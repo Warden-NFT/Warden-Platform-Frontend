@@ -1,8 +1,6 @@
 import axios from "axios"
-import {
-  StorageFileMetadata,
-  StoredAsset
-} from "../interfaces/gcp/storage.interface"
+import { TicketsMetadata } from "../dtos/ticket/metadata.dto"
+import { StoredAsset } from "../interfaces/gcp/storage.interface"
 
 const URL = process.env.NEXT_PUBLIC_WARDEN_API_URL
 
@@ -10,7 +8,7 @@ export function useStorageBucket() {
   async function saveFile(
     files: File[],
     pathName: string,
-    metadata?: StorageFileMetadata[],
+    metadata?: TicketsMetadata[],
     onUploadProgress?: () => void
   ): Promise<StoredAsset[]> {
     const formData = new FormData()

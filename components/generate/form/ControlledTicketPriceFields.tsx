@@ -41,7 +41,6 @@ function ControlledTicketPriceFields({
 }: Props) {
   return (
     <Stack spacing={2}>
-      {/* <div>{JSON.stringify(error)}</div> */}
       <ControlledCurrencyPriceSelect
         label={LABELS[0]}
         labelDescription={LABELS_DESC[0]}

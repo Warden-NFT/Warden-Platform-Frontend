@@ -4,8 +4,6 @@ import { COMPLETE_MODE_STEPS } from "../../../constants/generate/steps"
 import { GenerateCompleteContext } from "../../../contexts/generate/GenerateCompleteContext"
 import ActiveStepper from "../../UI/navigation/ActiveStepper"
 import CreateCompleteTicketStep2 from "./steps/CreateCompleteTicketStep2"
-import { TicketTypes } from "../../../interfaces/ticket/ticket.interface"
-
 import CreateCompleteTicketStep3 from "./steps/CreateCompleteTicketStep3"
 import CreateCompleteTicketStep1 from "./steps/CreateCompleteTicketStep1"
 import CreateCompleteTicketStep4 from "./steps/CreateCompleteTicketStep4"
@@ -20,7 +18,6 @@ function CompleteGenerateContainer() {
     const { ticketType } = router.query
     const _form = { ...formInfo }
     if (ticketType) {
-      _form.ticketType = ticketType as TicketTypes
       setFormInfo(_form)
     }
   }, [])
@@ -33,12 +30,7 @@ function CompleteGenerateContainer() {
     >
       {activeStep === 1 && <CreateCompleteTicketStep1 />}
       {activeStep === 2 && <CreateCompleteTicketStep2 />}
-      {activeStep === 3 && formInfo.ticketType === "GENERAL" && (
-        <CreateCompleteTicketStep3 />
-      )}
-      {activeStep === 3 && formInfo.ticketType === "RESERVED_SEAT" && (
-        <div>Work in progress...</div>
-      )}
+      {activeStep === 3 && <CreateCompleteTicketStep3 />}
       {activeStep === 4 && <CreateCompleteTicketStep4 />}
     </ActiveStepper>
   )
