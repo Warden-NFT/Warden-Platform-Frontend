@@ -14,7 +14,7 @@ export const SUPPORTED_DIGITAL_CURRENCIES: SupportedCurrencies[] = [
   },
   {
     name: "Matic",
-    chain: "Polytic",
+    chain: "Polygon",
     symbol: "MATIC"
   }
 ]
