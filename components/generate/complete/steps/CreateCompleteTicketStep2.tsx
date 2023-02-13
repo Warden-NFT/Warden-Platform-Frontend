@@ -1,10 +1,12 @@
 import { Box, Stack, Typography } from "@mui/material"
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import CompleteAssetDropzone from "../CompleteAssetDropzone"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { grey } from "@mui/material/colors"
 import CompleteAssetPreviewCard from "../CompleteAssetPreviewCard"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
 
 function CreateCompleteTicketStep2() {
   const {
@@ -19,8 +21,26 @@ function CreateCompleteTicketStep2() {
     setActiveStep,
     formInfo
   } = useContext(GenerateCompleteContext)
+  const { showErrorAlert } = useContext(LayoutContext)
 
   function handleNext() {
+    if (assets.length === 0) {
+      showErrorAlert({
+        type: AlertType.INFO,
+        title: "Upload asset for your ticket",
+        description: "Please upload asset for your ticket"
+      })
+      return
+    }
+    if (formInfo.vipEnabled && vipAssets.length === 0) {
+      showErrorAlert({
+        type: AlertType.INFO,
+        title: "Upload asset for your VIP ticket",
+        description: "Please upload asset for your VIP ticket"
+      })
+      return
+    }
+
     if (assets.length > 0) {
       setActiveStep((prev) => prev + 1)
     }
