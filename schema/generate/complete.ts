@@ -38,6 +38,13 @@ export const CreateCompleteTicketStep1Schema = object().shape(
       ),
     // Not allow enabling ticket type that contradict Reserved Seats
     reservedSeatEnabled: boolean(),
+    vipDescription: string().when(["vipEnabled"], {
+      is: true,
+      then: (schema) =>
+        schema
+          .max(200, "Mamimum words reached")
+          .required("This field is required")
+    }),
     vipEnabled: boolean().test(
       "hasOtherEnabled",
       "You must enable other ticket types before enabling VIP ticket",

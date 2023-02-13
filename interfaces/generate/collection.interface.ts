@@ -10,6 +10,7 @@ export interface TicketInfo {
   subjectOf: EventId
   generalAdmissionEnabled: boolean
   vipEnabled: boolean
+  vipDescription?: string
   reservedSeatEnabled: boolean
   price: TicketTypePricing
   enableResale: boolean
