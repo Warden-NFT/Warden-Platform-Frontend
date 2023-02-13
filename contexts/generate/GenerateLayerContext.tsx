@@ -42,11 +42,22 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     name: "",
     description: "",
     subjectOf: "",
-    ticketMetadata: { data: [] },
-    price: 0,
-    ticketType: "GENERAL",
+    generalAdmissionEnabled: true,
+    vipEnabled: false,
+    vipDescription: undefined,
+    reservedSeatEnabled: false,
+    price: {
+      general: {
+        default: 0,
+        min: 0,
+        max: 0
+      }
+    },
     generationAmount: 1,
-    hasAssetReversed: false
+    hasAssetReversed: false,
+    enableResale: false,
+    enableRoyaltyFee: false,
+    royaltyFeePercentage: 0
   })
 
   const values: GenerateLayerContextProps = {
