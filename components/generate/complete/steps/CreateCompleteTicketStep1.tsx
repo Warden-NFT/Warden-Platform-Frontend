@@ -140,22 +140,24 @@ function CreateCompleteTicketStep1() {
             {errors.reservedSeatEnabled}
           </Typography>
         </FormControl>
-        <FormControl required>
-          <TextFieldWrapper
-            name="vipDescription"
-            value={values.vipDescription}
-            onChange={handleChange}
-            id="vipDescription-input"
-            data-testid="vipDescription-input"
-            placeholder="What does the VIP ticket do"
-            variant="outlined"
-            size="small"
-            error={errors.vipDescription != null}
-            helperText={
-              touched.vipDescription ? errors.vipDescription : undefined
-            }
-          />
-        </FormControl>
+        {values.vipEnabled && (
+          <FormControl required>
+            <TextFieldWrapper
+              name="vipDescription"
+              value={values.vipDescription}
+              onChange={handleChange}
+              id="vipDescription-input"
+              data-testid="vipDescription-input"
+              placeholder="What does the VIP ticket do"
+              variant="outlined"
+              size="small"
+              error={errors.vipDescription != null}
+              helperText={
+                touched.vipDescription ? errors.vipDescription : undefined
+              }
+            />
+          </FormControl>
+        )}
         <FormControl required>
           <Stack
             direction="row"
