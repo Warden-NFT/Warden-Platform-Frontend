@@ -13,7 +13,6 @@ import { useFormik } from "formik"
 import React, { useContext } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { CreateCompleteTicketStep1Schema } from "../../../../schema/generate/complete"
-import ControlledCurrencyPriceSelect from "../../../UI/input/ControlledCurrencyPriceSelect"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import ControlledEventSelect from "../../form/ControlledEventSelect"
 import EventCreationAlert from "../../form/EventCreationAlert"
@@ -38,8 +37,6 @@ function CreateCompleteTicketStep1() {
 
   return (
     <Box>
-      <div>{JSON.stringify(values)}</div>
-      <div>{JSON.stringify(errors)}</div>
       <Stack
         spacing={2}
         p={4}

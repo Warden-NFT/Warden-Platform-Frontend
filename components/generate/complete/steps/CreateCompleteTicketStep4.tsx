@@ -1,6 +1,6 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { purple } from "@mui/material/colors"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import FlatCard from "../../../UI/card/FlatCard"
@@ -16,6 +16,7 @@ import {
 import { TicketsMetadata } from "../../../../dtos/ticket/metadata.dto"
 import { UserContext } from "../../../../contexts/user/UserContext"
 import { EventTicket } from "../../../../dtos/ticket/ticket.dto"
+import ContainedButton from "../../../UI/button/ContainedButton"
 
 function CreateCompleteTicketStep4() {
   const {
@@ -30,71 +31,73 @@ function CreateCompleteTicketStep4() {
   const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
   const { user } = useContext(UserContext)
   const [uploading, setUploading] = useState(false)
+  const [uploaded, setUploaded] = useState(false)
 
-  useEffect(() => {
-    async function fn() {
-      setShowLoadingBackdrop(true)
-      setUploading(true)
+  async function handleUpload() {
+    setShowLoadingBackdrop(true)
+    setUploading(true)
 
-      const ticketMetadata: TicketsMetadata[] = createAssetMetadata(
-        uploadedAssets,
-        assets,
-        formInfo,
-        "GENERAL"
-      )
+    const ticketMetadata: TicketsMetadata[] = createAssetMetadata(
+      uploadedAssets,
+      assets,
+      formInfo,
+      "GENERAL"
+    )
 
-      const vipTicketMetadata: TicketsMetadata[] = createAssetMetadata(
-        uploadedVipAssets,
-        vipAssets,
-        formInfo,
-        "VIP"
-      )
-      const generalAdmissionTickets: EventTicket[] = createEventTicket(
-        ticketMetadata,
-        formInfo,
-        address,
-        user
-      )
-      const vipTickets = createEventTicket(
-        vipTicketMetadata,
-        formInfo,
-        address,
-        user
-      )
+    const vipTicketMetadata: TicketsMetadata[] = createAssetMetadata(
+      uploadedVipAssets,
+      vipAssets,
+      formInfo,
+      "VIP"
+    )
+    const generalAdmissionTickets: EventTicket[] = createEventTicket(
+      ticketMetadata,
+      formInfo,
+      address,
+      user
+    )
+    const vipTickets = createEventTicket(
+      vipTicketMetadata,
+      formInfo,
+      address,
+      user
+    )
 
-      try {
-        if (ticketMetadata.length > 0) {
-          await uploadAsset(assets, ticketMetadata, formInfo.subjectOf)
-        }
-
-        if (vipTicketMetadata.length > 0 && formInfo.vipEnabled) {
-          await uploadAsset(vipAssets, vipTicketMetadata, formInfo.subjectOf)
-        }
-
-        const res = await setTicketToEvent(
-          generalAdmissionTickets,
-          vipTickets,
-          formInfo,
-          user
-        )
-
-        console.log(res)
-
-        setShowLoadingBackdrop(false)
-        setUploading(false)
-      } catch (e) {
-        setShowLoadingBackdrop(false)
-        setUploading(false)
-        showErrorAlert({
-          type: AlertType.ERROR,
-          title: "Asset upload failed",
-          description: "Your asset failed to upload. Please try again"
-        })
+    try {
+      console.log("1")
+      if (ticketMetadata.length > 0) {
+        console.log("upload asset")
+        await uploadAsset(assets, ticketMetadata, formInfo.subjectOf)
       }
-    }
 
-    fn()
-  }, [])
+      console.log("upload asset vip")
+      if (vipTicketMetadata.length > 0 && formInfo.vipEnabled) {
+        await uploadAsset(vipAssets, vipTicketMetadata, formInfo.subjectOf)
+      }
+
+      console.log("set ticket")
+      const res = await setTicketToEvent(
+        generalAdmissionTickets,
+        vipTickets,
+        formInfo,
+        user
+      )
+
+      console.log(res)
+
+      setShowLoadingBackdrop(false)
+      setUploading(false)
+      setUploaded(true)
+    } catch (e) {
+      setShowLoadingBackdrop(false)
+      setUploading(false)
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Asset upload failed",
+        description: "Your asset failed to upload. Please try again"
+      })
+    }
+  }
 
   return (
     <FlatCard>
@@ -103,24 +106,44 @@ function CreateCompleteTicketStep4() {
           Customize NFTs Utility
         </Typography>
       </Box>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ padding: 2, backgroundColor: purple[50], borderRadius: 2 }}
-      >
+      {uploaded ? (
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ padding: 2, backgroundColor: purple[50], borderRadius: 2 }}
+        >
+          <Box>
+            <Typography variant="body1" component="h3" fontWeight="600">
+              Congrats!
+            </Typography>
+            <Typography variant="subtitle1">
+              Your tickets have been created!
+            </Typography>
+          </Box>
+        </Stack>
+      ) : (
         <Box>
-          <Typography variant="body1" component="h3" fontWeight="600">
-            Uploading your assets
+          <Typography variant="h5" component="h2">
+            Recheck your ticket's information
           </Typography>
-          <Typography variant="subtitle1">
-            Hang tight! Your files are uploading...
+          <Typography>
+            If you are ready to create, press the button below
           </Typography>
+          <Box sx={{ marginY: 4 }}>
+            <ContainedButton
+              isLoading={uploading}
+              label="Click to create ticket!"
+              width="100%"
+              variant="contained"
+              onClick={handleUpload}
+            />
+          </Box>
         </Box>
-        {uploading && <CircularProgress />}
-      </Stack>
+      )}
 
       <ControlledStepperButtons
+        isBackDisabled={uploaded === true}
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
         handleNext={() => setActiveStep((prev) => prev + 1)}
       />
