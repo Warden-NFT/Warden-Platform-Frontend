@@ -3,7 +3,6 @@ import { purple } from "@mui/material/colors"
 import React, { useContext, useEffect, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
-import { useStorageBucket } from "../../../../hooks/useStorageBucket"
 import FlatCard from "../../../UI/card/FlatCard"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { AlertType } from "../../../../interfaces/modal/alert.interface"
@@ -28,7 +27,6 @@ function CreateCompleteTicketStep4() {
     formInfo
   } = useContext(GenerateCompleteContext)
   const { address } = useAuthAccount()
-  const { saveFile } = useStorageBucket()
   const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
   const { user } = useContext(UserContext)
   const [uploading, setUploading] = useState(false)
