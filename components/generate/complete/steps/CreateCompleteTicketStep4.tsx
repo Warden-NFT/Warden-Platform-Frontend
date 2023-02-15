@@ -9,10 +9,14 @@ import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperBu
 import { AlertType } from "../../../../interfaces/modal/alert.interface"
 import { useAuthAccount } from "../../../../hooks/useAuthAccount"
 import {
-  createTicketMetadata,
-  uploadEventTicketMetadata
+  createAssetMetadata,
+  createEventTicket,
+  setTicketToEvent,
+  uploadAsset
 } from "../../../../utils/generate/complete"
 import { TicketsMetadata } from "../../../../dtos/ticket/metadata.dto"
+import { UserContext } from "../../../../contexts/user/UserContext"
+import { EventTicket } from "../../../../dtos/ticket/ticket.dto"
 
 function CreateCompleteTicketStep4() {
   const {
@@ -26,33 +30,57 @@ function CreateCompleteTicketStep4() {
   const { address } = useAuthAccount()
   const { saveFile } = useStorageBucket()
   const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
+  const { user } = useContext(UserContext)
   const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
-    setShowLoadingBackdrop(true)
-
     async function fn() {
+      setShowLoadingBackdrop(true)
       setUploading(true)
-      const ticketMetadata: TicketsMetadata[] = createTicketMetadata(
+
+      const ticketMetadata: TicketsMetadata[] = createAssetMetadata(
         uploadedAssets,
+        assets,
         formInfo,
         "GENERAL"
       )
-      const vipTicketMetadata: TicketsMetadata[] = createTicketMetadata(
+
+      const vipTicketMetadata: TicketsMetadata[] = createAssetMetadata(
         uploadedVipAssets,
+        vipAssets,
         formInfo,
         "VIP"
+      )
+      const generalAdmissionTickets: EventTicket[] = createEventTicket(
+        ticketMetadata,
+        formInfo,
+        address,
+        user
+      )
+      const vipTickets = createEventTicket(
+        vipTicketMetadata,
+        formInfo,
+        address,
+        user
       )
 
       try {
         if (ticketMetadata.length > 0) {
-          await saveFile(assets, formInfo.subjectOf, ticketMetadata)
-          await uploadEventTicketMetadata(ticketMetadata, formInfo, address)
+          await uploadAsset(assets, ticketMetadata, formInfo.subjectOf)
         }
 
         if (vipTicketMetadata.length > 0 && formInfo.vipEnabled) {
-          await saveFile(vipAssets, formInfo.subjectOf, vipTicketMetadata)
+          await uploadAsset(vipAssets, vipTicketMetadata, formInfo.subjectOf)
         }
+
+        const res = await setTicketToEvent(
+          generalAdmissionTickets,
+          vipTickets,
+          formInfo,
+          user
+        )
+
+        console.log(res)
 
         setShowLoadingBackdrop(false)
         setUploading(false)

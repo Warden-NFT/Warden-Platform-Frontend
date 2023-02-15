@@ -1,4 +1,6 @@
 import { TicketsMetadata } from "./metadata.dto"
+import { TicketTypePricing } from "../../interfaces/generate/collection.interface"
+import { SupportedDigitalCurrency } from "../../interfaces/currency/currency.interface"
 
 export type EventId = string
 
@@ -9,10 +11,24 @@ export interface EventTicket {
   name: string // ticket name
   description: string
   ticketMetadata: TicketsMetadata[]
-  ownerAddress: string
+  ownerId: string
   ownerHistory: string[]
+  benefits?: string
 }
 
-export interface EventVIPTicket extends EventTicket {
-  benefits: string
+export interface TicketSetDTO {
+  tickets: {
+    generalTickets?: EventTicket[]
+    vipTickets?: EventTicket[]
+    reservedSeatTickets?: EventTicket[]
+  }
+  createdDate: Date
+  ownerId: string
+  ownerAddress: string
+  smartContractAddress: string
+  subjectOf: string
+  ticketPrice: TicketTypePricing
+  royaltyFee: number
+  enableResale: boolean
+  currency: SupportedDigitalCurrency
 }
