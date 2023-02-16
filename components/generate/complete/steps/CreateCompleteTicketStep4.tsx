@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, FormControl, Stack, Typography } from "@mui/material"
 import { purple } from "@mui/material/colors"
 import React, { useContext, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
@@ -64,26 +64,20 @@ function CreateCompleteTicketStep4() {
     )
 
     try {
-      console.log("1")
       if (ticketMetadata.length > 0) {
-        console.log("upload asset")
         await uploadAsset(assets, ticketMetadata, formInfo.subjectOf)
       }
 
-      console.log("upload asset vip")
       if (vipTicketMetadata.length > 0 && formInfo.vipEnabled) {
         await uploadAsset(vipAssets, vipTicketMetadata, formInfo.subjectOf)
       }
 
-      console.log("set ticket")
       const res = await setTicketToEvent(
         generalAdmissionTickets,
         vipTickets,
         formInfo,
         user
       )
-
-      console.log(res)
 
       setShowLoadingBackdrop(false)
       setUploading(false)

@@ -47,7 +47,10 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
     },
     enableResale: true,
     enableRoyaltyFee: false,
-    royaltyFeePercentage: 0
+    royaltyFeePercentage: 0,
+    ticketQuota: {
+      general: 1
+    }
   })
 
   const values: GenerateCompleteContextProps = {

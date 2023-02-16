@@ -1,5 +1,8 @@
 import { TicketsMetadata } from "./metadata.dto"
-import { TicketTypePricing } from "../../interfaces/generate/collection.interface"
+import {
+  TicketQuota,
+  TicketTypePricing
+} from "../../interfaces/generate/collection.interface"
 import { SupportedDigitalCurrency } from "../../interfaces/currency/currency.interface"
 
 export type EventId = string
@@ -31,4 +34,5 @@ export interface TicketSetDTO {
   royaltyFee: number
   enableResale: boolean
   currency: SupportedDigitalCurrency
+  ticketQuota: TicketQuota
 }

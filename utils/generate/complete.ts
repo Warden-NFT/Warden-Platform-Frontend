@@ -82,7 +82,8 @@ export async function setTicketToEvent(
       ? formInfo.royaltyFeePercentage / 100
       : 0,
     currency: formInfo.currency,
-    enableResale: formInfo.enableResale
+    enableResale: formInfo.enableResale,
+    ticketQuota: formInfo.ticketQuota
   }
 
   const res = await client.post<{

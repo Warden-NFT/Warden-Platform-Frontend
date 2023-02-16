@@ -139,13 +139,18 @@ function CreateCompleteTicketStep1() {
         </FormControl>
         {values.vipEnabled && (
           <FormControl required>
+            <FormLabel>VIP Ticket Description</FormLabel>
+            <Typography variant="caption">
+              What does VIP ticket do? Is there any other permission granted to
+              the owner?
+            </Typography>
             <TextFieldWrapper
               name="vipDescription"
               value={values.vipDescription}
               onChange={handleChange}
               id="vipDescription-input"
               data-testid="vipDescription-input"
-              placeholder="What does the VIP ticket do"
+              placeholder="Describe about the perk of VIP ticket"
               variant="outlined"
               size="small"
               error={errors.vipDescription != null}
@@ -233,6 +238,53 @@ function CreateCompleteTicketStep1() {
                 sx={{ width: 300 }}
               />
             </Stack>
+          </FormControl>
+        )}
+        {values.enableResale && (
+          <FormControl required>
+            <FormLabel>Ticket quota per user</FormLabel>
+            <Typography variant="caption" color="gray">
+              Limit the amount of tickets that user could purchase
+            </Typography>
+            <TextFieldWrapper
+              name="ticketQuota.general"
+              value={values.ticketQuota.general}
+              onChange={handleChange}
+              id="ticketQuota.general-input"
+              data-testid="ticketQuota.general-input"
+              variant="outlined"
+              size="small"
+              type="number"
+              error={errors.ticketQuota?.general != null}
+              helperText={
+                touched.ticketQuota?.general
+                  ? errors.ticketQuota?.general
+                  : undefined
+              }
+            />
+          </FormControl>
+        )}
+        {values.enableResale && values.vipEnabled && (
+          <FormControl required>
+            <FormLabel>VIP ticket quota per user</FormLabel>
+            <Typography variant="caption" color="gray">
+              Limit the amount of VIP tickets that user could purchase
+            </Typography>
+            <TextFieldWrapper
+              name="ticketQuota.vip"
+              value={values.ticketQuota.vip}
+              onChange={handleChange}
+              id="ticketQuota.vip-input"
+              data-testid="ticketQuota.vip-input"
+              placeholder="1"
+              variant="outlined"
+              size="small"
+              type="number"
+              error={errors.ticketQuota?.vip != null}
+              helperText={
+                touched.ticketQuota?.vip ? errors.ticketQuota?.vip : undefined
+              }
+            />
           </FormControl>
         )}
         <Divider />
