@@ -22,6 +22,20 @@ export const CreateCompleteTicketStep1Schema = object().shape(
         .max(20, "Number cannot exceed 20%")
         .required("This field is required")
     }),
+    ticketQuota: object().shape({
+      general: number()
+        .min(1, "Minimum cannot be below than 1")
+        .when(["enableResale"], {
+          is: true,
+          then: (schema) => schema.required("This field is required")
+        }),
+      vip: number()
+        .min(1, "Minimum cannot be below than 1")
+        .when(["enableResale", "vipEnabled"], {
+          is: [true, true],
+          then: (schema) => schema.required("This field is required")
+        })
+    }),
     // Not allow enabling ticket type that contradict General Admission
     generalAdmissionEnabled: boolean()
       .when(["generalAdmissionEnabled", "reservedSeatEnabled"], {

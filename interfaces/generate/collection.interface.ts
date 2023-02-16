@@ -16,8 +16,14 @@ export interface TicketInfo {
   enableResale: boolean
   enableRoyaltyFee: boolean
   royaltyFeePercentage: number
+  ticketQuota: TicketQuota
 }
 
+export interface TicketQuota {
+  general?: number
+  vip?: number
+  reservedSeat?: number
+}
 export interface TicketTypePricing {
   general?: TicketPriceSetting
   vip?: TicketPriceSetting

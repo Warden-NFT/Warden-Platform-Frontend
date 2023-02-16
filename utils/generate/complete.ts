@@ -1,19 +1,24 @@
+import { client } from "../../configs/axios/axiosConfig"
 import { TicketsMetadata } from "../../dtos/ticket/metadata.dto"
-import { EventTicket, EventVIPTicket } from "../../dtos/ticket/ticket.dto"
+import { EventTicket, TicketSetDTO } from "../../dtos/ticket/ticket.dto"
+import { User } from "../../interfaces/auth/user.interface"
 import { TicketType } from "../../interfaces/event/event.interface"
 import { TicketInfo } from "../../interfaces/generate/collection.interface"
 import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
 
-export function createTicketMetadata(
+const URL = process.env.NEXT_PUBLIC_WARDEN_API_URL
+
+export function createAssetMetadata(
   assets: UploadedCompleteAsset[],
+  files: File[],
   formInfo: TicketInfo,
   ticketType: TicketType
 ): TicketsMetadata[] {
-  return assets.map((asset) => {
+  return assets.map((asset, i) => {
     return {
       name: asset.name,
       description: `Ticket cover image ${asset.name}`,
-      image: `https://storage.googleapis.com/nft-generator-microservice-bucket-test/media/${formInfo.subjectOf}/${asset.name}`,
+      image: `https://storage.googleapis.com/nft-generator-microservice-bucket-test/media/${formInfo.subjectOf}/${files[i].name}`,
       attributes: [
         { trait_type: "id", value: asset.id.toString() },
         { trait_type: "quantity", value: asset.quantity.toString() },
@@ -25,49 +30,94 @@ export function createTicketMetadata(
   })
 }
 
-export async function uploadEventTicketMetadata(
-  metadata: TicketsMetadata[],
+export function createEventTicket(
+  assetMetadata: TicketsMetadata[],
   info: TicketInfo,
-  address: string | undefined
-): Promise<EventTicket[]> {
-  if (metadata.length <= 0 || !address) return []
+  address: string | undefined,
+  user: User | undefined
+): EventTicket[] {
+  if (!address || !user || user?._id == null) return []
 
   const now = new Date()
-  return metadata.map((data, i) => {
+  return assetMetadata.map((data, i) => {
     const eventTicket: EventTicket = {
       dateIssued: now,
       ticketNumber: i,
-      name: `${info.name}_${i}}`,
+      name: `${info.name}_${i}`,
       ticketMetadata: [data],
       description: info.description,
-      ownerAddress: address,
-      ownerHistory: []
+      ownerHistory: [],
+      benefits:
+        info.vipEnabled && info.vipDescription
+          ? info.vipDescription
+          : undefined,
+      ownerId: user._id ?? ""
     }
 
     return eventTicket
   })
 }
 
-export async function uploadEventVIPTicketMetadata(
-  metadata: TicketsMetadata[],
-  info: TicketInfo,
-  address: string | undefined
-): Promise<EventVIPTicket[]> {
-  if (metadata.length <= 0 || !address) return []
+export async function setTicketToEvent(
+  eventTickets: EventTicket[],
+  vipTickets: EventTicket[],
+  formInfo: TicketInfo,
+  user: User | undefined
+) {
+  if (!user || !user._id) return
 
   const now = new Date()
-  return metadata.map((data, i) => {
-    const eventTicket: EventVIPTicket = {
-      dateIssued: now,
-      ticketNumber: i,
-      name: `${info.name}_${i}}`,
-      ticketMetadata: [data],
-      description: info.description,
-      ownerAddress: address,
-      ownerHistory: [],
-      benefits: ""
-    }
+  const payload: TicketSetDTO = {
+    tickets: {
+      generalTickets: eventTickets,
+      vipTickets: vipTickets
+    },
+    createdDate: now,
+    ownerId: user._id,
+    ticketPrice: formInfo.price,
+    smartContractAddress: "",
+    subjectOf: formInfo.subjectOf,
+    ownerAddress: user._id,
+    royaltyFee: formInfo.enableRoyaltyFee
+      ? formInfo.royaltyFeePercentage / 100
+      : 0,
+    currency: formInfo.currency,
+    enableResale: formInfo.enableResale,
+    ticketQuota: formInfo.ticketQuota
+  }
 
-    return eventTicket
+  const res = await client.post<{
+    acknowledged: boolean
+    insertedIds: string[]
+  }>(`${URL}/ticket/createEventTickets`, payload)
+  return res.data
+}
+
+export async function uploadAsset(
+  files: File[],
+  metadata: TicketsMetadata[],
+  folder: string
+) {
+  if (metadata.length <= 0) return []
+  const formData = new FormData()
+  files.forEach((file) => {
+    formData.append("files", file)
   })
+  formData.append("folder", folder)
+  formData.append("metadata", JSON.stringify(metadata))
+  const res = await client.post(`${URL}/ticket/saveTicketSetImages`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  })
+
+  return res.data
+}
+
+export async function uploadEventTicket(assetMetadata: EventTicket[]) {
+  const res = await client.post<{
+    acknowledge: boolean
+    insertedIds: string[]
+  }>(`${URL}/ticket/createEventTickets`, assetMetadata)
+  return res.data
 }

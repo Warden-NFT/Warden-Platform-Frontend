@@ -1,9 +1,7 @@
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import {
   Box,
   Divider,
   FormControl,
-  FormHelperText,
   FormLabel,
   Stack,
   TextField,
@@ -15,6 +13,8 @@ import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateC
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { CompleteAssetCustomizeUtilitySchema } from "../../../../schema/generate/complete"
 import Image from "next/image"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
 
 interface AssetValue {
   id: number
@@ -24,13 +24,14 @@ interface AssetValue {
 
 function CreateCompleteTicketStep3() {
   const {
+    formInfo,
     setActiveStep,
     uploadedAssets,
     setUploadedAssets,
     uploadedVipAssets,
     setUploadedVipAssets
   } = useContext(GenerateCompleteContext)
-
+  const { showErrorAlert } = useContext(LayoutContext)
   const { values, handleChange, touched, setFieldValue, errors, handleSubmit } =
     useFormik({
       initialValues: {
@@ -43,6 +44,39 @@ function CreateCompleteTicketStep3() {
       enableReinitialize: true,
       validationSchema: CompleteAssetCustomizeUtilitySchema,
       onSubmit: (values) => {
+        const sumAssetQuantity = values.assets.reduce(
+          (sum, asset) => sum + asset.quantity,
+          0
+        )
+        const sumVipAssetQuantity = values.vipAssets.reduce(
+          (sum, asset) => sum + asset.quantity,
+          0
+        )
+        if (
+          formInfo.ticketQuota.general &&
+          sumAssetQuantity <= formInfo.ticketQuota.general
+        ) {
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title:
+              "Maximum purchased is lower than the amount of general ticket",
+            description: "Your tickets are lower than maximum purchase amount. Please either decrease the maximum purchase amount in step 1 OR increase the amount create in step 3."
+          })
+          return
+        }
+        if (
+          formInfo.ticketQuota.vip &&
+          sumVipAssetQuantity <= formInfo.ticketQuota.vip
+        ) {
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title:
+              "Maximum VIP purchased is lower than the amount of general ticket",
+            description: "Your VIP tickets are lower than maximum purchase amount. Please either decrease the maximum purchase amount in step 1 OR increase the amount create in step 3."
+          })
+          return
+        }
+
         if (values.assets.length > 0) {
           const _uploadedAssets = [...uploadedAssets]
           values.assets.forEach((asset, i) => {
