@@ -61,7 +61,7 @@ function CreateCompleteTicketStep1() {
         <FormControl required>
           <FormLabel>Ticket Name</FormLabel>
           <Typography variant="caption" color="gray">
-            What is the ticket name?
+            What is the ticket name? (Be as specific as possible)
           </Typography>
           <TextFieldWrapper
             name="name"
@@ -85,7 +85,7 @@ function CreateCompleteTicketStep1() {
         <FormControl>
           <FormLabel>Ticket Description</FormLabel>
           <Typography variant="caption" color="gray">
-            Description
+            A brief description about the ticket and the event.
           </Typography>
           <TextFieldWrapper
             name="description"
@@ -161,7 +161,14 @@ function CreateCompleteTicketStep1() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <FormLabel>Enable Resale</FormLabel>
+            <Stack>
+              <FormLabel>Enable Resale</FormLabel>
+              <Typography variant="caption" color="gray">
+                Do you want ticket buyers the ability to resell the ticket? The
+                resale tickets will be based upon your rules.
+              </Typography>
+            </Stack>
+
             <Switch
               value={values.enableResale}
               defaultChecked
@@ -182,7 +189,13 @@ function CreateCompleteTicketStep1() {
               justifyContent="space-between"
               alignItems="center"
             >
-              <FormLabel>Enable Loyalty Fee</FormLabel>
+              <Stack>
+                <FormLabel>Enable Loyalty Fee</FormLabel>
+                <Typography variant="caption" color="gray">
+                  Would you like to get any monery benefit when ticket resale
+                  occurs? The benefit amount will be a % of the resale price.
+                </Typography>
+              </Stack>
               <Switch
                 value={values.enableRoyaltyFee}
                 onChange={handleChange}

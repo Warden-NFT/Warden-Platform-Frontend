@@ -4,7 +4,8 @@ import {
   FormHelperText,
   FormLabel,
   MenuItem,
-  Select
+  Select,
+  Typography
 } from "@mui/material"
 import { red } from "@mui/material/colors"
 import { useEvents } from "../../../hooks/useEvents"
@@ -37,6 +38,9 @@ function ControlledEventSelect({
   return (
     <FormControl fullWidth required>
       <FormLabel id="subject-of-label">Associated Event</FormLabel>
+      <Typography variant="caption" color="gray">
+        What event is this ticket for?
+      </Typography>
       <Select
         labelId="subject-of-label"
         id="subject-of-select"
