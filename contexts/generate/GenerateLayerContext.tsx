@@ -53,11 +53,14 @@ const GenerateLayerContextProvider = ({ ...props }) => {
         max: 0
       }
     },
-    generationAmount: 1,
-    hasAssetReversed: false,
     enableResale: false,
     enableRoyaltyFee: false,
-    royaltyFeePercentage: 0
+    ticketQuota: {
+      general: 1
+    },
+    royaltyFeePercentage: 0,
+    generationAmount: 1,
+    hasAssetReversed: false
   })
 
   const values: GenerateLayerContextProps = {
