@@ -64,25 +64,7 @@ function CreateLayeredTicketStep2() {
             ))}
           </Box>
         ) : (
-          <Box
-            sx={{
-              height: 400,
-              display: "grid",
-              placeItems: "center",
-              marginTop: 4
-            }}
-          >
-            <Image
-              src="/images/generate/empty-dropzone-placeholder.png"
-              width="700"
-              height="600"
-              alt="Empty Placeholder"
-              style={{ objectFit: "cover", height: "100%" }}
-            />
-            <Typography component="p" fontSize="11px" color={grey[500]}>
-              This is not your asset, it's just a cat.
-            </Typography>
-          </Box>
+          <Box>A placeholder for upload tutorial</Box>
         )}
       </Stack>
       <LayeredDropzone />
