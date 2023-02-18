@@ -4,22 +4,27 @@ import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
 
 interface Props {
-  LeftMotionedComponent: React.FC
+  imgUrl: string
   title: string
   description: string
+  colorFrom?: string
+  colorTo?: string
   containerStyles?: SxProps<Theme>
 }
 
 function ImageLabelCard({
-  LeftMotionedComponent,
+  imgUrl,
   title,
   description,
-  containerStyles
+  containerStyles,
+  colorFrom,
+  colorTo
 }: Props) {
   const containerMotion: Variants = {
     rest: {
       x: 0,
       y: 0,
+      borderRadius: "14px",
       transition: {
         duration: 1
       }
@@ -39,13 +44,18 @@ function ImageLabelCard({
             "&:hover": {
               cursor: "pointer"
             },
+            backgroundImage: `linear-gradient(to bottom, ${
+              colorFrom ?? "rgba(255, 255, 255, 0.5)"
+            }, ${colorTo ?? "rgba(255, 255, 255, 0.2)"}), url(${imgUrl})`,
+            backgroundColor: "white",
+            borderRadius: "14px",
             ...containerStyles
           }}
         >
           <Stack direction="row">
-            <Box sx={{ display: "grid", placeItems: "center" }}>
+            {/* <Box sx={{ display: "grid", placeItems: "center" }}>
               <LeftMotionedComponent />
-            </Box>
+            </Box> */}
             <Stack
               justifyContent="space-between"
               sx={{ marginLeft: 4, padding: 4 }}
