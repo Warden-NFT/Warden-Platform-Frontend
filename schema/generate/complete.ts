@@ -120,29 +120,40 @@ export const CreateTicketInfoSchema = object().shape(
             default: number()
               .min(0, "Minimum is 0")
               .required("This field is required"),
-            min: number()
-              .min(0, "Minimum is 0")
-              .test(
-                "lowerThanDefault",
-                "Min price should be lower than the default price max price.",
-                (val, ctx) => {
-                  return val != null && ctx.parent && val <= ctx.parent.default
-                }
-              ),
-            max: number()
-              .min(0, "Minimum is 0")
-              .test(
-                "max",
-                "Max price should be lower than the resale minimum price.",
-                (val, ctx) => {
-                  return (
-                    val != null &&
-                    ctx.parent &&
-                    val <= ctx.parent.default &&
-                    val >= ctx.parent.min
+            min: number().when("enableResale", {
+              is: true,
+              then: (schema) =>
+                schema
+                  .min(0, "Minimum is 0")
+                  .test(
+                    "lowerThanDefault",
+                    "Min price should be lower than the default price max price.",
+                    (val, ctx) => {
+                      return (
+                        val != null && ctx.parent && val <= ctx.parent.default
+                      )
+                    }
                   )
-                }
-              )
+                  .required()
+            }),
+            max: number().when(["enableResale"], {
+              is: true,
+              then: (schema) =>
+                schema
+                  .min(0, "Minimum is 0")
+                  .test(
+                    "max",
+                    "Max price should be lower than the resale minimum price.",
+                    (val, ctx) => {
+                      return (
+                        val != null &&
+                        ctx.parent &&
+                        val <= ctx.parent.default &&
+                        val >= ctx.parent.min
+                      )
+                    }
+                  )
+            })
           })
         })
       })
