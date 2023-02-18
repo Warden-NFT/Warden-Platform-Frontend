@@ -45,13 +45,13 @@ function CreateLayeredTicketStep5() {
   }
 
   return (
-    <Box sx={{ marginY: 4 }}>
+    <Box>
       <LayerSettingModal isOpen={isSettingOpen} setIsOpen={setIsSettingOpen} />
       <Stack
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        sx={{ width: "100%" }}
+        sx={{ width: "100%", mb: 2 }}
       >
         <Typography variant="h4" component="h1">
           Preview your ticket assets

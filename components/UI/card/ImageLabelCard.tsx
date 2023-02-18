@@ -1,7 +1,8 @@
-import { Box, Stack, SxProps, Typography } from "@mui/material"
+import { Box, Divider, Stack, SxProps, Typography } from "@mui/material"
 import React from "react"
 import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
+import ContainedButton from "../button/ContainedButton"
 
 interface Props {
   imgUrl: string
@@ -33,12 +34,22 @@ function ImageLabelCard({
   }
 
   return (
-    <motion.div initial="rest" animate="rest" whileHover="hover">
+    <motion.div
+      initial="rest"
+      animate="rest"
+      whileHover="hover"
+      style={{
+        height: "400px",
+        width: "320px"
+      }}
+      // style={{ height: "400px", width: "400px" }}
+    >
       <motion.div variants={containerMotion}>
         <Box
           sx={{
             border: 2,
-            height: 200,
+            height: "440px",
+            width: "320px",
             borderColor: "black",
             overflow: "hidden",
             "&:hover": {
@@ -53,16 +64,11 @@ function ImageLabelCard({
           }}
         >
           <Stack direction="row">
-            {/* <Box sx={{ display: "grid", placeItems: "center" }}>
-              <LeftMotionedComponent />
-            </Box> */}
-            <Stack
-              justifyContent="space-between"
-              sx={{ marginLeft: 4, padding: 4 }}
-            >
-              <Typography variant="h4" fontWeight="700">
+            <Stack justifyContent="space-between" sx={{ padding: 2 }}>
+              <Typography variant="h6" fontWeight="700">
                 {title}
               </Typography>
+              <Divider sx={{ marginBottom: 2 }} />
               <Typography variant="subtitle1" fontSize="18px" fontWeight="500">
                 {description}
               </Typography>
