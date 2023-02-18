@@ -45,7 +45,7 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
         min: 0
       }
     },
-    enableResale: true,
+    enableResale: false,
     enableRoyaltyFee: false,
     royaltyFeePercentage: 0,
     ticketQuota: {

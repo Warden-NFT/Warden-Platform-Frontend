@@ -12,7 +12,7 @@ import { red, purple } from "@mui/material/colors"
 import { useFormik } from "formik"
 import React, { useContext } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
-import { CreateCompleteTicketStep1Schema } from "../../../../schema/generate/complete"
+import { CreateTicketInfoSchema } from "../../../../schema/generate/complete"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import ControlledEventSelect from "../../form/ControlledEventSelect"
 import EventCreationAlert from "../../form/EventCreationAlert"
@@ -28,7 +28,7 @@ function CreateCompleteTicketStep1() {
     useFormik({
       initialValues: { ...formInfo },
       enableReinitialize: true,
-      validationSchema: CreateCompleteTicketStep1Schema,
+      validationSchema: CreateTicketInfoSchema,
       onSubmit: (data) => {
         setFormInfo(data)
         setActiveStep((prev) => prev + 1)
@@ -139,10 +139,9 @@ function CreateCompleteTicketStep1() {
         </FormControl>
         {values.vipEnabled && (
           <FormControl required>
-            <FormLabel>VIP Ticket Description</FormLabel>
+            <FormLabel>VIP Ticket Benefit</FormLabel>
             <Typography variant="caption">
-              What does VIP ticket do? Is there any other permission granted to
-              the owner?
+              What is the benefit of VIP tickets?
             </Typography>
             <TextFieldWrapper
               name="vipDescription"
@@ -150,7 +149,7 @@ function CreateCompleteTicketStep1() {
               onChange={handleChange}
               id="vipDescription-input"
               data-testid="vipDescription-input"
-              placeholder="Describe about the perk of VIP ticket"
+              placeholder="Describe about the benefits of VIP ticket"
               variant="outlined"
               size="small"
               error={errors.vipDescription != null}
@@ -176,7 +175,6 @@ function CreateCompleteTicketStep1() {
 
             <Switch
               value={values.enableResale}
-              defaultChecked
               name="enableResale"
               id="enableResale-switch"
               data-testid="enableResale-switch"

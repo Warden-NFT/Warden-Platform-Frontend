@@ -1,6 +1,6 @@
 import { number, object, string, boolean, array } from "yup"
 
-export const CreateCompleteTicketStep1Schema = object().shape(
+export const CreateTicketInfoSchema = object().shape(
   {
     currency: string()
       .oneOf(["ETH", "MATIC"], "This currency is not yet supported")
