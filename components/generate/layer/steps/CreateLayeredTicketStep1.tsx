@@ -37,11 +37,10 @@ function CreateLayeredTicketStep1() {
 
   return (
     <Stack width="100%">
-      <div>{JSON.stringify(values)}</div>
       <Stack spacing={2}>
         <EventCreationAlert
           title="Have you create an event yet?"
-          href="/create/event"
+          href="/event"
           hrefDescription="Go to Create Event"
           description="Make sure to create an event before creating a ticket."
           sx={{ backgroundColor: purple[50] }}
