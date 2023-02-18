@@ -1,62 +1,52 @@
 export interface StepperSteps {
   step: number
-  header: string
   label: string
+  header?: string
 }
 
 export const COMPLETE_MODE_STEPS: StepperSteps[] = [
   {
     step: 1,
-    header: "General Information",
-    label: "Fill in information about your ticket"
+    label: "Fill in ticket info"
   },
   {
     step: 2,
-    header: "Upload Assets",
     label: "Upload asset to the right event type"
   },
   {
     step: 3,
-    header: "Customize Assets",
     label: "Set some data about each of your asset"
   },
   {
     step: 4,
-    header: "Upload Assets",
     label: "Hang tight and let us upload assets for you"
   }
 ]
 
-export const LAYERED_MODE_STEPPER = [
+export const LAYERED_MODE_STEPPER: StepperSteps[] = [
   {
     step: 1,
-    header: "Upload Assets",
-    label: "Upload each layer"
+    label: "Fill in ticket info"
   },
   {
     step: 2,
-    header: "Customize Layers",
-    label: "Customize each layer info"
+    label: "Upload each layer"
   },
   {
     step: 3,
-    header: "Complete Form",
-    label: "General information about ticket NFTs"
+    label: "Order each layer"
   },
   {
     step: 4,
-    header: "Add utility",
-    label: "Customize NFT with Warden's utility"
+    label: "Customize Occurrence"
   },
   {
     step: 5,
-    header: "Preview",
-    label: "Preview your tickets"
+    label: "Preview tickets"
   },
   {
     step: 6,
-    header: "Finish Up",
-    label: "Save your tickets"
+    label: "Select save options"
   }
 ]
 
