@@ -1,54 +1,22 @@
-import React, { useContext } from "react"
-import { Box, Stack } from "@mui/material"
-import ImageLabelCard from "../../../UI/card/ImageLabelCard"
-import { amber, indigo } from "@mui/material/colors"
-import { Variants, motion } from "framer-motion"
-import Image from "next/image"
+import React, { useContext, useState } from "react"
+import { Box, Stack, Typography } from "@mui/material"
+import { purple } from "@mui/material/colors"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import { saveAs } from "file-saver"
 import JSZip from "jszip"
-
-const UploadAnimationVariant: Variants = {
-  rest: {
-    x: 0,
-    y: 0,
-    transition: {
-      duration: 0.5
-    }
-  },
-  hover: {
-    x: -20,
-    y: 100,
-    scale: 2.3,
-    rotate: [0, 20, 0, -20, 0, 10, 0, -10, 0],
-    transition: {
-      ease: "easeInOut",
-      duration: 0.2
-    }
-  }
-}
-const DownloadAnimationVariant: Variants = {
-  rest: {
-    x: 0,
-    y: 0,
-    transition: {
-      duration: 0.5
-    }
-  },
-  hover: {
-    x: 0,
-    y: [-30, 0],
-    opacity: 100,
-    transition: {
-      type: "spring"
-    }
-  }
-}
+import ContainedButton from "../../../UI/button/ContainedButton"
 
 function CreateLayeredTicketStep6() {
   const { setActiveStep, metadataBlob, metadata, formInfo } =
     useContext(GenerateLayerContext)
+
+  const [uploaded, setUploaded] = useState(false)
+  const [uploading, setUploading] = useState(false)
+
+  function handleUpload() {
+    return
+  }
 
   function handleDownloadAssetFiles() {
     const zip = new JSZip()
@@ -67,56 +35,71 @@ function CreateLayeredTicketStep6() {
 
   return (
     <Box>
+      <Box sx={{ marginBottom: 2 }}>
+        <Typography variant="h3" component="h1">
+          Customize NFTs Utility
+        </Typography>
+        <Typography component="h2">
+          Recheck your ticket's information
+        </Typography>
+      </Box>
       <Stack spacing={2}>
-        <ImageLabelCard
-          title="Upload Generated Assets and Mint"
-          description="Release your wonderful tickets for your event to the public. Your ticket will be able to mint and deploy to the smart contract!"
-          LeftMotionedComponent={() => (
-            <motion.div
-              variants={UploadAnimationVariant}
-              style={{
-                maxWidth: 200,
-                display: "grid",
-                placeItems: "center",
-                paddingLeft: 20
-              }}
-            >
-              <Image
-                alt="Upload Generated Assets and Mint"
-                src="/images/logo/Pinnie.svg"
-                width="200"
-                height="200"
-                style={{ objectFit: "cover" }}
-                draggable={false}
+        {uploaded ? (
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ padding: 2, backgroundColor: purple[50], borderRadius: 2 }}
+          >
+            <Box>
+              <Typography variant="body1" component="h3" fontWeight="600">
+                Congrats!
+              </Typography>
+              <Typography variant="subtitle1">
+                Your tickets have been created!
+              </Typography>
+            </Box>
+          </Stack>
+        ) : (
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography>If you are ready</Typography>
+            <Box sx={{ width: "280px" }}>
+              <ContainedButton
+                isLoading={uploading}
+                label="Create ticket"
+                width="100%"
+                variant="contained"
+                onClick={handleUpload}
               />
-            </motion.div>
-          )}
-          containerStyles={{ backgroundColor: amber[400] }}
-        />
-        <div onClick={handleDownloadAssetFiles}>
-          <ImageLabelCard
-            title="Download Generated Assets"
-            description="Tame these tickets onto your computer storage, unleash it when you are ready to."
-            LeftMotionedComponent={() => (
-              <motion.div variants={DownloadAnimationVariant}>
-                <Image
-                  alt="Upload Assets and Mint"
-                  src="/images/generate/computer.svg"
-                  width="200"
-                  height="200"
-                  style={{ objectFit: "cover" }}
-                  draggable={false}
-                />
-              </motion.div>
-            )}
-            containerStyles={{ backgroundColor: indigo[300] }}
-          />
-        </div>
-        <ControlledStepperButtons
-          handlePrevious={() => setActiveStep((prev) => prev - 1)}
-          handleNext={() => setActiveStep((prev) => prev + 1)}
-        />
+            </Box>
+          </Stack>
+        )}
+        {/* TODO: allow user to check VIP ticket */}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography>Download your generated assets here</Typography>
+          <Box sx={{ width: "280px" }}>
+            <ContainedButton
+              variant="contained"
+              label="Download generated assets"
+              onClick={handleDownloadAssetFiles}
+            />
+          </Box>
+        </Stack>
       </Stack>
+
+      <ControlledStepperButtons
+        isBackDisabled={uploaded === true}
+        handlePrevious={() => setActiveStep((prev) => prev - 1)}
+        handleNext={() => setActiveStep((prev) => prev + 1)}
+      />
     </Box>
   )
 }

@@ -2,10 +2,9 @@ import { Box, Divider, Stack, SxProps, Typography } from "@mui/material"
 import React from "react"
 import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
-import ContainedButton from "../button/ContainedButton"
 
 interface Props {
-  imgUrl: string
+  imgUrl?: string
   title: string
   description: string
   colorFrom?: string
@@ -42,7 +41,6 @@ function ImageLabelCard({
         height: "400px",
         width: "320px"
       }}
-      // style={{ height: "400px", width: "400px" }}
     >
       <motion.div variants={containerMotion}>
         <Box
