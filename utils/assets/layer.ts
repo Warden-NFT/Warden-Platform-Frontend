@@ -33,7 +33,8 @@ export async function readLayeredAsset(
         name: getAssetFileName(file),
         dimension: dimension,
         data: url,
-        occurrence: 100
+        occurrence: 100,
+        isVipAsset: false
       }
 
       return resolve(asset)

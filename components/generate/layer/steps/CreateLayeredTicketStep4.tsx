@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   Divider,
   FormControl,
   FormLabel,
@@ -65,7 +66,8 @@ function CreateLayeredTicketStep4() {
           return {
             id: asset.id,
             name: asset.name,
-            occurrence: asset.occurrence
+            occurrence: asset.occurrence,
+            isVipAsset: false
           }
         })
       }
@@ -82,6 +84,7 @@ function CreateLayeredTicketStep4() {
 
   return (
     <Box>
+      <div>{JSON.stringify(values.layers[0])}</div>
       <form>
         <FormControl required>
           <FormLabel>Generation Amount</FormLabel>
@@ -195,16 +198,27 @@ function CreateLayeredTicketStep4() {
                 <Typography fontWeight="600" sx={{ width: "200px" }}>
                   Occurance %
                 </Typography>
+                <Typography fontWeight="600" sx={{ width: "200px" }}>
+                  VIP component
+                </Typography>
               </Stack>
+              {/* ----- Items ----- */}
               {layers[i].assets.map((asset, j) => (
                 <Stack
                   direction="row"
                   justifyContent="space-between"
                   key={asset.name}
-                  sx={{ width: "100%" }}
                 >
-                  <Typography sx={{ width: "100px" }}>{j + 1}</Typography>
-                  <Box sx={{ width: "140px" }}>
+                  <Box sx={{ width: "100px" }}>
+                    <Typography>{j + 1}</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      width: "200px",
+                      display: "grid",
+                      placeItems: "center"
+                    }}
+                  >
                     <Image
                       src={asset.data}
                       width="50"
@@ -255,6 +269,12 @@ function CreateLayeredTicketStep4() {
                       time(s)
                     </Typography>
                   </Box>
+                  <Checkbox
+                    name={`layers[${i}].assets[${j}].isVipAsset`}
+                    onChange={handleChange}
+                    aria-label={"VIP"}
+                    value={values.layers[i].assets[j].isVipAsset}
+                  />
                 </Stack>
               ))}
             </Stack>

@@ -7,6 +7,7 @@ interface FormUploadedAsset {
   id: number
   name: string
   occurrence: number
+  isVipAsset: boolean
 }
 
 export interface UploadedAsset extends FormUploadedAsset {
