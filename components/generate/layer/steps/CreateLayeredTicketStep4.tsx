@@ -84,7 +84,6 @@ function CreateLayeredTicketStep4() {
 
   return (
     <Box>
-      <div>{JSON.stringify(values.layers[0])}</div>
       <form>
         <FormControl required>
           <FormLabel>Generation Amount</FormLabel>
@@ -181,42 +180,35 @@ function CreateLayeredTicketStep4() {
                   </Box>
                 </FormControl>
               </Stack>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                sx={{ marginY: 2 }}
-              >
-                <Typography fontWeight="600" sx={{ width: "100px" }}>
-                  ID
-                </Typography>
-                <Typography fontWeight="600" sx={{ width: "200px" }}>
-                  Asset
-                </Typography>
-                <Typography fontWeight="600" sx={{ width: "200px" }}>
-                  Name
-                </Typography>
-                <Typography fontWeight="600" sx={{ width: "200px" }}>
-                  Occurance %
-                </Typography>
-                <Typography fontWeight="600" sx={{ width: "200px" }}>
-                  VIP component
-                </Typography>
+              <Stack direction="row" sx={{ marginY: 2 }}>
+                <Box sx={{ width: "100px", marginRight: 4 }}>
+                  <Typography fontWeight="600">ID</Typography>
+                </Box>
+                <Box sx={{ width: "100px", marginRight: 4 }}>
+                  <Typography fontWeight="600">Asset</Typography>
+                </Box>
+                <Box sx={{ width: "240px", marginRight: 4 }}>
+                  <Typography fontWeight="600">Name</Typography>
+                </Box>
+                <Box sx={{ width: "240px", marginRight: 8 }}>
+                  <Typography fontWeight="600">Occurance %</Typography>
+                </Box>
+                <Box sx={{ width: "240px" }}>
+                  <Typography fontWeight="600">
+                    Mark as VIP component
+                  </Typography>
+                </Box>
               </Stack>
               {/* ----- Items ----- */}
               {layers[i].assets.map((asset, j) => (
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  key={asset.name}
-                >
-                  <Box sx={{ width: "100px" }}>
+                <Stack direction="row" alignItems="center" key={asset.name}>
+                  <Box sx={{ width: "100px", marginRight: 4 }}>
                     <Typography>{j + 1}</Typography>
                   </Box>
                   <Box
                     sx={{
-                      width: "200px",
-                      display: "grid",
-                      placeItems: "center"
+                      width: "100px",
+                      marginRight: 4
                     }}
                   >
                     <Image
@@ -241,10 +233,10 @@ function CreateLayeredTicketStep4() {
                       // @ts-ignore
                       errors.layers && errors.layers[i].assets[j].name
                     }
-                    sx={{ width: "200px" }}
+                    sx={{ width: "240px", marginRight: 4 }}
                   />
 
-                  <Box sx={{ width: 200 }}>
+                  <Box sx={{ width: "240px", marginRight: 8 }}>
                     <Slider
                       defaultValue={100}
                       name={`layers[${i}].assets[${j}].occurrence`}
@@ -269,12 +261,14 @@ function CreateLayeredTicketStep4() {
                       time(s)
                     </Typography>
                   </Box>
-                  <Checkbox
-                    name={`layers[${i}].assets[${j}].isVipAsset`}
-                    onChange={handleChange}
-                    aria-label={"VIP"}
-                    value={values.layers[i].assets[j].isVipAsset}
-                  />
+                  <Box sx={{ width: "200px" }}>
+                    <Checkbox
+                      name={`layers[${i}].assets[${j}].isVipAsset`}
+                      onChange={handleChange}
+                      aria-label={"VIP"}
+                      value={values.layers[i].assets[j].isVipAsset}
+                    />
+                  </Box>
                 </Stack>
               ))}
             </Stack>
