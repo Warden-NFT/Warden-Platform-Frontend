@@ -6,21 +6,31 @@ import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLaye
 import { saveAs } from "file-saver"
 import JSZip from "jszip"
 import ContainedButton from "../../../UI/button/ContainedButton"
-import {
-  TicketsMetadata,
-  TicketAttribute
-} from "../../../../dtos/ticket/metadata.dto"
+import { TicketsMetadata } from "../../../../dtos/ticket/metadata.dto"
 import { formatAssetMetadata } from "../../../../utils/generate/layer"
+import { uploadAsset } from "../../../../utils/generate/complete"
 
 function CreateLayeredTicketStep6() {
-  const { setActiveStep, metadataBlob, metadata, formInfo, assets, layers } =
+  const { setActiveStep, metadataBlob, metadata, formInfo, layers } =
     useContext(GenerateLayerContext)
 
   const [uploaded, setUploaded] = useState(false)
   const [uploading, setUploading] = useState(false)
 
-  function handleUpload() {
+  async function handleUpload() {
     // upload individual asset
+
+    const assetMetadata: TicketsMetadata[] = []
+    const assetFiles: File[] = []
+    layers.forEach((layer) => {
+      layer.assets.forEach((asset) => {
+        const _assetMetadata = formatAssetMetadata(layer, asset, formInfo)
+        assetMetadata.push(_assetMetadata)
+        assetFiles.push(asset.file)
+      })
+    })
+
+    await uploadAsset(assetFiles, assetMetadata, `${formInfo.subjectOf}/assets`)
   }
 
   function handleDownloadAssetFiles() {

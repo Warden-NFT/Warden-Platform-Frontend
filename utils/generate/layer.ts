@@ -3,7 +3,10 @@ import {
   TicketsMetadata
 } from "../../dtos/ticket/metadata.dto"
 import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
-import { LayerData } from "../../interfaces/generate/file.interface"
+import {
+  LayerData,
+  UploadedAsset
+} from "../../interfaces/generate/file.interface"
 import {
   LayeredAssetAttribute,
   LayeredTicketMetadata
@@ -85,55 +88,40 @@ function checkDuplicateHash(hashes: string[], hash: string) {
 
 // ------------------------ storage & metadata ------------------------ //
 export function formatAssetMetadata(
-  file: File,
   layer: LayerData,
-  assetIndex: number,
+  asset: UploadedAsset,
   formInfo: LayeredAssetInfo
-): TicketAttribute[] {
-  return [
-    {
-      trait_type: "layerName",
-      value: layer.layerName
-    },
-    {
-      trait_type: "layerId",
-      value: layer.layerId
-    },
-    {
-      trait_type: "assetName",
-      value: layer.assets[assetIndex].name
-    },
-    {
-      trait_type: "assetId",
-      value: layer.assets[assetIndex].id
-    },
-    {
-      trait_type: "isVipAsset",
-      value: layer.assets[assetIndex].isVipAsset
-    },
-    {
-      trait_type: "storageUri",
-      value: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/assets/${file.name}`
-    }
-  ]
+): TicketsMetadata {
+  const imgUrl = `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/assets/${asset.file.name}`
+  return {
+    name: asset.file.name,
+    description: `An asset named ${asset.name} of ${layer.layerName} layer`,
+    image: imgUrl,
+    attributes: [
+      {
+        trait_type: "layerName",
+        value: layer.layerName
+      },
+      {
+        trait_type: "layerId",
+        value: layer.layerId
+      },
+      {
+        trait_type: "assetName",
+        value: asset.name
+      },
+      {
+        trait_type: "assetId",
+        value: asset.id
+      },
+      {
+        trait_type: "isVipAsset",
+        value: asset.isVipAsset
+      },
+      {
+        trait_type: "storageUri",
+        value: imgUrl
+      }
+    ]
+  }
 }
-
-// export function formatLayeredAssetMetadata(metadata: TicketsMetadata[], formInfo: LayeredAssetInfo) {
-//   metadata.map((data, i) => {
-//     const _metadata: TicketsMetadata = {
-//       name: `${formInfo.name}_${i}`,
-//       description: formInfo.description,
-//       image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/generated/${files[i].name}`,
-//       attributes: data.attributes.map(attr => {
-//         const attribute: TicketAttribute = {
-//           value: attr.layerName,
-//           trait_type: attr.asset.name
-//         }
-
-//         return attribute;
-//       })
-//     }
-
-//     return _metadata
-//   })
-// }
