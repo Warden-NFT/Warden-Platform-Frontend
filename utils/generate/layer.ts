@@ -1,3 +1,7 @@
+import {
+  TicketAttribute,
+  TicketsMetadata
+} from "../../dtos/ticket/metadata.dto"
 import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
 import { LayerData } from "../../interfaces/generate/file.interface"
 import {
@@ -78,3 +82,58 @@ function generateCheckHash(layers: LayeredAssetAttribute[]) {
 function checkDuplicateHash(hashes: string[], hash: string) {
   return hashes.includes(hash)
 }
+
+// ------------------------ storage & metadata ------------------------ //
+export function formatAssetMetadata(
+  file: File,
+  layer: LayerData,
+  assetIndex: number,
+  formInfo: LayeredAssetInfo
+): TicketAttribute[] {
+  return [
+    {
+      trait_type: "layerName",
+      value: layer.layerName
+    },
+    {
+      trait_type: "layerId",
+      value: layer.layerId
+    },
+    {
+      trait_type: "assetName",
+      value: layer.assets[assetIndex].name
+    },
+    {
+      trait_type: "assetId",
+      value: layer.assets[assetIndex].id
+    },
+    {
+      trait_type: "isVipAsset",
+      value: layer.assets[assetIndex].isVipAsset
+    },
+    {
+      trait_type: "storageUri",
+      value: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/assets/${file.name}`
+    }
+  ]
+}
+
+// export function formatLayeredAssetMetadata(metadata: TicketsMetadata[], formInfo: LayeredAssetInfo) {
+//   metadata.map((data, i) => {
+//     const _metadata: TicketsMetadata = {
+//       name: `${formInfo.name}_${i}`,
+//       description: formInfo.description,
+//       image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/generated/${files[i].name}`,
+//       attributes: data.attributes.map(attr => {
+//         const attribute: TicketAttribute = {
+//           value: attr.layerName,
+//           trait_type: attr.asset.name
+//         }
+
+//         return attribute;
+//       })
+//     }
+
+//     return _metadata
+//   })
+// }

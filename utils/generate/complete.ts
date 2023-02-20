@@ -18,7 +18,7 @@ export function createAssetMetadata(
     return {
       name: asset.name,
       description: `Ticket cover image ${asset.name}`,
-      image: `https://storage.googleapis.com/nft-generator-microservice-bucket-test/media/${formInfo.subjectOf}/${files[i].name}`,
+      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/${files[i].name}`,
       attributes: [
         { trait_type: "id", value: asset.id.toString() },
         { trait_type: "quantity", value: asset.quantity.toString() },

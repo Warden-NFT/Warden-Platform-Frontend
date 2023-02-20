@@ -6,16 +6,21 @@ import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLaye
 import { saveAs } from "file-saver"
 import JSZip from "jszip"
 import ContainedButton from "../../../UI/button/ContainedButton"
+import {
+  TicketsMetadata,
+  TicketAttribute
+} from "../../../../dtos/ticket/metadata.dto"
+import { formatAssetMetadata } from "../../../../utils/generate/layer"
 
 function CreateLayeredTicketStep6() {
-  const { setActiveStep, metadataBlob, metadata, formInfo } =
+  const { setActiveStep, metadataBlob, metadata, formInfo, assets, layers } =
     useContext(GenerateLayerContext)
 
   const [uploaded, setUploaded] = useState(false)
   const [uploading, setUploading] = useState(false)
 
   function handleUpload() {
-    return
+    // upload individual asset
   }
 
   function handleDownloadAssetFiles() {

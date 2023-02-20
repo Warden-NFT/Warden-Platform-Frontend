@@ -1,3 +1,4 @@
+import { TicketsMetadata } from "../../dtos/ticket/metadata.dto"
 import { PlaceType } from "./location.interface"
 
 export type TicketType = "GENERAL" | "VIP" | "RESERVED_SEAT"
@@ -14,15 +15,6 @@ export enum EVENT_STATUS_TYPE {
   ADMISSION_STARTED = "ADMISSION_STARTED",
   EVENT_STARTED = "EVENT_STARTED",
   EVENT_ENDED = "EVENT_ENDED"
-}
-
-export type TicketsMetadata = {
-  data: {
-    attributes: { value: string; trait_type: string }[]
-    description: string
-    image: string
-    name: string
-  }[]
 }
 
 export interface Event {

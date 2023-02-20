@@ -13,6 +13,7 @@ interface FormUploadedAsset {
 export interface UploadedAsset extends FormUploadedAsset {
   data: string
   dimension: AssetDimension
+  file: File
 }
 
 // Uploaded asset type of the complete asset mode

@@ -8,6 +8,7 @@ declare global {
       SENTRY_AUTH_TOKEN: string
 
       GOOGLE_MAPS_API_KEY: string
+      NEXT_PUBLIC_GCP_STORAGE_URL: string
 
       VERCEL_ENV: "development" | "production"
 
