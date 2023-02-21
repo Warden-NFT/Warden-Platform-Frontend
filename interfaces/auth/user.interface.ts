@@ -13,6 +13,7 @@ export interface User {
   username: string
   verificationStatus: Verification
   accountType: Account
+  profileImage?: string
 }
 
 export interface CustomerUser extends User {

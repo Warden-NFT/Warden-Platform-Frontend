@@ -11,11 +11,6 @@ interface SubRoute {
 
 export const APP_ROUTES: AppRoute[] = [
   {
-    name: "Home",
-    url: "/home",
-    subroutes: []
-  },
-  {
     name: "Marketplace",
     url: "/marketplace",
     subroutes: []
@@ -23,11 +18,6 @@ export const APP_ROUTES: AppRoute[] = [
 ]
 
 export const EVENT_ORGANIZER_APP_ROUTES: AppRoute[] = [
-  {
-    name: "Home",
-    url: "/home",
-    subroutes: []
-  },
   {
     name: "Marketplace",
     url: "/marketplace",
@@ -46,11 +36,6 @@ export const EVENT_ORGANIZER_APP_ROUTES: AppRoute[] = [
 ]
 
 export const CUSTOMER_APP_ROUTES: AppRoute[] = [
-  {
-    name: "Home",
-    url: "/home",
-    subroutes: []
-  },
   {
     name: "Marketplace",
     url: "/marketplace",
