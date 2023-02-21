@@ -19,7 +19,7 @@ export interface EventTicket {
   benefits?: string
 }
 
-export interface TicketSetDTO {
+export interface TicketCollectionDTO {
   tickets: {
     generalTickets?: EventTicket[]
     vipTickets?: EventTicket[]

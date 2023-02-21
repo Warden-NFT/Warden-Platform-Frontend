@@ -1,6 +1,6 @@
 import { client } from "../../configs/axios/axiosConfig"
 import { TicketsMetadata } from "../../dtos/ticket/metadata.dto"
-import { EventTicket, TicketSetDTO } from "../../dtos/ticket/ticket.dto"
+import { EventTicket, TicketCollectionDTO } from "../../dtos/ticket/ticket.dto"
 import { User } from "../../interfaces/auth/user.interface"
 import { TicketType } from "../../interfaces/event/event.interface"
 import { TicketInfo } from "../../interfaces/generate/collection.interface"
@@ -65,7 +65,7 @@ export async function setTicketToEvent(
   if (!user || !user._id) return
 
   const now = new Date()
-  const payload: TicketSetDTO = {
+  const payload: TicketCollectionDTO = {
     tickets: {
       generalTickets: eventTickets,
       vipTickets: vipTickets
@@ -87,7 +87,7 @@ export async function setTicketToEvent(
   const res = await client.post<{
     acknowledged: boolean
     insertedIds: string[]
-  }>(`${URL}/ticket/createEventTickets`, payload)
+  }>(`${URL}/ticket/collection`, payload)
   return res.data
 }
 
@@ -103,7 +103,7 @@ export async function uploadAsset(
   })
   formData.append("folder", folder)
   formData.append("metadata", JSON.stringify(metadata))
-  const res = await client.post(`${URL}/ticket/saveTicketSetImages`, formData, {
+  const res = await client.post(`${URL}/ticket/assets`, formData, {
     headers: {
       "Content-Type": "multipart/form-data"
     }
@@ -116,6 +116,6 @@ export async function uploadEventTicket(assetMetadata: EventTicket[]) {
   const res = await client.post<{
     acknowledge: boolean
     insertedIds: string[]
-  }>(`${URL}/ticket/createEventTickets`, assetMetadata)
+  }>(`${URL}/ticket/assets`, assetMetadata)
   return res.data
 }
