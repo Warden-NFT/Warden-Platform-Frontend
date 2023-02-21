@@ -5,7 +5,6 @@ import LayeredDropzone from "../LayeredDropzone"
 import LayerAssetPreviewCard from "../LayerAssetPreviewCard"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import ContainedButton from "../../../UI/button/ContainedButton"
-import HeaderText from "../../../UI/typography/SectionHeader"
 
 function CreateLayeredTicketStep2() {
   const { layers, setLayers, setActiveStep, setAssets } =
@@ -19,17 +18,27 @@ function CreateLayeredTicketStep2() {
   return (
     <Box>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <HeaderText
-          text="View your assets"
-          RightObject={() => (
-            <ContainedButton
-              label="Clear all"
-              type="button"
-              variant="contained"
-              onClick={handleClearAll}
-            />
-          )}
-        />
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ width: "100%", paddingY: 2 }}
+        >
+          <Box>
+            <Typography variant="h4" component="h1" fontWeight="700">
+              Upload & View your assets
+            </Typography>
+            <Typography variant="caption" component="p">
+              Upload and view each of your layers
+            </Typography>
+          </Box>
+          <ContainedButton
+            label="Clear all"
+            type="button"
+            variant="contained"
+            onClick={handleClearAll}
+          />
+        </Stack>
       </Stack>
       <Stack direction="column">
         {layers.length > 0 ? (
