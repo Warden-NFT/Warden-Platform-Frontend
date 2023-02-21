@@ -14,7 +14,7 @@ export const useEvents = () => {
 
   const getEventFromOrganizer = async () => {
     try {
-      const res = await client.get<Event[]>("/event/getEventFromOrganizer")
+      const res = await client.get<Event[]>("/event/organizer")
       const events: Event[] = res.data
       setEvents(events)
       return events
@@ -30,7 +30,7 @@ export const useEvents = () => {
 
   const getEvent = async (id: string): Promise<Event | undefined> => {
     try {
-      const res = await client.get<Event>("/event/getEvent", { params: { id } })
+      const res = await client.get<Event>("/event", { params: { id } })
       const event = res.data
       setCurrentEvent(event)
       return event
