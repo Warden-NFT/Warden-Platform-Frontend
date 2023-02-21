@@ -48,7 +48,7 @@ function CreateCompleteTicketStep1() {
       >
         <EventCreationAlert
           title="Have you create an event yet?"
-          href="/create/event"
+          href="/event"
           hrefDescription="Go to Create Event"
           description="Make sure to create an event before creating a ticket."
           sx={{ backgroundColor: purple[50] }}
