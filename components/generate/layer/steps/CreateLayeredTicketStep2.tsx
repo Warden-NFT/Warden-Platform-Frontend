@@ -4,8 +4,6 @@ import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLaye
 import LayeredDropzone from "../LayeredDropzone"
 import LayerAssetPreviewCard from "../LayerAssetPreviewCard"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
-import Image from "next/image"
-import { grey } from "@mui/material/colors"
 import ContainedButton from "../../../UI/button/ContainedButton"
 import HeaderText from "../../../UI/typography/SectionHeader"
 
