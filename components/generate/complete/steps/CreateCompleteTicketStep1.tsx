@@ -144,18 +144,16 @@ function CreateCompleteTicketStep1() {
               What is the benefit of VIP tickets?
             </Typography>
             <TextFieldWrapper
-              name="vipDescription"
-              value={values.vipDescription}
+              name="vipBenefit"
+              value={values.vipBenefit}
               onChange={handleChange}
-              id="vipDescription-input"
-              data-testid="vipDescription-input"
+              id="vipBenefit-input"
+              data-testid="vipBenefit-input"
               placeholder="Describe about the benefits of VIP ticket"
               variant="outlined"
               size="small"
-              error={errors.vipDescription != null}
-              helperText={
-                touched.vipDescription ? errors.vipDescription : undefined
-              }
+              error={errors.vipBenefit != null}
+              helperText={touched.vipBenefit ? errors.vipBenefit : undefined}
             />
           </FormControl>
         )}

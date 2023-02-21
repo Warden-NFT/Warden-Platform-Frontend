@@ -56,7 +56,7 @@ export const CreateTicketInfoSchema = object().shape(
       ),
     // Not allow enabling ticket type that contradict Reserved Seats
     reservedSeatEnabled: boolean().default(false),
-    vipDescription: string().when(["vipEnabled"], {
+    vipBenefit: string().when(["vipEnabled"], {
       is: true,
       then: (schema) =>
         schema

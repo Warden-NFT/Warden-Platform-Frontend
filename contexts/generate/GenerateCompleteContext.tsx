@@ -36,7 +36,7 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
     subjectOf: "",
     generalAdmissionEnabled: true,
     vipEnabled: false,
-    vipDescription: undefined,
+    vipBenefit: undefined,
     reservedSeatEnabled: false,
     price: {
       general: {

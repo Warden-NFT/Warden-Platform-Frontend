@@ -48,9 +48,7 @@ export function createEventTicket(
       description: info.description,
       ownerHistory: [],
       benefits:
-        info.vipEnabled && info.vipDescription
-          ? info.vipDescription
-          : undefined,
+        info.vipEnabled && info.vipBenefit ? info.vipBenefit : undefined,
       ownerId: user._id ?? ""
     }
 
