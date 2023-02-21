@@ -78,6 +78,13 @@ export const CreateTicketInfoSchema = object().shape(
         }
       ),
     price: object()
+      .default({
+        general: {
+          default: 0,
+          min: 0,
+          max: 0
+        }
+      })
       .when("generalAdmissionEnabled", {
         is: true,
         then: object().shape({
@@ -119,48 +126,83 @@ export const CreateTicketInfoSchema = object().shape(
           })
         })
       })
-      .when(["vipEnabled"], {
-        is: [true],
+      .when("vipEnabled", {
+        is: true,
         then: object().shape({
           vip: object().shape({
             default: number()
               .min(0, "Minimum is 0")
               .required("This field is required"),
-            min: number().when("enableResale", {
-              is: true,
-              then: (schema) =>
-                schema
-                  .min(0, "Minimum is 0")
-                  .test(
-                    "lowerThanDefault",
-                    "Min price should be lower than the default price max price.",
-                    (val, ctx) => {
-                      return (
-                        val != null && ctx.parent && val <= ctx.parent.default
-                      )
-                    }
+            min: number()
+              .min(0, "Minimum is 0")
+              .test(
+                "lowerThanDefault",
+                "Min price should be lower than the default price.",
+                (val, ctx) => {
+                  return val != null && ctx.parent && val <= ctx.parent.default
+                }
+              )
+              .when("enableResale", {
+                is: true,
+                then: (schema) => schema.required()
+              }),
+            max: number()
+              .min(0, "Minimum is 0")
+              .test(
+                "max",
+                "Max price should be lower than the resale minimum price.",
+                (val, ctx) => {
+                  return (
+                    val != null &&
+                    ctx.parent &&
+                    val <= ctx.parent.default &&
+                    val >= ctx.parent.min
                   )
-                  .required()
-            }),
-            max: number().when(["enableResale"], {
-              is: true,
-              then: (schema) =>
-                schema
-                  .min(0, "Minimum is 0")
-                  .test(
-                    "max",
-                    "Max price should be lower than the resale minimum price.",
-                    (val, ctx) => {
-                      return (
-                        val != null &&
-                        ctx.parent &&
-                        val <= ctx.parent.default &&
-                        val >= ctx.parent.min
-                      )
-                    }
-                  )
-            })
+                }
+              )
+              .when("enableResale", {
+                is: true,
+                then: (schema) => schema.required("This field is required")
+              })
           })
+
+          // min: number().when(["enableResale"], {
+          //   is: [true],
+          //   then: number()
+          //     .min(0, "Minimum is 0")
+          //     .required("This field is required")
+          //     .test(
+          //       "lowerThanDefault",
+          //       "Min price should be lower than the default price max price.",
+          //       (val, ctx) => {
+          //         console.log(val)
+          //         return (
+          //           val != null && ctx.parent && val <= ctx.parent.default
+          //         )
+          //       }
+          //     )
+          //     .required("This field is required")
+          // }),
+          // max: number().when(["enableResale"], {
+          //   is: [true],
+          //   then: (schema) =>
+          //     schema
+          //       .min(0, "Minimum is 0")
+          //       .required("This field is required")
+          //       .test(
+          //         "max",
+          //         "Max price should be lower than the resale minimum price.",
+          //         (val, ctx) => {
+          //           return (
+          //             val != null &&
+          //             ctx.parent &&
+          //             val <= ctx.parent.default &&
+          //             val >= ctx.parent.min
+          //           )
+          //         }
+          //       )
+          // })
+          // })
         })
       })
   },

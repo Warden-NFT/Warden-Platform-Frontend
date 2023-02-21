@@ -51,6 +51,11 @@ const GenerateLayerContextProvider = ({ ...props }) => {
         default: 0,
         min: 0,
         max: 0
+      },
+      vip: {
+        default: 0,
+        min: 0,
+        max: 0
       }
     },
     enableResale: false,
