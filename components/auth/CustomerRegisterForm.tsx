@@ -2,18 +2,19 @@ import { FormControl, FormLabel, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { client } from "../../configs/axios/axiosConfig"
 import { UserContext } from "../../contexts/user/UserContext"
 import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
-import { Account } from "../../interfaces/auth/user.interface"
 import { RegisterSchema } from "../../schema/auth/register.schema"
 import ContainedButton from "../UI/button/ContainedButton"
 import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
+import Image from "next/image"
 
 function CustomerRegisterForm() {
+  const [profileImage, setProfileImage] = useState<File>()
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
@@ -30,10 +31,21 @@ function CustomerRegisterForm() {
       },
       validationSchema: RegisterSchema,
       onSubmit: async (data) => {
+        const payload = { ...data }
+        payload.phoneNumber = payload.phoneNumber.replaceAll("-", "")
+        const formData = new FormData()
+        type CreateUserPayloadKeys = keyof typeof payload
+        for (const key in payload) {
+          formData.append(key, payload[key as CreateUserPayloadKeys])
+        }
+        if (profileImage) {
+          formData.append("image", profileImage)
+        }
+
         try {
           const res = await client.post<SuccessfulAuthDTO>(
             "/user/registerCustomer",
-            { ...data, accountType: Account.CUSTOMER }
+            formData
           )
           setUserInfo(res.data)
           router.push("/auth/confirm-phone")
@@ -57,6 +69,10 @@ function CustomerRegisterForm() {
         }
       }
     })
+
+  const handleEventImageChange = (e: any) => {
+    setProfileImage(e.target.files[0])
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -126,6 +142,36 @@ function CustomerRegisterForm() {
           error={errors.username != null}
           helperText={touched.username ? errors.username : undefined}
         />
+      </FormControl>
+
+      <FormControl sx={{ width: "100%", minHeight: 84 }}>
+        <FormLabel>Event Image</FormLabel>
+        <Box sx={{ height: 12 }} />
+        <Box sx={{ maxWidth: "100%" }}>
+          {profileImage && (
+            <Image
+              src={URL.createObjectURL(profileImage)}
+              width={200}
+              height={200}
+              alt="event image"
+              style={{ objectFit: "cover", width: "200px", height: "200px" }}
+            />
+          )}
+        </Box>
+        <ContainedButton
+          variant="outlined"
+          width="200px"
+          component="label"
+          label="Upload"
+        >
+          <Typography>Select Image</Typography>
+          <input
+            hidden
+            accept="image/*"
+            type="file"
+            onChange={handleEventImageChange}
+          />
+        </ContainedButton>
       </FormControl>
 
       <Typography variant="h6" component="h1">

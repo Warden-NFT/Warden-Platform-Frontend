@@ -2,7 +2,7 @@ import { FormControl, FormLabel, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useFormik } from "formik"
 import { useRouter } from "next/router"
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { client } from "../../configs/axios/axiosConfig"
 import { UserContext } from "../../contexts/user/UserContext"
 import { SuccessfulAuthDTO } from "../../interfaces/auth/auth.interface"
@@ -11,8 +11,10 @@ import ContainedButton from "../UI/button/ContainedButton"
 import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
+import Image from "next/image"
 
 function EventOrganizerRegisterForm() {
+  const [profileImage, setProfileImage] = useState<File>()
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
@@ -28,18 +30,21 @@ function EventOrganizerRegisterForm() {
       },
       validationSchema: EventOrganizerRegisterSchema,
       onSubmit: async (data) => {
-        const payload = {
-          phoneNumber: data.phoneNumber,
-          email: data.email,
-          username: data.username,
-          password: data.password,
-          organizationName: data.organizationName,
-          verificationStatus: "NotVerified"
+        const payload = { ...data }
+        payload.phoneNumber = payload.phoneNumber.replaceAll("-", "")
+        const formData = new FormData()
+        type CreateUserPayloadKeys = keyof typeof payload
+        for (const key in payload) {
+          formData.append(key, payload[key as CreateUserPayloadKeys])
         }
+        if (profileImage) {
+          formData.append("image", profileImage)
+        }
+
         try {
           const res = await client.post<SuccessfulAuthDTO>(
             "/user/registerEventOrganizer",
-            payload
+            formData
           )
           setUserInfo(res.data)
           router.push("/auth/confirm-phone")
@@ -63,6 +68,10 @@ function EventOrganizerRegisterForm() {
         }
       }
     })
+
+  const handleEventImageChange = (e: any) => {
+    setProfileImage(e.target.files[0])
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -116,6 +125,36 @@ function EventOrganizerRegisterForm() {
           error={errors.username != null}
           helperText={touched.username ? errors.username : undefined}
         />
+      </FormControl>
+
+      <FormControl sx={{ width: "100%", minHeight: 84 }}>
+        <FormLabel>Event Image</FormLabel>
+        <Box sx={{ height: 12 }} />
+        <Box sx={{ maxWidth: "100%" }}>
+          {profileImage && (
+            <Image
+              src={URL.createObjectURL(profileImage)}
+              width={200}
+              height={200}
+              alt="event image"
+              style={{ objectFit: "cover", width: "200px", height: "200px" }}
+            />
+          )}
+        </Box>
+        <ContainedButton
+          variant="outlined"
+          width="200px"
+          component="label"
+          label="Upload"
+        >
+          <Typography>Select Image</Typography>
+          <input
+            hidden
+            accept="image/*"
+            type="file"
+            onChange={handleEventImageChange}
+          />
+        </ContainedButton>
       </FormControl>
 
       <Typography variant="h6" component="h1">
