@@ -42,7 +42,7 @@ export interface Event {
   ticketType: TicketType
   ownerAddress: string
   smartContractAddress: string
-  ticketsMetadata?: TicketsMetadata
+  ticketCollectionId: string
 }
 
 export interface TicketSupplySettings {

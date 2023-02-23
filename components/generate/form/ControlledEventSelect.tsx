@@ -30,8 +30,9 @@ function ControlledEventSelect({
 
   useAsyncEffect(async () => {
     const _events = await getEventFromOrganizer()
-    if (_events) {
-      setEvents(_events)
+    const filtered = _events?.filter((event) => event.ticketCollectionId == "")
+    if (filtered) {
+      setEvents(filtered)
     }
   }, [])
 

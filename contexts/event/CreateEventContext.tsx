@@ -37,7 +37,7 @@ const CreateEventContextProvider = ({ ...props }) => {
   const { showErrorAlert } = useContext(LayoutContext)
 
   // States
-  const DEFAULT_EVENT = {
+  const DEFAULT_EVENT: Event = {
     eventStatus: EVENT_STATUS.NOT_STARTED as unknown as EventStatusType,
     eventKeywords: [],
     location: null,
@@ -45,8 +45,7 @@ const CreateEventContextProvider = ({ ...props }) => {
     ticketSupply: {
       general: 0,
       vip: 0,
-      reservedSeat: 0,
-      total: 0
+      reservedSeat: 0
     },
     organizerId: "",
     subEventId: "",
@@ -62,7 +61,7 @@ const CreateEventContextProvider = ({ ...props }) => {
     ticketType: TICKET_TYPE.GENERAL,
     ownerAddress: "",
     smartContractAddress: "",
-    ticketsMetadata: undefined
+    ticketCollectionId: ""
   }
   const [event, setEvent] = useState<Event>(DEFAULT_EVENT)
   const [activeStep, setActiveStep] = useState<number>(1)
