@@ -165,44 +165,6 @@ export const CreateTicketInfoSchema = object().shape(
                 then: (schema) => schema.required("This field is required")
               })
           })
-
-          // min: number().when(["enableResale"], {
-          //   is: [true],
-          //   then: number()
-          //     .min(0, "Minimum is 0")
-          //     .required("This field is required")
-          //     .test(
-          //       "lowerThanDefault",
-          //       "Min price should be lower than the default price max price.",
-          //       (val, ctx) => {
-          //         console.log(val)
-          //         return (
-          //           val != null && ctx.parent && val <= ctx.parent.default
-          //         )
-          //       }
-          //     )
-          //     .required("This field is required")
-          // }),
-          // max: number().when(["enableResale"], {
-          //   is: [true],
-          //   then: (schema) =>
-          //     schema
-          //       .min(0, "Minimum is 0")
-          //       .required("This field is required")
-          //       .test(
-          //         "max",
-          //         "Max price should be lower than the resale minimum price.",
-          //         (val, ctx) => {
-          //           return (
-          //             val != null &&
-          //             ctx.parent &&
-          //             val <= ctx.parent.default &&
-          //             val >= ctx.parent.min
-          //           )
-          //         }
-          //       )
-          // })
-          // })
         })
       })
   },
