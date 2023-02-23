@@ -54,25 +54,27 @@ function CreateCompleteTicketStep3() {
         )
         if (
           formInfo.ticketQuota.general &&
-          sumAssetQuantity <= formInfo.ticketQuota.general
+          sumAssetQuantity < formInfo.ticketQuota.general
         ) {
           showErrorAlert({
             type: AlertType.ERROR,
             title:
               "Maximum purchased is lower than the amount of general ticket",
-            description: "Your tickets are lower than maximum purchase amount. Please either decrease the maximum purchase amount in step 1 OR increase the amount create in step 3."
+            description:
+              "Your tickets are lower than maximum purchase amount. Please either decrease the maximum purchase amount in step 1 OR increase the amount create in step 3."
           })
           return
         }
         if (
           formInfo.ticketQuota.vip &&
-          sumVipAssetQuantity <= formInfo.ticketQuota.vip
+          sumVipAssetQuantity < formInfo.ticketQuota.vip
         ) {
           showErrorAlert({
             type: AlertType.ERROR,
             title:
               "Maximum VIP purchased is lower than the amount of general ticket",
-            description: "Your VIP tickets are lower than maximum purchase amount. Please either decrease the maximum purchase amount in step 1 OR increase the amount create in step 3."
+            description:
+              "Your VIP tickets are lower than maximum purchase amount. Please either decrease the maximum purchase amount in step 1 OR increase the amount create in step 3."
           })
           return
         }

@@ -1,8 +1,9 @@
 import { number, object, string, boolean, array } from "yup"
 
-export const CreateCompleteTicketStep1Schema = object().shape(
+export const CreateTicketInfoSchema = object().shape(
   {
     currency: string()
+      .default("ETH")
       .oneOf(["ETH", "MATIC"], "This currency is not yet supported")
       .required("Currency is required"),
     name: string()
@@ -10,11 +11,13 @@ export const CreateCompleteTicketStep1Schema = object().shape(
       .required("Ticket name is required"),
     subjectOf: string().required("All ticket must be binded with an event"),
     description: string().max(500, "Ticket description is too long"),
-    enableResale: boolean().required("This field is required"),
-    enableRoyaltyFee: boolean().when(["enableResale"], {
-      is: true,
-      then: (schema) => schema.required("This field is required")
-    }),
+    enableResale: boolean().default(false).required("This field is required"),
+    enableRoyaltyFee: boolean()
+      .default(false)
+      .when("enableResale", {
+        is: true,
+        then: (schema) => schema.required("This field is required")
+      }),
     royaltyFeePercentage: number().when(["enableResale", "enableRoyaltyFee"], {
       is: [true, true],
       then: number()
@@ -25,7 +28,7 @@ export const CreateCompleteTicketStep1Schema = object().shape(
     ticketQuota: object().shape({
       general: number()
         .min(1, "Minimum cannot be below than 1")
-        .when(["enableResale"], {
+        .when("enableResale", {
           is: true,
           then: (schema) => schema.required("This field is required")
         }),
@@ -38,6 +41,7 @@ export const CreateCompleteTicketStep1Schema = object().shape(
     }),
     // Not allow enabling ticket type that contradict General Admission
     generalAdmissionEnabled: boolean()
+      .default(true)
       .when(["generalAdmissionEnabled", "reservedSeatEnabled"], {
         is: [true, false],
         then: (schema) => schema.required("This field is required")
@@ -51,27 +55,36 @@ export const CreateCompleteTicketStep1Schema = object().shape(
         }
       ),
     // Not allow enabling ticket type that contradict Reserved Seats
-    reservedSeatEnabled: boolean(),
-    vipDescription: string().when(["vipEnabled"], {
+    reservedSeatEnabled: boolean().default(false),
+    vipBenefit: string().when(["vipEnabled"], {
       is: true,
       then: (schema) =>
         schema
           .max(200, "Mamimum words reached")
           .required("This field is required")
     }),
-    vipEnabled: boolean().test(
-      "hasOtherEnabled",
-      "You must enable other ticket types before enabling VIP ticket",
-      (_, ctx) => {
-        const { generalAdmissionEnabled, reservedSeatEnabled } = ctx.parent
-        if (generalAdmissionEnabled || reservedSeatEnabled) {
-          return true
-        } else {
-          return false
+    vipEnabled: boolean()
+      .default(false)
+      .test(
+        "hasOtherEnabled",
+        "You must enable other ticket types before enabling VIP ticket",
+        (_, ctx) => {
+          const { generalAdmissionEnabled, reservedSeatEnabled } = ctx.parent
+          if (generalAdmissionEnabled || reservedSeatEnabled) {
+            return true
+          } else {
+            return false
+          }
         }
-      }
-    ),
+      ),
     price: object()
+      .default({
+        general: {
+          default: 0,
+          min: 0,
+          max: 0
+        }
+      })
       .when("generalAdmissionEnabled", {
         is: true,
         then: object().shape({
@@ -114,7 +127,7 @@ export const CreateCompleteTicketStep1Schema = object().shape(
         })
       })
       .when("vipEnabled", {
-        is: (vipEnabled: boolean) => vipEnabled,
+        is: true,
         then: object().shape({
           vip: object().shape({
             default: number()
@@ -124,11 +137,15 @@ export const CreateCompleteTicketStep1Schema = object().shape(
               .min(0, "Minimum is 0")
               .test(
                 "lowerThanDefault",
-                "Min price should be lower than the default price max price.",
+                "Min price should be lower than the default price.",
                 (val, ctx) => {
                   return val != null && ctx.parent && val <= ctx.parent.default
                 }
-              ),
+              )
+              .when("enableResale", {
+                is: true,
+                then: (schema) => schema.required()
+              }),
             max: number()
               .min(0, "Minimum is 0")
               .test(
@@ -143,6 +160,10 @@ export const CreateCompleteTicketStep1Schema = object().shape(
                   )
                 }
               )
+              .when("enableResale", {
+                is: true,
+                then: (schema) => schema.required("This field is required")
+              })
           })
         })
       })

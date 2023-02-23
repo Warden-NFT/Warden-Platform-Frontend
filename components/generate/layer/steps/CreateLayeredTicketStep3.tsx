@@ -6,6 +6,7 @@ import AssetCanvasCard from "../../asset/AssetCanvasCard"
 import PNGAssetPreview from "../../../assets/PNGAssetPreview"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { motion } from "framer-motion"
+import { grey } from "@mui/material/colors"
 
 function CreateLayeredTicketStep3() {
   const { layers, setLayers, setActiveStep } = useContext(GenerateLayerContext)
@@ -34,12 +35,14 @@ function CreateLayeredTicketStep3() {
             </Typography>
           </Stack>
           <Box>
-            <Typography variant="h5" component="h1" sx={{ ml: 8 }}>
-              Drag each item to reorder
-            </Typography>
-            <Typography variant="caption" component="p" sx={{ ml: 8 }}>
-              The order will determine how your ticket will be generated
-            </Typography>
+            <Box sx={{ ml: 5 }}>
+              <Typography variant="h5" component="h1">
+                Drag each item to reorder
+              </Typography>
+              <Typography variant="caption" component="p">
+                The order will determine how your ticket will be generated
+              </Typography>
+            </Box>
             <Reorder.Group axis="y" values={layers} onReorder={setLayers}>
               {layers.map((layer, i) => (
                 <Reorder.Item
@@ -60,7 +63,8 @@ function CreateLayeredTicketStep3() {
                     }}
                     style={{
                       border: "2px solid black",
-                      marginBottom: 10
+                      marginBottom: 10,
+                      borderRadius: "12px"
                     }}
                   >
                     <Stack
@@ -84,7 +88,8 @@ function CreateLayeredTicketStep3() {
                           pl: 2,
                           display: "flex",
                           flexDirection: "row",
-                          alignItems: "center"
+                          alignItems: "center",
+                          borderRadius: "12px"
                         }}
                       >
                         <Stack
@@ -101,6 +106,16 @@ function CreateLayeredTicketStep3() {
                             >
                               {layer.layerName}
                             </Typography>
+                            {i === 0 && (
+                              <Typography color={grey[600]} variant="caption">
+                                Background
+                              </Typography>
+                            )}
+                            {i === layers.length - 1 && (
+                              <Typography color={grey[600]} variant="caption">
+                                Foreground
+                              </Typography>
+                            )}
                           </Box>
                           <Stack
                             direction="row"

@@ -6,6 +6,7 @@ export interface LayeredTicketMetadata {
   name: string // Name of this asset (ex. WARDEN #1)
   attributes: LayeredAssetAttribute[] // Asset's attributes in order of occurance
   hash: string // Hash string used to check if the asset has already been generated or not
+  hasVipAsset: boolean // True if the asset has VIP asset
 }
 
 export interface LayeredAssetAttribute {

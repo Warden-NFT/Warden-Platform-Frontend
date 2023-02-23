@@ -36,16 +36,21 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
     subjectOf: "",
     generalAdmissionEnabled: true,
     vipEnabled: false,
-    vipDescription: undefined,
+    vipBenefit: undefined,
     reservedSeatEnabled: false,
     price: {
       general: {
         default: 0,
         max: 0,
         min: 0
+      },
+      vip: {
+        default: 0,
+        min: 0,
+        max: 0
       }
     },
-    enableResale: true,
+    enableResale: false,
     enableRoyaltyFee: false,
     royaltyFeePercentage: 0,
     ticketQuota: {

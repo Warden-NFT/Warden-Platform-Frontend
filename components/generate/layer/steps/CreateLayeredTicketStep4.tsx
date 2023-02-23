@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   Divider,
   FormControl,
   FormLabel,
@@ -38,8 +39,9 @@ function CreateLayeredTicketStep4() {
           layer.layerOccurrence = data.layers[i].layerOccurrence
           layer.layerName = data.layers[i].layerName
           layer.assets.forEach((asset, j) => {
-            asset.occurrence = data.layers[i].assets[j].occurrence
-            asset.name = data.layers[i].assets[j].name
+            (asset.occurrence = data.layers[i].assets[j].occurrence),
+            (asset.name = data.layers[i].assets[j].name),
+            (asset.isVipAsset = data.layers[i].assets[j].isVipAsset)
           })
         })
 
@@ -65,7 +67,8 @@ function CreateLayeredTicketStep4() {
           return {
             id: asset.id,
             name: asset.name,
-            occurrence: asset.occurrence
+            occurrence: asset.occurrence,
+            isVipAsset: asset.isVipAsset
           }
         })
       }
@@ -178,33 +181,37 @@ function CreateLayeredTicketStep4() {
                   </Box>
                 </FormControl>
               </Stack>
-              <Stack
-                direction="row"
-                justifyContent="space-between"
-                sx={{ marginY: 2 }}
-              >
-                <Typography fontWeight="600" sx={{ width: "100px" }}>
-                  ID
-                </Typography>
-                <Typography fontWeight="600" sx={{ width: "200px" }}>
-                  Asset
-                </Typography>
-                <Typography fontWeight="600" sx={{ width: "200px" }}>
-                  Name
-                </Typography>
-                <Typography fontWeight="600" sx={{ width: "200px" }}>
-                  Occurance %
-                </Typography>
+              <Stack direction="row" sx={{ marginY: 2 }}>
+                <Box sx={{ width: "100px", marginRight: 4 }}>
+                  <Typography fontWeight="600">ID</Typography>
+                </Box>
+                <Box sx={{ width: "100px", marginRight: 4 }}>
+                  <Typography fontWeight="600">Asset</Typography>
+                </Box>
+                <Box sx={{ width: "240px", marginRight: 4 }}>
+                  <Typography fontWeight="600">Name</Typography>
+                </Box>
+                <Box sx={{ width: "240px", marginRight: 8 }}>
+                  <Typography fontWeight="600">Occurance %</Typography>
+                </Box>
+                <Box sx={{ width: "240px" }}>
+                  <Typography fontWeight="600">
+                    Mark as VIP component
+                  </Typography>
+                </Box>
               </Stack>
+              {/* ----- Items ----- */}
               {layers[i].assets.map((asset, j) => (
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  key={asset.name}
-                  sx={{ width: "100%" }}
-                >
-                  <Typography sx={{ width: "100px" }}>{j + 1}</Typography>
-                  <Box sx={{ width: "140px" }}>
+                <Stack direction="row" alignItems="center" key={asset.name}>
+                  <Box sx={{ width: "100px", marginRight: 4 }}>
+                    <Typography>{j + 1}</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      width: "100px",
+                      marginRight: 4
+                    }}
+                  >
                     <Image
                       src={asset.data}
                       width="50"
@@ -227,10 +234,10 @@ function CreateLayeredTicketStep4() {
                       // @ts-ignore
                       errors.layers && errors.layers[i].assets[j].name
                     }
-                    sx={{ width: "200px" }}
+                    sx={{ width: "240px", marginRight: 4 }}
                   />
 
-                  <Box sx={{ width: 200 }}>
+                  <Box sx={{ width: "240px", marginRight: 8 }}>
                     <Slider
                       defaultValue={100}
                       name={`layers[${i}].assets[${j}].occurrence`}
@@ -254,6 +261,14 @@ function CreateLayeredTicketStep4() {
                       ).toFixed(2)}{" "}
                       time(s)
                     </Typography>
+                  </Box>
+                  <Box sx={{ width: "200px" }}>
+                    <Checkbox
+                      name={`layers[${i}].assets[${j}].isVipAsset`}
+                      onChange={handleChange}
+                      aria-label={"VIP"}
+                      value={values.layers[i].assets[j].isVipAsset}
+                    />
                   </Box>
                 </Stack>
               ))}

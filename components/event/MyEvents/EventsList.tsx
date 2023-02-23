@@ -15,7 +15,7 @@ import { Event } from "../../../interfaces/event/event.interface"
 import { useRouter } from "next/router"
 
 function EventsList() {
-  const { events, getEventFromOrganizer } = useEvents()
+  const { events, getEventFromOrganizer, eventLoading } = useEvents()
   const router = useRouter()
 
   useEffect(() => {
@@ -38,36 +38,7 @@ function EventsList() {
         gridTemplateColumns: "repeat(3, 1fr)"
       }}
     >
-      {events.length ? (
-        events.map((event: Event, index: number) => (
-          <HoverCard key={index} sx={{ height: 400 }}>
-            <ButtonBase
-              sx={{ textAlign: "start", width: "100%" }}
-              onClick={() => handleClickEvent(event._id)}
-            >
-              <Card
-                sx={{ p: 0, height: 400, width: "100%", borderRadius: 0 }}
-                key={index}
-                elevation={0}
-              >
-                <CardMedia
-                  sx={{ height: 140 }}
-                  image={event.image as string}
-                  title={event.name}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {event.name}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {event.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </ButtonBase>
-          </HoverCard>
-        ))
-      ) : (
+      {eventLoading ? (
         <Card
           sx={{ p: 0, border: "2px solid #000", height: 400 }}
           elevation={0}
@@ -80,6 +51,43 @@ function EventsList() {
             <Skeleton width="60%" />
           </Box>
         </Card>
+      ) : (
+        <>
+          {events.length ? (
+            events.map((event: Event, index: number) => (
+              <HoverCard key={index} sx={{ height: 400 }}>
+                <ButtonBase
+                  sx={{ textAlign: "start", width: "100%" }}
+                  onClick={() => handleClickEvent(event._id)}
+                >
+                  <Card
+                    sx={{ p: 0, height: 400, width: "100%", borderRadius: 0 }}
+                    key={index}
+                    elevation={0}
+                  >
+                    <CardMedia
+                      sx={{ height: 140 }}
+                      image={event.image as string}
+                      title={event.name}
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        {event.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {event.description}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </ButtonBase>
+              </HoverCard>
+            ))
+          ) : (
+            <Box>
+              <Typography>Create your first event now!</Typography>
+            </Box>
+          )}
+        </>
       )}
     </Box>
   )

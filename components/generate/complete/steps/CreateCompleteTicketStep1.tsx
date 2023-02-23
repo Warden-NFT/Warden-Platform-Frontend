@@ -12,7 +12,7 @@ import { red, purple } from "@mui/material/colors"
 import { useFormik } from "formik"
 import React, { useContext } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
-import { CreateCompleteTicketStep1Schema } from "../../../../schema/generate/complete"
+import { CreateTicketInfoSchema } from "../../../../schema/generate/complete"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import ControlledEventSelect from "../../form/ControlledEventSelect"
 import EventCreationAlert from "../../form/EventCreationAlert"
@@ -28,7 +28,7 @@ function CreateCompleteTicketStep1() {
     useFormik({
       initialValues: { ...formInfo },
       enableReinitialize: true,
-      validationSchema: CreateCompleteTicketStep1Schema,
+      validationSchema: CreateTicketInfoSchema,
       onSubmit: (data) => {
         setFormInfo(data)
         setActiveStep((prev) => prev + 1)
@@ -48,7 +48,7 @@ function CreateCompleteTicketStep1() {
       >
         <EventCreationAlert
           title="Have you create an event yet?"
-          href="/create/event"
+          href="/event"
           hrefDescription="Go to Create Event"
           description="Make sure to create an event before creating a ticket."
           sx={{ backgroundColor: purple[50] }}
@@ -139,24 +139,21 @@ function CreateCompleteTicketStep1() {
         </FormControl>
         {values.vipEnabled && (
           <FormControl required>
-            <FormLabel>VIP Ticket Description</FormLabel>
+            <FormLabel>VIP Ticket Benefit</FormLabel>
             <Typography variant="caption">
-              What does VIP ticket do? Is there any other permission granted to
-              the owner?
+              What is the benefit of VIP tickets?
             </Typography>
             <TextFieldWrapper
-              name="vipDescription"
-              value={values.vipDescription}
+              name="vipBenefit"
+              value={values.vipBenefit}
               onChange={handleChange}
-              id="vipDescription-input"
-              data-testid="vipDescription-input"
-              placeholder="Describe about the perk of VIP ticket"
+              id="vipBenefit-input"
+              data-testid="vipBenefit-input"
+              placeholder="Describe about the benefits of VIP ticket"
               variant="outlined"
               size="small"
-              error={errors.vipDescription != null}
-              helperText={
-                touched.vipDescription ? errors.vipDescription : undefined
-              }
+              error={errors.vipBenefit != null}
+              helperText={touched.vipBenefit ? errors.vipBenefit : undefined}
             />
           </FormControl>
         )}
@@ -176,7 +173,6 @@ function CreateCompleteTicketStep1() {
 
             <Switch
               value={values.enableResale}
-              defaultChecked
               name="enableResale"
               id="enableResale-switch"
               data-testid="enableResale-switch"

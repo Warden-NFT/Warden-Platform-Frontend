@@ -31,9 +31,11 @@ export async function readLayeredAsset(
       const asset: UploadedAsset = {
         id: index + 1,
         name: getAssetFileName(file),
+        file: file,
         dimension: dimension,
         data: url,
-        occurrence: 100
+        occurrence: 100,
+        isVipAsset: false
       }
 
       return resolve(asset)

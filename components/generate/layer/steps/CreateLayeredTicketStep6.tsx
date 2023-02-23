@@ -1,64 +1,158 @@
-import React, { useContext } from "react"
-import { Box, Stack } from "@mui/material"
-import ImageLabelCard from "../../../UI/card/ImageLabelCard"
-import { amber, indigo } from "@mui/material/colors"
-import { Variants, motion } from "framer-motion"
-import Image from "next/image"
+import React, { useContext, useEffect, useState } from "react"
+import { Box, Stack, Typography } from "@mui/material"
+import { purple } from "@mui/material/colors"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
 import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import { saveAs } from "file-saver"
 import JSZip from "jszip"
+import ContainedButton from "../../../UI/button/ContainedButton"
+import { TicketsMetadata } from "../../../../dtos/ticket/metadata.dto"
+import {
+  formatAssetMetadata,
+  formatLayeredAssetMetadata
+} from "../../../../utils/generate/layer"
+import {
+  createEventTicket,
+  uploadAsset,
+  uploadEventTicket
+} from "../../../../utils/generate/complete"
+import { EventTicket } from "../../../../dtos/ticket/ticket.dto"
+import { UserContext } from "../../../../contexts/user/UserContext"
+import { useAuthAccount } from "../../../../hooks/useAuthAccount"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 
-const UploadAnimationVariant: Variants = {
-  rest: {
-    x: 0,
-    y: 0,
-    transition: {
-      duration: 0.5
-    }
-  },
-  hover: {
-    x: -20,
-    y: 100,
-    scale: 2.3,
-    rotate: [0, 20, 0, -20, 0, 10, 0, -10, 0],
-    transition: {
-      ease: "easeInOut",
-      duration: 0.2
-    }
-  }
-}
-const DownloadAnimationVariant: Variants = {
-  rest: {
-    x: 0,
-    y: 0,
-    transition: {
-      duration: 0.5
-    }
-  },
-  hover: {
-    x: 0,
-    y: [-30, 0],
-    opacity: 100,
-    transition: {
-      type: "spring"
-    }
-  }
+interface TicketMetadataBlob {
+  metadata: TicketsMetadata
+  blob: Blob
 }
 
 function CreateLayeredTicketStep6() {
-  const { setActiveStep, metadataBlob, metadata, formInfo } =
-    useContext(GenerateLayerContext)
+  const {
+    setActiveStep,
+    metadataBlob,
+    metadata: layeredGeneratedMetadata,
+    formInfo,
+    layers,
+    assets
+  } = useContext(GenerateLayerContext)
 
-  function handleDownloadAssetFiles() {
+  const { setShowLoadingBackdrop } = useContext(LayoutContext)
+  const { user } = useContext(UserContext)
+  const { address } = useAuthAccount()
+
+  const [uploaded, setUploaded] = useState(false)
+  const [uploading, setUploading] = useState(false)
+
+  const [assetMedata, setAssetMetadata] = useState<TicketsMetadata[]>([])
+  const [assetFiles, setAssetFiles] = useState<File[]>([])
+  const [generatedMetadata, setGeneratedAssetsMetadata] = useState<{
+    general: TicketMetadataBlob[]
+    vip?: TicketMetadataBlob[]
+    reserved?: TicketMetadataBlob[]
+  }>()
+
+  useEffect(() => {
+    if (!user || !user._id) return
+
+    const _assetMetadata: TicketsMetadata[] = []
+    const assetFiles: File[] = []
+
+    layers.forEach((layer) => {
+      layer.assets.forEach((asset) => {
+        const metadata = formatAssetMetadata(layer, asset, formInfo)
+        _assetMetadata.push(metadata)
+        assetFiles.push(asset.file)
+      })
+    })
+
+    const { regulars, vips } = formatLayeredAssetMetadata(
+      layeredGeneratedMetadata,
+      formInfo,
+      metadataBlob
+    )
+    setGeneratedAssetsMetadata({
+      general: regulars,
+      vip: vips
+    })
+    setAssetFiles(assetFiles)
+    setAssetMetadata(_assetMetadata)
+  }, [layers])
+
+  async function handleUpload() {
+    // setShowLoadingBackdrop(true)
+    // setUploading(true)
+    // upload individual asset
+
+    console.log("uploading")
+
+    let eventTickets: EventTicket[] = []
+    await uploadAsset(assetFiles, assetMedata, `${formInfo.subjectOf}/assets`)
+
+    try {
+      console.log("1")
+
+      if (generatedMetadata?.general) {
+        console.log("2")
+        const files: File[] = generatedMetadata.general.map(
+          (m) => new File([m.blob], `${m.metadata.name}.PNG`)
+        )
+        const metadata = generatedMetadata.general.map((m) => m.metadata)
+        const eventMetadata = createEventTicket(
+          metadata,
+          formInfo,
+          address,
+          user,
+          "GENERAL"
+        )
+        eventTickets = [...eventTickets, ...eventMetadata]
+        await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
+      }
+
+      if (generatedMetadata?.vip) {
+        console.log("3")
+        const files: File[] = generatedMetadata.vip.map(
+          (m) => new File([m.blob], `${m.metadata.name}.PNG`)
+        )
+        const metadata = generatedMetadata.vip.map((m) => m.metadata)
+        const eventMetadata = createEventTicket(
+          metadata,
+          formInfo,
+          address,
+          user,
+          "VIP"
+        )
+        eventTickets = [...eventTickets, ...eventMetadata]
+        await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
+      }
+    } catch (e) {
+      setShowLoadingBackdrop(false)
+      setUploading(false)
+    }
+
+    //TODO: ADD RESERVE SEATS?
+  }
+
+  async function handleDownloadAssetFiles() {
     const zip = new JSZip()
 
-    const img = zip.folder(formInfo.name)
-    metadata.forEach((data, i) => {
-      if (img) {
-        img.file(`${data?.name}.png`, metadataBlob[i], { binary: true })
-      }
-    })
+    const generatedDir = zip.folder(`${formInfo.name}/generated`)
+    const assetsDir = zip.folder(`${formInfo.name}/assets`)
+
+    if (generatedDir) {
+      generatedDir.file("metadata.json", JSON.stringify(generatedMetadata))
+      layeredGeneratedMetadata.forEach((data, i) => {
+        generatedDir.file(`${data?.name}.png`, metadataBlob[i], {
+          binary: true
+        })
+      })
+    }
+
+    if (assetsDir) {
+      assetsDir.file("metadata.json", JSON.stringify(assetMedata))
+      assets.forEach((asset) => {
+        assetsDir.file(asset.name, asset, { binary: true })
+      })
+    }
 
     zip.generateAsync({ type: "blob" }).then((content) => {
       saveAs(content, `${formInfo.name}.zip`)
@@ -67,56 +161,71 @@ function CreateLayeredTicketStep6() {
 
   return (
     <Box>
+      <Box sx={{ marginBottom: 2 }}>
+        <Typography variant="h3" component="h1">
+          Customize NFTs Utility
+        </Typography>
+        <Typography component="h2">
+          Recheck your ticket's information
+        </Typography>
+      </Box>
       <Stack spacing={2}>
-        <ImageLabelCard
-          title="Upload Generated Assets and Mint"
-          description="Release your wonderful tickets for your event to the public. Your ticket will be able to mint and deploy to the smart contract!"
-          LeftMotionedComponent={() => (
-            <motion.div
-              variants={UploadAnimationVariant}
-              style={{
-                maxWidth: 200,
-                display: "grid",
-                placeItems: "center",
-                paddingLeft: 20
-              }}
-            >
-              <Image
-                alt="Upload Generated Assets and Mint"
-                src="/images/logo/Pinnie.svg"
-                width="200"
-                height="200"
-                style={{ objectFit: "cover" }}
-                draggable={false}
+        {uploaded ? (
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ padding: 2, backgroundColor: purple[50], borderRadius: 2 }}
+          >
+            <Box>
+              <Typography variant="body1" component="h3" fontWeight="600">
+                Congrats!
+              </Typography>
+              <Typography variant="subtitle1">
+                Your tickets have been created!
+              </Typography>
+            </Box>
+          </Stack>
+        ) : (
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Typography>If you are ready</Typography>
+            <Box sx={{ width: "280px" }}>
+              <ContainedButton
+                // isLoading={uploading}
+                label="Create ticket"
+                width="100%"
+                variant="contained"
+                onClick={handleUpload}
               />
-            </motion.div>
-          )}
-          containerStyles={{ backgroundColor: amber[400] }}
-        />
-        <div onClick={handleDownloadAssetFiles}>
-          <ImageLabelCard
-            title="Download Generated Assets"
-            description="Tame these tickets onto your computer storage, unleash it when you are ready to."
-            LeftMotionedComponent={() => (
-              <motion.div variants={DownloadAnimationVariant}>
-                <Image
-                  alt="Upload Assets and Mint"
-                  src="/images/generate/computer.svg"
-                  width="200"
-                  height="200"
-                  style={{ objectFit: "cover" }}
-                  draggable={false}
-                />
-              </motion.div>
-            )}
-            containerStyles={{ backgroundColor: indigo[300] }}
-          />
-        </div>
-        <ControlledStepperButtons
-          handlePrevious={() => setActiveStep((prev) => prev - 1)}
-          handleNext={() => setActiveStep((prev) => prev + 1)}
-        />
+            </Box>
+          </Stack>
+        )}
+        {/* TODO: allow user to check VIP ticket */}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography>Download your generated assets here</Typography>
+          <Box sx={{ width: "280px" }}>
+            <ContainedButton
+              variant="contained"
+              label="Download generated assets"
+              onClick={handleDownloadAssetFiles}
+            />
+          </Box>
+        </Stack>
       </Stack>
+
+      <ControlledStepperButtons
+        isBackDisabled={uploaded === true}
+        handlePrevious={() => setActiveStep((prev) => prev - 1)}
+        handleNext={() => setActiveStep((prev) => prev + 1)}
+      />
     </Box>
   )
 }

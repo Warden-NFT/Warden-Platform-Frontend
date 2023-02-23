@@ -7,11 +7,13 @@ interface FormUploadedAsset {
   id: number
   name: string
   occurrence: number
+  isVipAsset: boolean
 }
 
 export interface UploadedAsset extends FormUploadedAsset {
   data: string
   dimension: AssetDimension
+  file: File
 }
 
 // Uploaded asset type of the complete asset mode

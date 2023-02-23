@@ -1,11 +1,24 @@
+import {
+  TicketAttribute,
+  TicketsMetadata
+} from "../../dtos/ticket/metadata.dto"
 import { LayeredAssetInfo } from "../../interfaces/generate/collection.interface"
-import { LayerData } from "../../interfaces/generate/file.interface"
+import {
+  LayerData,
+  UploadedAsset
+} from "../../interfaces/generate/file.interface"
 import {
   LayeredAssetAttribute,
   LayeredTicketMetadata
 } from "../../interfaces/generate/metadata.interface"
 import { isLowerTail, weightedRandom } from "../random/random"
 
+/**
+ * Randomly create a metadata of assets using weighted random.
+ * @param form form data required for the generated metadata
+ * @param layers metadata for each layer
+ * @returns medata of the generated ticket asset
+ */
 export function generateRandomLayer(
   form: LayeredAssetInfo,
   layers: LayerData[]
@@ -54,19 +67,22 @@ export function generateRandomLayer(
     if (isDuplicated) {
       continue
     } else {
+      const hasVip = assetAttributes.find(
+        (attr) => attr.asset.isVipAsset === true
+      )
       metadata.push({
         id: id,
         createdAt: new Date(),
         name: `${form.name}_${id}`,
         attributes: assetAttributes,
-        hash: checkHash
+        hash: checkHash,
+        hasVipAsset: Boolean(hasVip)
       })
       generatedAmount++
       id++
     }
   }
 
-  // console.table(metadata)
   return { metadata, generatedAmount, checkHashes }
 }
 
@@ -77,4 +93,86 @@ function generateCheckHash(layers: LayeredAssetAttribute[]) {
 
 function checkDuplicateHash(hashes: string[], hash: string) {
   return hashes.includes(hash)
+}
+
+// ------------------------ storage & metadata ------------------------ //
+export function formatAssetMetadata(
+  layer: LayerData,
+  asset: UploadedAsset,
+  formInfo: LayeredAssetInfo
+): TicketsMetadata {
+  const imgUrl = `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/assets/${asset.file.name}`
+  return {
+    name: asset.file.name,
+    description: `An asset named ${asset.name} of ${layer.layerName} layer`,
+    image: imgUrl,
+    attributes: [
+      {
+        trait_type: "layerName",
+        value: layer.layerName
+      },
+      {
+        trait_type: "layerId",
+        value: layer.layerId
+      },
+      {
+        trait_type: "assetName",
+        value: asset.name
+      },
+      {
+        trait_type: "assetId",
+        value: asset.id
+      },
+      {
+        trait_type: "isVipAsset",
+        value: asset.isVipAsset
+      },
+      {
+        trait_type: "storageUri",
+        value: imgUrl
+      }
+    ]
+  }
+}
+
+interface TicketMetadataBlob {
+  metadata: TicketsMetadata
+  blob: Blob
+}
+
+export function formatLayeredAssetMetadata(
+  metadata: LayeredTicketMetadata[],
+  formInfo: LayeredAssetInfo,
+  blobs: Blob[]
+) {
+  const regularTickets: TicketMetadataBlob[] = []
+  const vipTickets: TicketMetadataBlob[] = []
+
+  metadata.forEach((data, i) => {
+    const ticket: TicketsMetadata = {
+      name: data.name,
+      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/geneated/${data.name}`,
+      description: formInfo.description,
+      attributes: data.attributes.map((attribute) => {
+        return {
+          trait_type: attribute.layerName,
+          value: attribute.asset.name
+        }
+      })
+    }
+
+    if (data.hasVipAsset) {
+      vipTickets.push({
+        metadata: ticket,
+        blob: blobs[i]
+      })
+    } else {
+      regularTickets.push({
+        metadata: ticket,
+        blob: blobs[i]
+      })
+    }
+  })
+
+  return { regulars: regularTickets, vips: vipTickets }
 }

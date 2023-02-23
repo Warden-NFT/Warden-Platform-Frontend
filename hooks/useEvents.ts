@@ -5,6 +5,7 @@ import { Event } from "../interfaces/event/event.interface"
 import { AlertType } from "../interfaces/modal/alert.interface"
 
 export const useEvents = () => {
+  const [eventLoading, setEventLoading] = useState(false)
   // Hooks
   const { showErrorAlert } = useContext(LayoutContext)
 
@@ -13,12 +14,15 @@ export const useEvents = () => {
   const [currentEvent, setCurrentEvent] = useState<Event>()
 
   const getEventFromOrganizer = async () => {
+    setEventLoading(true)
     try {
-      const res = await client.get<Event[]>("/event/getEventFromOrganizer")
+      const res = await client.get<Event[]>("/event/organizer")
       const events: Event[] = res.data
       setEvents(events)
+      setEventLoading(false)
       return events
     } catch (error) {
+      setEventLoading(false)
       showErrorAlert({
         type: AlertType.ERROR,
         title: "Error",
@@ -30,7 +34,7 @@ export const useEvents = () => {
 
   const getEvent = async (id: string): Promise<Event | undefined> => {
     try {
-      const res = await client.get<Event>("/event/getEvent", { params: { id } })
+      const res = await client.get<Event>("/event", { params: { id } })
       const event = res.data
       setCurrentEvent(event)
       return event
@@ -50,6 +54,7 @@ export const useEvents = () => {
     currentEvent,
     setCurrentEvent,
     getEventFromOrganizer,
-    getEvent
+    getEvent,
+    eventLoading
   }
 }

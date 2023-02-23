@@ -7,12 +7,12 @@ function GeneratePage() {
   useAuthAccount()
 
   return (
-    <Container sx={{ display: "grid", placeItems: "center" }}>
+    <Container sx={{ display: "grid", placeItems: "center", paddingTop: 4 }}>
       <Typography variant="h4" fontWeight="800">
         Welcome to NFT ticket generator
       </Typography>
 
-      <Box sx={{ textAlign: "center" }}>
+      <Box sx={{ textAlign: "center", marginBottom: 4 }}>
         <Typography variant="h6">
           What mode would you like to use to generate your event ticket
         </Typography>

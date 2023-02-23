@@ -4,6 +4,7 @@ import Link from "next/link"
 import React from "react"
 import AnnouncementIcon from "@mui/icons-material/Announcement"
 import ContainedButton from "../../UI/button/ContainedButton"
+import { useRouter } from "next/router"
 
 interface Props {
   sx?: SxProps<Theme>
@@ -22,6 +23,7 @@ function EventCreationAlert({
   hrefDescription,
   iconTheme
 }: Props) {
+  const router = useRouter()
   return (
     <Box
       sx={{
@@ -68,13 +70,12 @@ function EventCreationAlert({
             </Typography>
           </Box>
 
-          <Link href={href} style={{ marginLeft: 6, textDecoration: "none" }}>
-            <ContainedButton
-              label={hrefDescription}
-              variant="outlined"
-              sx={{ backgroundColor: "white" }}
-            />
-          </Link>
+          <ContainedButton
+            onClick={() => router.push(href)}
+            label={hrefDescription}
+            variant="outlined"
+            sx={{ backgroundColor: "white" }}
+          />
         </Stack>
       </Box>
     </Box>

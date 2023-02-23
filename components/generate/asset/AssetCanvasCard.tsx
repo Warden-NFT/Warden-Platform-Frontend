@@ -82,6 +82,7 @@ function AssetCanvasCard({
         width: renderWidth,
         height: renderHeight,
         overflow: "hidden",
+        borderRadius: "8px",
         ...sx
       }}
     >

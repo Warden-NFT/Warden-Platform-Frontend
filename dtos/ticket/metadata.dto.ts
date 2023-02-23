@@ -6,6 +6,6 @@ export interface TicketsMetadata {
 }
 
 export interface TicketAttribute {
-  value: string
+  value: string | number | boolean
   trait_type: string
 }

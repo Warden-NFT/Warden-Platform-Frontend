@@ -68,7 +68,7 @@ function LayeredDropzone() {
         <input {...getInputProps()} />
         {isDragActive ? (
           <Image
-            src="/images/generate/dropzone-drag-active.png"
+            src="/images/generate/upload-asset.svg"
             width="100"
             height="100"
             alt="Accepting Files"

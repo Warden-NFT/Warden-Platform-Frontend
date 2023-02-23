@@ -1,4 +1,4 @@
-import { Box, FormControl, Stack, Typography } from "@mui/material"
+import { Box, Stack, Typography } from "@mui/material"
 import { purple } from "@mui/material/colors"
 import React, { useContext, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
@@ -54,13 +54,15 @@ function CreateCompleteTicketStep4() {
       ticketMetadata,
       formInfo,
       address,
-      user
+      user,
+      "GENERAL"
     )
     const vipTickets = createEventTicket(
       vipTicketMetadata,
       formInfo,
       address,
-      user
+      user,
+      "VIP"
     )
 
     try {

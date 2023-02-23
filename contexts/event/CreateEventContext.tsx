@@ -92,7 +92,7 @@ const CreateEventContextProvider = ({ ...props }) => {
     data.image = ""
 
     try {
-      const res = await client.post<Event>("event/createEvent", data)
+      const res = await client.post<Event>("event", data)
       const eventId = res.data._id
       const updatedEvent = res.data
 
@@ -100,7 +100,7 @@ const CreateEventContextProvider = ({ ...props }) => {
         const formData = new FormData()
         formData.append("image", eventImage)
         formData.append("eventId", eventId ?? "")
-        const res = await client.post("/event/uploadEventImage", formData)
+        const res = await client.post("/event/image", formData)
         updatedEvent.image = res.data
       }
       return updatedEvent
