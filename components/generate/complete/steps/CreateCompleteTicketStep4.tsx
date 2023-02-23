@@ -54,13 +54,15 @@ function CreateCompleteTicketStep4() {
       ticketMetadata,
       formInfo,
       address,
-      user
+      user,
+      "GENERAL"
     )
     const vipTickets = createEventTicket(
       vipTicketMetadata,
       formInfo,
       address,
-      user
+      user,
+      "VIP"
     )
 
     try {

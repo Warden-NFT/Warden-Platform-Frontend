@@ -39,8 +39,9 @@ function CreateLayeredTicketStep4() {
           layer.layerOccurrence = data.layers[i].layerOccurrence
           layer.layerName = data.layers[i].layerName
           layer.assets.forEach((asset, j) => {
-            asset.occurrence = data.layers[i].assets[j].occurrence
-            asset.name = data.layers[i].assets[j].name
+            (asset.occurrence = data.layers[i].assets[j].occurrence),
+            (asset.name = data.layers[i].assets[j].name),
+            (asset.isVipAsset = data.layers[i].assets[j].isVipAsset)
           })
         })
 
@@ -67,7 +68,7 @@ function CreateLayeredTicketStep4() {
             id: asset.id,
             name: asset.name,
             occurrence: asset.occurrence,
-            isVipAsset: false
+            isVipAsset: asset.isVipAsset
           }
         })
       }

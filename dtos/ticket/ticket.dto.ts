@@ -4,6 +4,7 @@ import {
   TicketTypePricing
 } from "../../interfaces/generate/collection.interface"
 import { SupportedDigitalCurrency } from "../../interfaces/currency/currency.interface"
+import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
 
 export type EventId = string
 
@@ -16,6 +17,7 @@ export interface EventTicket {
   ticketMetadata: TicketsMetadata[]
   ownerId: string
   ownerHistory: string[]
+  ticketType: TicketTypes
   benefits?: string
 }
 

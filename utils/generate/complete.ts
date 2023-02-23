@@ -34,7 +34,8 @@ export function createEventTicket(
   assetMetadata: TicketsMetadata[],
   info: TicketInfo,
   address: string | undefined,
-  user: User | undefined
+  user: User | undefined,
+  ticketType: TicketType
 ): EventTicket[] {
   if (!address || !user || user?._id == null) return []
 
@@ -47,6 +48,7 @@ export function createEventTicket(
       ticketMetadata: [data],
       description: info.description,
       ownerHistory: [],
+      ticketType: ticketType,
       benefits:
         info.vipEnabled && info.vipBenefit ? info.vipBenefit : undefined,
       ownerId: user._id ?? ""
@@ -103,7 +105,7 @@ export async function uploadAsset(
   })
   formData.append("folder", folder)
   formData.append("metadata", JSON.stringify(metadata))
-  const res = await client.post(`${URL}/ticket/assets`, formData, {
+  const res = await client.post(`${URL}/ticket/collection/assets`, formData, {
     headers: {
       "Content-Type": "multipart/form-data"
     }
@@ -112,10 +114,10 @@ export async function uploadAsset(
   return res.data
 }
 
-export async function uploadEventTicket(assetMetadata: EventTicket[]) {
+export async function uploadEventTicket(eventTicket: EventTicket[]) {
   const res = await client.post<{
     acknowledge: boolean
     insertedIds: string[]
-  }>(`${URL}/ticket/assets`, assetMetadata)
+  }>(`${URL}/ticket/assets`, eventTicket)
   return res.data
 }
