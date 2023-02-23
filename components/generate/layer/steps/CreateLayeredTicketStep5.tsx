@@ -37,6 +37,9 @@ function CreateLayeredTicketStep5() {
   }, [layers, formInfo])
 
   useEffect(() => {
+    if (metadata.length > 0) {
+      return
+    }
     handleGenerate()
   }, [])
 
