@@ -1,11 +1,14 @@
 import { Container } from "@mui/material"
 import { Box } from "@mui/system"
 import React from "react"
-import FeaturedEvents from "../../components/market/FeaturedEvents"
-import LatestEvents from "../../components/market/LatestEvents"
+import MarketEventList from "../../components/market/MarketEventList"
 import EventSearch from "../../components/market/search/MarketEventSearch"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
 import MarketContextProvider from "../../contexts/market/MarketContext"
+import {
+  EventListMode,
+  EVENT_LIST_MODE
+} from "../../interfaces/event/eventSearch.interface"
 
 function MarketplacePage() {
   return (
@@ -20,9 +23,9 @@ function MarketplacePage() {
         <Container>
           <EventSearch />
           <Box sx={{ height: 24 }} />
-          <FeaturedEvents />
+          <MarketEventList mode={EVENT_LIST_MODE.FEATURED as EventListMode} />
           <Box sx={{ height: 24 }} />
-          <LatestEvents />
+          <MarketEventList mode={EVENT_LIST_MODE.LATEST as EventListMode} />
         </Container>
       </BannerLayout>
     </MarketContextProvider>
