@@ -6,6 +6,18 @@ import { TicketType } from "../../interfaces/event/event.interface"
 import { TicketInfo } from "../../interfaces/generate/collection.interface"
 import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
 
+export interface AssetsMetadata {
+  general?: TicketsMetadata[]
+  vip?: TicketsMetadata[]
+  reserved?: TicketsMetadata
+}
+
+export interface EventTicketsMetadata {
+  general?: EventTicket[]
+  vip?: EventTicket[]
+  reserved?: EventTicket
+}
+
 const URL = process.env.NEXT_PUBLIC_WARDEN_API_URL
 
 export function createAssetMetadata(
@@ -22,8 +34,6 @@ export function createAssetMetadata(
       attributes: [
         { trait_type: "id", value: asset.id.toString() },
         { trait_type: "quantity", value: asset.quantity.toString() },
-        { trait_type: "width", value: asset.dimension.width.toString() },
-        { trait_type: "height", value: asset.dimension.height.toString() },
         { trait_type: "ticketType", value: ticketType }
       ]
     }
@@ -59,8 +69,7 @@ export function createEventTicket(
 }
 
 export async function setTicketToEvent(
-  generalTickets: EventTicket[],
-  vipTickets: EventTicket[],
+  tickets: EventTicketsMetadata,
   formInfo: TicketInfo,
   user: User | undefined
 ) {
@@ -69,8 +78,8 @@ export async function setTicketToEvent(
   const now = new Date()
   const payload: TicketCollectionDTO = {
     tickets: {
-      generalTickets: generalTickets,
-      vipTickets: vipTickets
+      generalTickets: tickets.general ?? [],
+      vipTickets: tickets.vip ?? []
     },
     createdDate: now,
     ownerId: user._id,

@@ -300,7 +300,6 @@ function CreateCompleteTicketStep1() {
                 "price.general.min",
                 "price.general.max"
               ]}
-              // @ts-ignore
               error={errors.price?.general}
               touched={Boolean(touched.price?.general)}
               handleChange={handleChange}

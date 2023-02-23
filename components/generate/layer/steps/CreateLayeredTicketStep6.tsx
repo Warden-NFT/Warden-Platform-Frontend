@@ -14,8 +14,7 @@ import {
 import {
   createEventTicket,
   setTicketToEvent,
-  uploadAsset,
-  uploadEventTicket
+  uploadAsset
 } from "../../../../utils/generate/complete"
 import { EventTicket } from "../../../../dtos/ticket/ticket.dto"
 import { UserContext } from "../../../../contexts/user/UserContext"
