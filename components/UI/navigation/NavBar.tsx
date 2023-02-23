@@ -105,6 +105,7 @@ function NavBar() {
                   "&:hover": { cursor: "pointer" }
                 }}
                 onClick={handleOpenUserMenu}
+                src={user.profileImage}
                 aria-controls={avatarElement ? "user-menu" : undefined}
                 aria-haspopup="true"
                 aria-expanded={avatarElement ? "true" : undefined}

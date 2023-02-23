@@ -7,11 +7,13 @@ export type Verification = "NotVerified" | "Verified"
 
 export interface User {
   _id?: string
+  image?: string
   phoneNumber: string
   email: string
   username: string
   verificationStatus: Verification
   accountType: Account
+  profileImage?: string
 }
 
 export interface CustomerUser extends User {
