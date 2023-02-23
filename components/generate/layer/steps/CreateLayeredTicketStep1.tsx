@@ -37,8 +37,6 @@ function CreateLayeredTicketStep1() {
 
   return (
     <Stack width="100%">
-      <div>{JSON.stringify(values)}</div>
-      <div>{JSON.stringify(errors)}</div>
       <Stack spacing={2}>
         <EventCreationAlert
           title="Have you create an event yet?"
