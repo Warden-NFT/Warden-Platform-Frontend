@@ -267,7 +267,7 @@ function CreateLayeredTicketStep4() {
                       name={`layers[${i}].assets[${j}].isVipAsset`}
                       onChange={handleChange}
                       aria-label={"VIP"}
-                      value={values.layers[i].assets[j].isVipAsset}
+                      checked={values.layers[i].assets[j].isVipAsset}
                     />
                   </Box>
                 </Stack>

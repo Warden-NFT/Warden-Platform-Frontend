@@ -1,5 +1,4 @@
-import { Box, Chip, Divider, Stack, SxProps, Typography } from "@mui/material"
-import Image from "next/image"
+import { Box, Chip, Stack, SxProps, Typography } from "@mui/material"
 import React from "react"
 import LocationOnIcon from "@mui/icons-material/LocationOn"
 import EventIcon from "@mui/icons-material/Event"

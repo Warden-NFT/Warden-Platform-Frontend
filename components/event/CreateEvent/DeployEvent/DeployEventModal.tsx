@@ -42,7 +42,7 @@ function DeployEventModal({
 
   const [isDeployingContract, setDeployingContract] = useState<boolean>(false)
 
-  const getTicketSupply = (event: Event) => {
+  const getTicketSupply = (_: Event) => {
     return (
       // Placeholder. To be determined from the tickets information
       100

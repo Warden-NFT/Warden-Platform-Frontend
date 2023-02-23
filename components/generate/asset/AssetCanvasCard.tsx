@@ -1,4 +1,4 @@
-import { Box, SxProps, Skeleton } from "@mui/material"
+import { Box, SxProps, Skeleton, Chip } from "@mui/material"
 import NextImage from "next/image"
 import React, { useContext, useEffect, useRef, useState } from "react"
 import { GenerateLayerContext } from "../../../contexts/generate/GenerateLayerContext"
@@ -15,6 +15,7 @@ interface Props {
   isFirstCanvas?: boolean
   isLastCanvas?: boolean
   handleFinishGenerate?: () => void
+  isVip?: boolean
 }
 
 function AssetCanvasCard({
@@ -28,7 +29,8 @@ function AssetCanvasCard({
   skeletonSx,
   isFirstCanvas,
   isLastCanvas,
-  handleFinishGenerate
+  handleFinishGenerate,
+  isVip
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [url, setUrl] = useState<string>("")
@@ -88,13 +90,29 @@ function AssetCanvasCard({
     >
       <Box>
         {url ? (
-          <NextImage
-            src={url}
-            width={renderWidth}
-            height={renderHeight}
-            alt={`Preview of ${name}`}
-            draggable={false}
-          />
+          <Box sx={{ position: "relative" }}>
+            {isVip && (
+              <Chip
+                label="VIP"
+                variant="outlined"
+                sx={{
+                  position: "absolute",
+                  right: "20px",
+                  bottom: "20px",
+                  zIndex: 100,
+                  backgroundColor: "white"
+                }}
+              />
+            )}
+            <NextImage
+              src={url}
+              width={renderWidth}
+              height={renderHeight}
+              alt={`Preview of ${name}`}
+              draggable={false}
+              style={{ zIndex: 0 }}
+            />
+          </Box>
         ) : (
           <Skeleton
             variant="rectangular"

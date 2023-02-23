@@ -13,13 +13,14 @@ import {
 } from "../../../../utils/generate/layer"
 import {
   createEventTicket,
-  uploadAsset,
-  uploadEventTicket
+  setTicketToEvent,
+  uploadAsset
 } from "../../../../utils/generate/complete"
 import { EventTicket } from "../../../../dtos/ticket/ticket.dto"
 import { UserContext } from "../../../../contexts/user/UserContext"
 import { useAuthAccount } from "../../../../hooks/useAuthAccount"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
 
 interface TicketMetadataBlob {
   metadata: TicketsMetadata
@@ -36,7 +37,7 @@ function CreateLayeredTicketStep6() {
     assets
   } = useContext(GenerateLayerContext)
 
-  const { setShowLoadingBackdrop } = useContext(LayoutContext)
+  const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
   const { user } = useContext(UserContext)
   const { address } = useAuthAccount()
 
@@ -70,6 +71,7 @@ function CreateLayeredTicketStep6() {
       formInfo,
       metadataBlob
     )
+
     setGeneratedAssetsMetadata({
       general: regulars,
       vip: vips
@@ -79,20 +81,17 @@ function CreateLayeredTicketStep6() {
   }, [layers])
 
   async function handleUpload() {
-    // setShowLoadingBackdrop(true)
-    // setUploading(true)
-    // upload individual asset
+    setShowLoadingBackdrop(true)
+    setUploading(true)
 
-    console.log("uploading")
-
-    let eventTickets: EventTicket[] = []
+    const eventTickets: { general: EventTicket[]; vip: EventTicket[] } = {
+      general: [],
+      vip: []
+    }
     await uploadAsset(assetFiles, assetMedata, `${formInfo.subjectOf}/assets`)
 
     try {
-      console.log("1")
-
       if (generatedMetadata?.general) {
-        console.log("2")
         const files: File[] = generatedMetadata.general.map(
           (m) => new File([m.blob], `${m.metadata.name}.PNG`)
         )
@@ -104,12 +103,11 @@ function CreateLayeredTicketStep6() {
           user,
           "GENERAL"
         )
-        eventTickets = [...eventTickets, ...eventMetadata]
+        eventTickets.general = eventMetadata
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
       }
 
       if (generatedMetadata?.vip) {
-        console.log("3")
         const files: File[] = generatedMetadata.vip.map(
           (m) => new File([m.blob], `${m.metadata.name}.PNG`)
         )
@@ -121,15 +119,25 @@ function CreateLayeredTicketStep6() {
           user,
           "VIP"
         )
-        eventTickets = [...eventTickets, ...eventMetadata]
+        eventTickets.vip = eventMetadata
+
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
+        await setTicketToEvent(eventTickets, formInfo, user)
+        setUploaded(true)
+        setUploading(false)
+        setShowLoadingBackdrop(false)
       }
     } catch (e) {
       setShowLoadingBackdrop(false)
       setUploading(false)
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Alert",
+        description: "Ticket upload unsucessful!",
+        onClose: undefined,
+        primaryAction: undefined
+      })
     }
-
-    //TODO: ADD RESERVE SEATS?
   }
 
   async function handleDownloadAssetFiles() {
@@ -195,7 +203,7 @@ function CreateLayeredTicketStep6() {
             <Typography>If you are ready</Typography>
             <Box sx={{ width: "280px" }}>
               <ContainedButton
-                // isLoading={uploading}
+                isLoading={uploading}
                 label="Create ticket"
                 width="100%"
                 variant="contained"

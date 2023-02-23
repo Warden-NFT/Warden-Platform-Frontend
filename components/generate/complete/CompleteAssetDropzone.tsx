@@ -47,7 +47,9 @@ function CompleteAssetDropzone({
           dimension: dimensions,
           data: url,
           quantity: 1,
-          occurrence: 100
+          occurrence: 100,
+          isVipAsset: false,
+          file: file
         }
 
         setUploadedAssets((prev) => [...prev, asset])

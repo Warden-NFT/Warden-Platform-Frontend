@@ -19,6 +19,7 @@ const AssetCanvasCard = lazy(() => import("../../asset/AssetCanvasCard"))
 
 function CreateLayeredTicketStep5() {
   const [isSettingOpen, setIsSettingOpen] = useState(false)
+  const [vipCounts, setVipCounts] = useState(0)
   const {
     layers,
     formInfo,
@@ -43,6 +44,16 @@ function CreateLayeredTicketStep5() {
     handleGenerate()
   }, [])
 
+  useEffect(() => {
+    let _vipCounts = 0
+    metadata.forEach((data) => {
+      if (data.hasVipAsset) {
+        _vipCounts++
+      }
+    })
+    setVipCounts(_vipCounts)
+  }, [metadata])
+
   function handleFinishLoading() {
     setShowLoadingBackdrop(false)
   }
@@ -56,9 +67,15 @@ function CreateLayeredTicketStep5() {
         justifyContent="space-between"
         sx={{ width: "100%", mb: 2 }}
       >
-        <Typography variant="h4" component="h1">
-          Preview your ticket assets
-        </Typography>
+        <Box>
+          <Typography variant="h4" component="h1">
+            Preview your ticket assets
+          </Typography>
+          <Typography variant="body1">
+            There are {metadata.length} tickets, {vipCounts} of which are VIP
+            tickets.
+          </Typography>
+        </Box>
         <Stack direction="row" justifyContent="flex-end">
           <IconButton
             aria-label="setting"
@@ -106,6 +123,7 @@ function CreateLayeredTicketStep5() {
               isFirstCanvas={i === 0}
               isLastCanvas={i === formInfo.generationAmount - 1}
               handleFinishGenerate={handleFinishLoading}
+              isVip={data.hasVipAsset}
               sx={{ mb: 2 }}
             />
           </Suspense>
