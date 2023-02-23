@@ -1,4 +1,18 @@
-import { ButtonBase, Card, Typography, CardContent, Box } from "@mui/material"
+import {
+  CalendarMonthOutlined,
+  CalendarToday,
+  LocationOnOutlined
+} from "@mui/icons-material"
+import {
+  ButtonBase,
+  Card,
+  Typography,
+  CardContent,
+  Box,
+  Stack,
+  Divider
+} from "@mui/material"
+import moment from "moment"
 import Image from "next/image"
 import React from "react"
 import { Event } from "../../interfaces/event/event.interface"
@@ -10,9 +24,7 @@ type Props = {
 
 function EventCard({ event }: Props) {
   return (
-    <ContainerCard
-      sx={{ height: "fit-content", minHeight: "400px", borderRadius: 1, p: 0 }}
-    >
+    <ContainerCard sx={{ height: "440px", borderRadius: 1, p: 0 }}>
       <ButtonBase sx={{ textAlign: "start", width: "100%" }}>
         <Card
           sx={{
@@ -67,6 +79,25 @@ function EventCard({ event }: Props) {
             </Typography>
           </Box>
           <CardContent>
+            <Stack flexDirection="row" alignItems="center" gap={1}>
+              <CalendarToday sx={{ fontSize: 12 }} />
+              <Typography sx={{ fontSize: 12 }}>
+                {moment(event.startDate).format("lll")}
+              </Typography>
+            </Stack>
+            <Stack flexDirection="row" alignItems="center" gap={1}>
+              <LocationOnOutlined sx={{ fontSize: 12 }} />
+              {event.location ? (
+                <Typography sx={{ fontSize: 12 }}>
+                  {event.location?.structured_formatting.main_text}
+                </Typography>
+              ) : (
+                <Typography sx={{ fontSize: 12 }}>
+                  {event.online_url}
+                </Typography>
+              )}
+            </Stack>
+            <Divider sx={{ my: 2 }} />
             <Typography variant="body2" color="text.secondary">
               {event.description}
             </Typography>
