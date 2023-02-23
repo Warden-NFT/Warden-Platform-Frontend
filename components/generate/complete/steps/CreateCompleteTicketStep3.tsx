@@ -32,7 +32,7 @@ function CreateCompleteTicketStep3() {
     setUploadedVipAssets
   } = useContext(GenerateCompleteContext)
   const { showErrorAlert } = useContext(LayoutContext)
-  const { values, handleChange, touched, setFieldValue, errors, handleSubmit } =
+  const { values, handleChange, setFieldValue, errors, handleSubmit } =
     useFormik({
       initialValues: {
         assets: [],
