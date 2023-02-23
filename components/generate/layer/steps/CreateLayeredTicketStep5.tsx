@@ -106,6 +106,7 @@ function CreateLayeredTicketStep5() {
               isFirstCanvas={i === 0}
               isLastCanvas={i === formInfo.generationAmount - 1}
               handleFinishGenerate={handleFinishLoading}
+              isVip={data.hasVipAsset}
               sx={{ mb: 2 }}
             />
           </Suspense>
