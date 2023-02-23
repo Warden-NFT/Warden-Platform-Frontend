@@ -20,6 +20,7 @@ import { EventTicket } from "../../../../dtos/ticket/ticket.dto"
 import { UserContext } from "../../../../contexts/user/UserContext"
 import { useAuthAccount } from "../../../../hooks/useAuthAccount"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
 
 interface TicketMetadataBlob {
   metadata: TicketsMetadata
@@ -36,7 +37,7 @@ function CreateLayeredTicketStep6() {
     assets
   } = useContext(GenerateLayerContext)
 
-  const { setShowLoadingBackdrop } = useContext(LayoutContext)
+  const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
   const { user } = useContext(UserContext)
   const { address } = useAuthAccount()
 
@@ -123,12 +124,19 @@ function CreateLayeredTicketStep6() {
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
         await setTicketToEvent(eventTickets, formInfo, user)
         setUploaded(true)
-        setUploaded(false)
+        setUploading(false)
         setShowLoadingBackdrop(false)
       }
     } catch (e) {
       setShowLoadingBackdrop(false)
       setUploading(false)
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Alert",
+        description: "Ticket upload unsucessful!",
+        onClose: undefined,
+        primaryAction: undefined
+      })
     }
   }
 
@@ -161,7 +169,6 @@ function CreateLayeredTicketStep6() {
 
   return (
     <Box>
-      <div>{JSON.stringify(formInfo.subjectOf)}</div>
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h3" component="h1">
           Customize NFTs Utility
