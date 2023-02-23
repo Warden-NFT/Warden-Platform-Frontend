@@ -121,12 +121,7 @@ function CreateLayeredTicketStep6() {
         eventTickets.vip = eventMetadata
 
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
-        await setTicketToEvent(
-          eventTickets.general,
-          eventTickets.vip,
-          formInfo,
-          user
-        )
+        await setTicketToEvent(eventTickets, formInfo, user)
         setUploaded(true)
         setUploaded(false)
         setShowLoadingBackdrop(false)
