@@ -13,6 +13,7 @@ import {
 } from "../../../../utils/generate/layer"
 import {
   createEventTicket,
+  setTicketToEvent,
   uploadAsset,
   uploadEventTicket
 } from "../../../../utils/generate/complete"
@@ -70,6 +71,7 @@ function CreateLayeredTicketStep6() {
       formInfo,
       metadataBlob
     )
+
     setGeneratedAssetsMetadata({
       general: regulars,
       vip: vips
@@ -79,20 +81,17 @@ function CreateLayeredTicketStep6() {
   }, [layers])
 
   async function handleUpload() {
-    // setShowLoadingBackdrop(true)
-    // setUploading(true)
-    // upload individual asset
+    setShowLoadingBackdrop(true)
+    setUploading(true)
 
-    console.log("uploading")
-
-    let eventTickets: EventTicket[] = []
+    const eventTickets: { general: EventTicket[]; vip: EventTicket[] } = {
+      general: [],
+      vip: []
+    }
     await uploadAsset(assetFiles, assetMedata, `${formInfo.subjectOf}/assets`)
 
     try {
-      console.log("1")
-
       if (generatedMetadata?.general) {
-        console.log("2")
         const files: File[] = generatedMetadata.general.map(
           (m) => new File([m.blob], `${m.metadata.name}.PNG`)
         )
@@ -104,12 +103,11 @@ function CreateLayeredTicketStep6() {
           user,
           "GENERAL"
         )
-        eventTickets = [...eventTickets, ...eventMetadata]
+        eventTickets.general = eventMetadata
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
       }
 
       if (generatedMetadata?.vip) {
-        console.log("3")
         const files: File[] = generatedMetadata.vip.map(
           (m) => new File([m.blob], `${m.metadata.name}.PNG`)
         )
@@ -121,15 +119,23 @@ function CreateLayeredTicketStep6() {
           user,
           "VIP"
         )
-        eventTickets = [...eventTickets, ...eventMetadata]
+        eventTickets.vip = eventMetadata
+
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
+        await setTicketToEvent(
+          eventTickets.general,
+          eventTickets.vip,
+          formInfo,
+          user
+        )
+        setUploaded(true)
+        setUploaded(false)
+        setShowLoadingBackdrop(false)
       }
     } catch (e) {
       setShowLoadingBackdrop(false)
       setUploading(false)
     }
-
-    //TODO: ADD RESERVE SEATS?
   }
 
   async function handleDownloadAssetFiles() {
@@ -161,6 +167,7 @@ function CreateLayeredTicketStep6() {
 
   return (
     <Box>
+      <div>{JSON.stringify(formInfo.subjectOf)}</div>
       <Box sx={{ marginBottom: 2 }}>
         <Typography variant="h3" component="h1">
           Customize NFTs Utility
@@ -195,7 +202,7 @@ function CreateLayeredTicketStep6() {
             <Typography>If you are ready</Typography>
             <Box sx={{ width: "280px" }}>
               <ContainedButton
-                // isLoading={uploading}
+                isLoading={uploading}
                 label="Create ticket"
                 width="100%"
                 variant="contained"

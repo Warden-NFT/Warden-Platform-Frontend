@@ -59,7 +59,7 @@ export function createEventTicket(
 }
 
 export async function setTicketToEvent(
-  eventTickets: EventTicket[],
+  generalTickets: EventTicket[],
   vipTickets: EventTicket[],
   formInfo: TicketInfo,
   user: User | undefined
@@ -69,7 +69,7 @@ export async function setTicketToEvent(
   const now = new Date()
   const payload: TicketCollectionDTO = {
     tickets: {
-      generalTickets: eventTickets,
+      generalTickets: generalTickets,
       vipTickets: vipTickets
     },
     createdDate: now,

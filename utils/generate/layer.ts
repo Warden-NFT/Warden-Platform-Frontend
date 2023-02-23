@@ -151,7 +151,7 @@ export function formatLayeredAssetMetadata(
   metadata.forEach((data, i) => {
     const ticket: TicketsMetadata = {
       name: data.name,
-      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/geneated/${data.name}`,
+      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/generated/${data.name}.PNG`,
       description: formInfo.description,
       attributes: data.attributes.map((attribute) => {
         return {
