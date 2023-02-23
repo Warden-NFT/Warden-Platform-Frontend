@@ -51,7 +51,9 @@ function CreateEventStep1() {
 
   // States
 
-  const [eventKeywords, setEventKeywords] = useState<string[]>([])
+  const [eventKeywords, setEventKeywords] = useState<string[]>(
+    currentEvent.eventKeywords ?? []
+  )
   const [eventImage, setEventImage] = useState<File>(currentEvent.image as File)
 
   // Event handlers
@@ -114,7 +116,6 @@ function CreateEventStep1() {
           <Box sx={{ maxWidth: "100%" }}>
             {eventImage && (
               <Image
-                // @ts-ignore
                 src={URL.createObjectURL(eventImage)}
                 width={1280}
                 height={200}
