@@ -8,7 +8,10 @@ import {
 import { client } from "../../configs/axios/axiosConfig"
 import { Event } from "../../interfaces/event/event.interface"
 import { EventSearchParams } from "../../interfaces/event/eventSearch.interface"
-import { MarketEvents } from "../../interfaces/market/marketEvent.interface"
+import {
+  MarketEvents,
+  MarketTickets
+} from "../../interfaces/market/marketEvent.interface"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import { LayoutContext } from "../layout/LayoutContext"
 
@@ -25,12 +28,15 @@ interface MarketContextStruct {
   setMarketEvents: Dispatch<SetStateAction<MarketEvents | undefined>>
   filteredMarketEvents: MarketEvents | undefined
   setFilteredMarketEvents: Dispatch<SetStateAction<MarketEvents | undefined>>
+  marketTickets: MarketTickets | undefined
+  setMarketTickets: Dispatch<SetStateAction<MarketTickets | undefined>>
 
   getLatestEvents: () => Promise<Event[] | undefined>
   getFeaturedEvents: () => Promise<Event[] | undefined>
   searchEvents: (value: EventSearchParams) => Promise<Event[] | undefined>
   getMarketEvents: (organizerId: string) => Promise<MarketEvents | undefined>
   searchOrganizerEvents: (searchTerm: string, sortBy: string) => void
+  getMarketTickets: (organizerId: string) => Promise<MarketTickets | undefined>
 }
 
 export const MarketContext = createContext({} as MarketContextStruct)
@@ -51,6 +57,9 @@ const MarketContextProvider = ({ ...props }) => {
   const [marketEvents, setMarketEvents] = useState<MarketEvents | undefined>()
   const [filteredMarketEvents, setFilteredMarketEvents] = useState<
     MarketEvents | undefined
+  >()
+  const [marketTickets, setMarketTickets] = useState<
+    MarketTickets | undefined
   >()
 
   const getLatestEvents = async () => {
@@ -146,6 +155,27 @@ const MarketContextProvider = ({ ...props }) => {
     return _filteredMarketEvents
   }
 
+  const getMarketTickets = async (eventId: string) => {
+    try {
+      const _marketTickets = await client.get<MarketTickets>(
+        "/market/tickets",
+        {
+          params: {
+            eventId: eventId
+          }
+        }
+      )
+      setMarketTickets(_marketTickets.data)
+      return _marketTickets.data
+    } catch (error) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Error error",
+        description: "Unable to search for tickets. Please try again later."
+      })
+    }
+  }
+
   const values: MarketContextStruct = {
     featuredEvents,
     setFeaturedEvents,
@@ -157,13 +187,16 @@ const MarketContextProvider = ({ ...props }) => {
     setSearchedEvents,
     marketEvents,
     filteredMarketEvents,
+    marketTickets,
+    setMarketTickets,
     setFilteredMarketEvents,
     setMarketEvents,
     getLatestEvents,
     getFeaturedEvents,
     searchEvents,
     getMarketEvents,
-    searchOrganizerEvents
+    searchOrganizerEvents,
+    getMarketTickets
   }
   return <MarketContext.Provider value={values} {...props} />
 }
