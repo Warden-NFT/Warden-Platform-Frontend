@@ -93,7 +93,7 @@ function CreateLayeredTicketStep6() {
     try {
       if (generatedMetadata?.general) {
         const files: File[] = generatedMetadata.general.map(
-          (m) => new File([m.blob], `${m.metadata.name}.PNG`)
+          (m) => new File([m.blob], `${m.metadata.name}.png`)
         )
         const metadata = generatedMetadata.general.map((m) => m.metadata)
         const eventMetadata = createEventTicket(
@@ -101,7 +101,9 @@ function CreateLayeredTicketStep6() {
           formInfo,
           address,
           user,
-          "GENERAL"
+          "GENERAL",
+          formInfo.price.general?.default ?? 0,
+          formInfo.currency
         )
         eventTickets.general = eventMetadata
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
@@ -109,7 +111,7 @@ function CreateLayeredTicketStep6() {
 
       if (generatedMetadata?.vip) {
         const files: File[] = generatedMetadata.vip.map(
-          (m) => new File([m.blob], `${m.metadata.name}.PNG`)
+          (m) => new File([m.blob], `${m.metadata.name}.png`)
         )
         const metadata = generatedMetadata.vip.map((m) => m.metadata)
         const eventMetadata = createEventTicket(
@@ -117,12 +119,14 @@ function CreateLayeredTicketStep6() {
           formInfo,
           address,
           user,
-          "VIP"
+          "VIP",
+          formInfo.price.vip?.default ?? 0,
+          formInfo.currency
         )
         eventTickets.vip = eventMetadata
 
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
-        await setTicketToEvent(eventTickets, formInfo, user)
+        await setTicketToEvent("layer", eventTickets, formInfo, user)
         setUploaded(true)
         setUploading(false)
         setShowLoadingBackdrop(false)

@@ -8,6 +8,8 @@ import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
 
 export type EventId = string
 
+export type TicketGenerationMode = "complete" | "layer"
+
 export interface EventTicket {
   _id?: string
   dateIssued: Date
@@ -18,6 +20,10 @@ export interface EventTicket {
   ownerId: string
   ownerHistory: string[]
   ticketType: TicketTypes
+  price: {
+    amount: number
+    currency: SupportedDigitalCurrency
+  }
   benefits?: string
 }
 
@@ -37,4 +43,5 @@ export interface TicketCollectionDTO {
   enableResale: boolean
   currency: SupportedDigitalCurrency
   ticketQuota: TicketQuota
+  generationMethod: TicketGenerationMode
 }

@@ -5,6 +5,8 @@ import { User } from "../../interfaces/auth/user.interface"
 import { TicketType } from "../../interfaces/event/event.interface"
 import { TicketInfo } from "../../interfaces/generate/collection.interface"
 import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
+import { SupportedDigitalCurrency } from "../../interfaces/currency/currency.interface"
+import { TicketGenerationMode } from "../../dtos/ticket/ticket.dto"
 
 export interface AssetsMetadata {
   general?: TicketsMetadata[]
@@ -45,7 +47,9 @@ export function createEventTicket(
   info: TicketInfo,
   address: string | undefined,
   user: User | undefined,
-  ticketType: TicketType
+  ticketType: TicketType,
+  ticketPrice: number,
+  ticketCurrency: SupportedDigitalCurrency
 ): EventTicket[] {
   if (!address || !user || user?._id == null) return []
 
@@ -60,7 +64,13 @@ export function createEventTicket(
       ownerHistory: [],
       ticketType: ticketType,
       benefits:
-        info.vipEnabled && info.vipBenefit ? info.vipBenefit : undefined,
+        info.vipEnabled && info.vipBenefit && ticketType === "VIP"
+          ? info.vipBenefit
+          : undefined,
+      price: {
+        amount: ticketPrice,
+        currency: ticketCurrency
+      },
       ownerId: user._id ?? ""
     }
 
@@ -69,6 +79,7 @@ export function createEventTicket(
 }
 
 export async function setTicketToEvent(
+  generationMode: TicketGenerationMode,
   tickets: EventTicketsMetadata,
   formInfo: TicketInfo,
   user: User | undefined
@@ -77,6 +88,7 @@ export async function setTicketToEvent(
 
   const now = new Date()
   const payload: TicketCollectionDTO = {
+    generationMethod: generationMode,
     tickets: {
       general: tickets.general ?? [],
       vip: tickets.vip ?? []

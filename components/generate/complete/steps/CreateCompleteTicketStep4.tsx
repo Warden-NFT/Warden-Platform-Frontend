@@ -61,14 +61,18 @@ function CreateCompleteTicketStep4() {
       formInfo,
       address,
       user,
-      "GENERAL"
+      "GENERAL",
+      formInfo.price.general?.default ?? 0,
+      formInfo.currency
     )
     ticketMetadata.vip = createEventTicket(
       assetsMetadata.general,
       formInfo,
       address,
       user,
-      "VIP"
+      "VIP",
+      formInfo.price.vip?.default ?? 0,
+      formInfo.currency
     )
 
     try {
@@ -80,7 +84,7 @@ function CreateCompleteTicketStep4() {
         await uploadAsset(vipAssets, assetsMetadata.vip, formInfo.subjectOf)
       }
 
-      await setTicketToEvent(ticketMetadata, formInfo, user)
+      await setTicketToEvent("complete", ticketMetadata, formInfo, user)
 
       setShowLoadingBackdrop(false)
       setUploading(false)
