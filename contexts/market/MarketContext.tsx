@@ -23,11 +23,14 @@ interface MarketContextStruct {
   setSearchedEvents: Dispatch<SetStateAction<Event[] | undefined>>
   marketEvents: MarketEvents | undefined
   setMarketEvents: Dispatch<SetStateAction<MarketEvents | undefined>>
+  filteredMarketEvents: MarketEvents | undefined
+  setFilteredMarketEvents: Dispatch<SetStateAction<MarketEvents | undefined>>
 
   getLatestEvents: () => Promise<Event[] | undefined>
   getFeaturedEvents: () => Promise<Event[] | undefined>
   searchEvents: (value: EventSearchParams) => Promise<Event[] | undefined>
   getMarketEvents: (organizerId: string) => Promise<MarketEvents | undefined>
+  searchOrganizerEvents: (searchTerm: string, sortBy: string) => void
 }
 
 export const MarketContext = createContext({} as MarketContextStruct)
@@ -46,6 +49,9 @@ const MarketContextProvider = ({ ...props }) => {
   )
   const [EventSearch, setEventSearch] = useState<Event[] | undefined>([])
   const [marketEvents, setMarketEvents] = useState<MarketEvents | undefined>()
+  const [filteredMarketEvents, setFilteredMarketEvents] = useState<
+    MarketEvents | undefined
+  >()
 
   const getLatestEvents = async () => {
     try {
@@ -96,6 +102,7 @@ const MarketContextProvider = ({ ...props }) => {
         }
       })
       setMarketEvents(_marketEvents.data)
+      setFilteredMarketEvents(_marketEvents.data)
       return _marketEvents.data
     } catch (error) {
       showErrorAlert({
@@ -104,8 +111,39 @@ const MarketContextProvider = ({ ...props }) => {
         description: "Unable to search for events. Please try again later."
       })
       setMarketEvents(undefined)
+      setFilteredMarketEvents(undefined)
       return undefined
     }
+  }
+
+  const searchOrganizerEvents = (searchTerm: string) => {
+    if (!filteredMarketEvents) return
+    if (!marketEvents) return
+    if (!marketEvents.organizerInfo) return
+    if (!marketEvents.events) return
+    if (!marketEvents.eventTicketPreviews) return
+
+    const _filteredMarketEvents = { ...marketEvents }
+
+    // find the index of events where the event matches the search query
+    const matchingEventIndices = marketEvents.events.map((event, index) => {
+      const match = event.name.toLowerCase().includes(searchTerm.toLowerCase())
+      if (match) return index
+    })
+
+    // filter out irrelevant events
+    _filteredMarketEvents.events = marketEvents.events.filter(
+      (event, index) => {
+        return matchingEventIndices.includes(index)
+      }
+    )
+    _filteredMarketEvents.eventTicketPreviews =
+      marketEvents.eventTicketPreviews.filter((event, index) => {
+        return matchingEventIndices.includes(index)
+      })
+
+    setFilteredMarketEvents(_filteredMarketEvents)
+    return _filteredMarketEvents
   }
 
   const values: MarketContextStruct = {
@@ -118,11 +156,14 @@ const MarketContextProvider = ({ ...props }) => {
     searchedEvents,
     setSearchedEvents,
     marketEvents,
+    filteredMarketEvents,
+    setFilteredMarketEvents,
     setMarketEvents,
     getLatestEvents,
     getFeaturedEvents,
     searchEvents,
-    getMarketEvents
+    getMarketEvents,
+    searchOrganizerEvents
   }
   return <MarketContext.Provider value={values} {...props} />
 }

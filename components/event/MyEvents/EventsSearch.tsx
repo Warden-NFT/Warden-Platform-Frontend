@@ -8,12 +8,9 @@ import {
 } from "@mui/material"
 
 import React, { useState } from "react"
+import { SORT_BY } from "../../../constants/search/sort"
 
 function EventsSearch() {
-  enum SORT_BY {
-    lastCreated = "LAST_CREATED",
-    alphabetical = "ALPHABETICAL"
-  }
   const [sortBy, setSortBy] = useState<SORT_BY>(SORT_BY.lastCreated)
   const handleSearchChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

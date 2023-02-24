@@ -3,6 +3,7 @@ import { Box } from "@mui/system"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
 import OrganizerEventList from "../../../components/market/event/OrganizerEventList"
+import OrganizerEventSearch from "../../../components/market/organizer/OrganizerEventSearch"
 import OrganizerInfoCard from "../../../components/market/organizer/OrganizerInfoCard"
 import BannerLayout from "../../../components/UI/layout/BannerLayout"
 import { MarketContext } from "../../../contexts/market/MarketContext"
@@ -10,7 +11,7 @@ import { MarketContext } from "../../../contexts/market/MarketContext"
 function OrganizerEvents() {
   const router = useRouter()
   const { organizerId } = router.query
-  const { marketEvents, getMarketEvents } = useContext(MarketContext)
+  const { filteredMarketEvents, getMarketEvents } = useContext(MarketContext)
 
   useEffect(() => {
     if (!organizerId) return
@@ -25,11 +26,20 @@ function OrganizerEvents() {
       enableActionButton={false}
     >
       <Container sx={{ mt: 10 }}>
-        <OrganizerInfoCard marketEvents={marketEvents} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end"
+          }}
+        >
+          <OrganizerInfoCard marketEvents={filteredMarketEvents} />
+          <OrganizerEventSearch />
+        </Box>
         <Box sx={{ height: 40 }} />
         <OrganizerEventList
-          events={marketEvents?.events}
-          eventTicketPreviews={marketEvents?.eventTicketPreviews}
+          events={filteredMarketEvents?.events}
+          eventTicketPreviews={filteredMarketEvents?.eventTicketPreviews}
         />
       </Container>
     </BannerLayout>

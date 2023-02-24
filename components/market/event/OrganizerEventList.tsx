@@ -28,6 +28,9 @@ function OrganizerEventList({ events, eventTicketPreviews }: Props) {
 
   return (
     <>
+      {(events?.length === 0 || eventTicketPreviews?.length === 0) && (
+        <Typography>No matching events</Typography>
+      )}
       {!events || !eventTicketPreviews ? (
         <>
           <Skeleton variant="rectangular" height={140} />
@@ -98,7 +101,7 @@ function OrganizerEventList({ events, eventTicketPreviews }: Props) {
                   const previewKey = _previewKey as EventTicketPreviewsType
                   return (
                     <Box key={previewKeyIndex}>
-                      {eventTicketPreviews[index].tickets[previewKey][0] && (
+                      {eventTicketPreviews[index]?.tickets[previewKey][0] && (
                         <ButtonBase sx={{}}>
                           <ContainerCard
                             sx={{
