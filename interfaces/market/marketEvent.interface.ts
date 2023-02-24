@@ -12,7 +12,7 @@ export interface MarketEvents {
 export interface MarketTickets {
   organizerInfo: EventOrganizerUser
   event: Event
-  ticketSet: TicketCollectionDTO
+  ticketCollection: TicketCollectionDTO
 }
 
 export interface EventTicketPreviews {

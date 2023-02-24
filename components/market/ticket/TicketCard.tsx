@@ -17,7 +17,7 @@ function TicketCard({ image, name, ticketTypeLabel, price }: Props) {
       <ContainerCard
         sx={{
           p: 1,
-          width: 200,
+          width: "200px",
           borderRadius: 1,
           textAlign: "start"
         }}

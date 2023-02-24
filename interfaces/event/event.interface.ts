@@ -5,7 +5,10 @@ export type TicketTypeKey = "general" | "vip" | "reservedSeat"
 export const TicketTypeLabel = {
   general: "General",
   vip: "VIP",
-  reservedSeat: "ReservedSeat"
+  reservedSeat: "ReservedSeat",
+  GENERAL: "General",
+  VIP: "VIP",
+  RESERVED_SEAT: "ReservedSeat"
 }
 
 export type EventStatusType =
