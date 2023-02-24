@@ -102,7 +102,7 @@ function OrganizerEventList({ events, eventTicketPreviews }: Props) {
                   return (
                     <Box key={previewKeyIndex}>
                       {eventTicketPreviews[index]?.tickets[previewKey][0] && (
-                        <ButtonBase sx={{}}>
+                        <ButtonBase>
                           <ContainerCard
                             sx={{
                               p: 1,
