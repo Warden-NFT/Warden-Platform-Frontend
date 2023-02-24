@@ -2,7 +2,7 @@ import { Container } from "@mui/material"
 import { Box } from "@mui/system"
 import React from "react"
 import MarketEventList from "../../components/market/event/MarketEventList"
-import EventSearch from "../../components/market/search/MarketEventSearch"
+import EventSearch from "../../components/market/search/OrganizerEventSearch"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
 
 import {

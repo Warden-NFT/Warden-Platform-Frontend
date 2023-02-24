@@ -11,9 +11,9 @@ import {
 import moment from "moment"
 import { useRouter } from "next/router"
 import React from "react"
-import { Event } from "../../interfaces/event/event.interface"
-import ContainerCard from "../UI/card/ContainerCard"
-import { ImageWithFallback } from "../UI/image/ImageWithFallback"
+import { Event } from "../../../interfaces/event/event.interface"
+import ContainerCard from "../../UI/card/ContainerCard"
+import { ImageWithFallback } from "../../UI/image/ImageWithFallback"
 
 type Props = {
   event: Event

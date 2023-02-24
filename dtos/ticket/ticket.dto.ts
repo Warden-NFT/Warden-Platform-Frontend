@@ -23,9 +23,9 @@ export interface EventTicket {
 
 export interface TicketCollectionDTO {
   tickets: {
-    generalTickets?: EventTicket[]
-    vipTickets?: EventTicket[]
-    reservedSeatTickets?: EventTicket[]
+    general?: EventTicket[]
+    vip?: EventTicket[]
+    reservedSeat?: EventTicket[]
   }
   createdDate: Date
   ownerId: string

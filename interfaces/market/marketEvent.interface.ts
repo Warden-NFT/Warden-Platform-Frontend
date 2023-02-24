@@ -11,14 +11,11 @@ export interface MarketEvents {
 
 export interface EventTicketPreviews {
   tickets: {
-    generalTickets: EventTicket[]
-    vipTickets: EventTicket[]
-    reservedSeatTickets: EventTicket[]
+    general: EventTicket[]
+    vip: EventTicket[]
+    reservedSeat: EventTicket[]
   }
   ticketPrice: TicketTypePricing
 }
 
-export type EventTicketPreviewsType =
-  | "generalTickets"
-  | "vipTickets"
-  | "reservedSeatTickets"
+export type EventTicketPreviewsType = "general" | "vip" | "reservedSeat"

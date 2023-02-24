@@ -78,8 +78,8 @@ export async function setTicketToEvent(
   const now = new Date()
   const payload: TicketCollectionDTO = {
     tickets: {
-      generalTickets: tickets.general ?? [],
-      vipTickets: tickets.vip ?? []
+      general: tickets.general ?? [],
+      vip: tickets.vip ?? []
     },
     createdDate: now,
     ownerId: user._id,

@@ -7,7 +7,7 @@ import {
   EventListMode,
   EVENT_LIST_MODE
 } from "../../../interfaces/event/eventSearch.interface"
-import EventCard from "../../event/EventCard"
+import EventCard from "./EventCard"
 
 type Props = {
   mode: EventListMode

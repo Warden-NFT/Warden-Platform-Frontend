@@ -1,7 +1,7 @@
 import { Typography, Box, Divider } from "@mui/material"
 import React, { useContext } from "react"
 import { MarketContext } from "../../../contexts/market/MarketContext"
-import EventCard from "../../event/EventCard"
+import EventCard from "../event/EventCard"
 import EventSearchBar from "./EventSearchBar"
 
 function EventSearch() {
