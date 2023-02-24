@@ -1,8 +1,4 @@
-import {
-  CalendarMonthOutlined,
-  CalendarToday,
-  LocationOnOutlined
-} from "@mui/icons-material"
+import { CalendarToday, LocationOnOutlined } from "@mui/icons-material"
 import {
   ButtonBase,
   Card,
@@ -13,19 +9,28 @@ import {
   Divider
 } from "@mui/material"
 import moment from "moment"
-import Image from "next/image"
+import { useRouter } from "next/router"
 import React from "react"
 import { Event } from "../../interfaces/event/event.interface"
 import ContainerCard from "../UI/card/ContainerCard"
+import { ImageWithFallback } from "../UI/image/ImageWithFallback"
 
 type Props = {
   event: Event
 }
 
 function EventCard({ event }: Props) {
+  const router = useRouter()
+  const onClickEvent = (eventId: string | undefined) => {
+    if (eventId) return
+    router.push(`/marketplace/${eventId}`)
+  }
   return (
     <ContainerCard sx={{ height: "440px", borderRadius: 1, p: 0 }}>
-      <ButtonBase sx={{ textAlign: "start", width: "100%" }}>
+      <ButtonBase
+        sx={{ textAlign: "start", width: "100%" }}
+        onClick={() => onClickEvent(event._id)}
+      >
         <Card
           sx={{
             p: 0,
@@ -40,7 +45,7 @@ function EventCard({ event }: Props) {
               position: "relative"
             }}
           >
-            <Image
+            <ImageWithFallback
               height={200}
               width={200}
               src={event.image as string}

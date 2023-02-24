@@ -8,6 +8,7 @@ import {
 import { client } from "../../configs/axios/axiosConfig"
 import { Event } from "../../interfaces/event/event.interface"
 import { EventSearchParams } from "../../interfaces/event/eventSearch.interface"
+import { MarketEvents } from "../../interfaces/market/marketEvent.interface"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import { LayoutContext } from "../layout/LayoutContext"
 
@@ -20,9 +21,13 @@ interface MarketContextStruct {
   setEventSearch: Dispatch<SetStateAction<Event[] | undefined>>
   searchedEvents: Event[] | undefined
   setSearchedEvents: Dispatch<SetStateAction<Event[] | undefined>>
+  marketEvents: MarketEvents | undefined
+  setMarketEvents: Dispatch<SetStateAction<MarketEvents | undefined>>
+
   getLatestEvents: () => Promise<Event[] | undefined>
   getFeaturedEvents: () => Promise<Event[] | undefined>
   searchEvents: (value: EventSearchParams) => Promise<Event[] | undefined>
+  getMarketEvents: (organizerId: string) => Promise<MarketEvents | undefined>
 }
 
 export const MarketContext = createContext({} as MarketContextStruct)
@@ -40,6 +45,7 @@ const MarketContextProvider = ({ ...props }) => {
     undefined
   )
   const [EventSearch, setEventSearch] = useState<Event[] | undefined>([])
+  const [marketEvents, setMarketEvents] = useState<MarketEvents | undefined>()
 
   const getLatestEvents = async () => {
     try {
@@ -75,10 +81,29 @@ const MarketContextProvider = ({ ...props }) => {
       showErrorAlert({
         type: AlertType.ERROR,
         title: "Authentication error",
-        description:
-          "Unable to register your account this time. Please try again later."
+        description: "Unable to search for events. Please try again later."
       })
       setSearchedEvents(undefined)
+      return undefined
+    }
+  }
+
+  const getMarketEvents = async (organizerId: string) => {
+    try {
+      const _marketEvents = await client.get<MarketEvents>("/market/events", {
+        params: {
+          organizerId: organizerId
+        }
+      })
+      setMarketEvents(_marketEvents.data)
+      return _marketEvents.data
+    } catch (error) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Authentication error",
+        description: "Unable to search for events. Please try again later."
+      })
+      setMarketEvents(undefined)
       return undefined
     }
   }
@@ -92,9 +117,12 @@ const MarketContextProvider = ({ ...props }) => {
     setEventSearch,
     searchedEvents,
     setSearchedEvents,
+    marketEvents,
+    setMarketEvents,
     getLatestEvents,
     getFeaturedEvents,
-    searchEvents
+    searchEvents,
+    getMarketEvents
   }
   return <MarketContext.Provider value={values} {...props} />
 }

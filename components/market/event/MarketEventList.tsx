@@ -1,13 +1,13 @@
 import { Box, Card, Skeleton, Typography } from "@mui/material"
 import React, { useContext, useState } from "react"
-import { MarketContext } from "../../contexts/market/MarketContext"
-import useAsyncEffect from "../../hooks/useAsyncEffect"
-import { Event } from "../../interfaces/event/event.interface"
+import { MarketContext } from "../../../contexts/market/MarketContext"
+import useAsyncEffect from "../../../hooks/useAsyncEffect"
+import { Event } from "../../../interfaces/event/event.interface"
 import {
   EventListMode,
   EVENT_LIST_MODE
-} from "../../interfaces/event/eventSearch.interface"
-import EventCard from "../event/EventCard"
+} from "../../../interfaces/event/eventSearch.interface"
+import EventCard from "../../event/EventCard"
 
 type Props = {
   mode: EventListMode

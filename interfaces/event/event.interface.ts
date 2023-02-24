@@ -1,8 +1,12 @@
-import { TicketsMetadata } from "../../dtos/ticket/metadata.dto"
 import { PlaceType } from "./location.interface"
 
 export type TicketType = "GENERAL" | "VIP" | "RESERVED_SEAT"
 export type TicketTypeKey = "general" | "vip" | "reservedSeat"
+export const TicketTypeLabel = {
+  generalTickets: "General",
+  vipTickets: "VIP",
+  reservedSeatTickets: "ReservedSeat"
+}
 
 export type EventStatusType =
   | "NOT_STARTED"
