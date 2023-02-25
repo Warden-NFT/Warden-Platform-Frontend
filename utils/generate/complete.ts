@@ -2,10 +2,13 @@ import { client } from "../../configs/axios/axiosConfig"
 import { TicketsMetadata } from "../../dtos/ticket/metadata.dto"
 import { EventTicket, TicketCollectionDTO } from "../../dtos/ticket/ticket.dto"
 import { User } from "../../interfaces/auth/user.interface"
-import { TicketType } from "../../interfaces/event/event.interface"
-import { TicketInfo } from "../../interfaces/generate/collection.interface"
-import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
 import { SupportedDigitalCurrency } from "../../interfaces/currency/currency.interface"
+import { TicketType } from "../../interfaces/event/event.interface"
+import {
+  GenerationMode,
+  TicketInfo
+} from "../../interfaces/generate/collection.interface"
+import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
 import { TicketGenerationMode } from "../../dtos/ticket/ticket.dto"
 
 export interface AssetsMetadata {
@@ -48,8 +51,8 @@ export function createEventTicket(
   address: string | undefined,
   user: User | undefined,
   ticketType: TicketType,
-  ticketPrice: number,
-  ticketCurrency: SupportedDigitalCurrency
+  currency: SupportedDigitalCurrency,
+  price: number
 ): EventTicket[] {
   if (!address || !user || user?._id == null) return []
 
@@ -67,11 +70,11 @@ export function createEventTicket(
         info.vipEnabled && info.vipBenefit && ticketType === "VIP"
           ? info.vipBenefit
           : undefined,
+      ownerId: user._id ?? "",
       price: {
-        amount: ticketPrice,
-        currency: ticketCurrency
-      },
-      ownerId: user._id ?? ""
+        amount: price,
+        currency: currency
+      }
     }
 
     return eventTicket
@@ -79,19 +82,18 @@ export function createEventTicket(
 }
 
 export async function setTicketToEvent(
-  generationMode: TicketGenerationMode,
   tickets: EventTicketsMetadata,
   formInfo: TicketInfo,
-  user: User | undefined
+  user: User | undefined,
+  mode: GenerationMode
 ) {
   if (!user || !user._id) return
 
   const now = new Date()
   const payload: TicketCollectionDTO = {
-    generationMethod: generationMode,
     tickets: {
-      general: tickets.general ?? [],
-      vip: tickets.vip ?? []
+      general: tickets.general,
+      vip: tickets.vip
     },
     createdDate: now,
     ownerId: user._id,
@@ -104,7 +106,8 @@ export async function setTicketToEvent(
       : 0,
     currency: formInfo.currency,
     enableResale: formInfo.enableResale,
-    ticketQuota: formInfo.ticketQuota
+    ticketQuota: formInfo.ticketQuota,
+    generationMethod: mode
   }
 
   const res = await client.post<{

@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material"
 import { purple } from "@mui/material/colors"
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import FlatCard from "../../../UI/card/FlatCard"
@@ -40,17 +40,36 @@ function CreateCompleteTicketStep4() {
     const assetsMetadata: AssetsMetadata = { general: [], vip: [] }
     const ticketMetadata: EventTicketsMetadata = { general: [], vip: [] }
 
+    const _uploadedAssets = [...uploadedAssets]
+    const _uploadedVipAssets = [...uploadedVipAssets]
+    const _assets = [...assets]
+    const _vipAssets = [...vipAssets]
+
+    uploadedAssets.forEach((asset, i) => {
+      const tmpFiles = Array(asset.quantity - 1).fill(_assets[i])
+      const tmp = Array(asset.quantity - 1).fill(_uploadedAssets[i])
+      _uploadedAssets.push(...tmp)
+      _assets.push(...tmpFiles)
+    })
+
+    uploadedVipAssets.forEach((asset, i) => {
+      const tmpFiles = Array(asset.quantity - 1).fill(_vipAssets[i])
+      const tmp = Array(asset.quantity - 1).fill(_uploadedVipAssets[i])
+      _uploadedVipAssets.push(...tmp)
+      _vipAssets.push(...tmpFiles)
+    })
+
     // Assets
     assetsMetadata.general = createAssetMetadata(
-      uploadedAssets,
-      assets,
+      _uploadedAssets,
+      _assets,
       formInfo,
       "GENERAL"
     )
 
     assetsMetadata.vip = createAssetMetadata(
-      uploadedVipAssets,
-      vipAssets,
+      _uploadedVipAssets,
+      _vipAssets,
       formInfo,
       "VIP"
     )
@@ -62,17 +81,17 @@ function CreateCompleteTicketStep4() {
       address,
       user,
       "GENERAL",
-      formInfo.price.general?.default ?? 0,
-      formInfo.currency
+      formInfo.currency,
+      formInfo.price.general?.default ?? 0
     )
     ticketMetadata.vip = createEventTicket(
-      assetsMetadata.general,
+      assetsMetadata.vip,
       formInfo,
       address,
       user,
       "VIP",
-      formInfo.price.vip?.default ?? 0,
-      formInfo.currency
+      formInfo.currency,
+      formInfo.price.vip?.default ?? 0
     )
 
     try {
@@ -84,7 +103,7 @@ function CreateCompleteTicketStep4() {
         await uploadAsset(vipAssets, assetsMetadata.vip, formInfo.subjectOf)
       }
 
-      await setTicketToEvent("complete", ticketMetadata, formInfo, user)
+      await setTicketToEvent(ticketMetadata, formInfo, user, "ASSET")
 
       setShowLoadingBackdrop(false)
       setUploading(false)
