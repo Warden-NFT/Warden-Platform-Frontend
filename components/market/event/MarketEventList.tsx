@@ -1,13 +1,13 @@
 import { Box, Card, Skeleton, Typography } from "@mui/material"
 import React, { useContext, useState } from "react"
-import { MarketContext } from "../../contexts/market/MarketContext"
-import useAsyncEffect from "../../hooks/useAsyncEffect"
-import { Event } from "../../interfaces/event/event.interface"
+import { MarketContext } from "../../../contexts/market/MarketContext"
+import useAsyncEffect from "../../../hooks/useAsyncEffect"
+import { Event } from "../../../interfaces/event/event.interface"
 import {
   EventListMode,
   EVENT_LIST_MODE
-} from "../../interfaces/event/eventSearch.interface"
-import EventCard from "../event/EventCard"
+} from "../../../interfaces/event/eventSearch.interface"
+import EventCard from "./EventCard"
 
 type Props = {
   mode: EventListMode
@@ -41,7 +41,9 @@ function MarketEventList(props: Props) {
   return (
     <>
       <Typography variant="h5" component="h2">
-        Featured
+        {props.mode === EVENT_LIST_MODE.FEATURED
+          ? EVENT_LIST_MODE.FEATURED
+          : EVENT_LIST_MODE.LATEST}
       </Typography>
       <Box sx={{ height: 12 }} />
       <Box
@@ -49,7 +51,12 @@ function MarketEventList(props: Props) {
           display: "grid",
           gap: 2,
           mt: 2,
-          gridTemplateColumns: "repeat(4, 1fr)"
+          gridTemplateColumns: [
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+            "repeat(4, 1fr)"
+          ]
         }}
       >
         {!eventList && (
@@ -77,6 +84,7 @@ function MarketEventList(props: Props) {
           </>
         )}
       </Box>
+      <Box sx={{ height: 12 }} />
     </>
   )
 }

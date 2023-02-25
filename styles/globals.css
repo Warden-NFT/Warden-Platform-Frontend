@@ -30,6 +30,41 @@ body {
   background: radial-gradient(40px 40px at 100% 222px, transparent 30%, #fff 30%);
 }
 
+/* Scrollbar Track */
+::-webkit-scrollbar {
+  background: transparent;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(244, 244, 240, 0.481);
+  border-radius: 12px;
+}
+
+/* Blob */
+
+#blob {
+  background-color: white;
+  height: 34vmax;
+  aspect-ratio: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: linear-gradient(to right, rgba(127, 180, 255, 0.749), rgba(147, 112, 216, 0.799));
+  animation: rotate 20s infinite;
+  opacity: 0.8;
+}
+
+#blur {
+  height: 100% !important;
+  width: 100%;
+  z-index: 2;
+  backdrop-filter: blur(12vmax);
+}
+
+
 #card3 {
   position: absolute;
   top: 100px;

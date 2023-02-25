@@ -12,6 +12,7 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
 import Head from "next/head"
 import CreateEventContextProvider from "../contexts/event/CreateEventContext"
 import LayoutContextProvider from "../contexts/layout/LayoutContext"
+import MarketContextProvider from "../contexts/market/MarketContext"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -33,9 +34,11 @@ export default function App({ Component, pageProps }: AppProps) {
               <LocalizationProvider dateAdapter={AdapterMoment}>
                 <UserContextProvider>
                   <CreateEventContextProvider>
-                    <Layout>
-                      <Component {...pageProps} />
-                    </Layout>
+                    <MarketContextProvider>
+                      <Layout>
+                        <Component {...pageProps} />
+                      </Layout>
+                    </MarketContextProvider>
                   </CreateEventContextProvider>
                 </UserContextProvider>
               </LocalizationProvider>

@@ -1,15 +1,15 @@
 import { useRouter } from "next/router"
 import React from "react"
 
-function TicketListing() {
+function MarketTicket() {
   const router = useRouter()
   const { eventId, ticketId } = router.query
 
   return (
     <div>
-      TicketListing for {eventId} {ticketId}
+      MarketTicket for {eventId} {ticketId}
     </div>
   )
 }
 
-export default TicketListing
+export default MarketTicket

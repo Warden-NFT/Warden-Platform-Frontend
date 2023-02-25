@@ -5,7 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import React from "react"
 import ContainedButton from "../UI/button/ContainedButton"
-import Ticket from "../UI/ticket/Ticket"
+import Ticket from "../ticket/Ticket"
 
 function LandingTopSection() {
   const router = useRouter()

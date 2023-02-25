@@ -146,12 +146,12 @@ export function formatLayeredAssetMetadata(
   blobs: Blob[]
 ) {
   const regularTickets: TicketMetadataBlob[] = []
-  const vipTickets: TicketMetadataBlob[] = []
+  const vip: TicketMetadataBlob[] = []
 
   metadata.forEach((data, i) => {
     const ticket: TicketsMetadata = {
       name: data.name,
-      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/generated/${data.name}.PNG`,
+      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/generated/${data.name}.png`,
       description: formInfo.description,
       attributes: data.attributes.map((attribute) => {
         return {
@@ -162,7 +162,7 @@ export function formatLayeredAssetMetadata(
     }
 
     if (data.hasVipAsset) {
-      vipTickets.push({
+      vip.push({
         metadata: ticket,
         blob: blobs[i]
       })
@@ -174,5 +174,5 @@ export function formatLayeredAssetMetadata(
     }
   })
 
-  return { regulars: regularTickets, vips: vipTickets }
+  return { regulars: regularTickets, vips: vip }
 }
