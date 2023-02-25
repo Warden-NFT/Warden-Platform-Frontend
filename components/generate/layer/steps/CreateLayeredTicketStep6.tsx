@@ -102,8 +102,8 @@ function CreateLayeredTicketStep6() {
           address,
           user,
           "GENERAL",
-          formInfo.price.general?.default ?? 0,
-          formInfo.currency
+          formInfo.currency,
+          formInfo.price.general?.default ?? 0
         )
         eventTickets.general = eventMetadata
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
@@ -120,13 +120,13 @@ function CreateLayeredTicketStep6() {
           address,
           user,
           "VIP",
-          formInfo.price.vip?.default ?? 0,
-          formInfo.currency
+          formInfo.currency,
+          formInfo.price.vip?.default ?? 0
         )
         eventTickets.vip = eventMetadata
 
         await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
-        await setTicketToEvent("layer", eventTickets, formInfo, user)
+        await setTicketToEvent(eventTickets, formInfo, user, "LAYERED")
         setUploaded(true)
         setUploading(false)
         setShowLoadingBackdrop(false)

@@ -44,6 +44,7 @@ function CreateCompleteTicketStep3() {
       enableReinitialize: true,
       validationSchema: CompleteAssetCustomizeUtilitySchema,
       onSubmit: (values) => {
+        // Check if quota exceeds amount
         const sumAssetQuantity = values.assets.reduce(
           (sum, asset) => sum + asset.quantity,
           0
@@ -82,7 +83,6 @@ function CreateCompleteTicketStep3() {
         if (values.assets.length > 0) {
           const _uploadedAssets = [...uploadedAssets]
           values.assets.forEach((asset, i) => {
-            _uploadedAssets[i].name = asset.name
             _uploadedAssets[i].quantity = asset.quantity
           })
           setUploadedAssets(_uploadedAssets)
@@ -91,7 +91,6 @@ function CreateCompleteTicketStep3() {
         if (values.vipAssets.length > 0) {
           const _uploadedVipAssets = [...uploadedVipAssets]
           values.vipAssets.forEach((asset, i) => {
-            _uploadedVipAssets[i].name = asset.name
             _uploadedVipAssets[i].quantity = asset.quantity
           })
           setUploadedVipAssets(_uploadedVipAssets)
@@ -142,7 +141,7 @@ function CreateCompleteTicketStep3() {
           <Stack spacing={1}>
             <Stack direction="row" justifyContent="space-between">
               <Typography fontWeight="600">Asset</Typography>
-              <Typography fontWeight="600">Name</Typography>
+              <Typography fontWeight="600">File Name</Typography>
               <Typography fontWeight="600">Amount Create</Typography>
             </Stack>
             {values.assets.map((asset, i) => (
@@ -161,18 +160,7 @@ function CreateCompleteTicketStep3() {
                   style={{ objectFit: "contain" }}
                   draggable={false}
                 />
-                <TextField
-                  value={values.assets[i].name}
-                  name={`assets[${i}].name`}
-                  onChange={handleChange}
-                  type="text"
-                  data-test-atd={`asset-${i}-name-input`}
-                  size="small"
-                  //@ts-ignore
-                  error={errors.assets && errors.assets[i].name ? true : false}
-                  //@ts-ignore
-                  helperText={errors.assets ? errors.assets[i].name : ""}
-                />
+                <Typography>{values.assets[i].name}</Typography>
                 <TextField
                   value={values.assets[i].quantity}
                   name={`assets[${i}].quantity`}
@@ -199,7 +187,7 @@ function CreateCompleteTicketStep3() {
             <Stack spacing={1}>
               <Stack direction="row" justifyContent="space-between">
                 <Typography fontWeight="600">Asset</Typography>
-                <Typography fontWeight="600">Name</Typography>
+                <Typography fontWeight="600">File Name</Typography>
                 <Typography fontWeight="600">Amount Create</Typography>
               </Stack>
               {values.vipAssets.map((asset, i) => (
@@ -218,24 +206,7 @@ function CreateCompleteTicketStep3() {
                     style={{ objectFit: "contain" }}
                     draggable={false}
                   />
-                  <TextField
-                    value={values.vipAssets[i].name}
-                    name={`vipAssets[${i}].name`}
-                    onChange={handleChange}
-                    type="text"
-                    data-test-atd={`vipAssets-${i}-name-input`}
-                    size="small"
-                    error={
-                      //@ts-ignore
-                      errors.vipAssets && errors.vipAssets[i].name
-                        ? true
-                        : false
-                    }
-                    helperText={
-                      //@ts-ignore
-                      errors.vipAssets ? errors.vipAssets[i].name : ""
-                    }
-                  />
+                  <Typography>{values.vipAssets[i].name}</Typography>
                   <TextField
                     value={values.vipAssets[i].quantity}
                     name={`vipAssets[${i}].quantity`}

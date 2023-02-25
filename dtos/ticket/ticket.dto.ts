@@ -1,5 +1,6 @@
 import { TicketsMetadata } from "./metadata.dto"
 import {
+  GenerationMode,
   TicketQuota,
   TicketTypePricing
 } from "../../interfaces/generate/collection.interface"
@@ -43,5 +44,5 @@ export interface TicketCollectionDTO {
   enableResale: boolean
   currency: SupportedDigitalCurrency
   ticketQuota: TicketQuota
-  generationMethod: TicketGenerationMode
+  generationMethod: GenerationMode
 }
