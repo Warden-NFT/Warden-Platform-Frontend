@@ -30,7 +30,8 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
       sx={{
         background: isHorizontal ? deepPurple[100] : "transparent",
         p: 2,
-        borderRadius: 2
+        borderRadius: 2,
+        position: "relative"
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -39,10 +40,10 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
         </Typography>
         {isHorizontal && (
           <Box>
-            <IconButton onClick={() => scrollList(-300)} aria-label="delete">
+            <IconButton onClick={() => scrollList(-500)} aria-label="delete">
               <ChevronLeft />
             </IconButton>
-            <IconButton onClick={() => scrollList(300)} aria-label="delete">
+            <IconButton onClick={() => scrollList(500)} aria-label="delete">
               <ChevronRight />
             </IconButton>
           </Box>
@@ -69,18 +70,28 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
               price={ticket.price?.amount.toString()}
             />
           ))}
+          <Box
+            sx={{
+              position: "absolute",
+              right: 0,
+              height: 400,
+              width: 200,
+              background:
+                "linear-gradient(to left, #d1c4e9, #d1c4e9 10%, transparent 80%);"
+            }}
+          ></Box>
         </Box>
       ) : (
         <Box
           sx={{
             display: "grid",
-            gap: 2,
+            gap: 4,
             mt: 2,
             gridTemplateColumns: [
               "repeat(1, 1fr)",
               "repeat(2, 1fr)",
-              "repeat(4, 1fr)",
-              "repeat(5, 1fr)"
+              "repeat(3, 1fr)",
+              "repeat(4, 1fr)"
             ]
           }}
         >

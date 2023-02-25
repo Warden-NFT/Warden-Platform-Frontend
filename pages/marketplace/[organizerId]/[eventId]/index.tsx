@@ -13,8 +13,13 @@ import { MarketContext } from "../../../../contexts/market/MarketContext"
 
 function MarketEvent() {
   const router = useRouter()
-  const { eventId } = router.query
+  const { organizerId, eventId } = router.query
   const { marketTickets, getMarketTickets } = useContext(MarketContext)
+
+  const onClickBrowseEvent = () => {
+    if (!organizerId) return
+    router.push(`/marketplace/${organizerId}`)
+  }
 
   useEffect(() => {
     if (!router.query) return
@@ -63,7 +68,11 @@ function MarketEvent() {
                 </Typography>
               </Stack>
             </Box>
-            <ContainedButton label="Browse Events" variant="contained" />
+            <ContainedButton
+              label="Browse Events"
+              variant="contained"
+              onClick={onClickBrowseEvent}
+            />
           </Box>
           <Box
             sx={{

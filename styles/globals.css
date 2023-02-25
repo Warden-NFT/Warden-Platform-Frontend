@@ -30,6 +30,18 @@ body {
   background: radial-gradient(40px 40px at 100% 222px, transparent 30%, #fff 30%);
 }
 
+/* Scrollbar Track */
+::-webkit-scrollbar {
+  background: transparent;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(244, 244, 240, 0.481);
+  border-radius: 12px;
+}
+
+
 #card3 {
   position: absolute;
   top: 100px;

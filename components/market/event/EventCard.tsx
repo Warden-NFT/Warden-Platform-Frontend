@@ -21,15 +21,20 @@ type Props = {
 
 function EventCard({ event }: Props) {
   const router = useRouter()
-  const onClickEvent = (eventId: string | undefined) => {
-    if (eventId) return
-    router.push(`/marketplace/${eventId}`)
+  const onClickEvent = (
+    organizerId: string | undefined,
+    eventId: string | undefined
+  ) => {
+    if (!eventId || !organizerId) return
+    router.push(`/marketplace/${organizerId}/${eventId}`)
   }
   return (
-    <ContainerCard sx={{ height: "440px", borderRadius: 1, p: 0 }}>
+    <ContainerCard
+      sx={{ minHeight: "440px", height: "fit-content", borderRadius: 1, p: 0 }}
+    >
       <ButtonBase
-        sx={{ textAlign: "start", width: "100%" }}
-        onClick={() => onClickEvent(event._id)}
+        sx={{ textAlign: "start", width: "100%", height: "100%" }}
+        onClick={() => onClickEvent(event.organizerId, event._id)}
       >
         <Card
           sx={{

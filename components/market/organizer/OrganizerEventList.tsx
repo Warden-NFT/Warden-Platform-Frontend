@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
+import { useRouter } from "next/router"
 import React from "react"
 import { Event } from "../../../interfaces/event/event.interface"
 import { EventTicketPreviews } from "../../../interfaces/market/marketEvent.interface"
@@ -15,6 +16,13 @@ type Props = {
 }
 
 function OrganizerEventList({ events, eventTicketPreviews }: Props) {
+  const router = useRouter()
+  const { organizerId } = router.query
+
+  const onClickViewAllTickets = (eventId: string | undefined) => {
+    if (!organizerId || !eventId) return
+    router.push(`/marketplace/${organizerId}/${eventId}`)
+  }
   return (
     <>
       {(events?.length === 0 || eventTicketPreviews?.length === 0) && (
@@ -67,7 +75,11 @@ function OrganizerEventList({ events, eventTicketPreviews }: Props) {
                 >
                   {event.name}
                 </Typography>
-                <ContainedButton label="View all tickets" variant="contained" />
+                <ContainedButton
+                  label="View all tickets"
+                  variant="contained"
+                  onClick={() => onClickViewAllTickets(event._id)}
+                />
               </Box>
               <Box
                 sx={{
