@@ -207,24 +207,6 @@ function CreateCompleteTicketStep3() {
                     draggable={false}
                   />
                   <Typography>{values.vipAssets[i].name}</Typography>
-                  {/* <TextField
-                    value={values.vipAssets[i].name}
-                    name={`vipAssets[${i}].name`}
-                    onChange={handleChange}
-                    type="text"
-                    data-test-atd={`vipAssets-${i}-name-input`}
-                    size="small"
-                    error={
-                      //@ts-ignore
-                      errors.vipAssets && errors.vipAssets[i].name
-                        ? true
-                        : false
-                    }
-                    helperText={
-                      //@ts-ignore
-                      errors.vipAssets ? errors.vipAssets[i].name : ""
-                    }
-                  /> */}
                   <TextField
                     value={values.vipAssets[i].quantity}
                     name={`vipAssets[${i}].quantity`}
