@@ -62,7 +62,7 @@ function LandingTopSection() {
           <Box sx={{ height: 20 }} />
           <ContainedButton
             onClick={() => {
-              router.push("/home")
+              router.push("/marketplace")
             }}
             disabled={false}
             variant="contained"

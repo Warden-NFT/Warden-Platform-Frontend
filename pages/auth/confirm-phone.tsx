@@ -44,7 +44,7 @@ function ConfirmPhone() {
       }
       setOpenOtpSuccessSnackbar(true)
       setTimeout(() => {
-        router.push("/home")
+        router.push("/marketplace")
       }, 3000)
     } else setOpenOtpErrorSnackbar(true)
   }

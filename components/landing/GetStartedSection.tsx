@@ -27,7 +27,7 @@ function GetStartedSection() {
         <Box sx={{ position: "absolute", top: "-20px" }}>
           <ContainedButton
             onClick={() => {
-              router.push("/home")
+              router.push("/marketplace")
             }}
             disabled={false}
             variant="contained"
