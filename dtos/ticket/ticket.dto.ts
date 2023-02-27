@@ -46,3 +46,8 @@ export interface TicketCollectionDTO {
   ticketQuota: TicketQuota
   generationMethod: GenerationMode
 }
+
+export interface MyTicketsDTO {
+  myTickets: EventTicket[]
+  myTicketListing: EventTicket[]
+}
