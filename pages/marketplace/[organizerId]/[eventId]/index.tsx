@@ -1,26 +1,16 @@
-import { CalendarToday, LocationOnOutlined } from "@mui/icons-material"
-import { Container, Stack, Typography } from "@mui/material"
+import { Container } from "@mui/material"
 import { Box } from "@mui/system"
-import moment from "moment"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
 import EventInfoBanner from "../../../../components/market/event/EventInfoBanner"
 import TicketCardList from "../../../../components/market/ticket/TicketCardList"
-import ContainedButton from "../../../../components/UI/button/ContainedButton"
-import ContainerCard from "../../../../components/UI/card/ContainerCard"
-import { ImageWithFallback } from "../../../../components/UI/image/ImageWithFallback"
 import BannerLayout from "../../../../components/UI/layout/BannerLayout"
 import { MarketContext } from "../../../../contexts/market/MarketContext"
 
 function MarketEvent() {
   const router = useRouter()
-  const { organizerId, eventId } = router.query
+  const { eventId } = router.query
   const { marketTickets, getMarketTickets } = useContext(MarketContext)
-
-  const onClickBrowseEvent = () => {
-    if (!organizerId) return
-    router.push(`/marketplace/${organizerId}`)
-  }
 
   useEffect(() => {
     if (!router.query) return
