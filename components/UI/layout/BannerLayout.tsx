@@ -25,7 +25,7 @@ function BannerLayout({
   actionIcon
 }: Props) {
   return (
-    <Grid container spacing={0} marginTop={4} justifyContent="center">
+    <Grid container spacing={0} justifyContent="center">
       <Grid item xs={12}>
         <Container sx={{ height: 300 }}>
           <Box
