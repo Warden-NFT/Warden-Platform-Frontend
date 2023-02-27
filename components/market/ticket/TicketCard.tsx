@@ -1,19 +1,37 @@
 import { ButtonBase, Typography, Chip, Divider, Box } from "@mui/material"
 import { grey } from "@mui/material/colors"
+import { useRouter } from "next/router"
 import React from "react"
 import ContainerCard from "../../UI/card/ContainerCard"
 import { ImageWithFallback } from "../../UI/image/ImageWithFallback"
 
 type Props = {
+  ticketId?: string
   image: string
   name: string
   ticketTypeLabel: string
   price: string
+  enableRedirect?: boolean
 }
 
-function TicketCard({ image, name, ticketTypeLabel, price }: Props) {
+function TicketCard({
+  ticketId,
+  image,
+  name,
+  ticketTypeLabel,
+  price,
+  enableRedirect
+}: Props) {
+  const router = useRouter()
+  function handleRedirect() {
+    const path = router.asPath
+    if (ticketId && enableRedirect && path) {
+      router.push(`${path}/${ticketId}`)
+    }
+  }
+
   return (
-    <ButtonBase>
+    <ButtonBase onClick={handleRedirect}>
       <ContainerCard
         sx={{
           p: 1,

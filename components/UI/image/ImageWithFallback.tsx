@@ -8,6 +8,7 @@ type Props = {
   src: string
   width?: number
   height?: number
+  draggable?: boolean
   style?: any
 }
 export const ImageWithFallback = ({
@@ -16,6 +17,7 @@ export const ImageWithFallback = ({
   width,
   height,
   style,
+  draggable,
   ...props
 }: Props) => {
   const [error, setError] = useState(false)
@@ -32,6 +34,7 @@ export const ImageWithFallback = ({
       width={width}
       height={height}
       {...props}
+      draggable={draggable}
       style={style}
     />
   )
