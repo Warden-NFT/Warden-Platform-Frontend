@@ -8,7 +8,7 @@ type Props = {
   backgroundImage: string
   title: string
   subtitle: string
-  enableActionButton: boolean
+  enableActionButton?: boolean
   action?: () => void
   actionName?: string
   actionIcon?: React.ReactElement<SvgIconProps>

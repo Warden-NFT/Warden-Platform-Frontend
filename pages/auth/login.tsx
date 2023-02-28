@@ -67,7 +67,7 @@ function Login() {
   })
 
   useEffect(() => {
-    if (user) router.push("/home")
+    if (user) router.push("/marketplace")
   }, [user])
 
   if (user) return null
