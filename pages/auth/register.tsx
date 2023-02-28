@@ -32,7 +32,7 @@ function Register() {
   }
 
   useEffect(() => {
-    if (user && !user?.verificationStatus) {
+    if (user && user.verificationStatus === "NotVerified") {
       router.push("/auth/confirm-phone")
       return
     }
