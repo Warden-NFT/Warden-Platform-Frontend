@@ -13,14 +13,13 @@ export const useEvents = () => {
   // States
   const [events, setEvents] = useState<Event[]>([])
   const [currentEvent, setCurrentEvent] = useState<Event>()
-  const { user } = useContext(UserContext)
 
-  const getEventFromOrganizer = async () => {
+  const getEventFromOrganizer = async (eventOrganizerId: string) => {
     setEventLoading(true)
     try {
       const res = await client.get<Event[]>("/event/organizer", {
         params: {
-          id: user?._id
+          id: eventOrganizerId
         }
       })
       const events: Event[] = res.data
