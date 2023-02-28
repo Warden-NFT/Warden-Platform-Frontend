@@ -1,7 +1,6 @@
 import { useContext, useState } from "react"
 import { client } from "../configs/axios/axiosConfig"
 import { LayoutContext } from "../contexts/layout/LayoutContext"
-import { UserContext } from "../contexts/user/UserContext"
 import { Event } from "../interfaces/event/event.interface"
 import { AlertType } from "../interfaces/modal/alert.interface"
 
