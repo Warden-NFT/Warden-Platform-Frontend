@@ -21,6 +21,7 @@ import FadeEntrance from "../../components/motion/FadeEntrance"
 import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
+import RecaptchaBox from "../../components/UI/button/RecaptchaBox"
 
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
@@ -34,18 +35,20 @@ function Login() {
     errors,
     handleSubmit,
     handleBlur,
-    setErrors
+    setErrors,
+    setFieldValue
   } = useFormik({
     initialValues: {
       phoneNumber: "",
-      password: ""
+      password: "",
+      recaptchaTested: "NOT_TESTED"
     },
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
       try {
         const res = await client.post<SuccessfulAuthDTO>("/user/login", data)
         setUserInfo(res.data)
-        router.push("/")
+        router.push("/marketplace")
       } catch (error) {
         if (
           Axios.isAxiosError(error) &&
@@ -119,7 +122,11 @@ function Login() {
                   helperText={touched.password && errors.password}
                 />
               </FormControl>
-
+              <RecaptchaBox
+                name="recaptchaTested"
+                setFieldValue={setFieldValue}
+                error={errors.recaptchaTested}
+              />
               <Box sx={{ height: 24 }} />
 
               <ContainedButton

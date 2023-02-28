@@ -12,62 +12,71 @@ import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import Image from "next/image"
+import RecaptchaBox from "../UI/button/RecaptchaBox"
 
 function EventOrganizerRegisterForm() {
   const [profileImage, setProfileImage] = useState<File>()
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
-  const { values, handleChange, touched, errors, handleSubmit, setErrors } =
-    useFormik({
-      initialValues: {
-        phoneNumber: "",
-        email: "",
-        username: "",
-        password: "",
-        repeatPassword: "",
-        organizationName: ""
-      },
-      validationSchema: EventOrganizerRegisterSchema,
-      onSubmit: async (data) => {
-        const payload = { ...data }
-        payload.phoneNumber = payload.phoneNumber.replaceAll("-", "")
-        const formData = new FormData()
-        type CreateUserPayloadKeys = keyof typeof payload
-        for (const key in payload) {
-          formData.append(key, payload[key as CreateUserPayloadKeys])
-        }
-        if (profileImage) {
-          formData.append("image", profileImage)
-        }
+  const {
+    values,
+    handleChange,
+    touched,
+    errors,
+    handleSubmit,
+    setErrors,
+    setFieldValue
+  } = useFormik({
+    initialValues: {
+      phoneNumber: "",
+      email: "",
+      username: "",
+      password: "",
+      repeatPassword: "",
+      organizationName: "",
+      recaptchaTested: "NOT_TESTED"
+    },
+    validationSchema: EventOrganizerRegisterSchema,
+    onSubmit: async (data) => {
+      const payload = { ...data }
+      payload.phoneNumber = payload.phoneNumber.replaceAll("-", "")
+      const formData = new FormData()
+      type CreateUserPayloadKeys = keyof typeof payload
+      for (const key in payload) {
+        formData.append(key, payload[key as CreateUserPayloadKeys])
+      }
+      if (profileImage) {
+        formData.append("image", profileImage)
+      }
 
-        try {
-          const res = await client.post<SuccessfulAuthDTO>(
-            "/user/registerEventOrganizer",
-            formData
-          )
-          setUserInfo(res.data)
-          router.push("/auth/confirm-phone")
-        } catch (error) {
-          if (
-            Axios.isAxiosError(error) &&
-            (error as AxiosError).response?.status === 409
-          ) {
-            setErrors({
-              phoneNumber: "Email or phone number has already been used.",
-              email: "Email or phone number has already been used."
-            })
-          } else {
-            showErrorAlert({
-              type: AlertType.ERROR,
-              title: "Authentication error",
-              description:
-                "Unable to register your account this time. Please try again later."
-            })
-          }
+      try {
+        const res = await client.post<SuccessfulAuthDTO>(
+          "/user/registerEventOrganizer",
+          formData
+        )
+        setUserInfo(res.data)
+        router.push("/auth/confirm-phone")
+      } catch (error) {
+        if (
+          Axios.isAxiosError(error) &&
+          (error as AxiosError).response?.status === 409
+        ) {
+          setErrors({
+            phoneNumber: "Email or phone number has already been used.",
+            email: "Email or phone number has already been used."
+          })
+        } else {
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title: "Authentication error",
+            description:
+              "Unable to register your account this time. Please try again later."
+          })
         }
       }
-    })
+    }
+  })
 
   const handleEventImageChange = (e: any) => {
     setProfileImage(e.target.files[0])
@@ -214,6 +223,11 @@ function EventOrganizerRegisterForm() {
           }
         />
       </FormControl>
+      <RecaptchaBox
+        name="recaptchaTested"
+        setFieldValue={setFieldValue}
+        error={errors.recaptchaTested}
+      />
 
       <Box sx={{ height: 24 }} />
 
