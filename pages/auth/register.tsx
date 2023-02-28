@@ -32,7 +32,10 @@ function Register() {
   }
 
   useEffect(() => {
-    if (user) router.push("/marketplace")
+    if (user && !user?.verificationStatus) {
+      router.push("/auth/confirm-phone")
+      return
+    }
   }, [user])
 
   if (user) return null

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react"
 import { client } from "../configs/axios/axiosConfig"
 import { LayoutContext } from "../contexts/layout/LayoutContext"
+import { UserContext } from "../contexts/user/UserContext"
 import { Event } from "../interfaces/event/event.interface"
 import { AlertType } from "../interfaces/modal/alert.interface"
 
@@ -12,11 +13,16 @@ export const useEvents = () => {
   // States
   const [events, setEvents] = useState<Event[]>([])
   const [currentEvent, setCurrentEvent] = useState<Event>()
+  const { user } = useContext(UserContext)
 
   const getEventFromOrganizer = async () => {
     setEventLoading(true)
     try {
-      const res = await client.get<Event[]>("/event/organizer")
+      const res = await client.get<Event[]>("/event/organizer", {
+        params: {
+          id: user?._id
+        }
+      })
       const events: Event[] = res.data
       setEvents(events)
       setEventLoading(false)
