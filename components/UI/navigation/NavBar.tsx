@@ -126,6 +126,12 @@ function NavBar() {
                 horizontal: "center"
               }}
             >
+              <Link
+                href="/my-tickets"
+                style={{ textDecoration: "none", color: "#000" }}
+              >
+                <MenuItem>My Tickets</MenuItem>
+              </Link>
               <MenuItem onClick={handleLogout}>Log out</MenuItem>
             </Menu>
             <ConnectWalletButton />

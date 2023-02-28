@@ -40,13 +40,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         sx={{
           padding: "0 !important",
           width: "100vw",
-          height: "100% !important"
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between"
         }}
         maxWidth={false}
       >
-        <Navbar />
-        <Box sx={{ my: 8 }} />
-        {children}
+        <Box>
+          <Navbar />
+          <Box sx={{ height: "100%", display: "flex", flex: 1, mt: 8 }}>
+            {children}
+          </Box>
+        </Box>
         <Footer />
       </Container>
       <Backdrop

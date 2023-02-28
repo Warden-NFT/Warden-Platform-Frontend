@@ -103,7 +103,13 @@ function CreateCompleteTicketStep4() {
         await uploadAsset(vipAssets, assetsMetadata.vip, formInfo.subjectOf)
       }
 
-      await setTicketToEvent(ticketMetadata, formInfo, user, "ASSET")
+      await setTicketToEvent(
+        ticketMetadata,
+        formInfo,
+        user,
+        "ASSET",
+        address ?? ""
+      )
 
       setShowLoadingBackdrop(false)
       setUploading(false)

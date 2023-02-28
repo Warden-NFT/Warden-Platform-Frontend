@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import {
   FormControl,
   FormHelperText,
@@ -11,6 +11,7 @@ import { red } from "@mui/material/colors"
 import { useEvents } from "../../../hooks/useEvents"
 import { Event } from "../../../interfaces/event/event.interface"
 import useAsyncEffect from "../../../hooks/useAsyncEffect"
+import { UserContext } from "../../../contexts/user/UserContext"
 
 interface Props {
   subjectOf: string
@@ -26,15 +27,18 @@ function ControlledEventSelect({
   error
 }: Props) {
   const { getEventFromOrganizer } = useEvents()
+  const { user } = useContext(UserContext)
+
   const [events, setEvents] = useState<Event[]>([])
 
   useAsyncEffect(async () => {
-    const _events = await getEventFromOrganizer()
+    if (!user?._id) return
+    const _events = await getEventFromOrganizer(user._id)
     const filtered = _events?.filter((event) => event.ticketCollectionId == "")
     if (filtered) {
       setEvents(filtered)
     }
-  }, [])
+  }, [user])
 
   return (
     <FormControl fullWidth required>

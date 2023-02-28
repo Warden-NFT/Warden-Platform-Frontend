@@ -31,12 +31,12 @@ body {
 }
 
 /* Scrollbar Track */
-::-webkit-scrollbar {
+.ticket-list::-webkit-scrollbar {
   background: transparent;
   height: 8px;
 }
 
-::-webkit-scrollbar-thumb {
+.ticket-list::-webkit-scrollbar-thumb {
   background-color: rgba(244, 244, 240, 0.481);
   border-radius: 12px;
 }

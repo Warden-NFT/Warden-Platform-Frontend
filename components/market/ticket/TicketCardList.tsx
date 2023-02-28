@@ -8,7 +8,7 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 
 type Props = {
   tickets: EventTicket[] | undefined
-  ticketType: string
+  ticketType?: string
   isHorizontal?: boolean
 }
 
@@ -25,11 +25,11 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
   }
 
   if (!tickets) return null
+  if (tickets.length === 0) return <Box>No results</Box>
   return (
     <Box
       sx={{
         background: isHorizontal ? deepPurple[100] : "transparent",
-        p: 2,
         borderRadius: 2,
         position: "relative"
       }}
@@ -52,6 +52,7 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
       <Box sx={{ height: 12 }} />
       {isHorizontal ? (
         <Box
+          className="ticket-list"
           ref={ticketListRef}
           sx={{
             display: "flex",
@@ -70,6 +71,7 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
               ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
               price={ticket.price?.amount.toString()}
               enableRedirect
+              isMyTicket
             />
           ))}
           <Box
@@ -106,6 +108,7 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
               ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
               price={ticket.price?.amount.toString()}
               enableRedirect
+              isMyTicket
             />
           ))}
         </Box>

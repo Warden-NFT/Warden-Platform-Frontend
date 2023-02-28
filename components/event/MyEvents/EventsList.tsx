@@ -8,19 +8,22 @@ import {
 } from "@mui/material"
 import { Box } from "@mui/system"
 
-import React, { useEffect } from "react"
+import React, { useContext, useEffect } from "react"
 import { useEvents } from "../../../hooks/useEvents"
 import HoverCard from "../../motion/HoverCard"
 import { Event } from "../../../interfaces/event/event.interface"
 import { useRouter } from "next/router"
+import { UserContext } from "../../../contexts/user/UserContext"
 
 function EventsList() {
+  const { user } = useContext(UserContext)
   const { events, getEventFromOrganizer, eventLoading } = useEvents()
   const router = useRouter()
 
   useEffect(() => {
-    getEventFromOrganizer()
-  }, [])
+    if (!user?._id) return
+    getEventFromOrganizer(user?._id)
+  }, [user])
 
   const handleClickEvent = (eventId: string | undefined) => {
     if (!eventId) return
