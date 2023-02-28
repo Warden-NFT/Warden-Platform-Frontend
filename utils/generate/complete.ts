@@ -64,7 +64,7 @@ export function createEventTicket(
       name: `${info.name}_${i}`,
       ticketMetadata: [data],
       description: info.description,
-      ownerHistory: [],
+      ownerHistory: [address],
       ticketType: ticketType,
       benefits:
         info.vipEnabled && info.vipBenefit && ticketType === "VIP"
@@ -85,7 +85,8 @@ export async function setTicketToEvent(
   tickets: EventTicketsMetadata,
   formInfo: TicketInfo,
   user: User | undefined,
-  mode: GenerationMode
+  mode: GenerationMode,
+  address: string
 ) {
   if (!user || !user._id) return
 
@@ -100,7 +101,7 @@ export async function setTicketToEvent(
     ticketPrice: formInfo.price,
     smartContractAddress: "",
     subjectOf: formInfo.subjectOf,
-    ownerAddress: user._id,
+    ownerAddress: address,
     royaltyFee: formInfo.enableRoyaltyFee
       ? formInfo.royaltyFeePercentage / 100
       : 0,

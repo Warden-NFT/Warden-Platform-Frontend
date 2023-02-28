@@ -12,6 +12,7 @@ type Props = {
   ticketTypeLabel: string
   price: string
   enableRedirect?: boolean
+  isMyTicket?: boolean
 }
 
 function TicketCard({
@@ -20,13 +21,18 @@ function TicketCard({
   name,
   ticketTypeLabel,
   price,
-  enableRedirect
+  enableRedirect,
+  isMyTicket
 }: Props) {
   const router = useRouter()
   function handleRedirect() {
     const path = router.asPath
+    if (!isMyTicket) {
+      router.push(`/my-tickets/${ticketId}`)
+    }
     if (ticketId && enableRedirect && path) {
       router.push(`${path}/${ticketId}`)
+      return
     }
   }
 

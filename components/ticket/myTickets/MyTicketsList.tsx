@@ -1,19 +1,22 @@
 import { Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import React, { useContext, useEffect } from "react"
+import { useAccount } from "wagmi"
 import { MyTicketsContext } from "../../../contexts/ticket/myTicketsContext"
 import TicketCardList from "../../market/ticket/TicketCardList"
 
 function MyTicketsList() {
   const { filteredMyTickets, getUserTickets } = useContext(MyTicketsContext)
+  const { address } = useAccount()
 
   useEffect(() => {
-    getUserTickets("0x62E2444746aA6aD61478F9cC8d5e70c87691DD98")
-  }, [])
+    if (!address) return
+    getUserTickets(address)
+  }, [address])
 
   return (
     <Box>
-      <Box sx={{ my: 8 }} />
+      <Box sx={{ my: 4 }} />
       <Typography variant="h5">My Tickets</Typography>
       <TicketCardList tickets={filteredMyTickets?.myTickets} />
       <Box sx={{ my: 4 }} />

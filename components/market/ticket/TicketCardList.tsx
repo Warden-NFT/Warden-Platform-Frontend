@@ -5,6 +5,7 @@ import { EventTicket } from "../../../dtos/ticket/ticket.dto"
 import { TicketTypeLabel } from "../../../interfaces/event/event.interface"
 import TicketCard from "./TicketCard"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
+import { useRouter } from "next/router"
 
 type Props = {
   tickets: EventTicket[] | undefined
@@ -14,6 +15,7 @@ type Props = {
 
 function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
   const ticketListRef = useRef<HTMLDivElement>(null)
+  const router = useRouter()
 
   const scrollList = (amount: number) => {
     if (!ticketListRef.current) return
@@ -71,6 +73,7 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
               ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
               price={ticket.price?.amount.toString()}
               enableRedirect
+              isMyTicket
             />
           ))}
           <Box
@@ -107,6 +110,7 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
               ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
               price={ticket.price?.amount.toString()}
               enableRedirect
+              isMyTicket
             />
           ))}
         </Box>
