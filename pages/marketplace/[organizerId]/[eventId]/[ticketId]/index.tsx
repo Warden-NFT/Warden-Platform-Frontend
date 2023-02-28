@@ -1,14 +1,16 @@
 import { Box, IconButton, Stack, Typography } from "@mui/material"
 import { useRouter } from "next/router"
-import React, { useContext } from "react"
+import React from "react"
 import EventInfoBanner from "../../../../../components/market/event/EventInfoBanner"
 import BannerLayout from "../../../../../components/UI/layout/BannerLayout"
-import { MarketContext } from "../../../../../contexts/market/MarketContext"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
 import { GetServerSideProps, NextPage } from "next"
 import { EventTicket } from "../../../../../dtos/ticket/ticket.dto"
 import TicketCard from "../../../../../components/market/ticket/TicketCard"
 import axios, { AxiosError } from "axios"
+import { Event } from "../../../../../interfaces/event/event.interface"
+import { EventOrganizerUser } from "../../../../../interfaces/auth/user.interface"
+import { MarketTickets } from "../../../../../interfaces/market/marketEvent.interface"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -16,23 +18,36 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   // todo: add event org and fetch
   try {
-    const res = await axios.get<EventTicket>(
-      `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/single`,
+    const marketTicketRes = await axios.get<MarketTickets>(
+      `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/market/tickets`,
       {
         params: {
-          eventId,
-          ticketId
+          eventId
         }
       }
     )
 
+    const { organizerInfo, event, ticketCollection } = marketTicketRes.data
+    const tickets = [
+      ...(ticketCollection.tickets.general ?? []),
+      ...(ticketCollection.tickets.vip ?? [])
+    ]
+    console.log({ tickets })
+    const ticket = tickets.find((ticket) => ticket._id === ticketId)
+    if (!ticket) {
+      throw Error("No ticket found")
+    }
+
     return {
       props: {
-        ticket: res.data
+        ticket: ticket,
+        event: event,
+        organizer: organizerInfo
       }
     }
   } catch (e) {
     const err = e as AxiosError
+    console.log(err)
     return {
       notFound: true
     }
@@ -40,32 +55,31 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 }
 
 interface PageProps {
-  ticket: EventTicket | undefined
+  ticket: EventTicket
+  event: Event
+  organizer: EventOrganizerUser
 }
 
-const MarketTicket: NextPage<PageProps> = ({ ticket }) => {
+const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const router = useRouter()
-  const { eventId, ticketId } = router.query
-  const { marketTickets, getMarketTickets } = useContext(MarketContext)
 
   return (
     <div>
       <BannerLayout
-        backgroundImage={marketTickets?.event.image as string}
+        backgroundImage={event.image as string}
         title=""
         subtitle=""
         actionName=""
       >
         <EventInfoBanner
-          imgFallbackSrc={marketTickets?.organizerInfo.profileImage as string}
-          organizationName={marketTickets?.organizerInfo.organizationName ?? ""}
-          organizerId={marketTickets?.organizerInfo._id}
-          marketTicketName={marketTickets?.event.name ?? ""}
-          eventStartDate={marketTickets?.event.startDate ?? new Date(0)}
-          eventName={marketTickets?.event.name ?? ""}
+          imgFallbackSrc={organizer.profileImage as string}
+          organizationName={organizer.organizationName ?? ""}
+          organizerId={organizer._id}
+          marketTicketName={event.name}
+          eventStartDate={event.startDate ?? new Date(0)}
+          eventName={event.name}
           location={
-            marketTickets?.event.location?.structured_formatting.main_text ||
-            marketTickets?.event.online_url
+            event.location?.structured_formatting.main_text || event.online_url
           }
         />
         <Stack direction="row" sx={{ alignItems: "center", marginY: 3 }}>
