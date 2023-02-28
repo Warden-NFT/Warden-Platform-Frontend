@@ -25,3 +25,9 @@ export interface EventTicketPreviews {
 }
 
 export type EventTicketPreviewsType = "general" | "vip" | "reservedSeat"
+
+export interface TicketListing {
+  organizerInfo: EventOrganizerUser
+  event: Event
+  ticket: EventTicket
+}

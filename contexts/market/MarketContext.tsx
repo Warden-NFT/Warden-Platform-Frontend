@@ -10,7 +10,8 @@ import { Event } from "../../interfaces/event/event.interface"
 import { EventSearchParams } from "../../interfaces/event/eventSearch.interface"
 import {
   MarketEvents,
-  MarketTickets
+  MarketTickets,
+  TicketListing
 } from "../../interfaces/market/marketEvent.interface"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import { LayoutContext } from "../layout/LayoutContext"
@@ -30,6 +31,8 @@ interface MarketContextStruct {
   setFilteredMarketEvents: Dispatch<SetStateAction<MarketEvents | undefined>>
   marketTickets: MarketTickets | undefined
   setMarketTickets: Dispatch<SetStateAction<MarketTickets | undefined>>
+  ticketListing: TicketListing | undefined
+  setTicketListing: Dispatch<SetStateAction<TicketListing | undefined>>
 
   getLatestEvents: () => Promise<Event[] | undefined>
   getFeaturedEvents: () => Promise<Event[] | undefined>
@@ -37,6 +40,9 @@ interface MarketContextStruct {
   getMarketEvents: (organizerId: string) => Promise<MarketEvents | undefined>
   searchOrganizerEvents: (searchTerm: string, sortBy: string) => void
   getMarketTickets: (organizerId: string) => Promise<MarketTickets | undefined>
+  getTicketListingFromTicketId: (
+    ticketId: string
+  ) => Promise<TicketListing | undefined>
 }
 
 export const MarketContext = createContext({} as MarketContextStruct)
@@ -60,6 +66,9 @@ const MarketContextProvider = ({ ...props }) => {
   >()
   const [marketTickets, setMarketTickets] = useState<
     MarketTickets | undefined
+  >()
+  const [ticketListing, setTicketListing] = useState<
+    TicketListing | undefined
   >()
 
   const getLatestEvents = async () => {
@@ -121,6 +130,21 @@ const MarketContextProvider = ({ ...props }) => {
       })
       setMarketEvents(undefined)
       setFilteredMarketEvents(undefined)
+      return undefined
+    }
+  }
+
+  const getTicketListingFromTicketId = async (
+    ticketId: string
+  ): Promise<TicketListing | undefined> => {
+    try {
+      const _ticketListing = await client.get<TicketListing>(
+        `/market/ticket/${ticketId}`
+      )
+      setTicketListing(_ticketListing.data)
+      return _ticketListing.data
+    } catch (error) {
+      setTicketListing(undefined)
       return undefined
     }
   }
@@ -196,7 +220,10 @@ const MarketContextProvider = ({ ...props }) => {
     searchEvents,
     getMarketEvents,
     searchOrganizerEvents,
-    getMarketTickets
+    getMarketTickets,
+    ticketListing,
+    setTicketListing,
+    getTicketListingFromTicketId
   }
   return <MarketContext.Provider value={values} {...props} />
 }
