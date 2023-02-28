@@ -55,13 +55,13 @@ body {
   background: linear-gradient(to right, rgba(127, 180, 255, 0.749), rgba(147, 112, 216, 0.799));
   animation: rotate 20s infinite;
   opacity: 0.8;
+  filter: blur(12vmax);
 }
 
 #blur {
   height: 100% !important;
   width: 100%;
   z-index: 2;
-  backdrop-filter: blur(12vmax);
 }
 
 
