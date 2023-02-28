@@ -17,9 +17,6 @@ interface P {
   location?: string
 }
 
-// {marketTickets?.event.location?.structured_formatting
-//   .main_text || marketTickets?.event.online_url}
-
 function EventInfoBanner({
   imgFallbackSrc,
   organizationName,
