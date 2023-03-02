@@ -2,6 +2,7 @@ import {
   Divider,
   FormLabel,
   Grid,
+  Modal,
   ToggleButton,
   ToggleButtonGroup,
   Typography
@@ -16,6 +17,8 @@ import CustomerRegisterForm from "../../components/auth/CustomerRegisterForm"
 import FadeEntrance from "../../components/motion/FadeEntrance"
 import { UserContext } from "../../contexts/user/UserContext"
 import { useRouter } from "next/navigation"
+import Reaptcha from "reaptcha"
+import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 type RegisterMode = "Customer" | "EventOrganizer"
 
@@ -80,7 +83,6 @@ function Register() {
               {registerMode === "EventOrganizer" && (
                 <EventOrganizerRegisterForm />
               )}
-
               <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
                 <Typography>
                   Already have an account?{" "}

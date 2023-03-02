@@ -12,75 +12,67 @@ import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import Image from "next/image"
-import RecaptchaBox from "../UI/button/RecaptchaBox"
 import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 function CustomerRegisterForm() {
   const [profileImage, setProfileImage] = useState<File>()
   const { setUserInfo } = useContext(UserContext)
-  const { token } = useContext(BotPreventionContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
 
-  const {
-    values,
-    handleChange,
-    touched,
-    errors,
-    handleSubmit,
-    setErrors,
-    setFieldValue
-  } = useFormik({
-    initialValues: {
-      phoneNumber: "",
-      email: "",
-      username: "",
-      password: "",
-      repeatPassword: "",
-      firstName: "",
-      lastName: "",
-      recaptchaTested: token ? "TESTED" : "NOT_TESTED"
-    },
-    validationSchema: RegisterSchema,
-    onSubmit: async (data) => {
-      const payload = { ...data }
-      payload.phoneNumber = payload.phoneNumber.replaceAll("-", "")
-      const formData = new FormData()
-      type CreateUserPayloadKeys = keyof typeof payload
-      for (const key in payload) {
-        formData.append(key, payload[key as CreateUserPayloadKeys])
-      }
-      if (profileImage) {
-        formData.append("image", profileImage)
-      }
+  const { token, setShowModal } = useContext(BotPreventionContext)
 
-      try {
-        const res = await client.post<SuccessfulAuthDTO>(
-          "/user/registerCustomer",
-          formData
-        )
-        setUserInfo(res.data)
-        router.push("/auth/confirm-phone")
-      } catch (error) {
-        if (
-          Axios.isAxiosError(error) &&
-          (error as AxiosError).response?.status === 409
-        ) {
-          setErrors({
-            phoneNumber: "Email or phone number has already been used.",
-            email: "Email or phone number has already been used."
-          })
-        } else {
-          showErrorAlert({
-            type: AlertType.ERROR,
-            title: "Authentication error",
-            description:
-              "Unable to register your account this time. Please try again later."
-          })
+  const { values, handleChange, touched, errors, handleSubmit, setErrors } =
+    useFormik({
+      initialValues: {
+        phoneNumber: "",
+        email: "",
+        username: "",
+        password: "",
+        repeatPassword: "",
+        firstName: "",
+        lastName: ""
+      },
+      validationSchema: RegisterSchema,
+      onSubmit: async (data) => {
+        const payload = { ...data }
+        payload.phoneNumber = payload.phoneNumber.replaceAll("-", "")
+        const formData = new FormData()
+        type CreateUserPayloadKeys = keyof typeof payload
+        for (const key in payload) {
+          formData.append(key, payload[key as CreateUserPayloadKeys])
+        }
+        if (profileImage) {
+          formData.append("image", profileImage)
+        }
+
+        try {
+          const res = await client.post<SuccessfulAuthDTO>(
+            "/user/registerCustomer",
+            formData
+          )
+          setUserInfo(res.data)
+          router.push("/auth/confirm-phone")
+        } catch (error) {
+          if (
+            Axios.isAxiosError(error) &&
+            (error as AxiosError).response?.status === 409
+          ) {
+            setErrors({
+              phoneNumber: "Email or phone number has already been used.",
+              email: "Email or phone number has already been used."
+            })
+          } else {
+            showErrorAlert({
+              type: AlertType.ERROR,
+              title: "Authentication error",
+              description:
+                "Unable to register your account this time. Please try again later."
+            })
+          }
         }
       }
-    }
-  })
+    })
 
   const handleEventImageChange = (e: any) => {
     setProfileImage(e.target.files[0])
@@ -243,17 +235,17 @@ function CustomerRegisterForm() {
           }
         />
       </FormControl>
-      <RecaptchaBox
-        name="recaptchaTested"
-        setFieldValue={setFieldValue}
-        error={errors.recaptchaTested}
-      />
-
       <Box sx={{ height: 24 }} />
 
       <ContainedButton
         type="submit"
-        onClick={() => handleSubmit()}
+        onClick={() => {
+          if (!token) {
+            setShowModal(true)
+            return
+          }
+          handleSubmit()
+        }}
         disabled={false}
         variant="contained"
         label="Next"

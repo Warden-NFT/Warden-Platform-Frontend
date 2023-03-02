@@ -7,7 +7,7 @@ import {
   Typography
 } from "@mui/material"
 import { Box } from "@mui/system"
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import ContainerCard from "../../components/UI/card/ContainerCard"
 import { useFormik } from "formik"
 import ContainedButton from "../../components/UI/button/ContainedButton"
@@ -21,14 +21,13 @@ import FadeEntrance from "../../components/motion/FadeEntrance"
 import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
-import RecaptchaBox from "../../components/UI/button/RecaptchaBox"
 import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
-  const { token } = useContext(BotPreventionContext)
+  const { token, setShowModal } = useContext(BotPreventionContext)
 
   const {
     values,
@@ -37,13 +36,11 @@ function Login() {
     errors,
     handleSubmit,
     handleBlur,
-    setErrors,
-    setFieldValue
+    setErrors
   } = useFormik({
     initialValues: {
       phoneNumber: "",
-      password: "",
-      recaptchaTested: token ? "TESTED" : "NOT_TESTED"
+      password: ""
     },
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
@@ -124,16 +121,18 @@ function Login() {
                   helperText={touched.password && errors.password}
                 />
               </FormControl>
-              <RecaptchaBox
-                name="recaptchaTested"
-                setFieldValue={setFieldValue}
-                error={errors.recaptchaTested}
-              />
+
               <Box sx={{ height: 24 }} />
 
               <ContainedButton
                 type="submit"
-                onClick={() => handleSubmit()}
+                onClick={() => {
+                  if (!token) {
+                    setShowModal(true)
+                    return
+                  }
+                  handleSubmit()
+                }}
                 disabled={false}
                 variant="contained"
                 label="Next"

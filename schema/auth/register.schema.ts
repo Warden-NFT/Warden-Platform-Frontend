@@ -20,11 +20,7 @@ export const RegisterSchema = object({
     .max(60, "First name is too long"),
   lastName: string()
     .required("Last name is required")
-    .max(60, "Last name is too long"),
-  recaptchaTested: string().oneOf(
-    ["TESTED"],
-    "Please confirm that you are not a robot"
-  )
+    .max(60, "Last name is too long")
 })
 
 export const EventOrganizerRegisterSchema = object({
@@ -44,9 +40,5 @@ export const EventOrganizerRegisterSchema = object({
     .oneOf([ref("password"), null], "Passwords must match"),
   organizationName: string()
     .required("Organization name is required")
-    .max(60, "Organization name is too long"),
-  recaptchaTested: string().oneOf(
-    ["TESTED"],
-    "Please confirm that you are not a robot"
-  )
+    .max(60, "Organization name is too long")
 })
