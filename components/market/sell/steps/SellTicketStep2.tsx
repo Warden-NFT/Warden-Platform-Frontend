@@ -16,7 +16,7 @@ function SellTicketStep2() {
   const { values, handleChange, errors, handleSubmit } = useFormik({
     initialValues: {
       resalePrice: 0,
-      currency: "ETH",
+      currency: marketTickets?.ticketCollection.currency ?? "ETH",
       minResalePrice:
         marketTickets?.ticketCollection.ticketPrice[
           TicketTypeKey[

@@ -76,15 +76,7 @@ function MyTicketDetails({ ticketListing }: Props) {
               </Typography>
             </Box>
           </Box>
-
-          {/* Seated Tickets (TBD) */}
-          {/* {ticketListing?.ticket.seatNumber && <Box sx={{ display: "flex", gap: 4}}>
-                    <Box><Typography sx={{ opacity: 0.4, width: 160 }}>Type</Typography></Box>
-                    <Box><Typography>{TicketTypeLabel[ticketListing?.ticket.ticketType ?? "GENERAL"]}</Typography></Box>
-                  </Box>} */}
-
           <Box sx={{ my: 4 }} />
-
           <Typography variant="h6" sx={{ fontWeight: 500 }}>
             Event Details
           </Typography>
