@@ -2,7 +2,6 @@ import {
   Divider,
   FormLabel,
   Grid,
-  Modal,
   ToggleButton,
   ToggleButtonGroup,
   Typography
@@ -17,8 +16,6 @@ import CustomerRegisterForm from "../../components/auth/CustomerRegisterForm"
 import FadeEntrance from "../../components/motion/FadeEntrance"
 import { UserContext } from "../../contexts/user/UserContext"
 import { useRouter } from "next/navigation"
-import Reaptcha from "reaptcha"
-import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 type RegisterMode = "Customer" | "EventOrganizer"
 
