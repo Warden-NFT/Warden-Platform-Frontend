@@ -21,11 +21,14 @@ import FadeEntrance from "../../components/motion/FadeEntrance"
 import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
+import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
+import Head from "next/head"
 
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
+  const { token, setShowModal } = useContext(BotPreventionContext)
 
   const {
     values,
@@ -45,7 +48,7 @@ function Login() {
       try {
         const res = await client.post<SuccessfulAuthDTO>("/user/login", data)
         setUserInfo(res.data)
-        router.push("/")
+        router.push("/marketplace")
       } catch (error) {
         if (
           Axios.isAxiosError(error) &&
@@ -73,6 +76,9 @@ function Login() {
   if (user) return null
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
+      <Head>
+        <title>Login to Warden</title>
+      </Head>
       <Grid item xs={12} sm={8} lg={6}>
         <FadeEntrance>
           <ContainerCard>
@@ -124,7 +130,13 @@ function Login() {
 
               <ContainedButton
                 type="submit"
-                onClick={() => handleSubmit()}
+                onClick={() => {
+                  if (!token) {
+                    setShowModal(true)
+                    return
+                  }
+                  handleSubmit()
+                }}
                 disabled={false}
                 variant="contained"
                 label="Next"

@@ -1,12 +1,35 @@
 import Navbar from "./NavBar"
 import Footer from "./Footer"
 import React, { useContext, useEffect } from "react"
-import { Backdrop, Box, CircularProgress, Container } from "@mui/material"
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Container,
+  Modal,
+  Typography
+} from "@mui/material"
 import { LayoutContext } from "../../../contexts/layout/LayoutContext"
 import AlertModal from "../../alert/AlertModal"
+import { BotPreventionContext } from "../../../contexts/user/BotPreventionContext"
+import Reaptcha from "reaptcha"
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { showLoadingBackdrop } = useContext(LayoutContext)
+  const { showModal, setShowModal, token, setToken } =
+    useContext(BotPreventionContext)
 
   useEffect(() => {
     const blob = document.getElementById("blob")
@@ -34,6 +57,30 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         overflow: "hidden"
       }}
     >
+      <Modal
+        open={showModal}
+        onClose={() => {
+          if (token) setShowModal(false)
+        }}
+        aria-labelledby="recaptcha-modal"
+        aria-describedby="confirm-recaptcha-modal"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            RECAPTCHA
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mb: 2 }}>
+            Please verify if you are a human
+          </Typography>
+          <Reaptcha
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+            onVerify={(response) => {
+              setToken(response)
+              setShowModal(false)
+            }}
+          />
+        </Box>
+      </Modal>
       <Box id="blob" />
       <Container
         id="blur"

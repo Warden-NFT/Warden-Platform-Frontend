@@ -12,12 +12,15 @@ import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import Image from "next/image"
+import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 function EventOrganizerRegisterForm() {
   const [profileImage, setProfileImage] = useState<File>()
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
+  const { token, setShowModal } = useContext(BotPreventionContext)
+
   const { values, handleChange, touched, errors, handleSubmit, setErrors } =
     useFormik({
       initialValues: {
@@ -219,7 +222,13 @@ function EventOrganizerRegisterForm() {
 
       <ContainedButton
         type="submit"
-        onClick={() => handleSubmit()}
+        onClick={() => {
+          if (!token) {
+            setShowModal(true)
+            return
+          }
+          handleSubmit()
+        }}
         disabled={false}
         variant="contained"
         label="Next"

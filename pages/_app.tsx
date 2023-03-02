@@ -13,6 +13,7 @@ import Head from "next/head"
 import CreateEventContextProvider from "../contexts/event/CreateEventContext"
 import LayoutContextProvider from "../contexts/layout/LayoutContext"
 import MarketContextProvider from "../contexts/market/MarketContext"
+import BotPreventionContextProvider from "../contexts/user/BotPreventionContext"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -20,32 +21,34 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=1084,maximum-scale=1.0" />
       </Head>
-      <WagmiConfig client={WagmiClient.wagmiClient}>
-        <RainbowKitProvider
-          chains={WagmiClient.chains}
-          theme={lightTheme({
-            accentColor: "#000",
-            accentColorForeground: "white",
-            borderRadius: "none"
-          })}
-        >
-          <ThemeProvider theme={AppTheme}>
-            <LayoutContextProvider>
-              <LocalizationProvider dateAdapter={AdapterMoment}>
-                <UserContextProvider>
-                  <CreateEventContextProvider>
-                    <MarketContextProvider>
-                      <Layout>
-                        <Component {...pageProps} />
-                      </Layout>
-                    </MarketContextProvider>
-                  </CreateEventContextProvider>
-                </UserContextProvider>
-              </LocalizationProvider>
-            </LayoutContextProvider>
-          </ThemeProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <BotPreventionContextProvider>
+        <WagmiConfig client={WagmiClient.wagmiClient}>
+          <RainbowKitProvider
+            chains={WagmiClient.chains}
+            theme={lightTheme({
+              accentColor: "#000",
+              accentColorForeground: "white",
+              borderRadius: "none"
+            })}
+          >
+            <ThemeProvider theme={AppTheme}>
+              <LayoutContextProvider>
+                <LocalizationProvider dateAdapter={AdapterMoment}>
+                  <UserContextProvider>
+                    <CreateEventContextProvider>
+                      <MarketContextProvider>
+                        <Layout>
+                          <Component {...pageProps} />
+                        </Layout>
+                      </MarketContextProvider>
+                    </CreateEventContextProvider>
+                  </UserContextProvider>
+                </LocalizationProvider>
+              </LayoutContextProvider>
+            </ThemeProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </BotPreventionContextProvider>
     </>
   )
 }

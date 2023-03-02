@@ -1,5 +1,13 @@
-import { ButtonBase, Typography, Chip, Divider, Box } from "@mui/material"
+import {
+  ButtonBase,
+  Typography,
+  Chip,
+  Divider,
+  Box,
+  SxProps
+} from "@mui/material"
 import { grey } from "@mui/material/colors"
+import { Theme } from "@mui/system"
 import { useRouter } from "next/router"
 import React from "react"
 import ContainerCard from "../../UI/card/ContainerCard"
@@ -13,6 +21,7 @@ type Props = {
   price: string
   enableRedirect?: boolean
   isMyTicket?: boolean
+  sx?: SxProps<Theme>
 }
 
 function TicketCard({
@@ -22,7 +31,8 @@ function TicketCard({
   ticketTypeLabel,
   price,
   enableRedirect,
-  isMyTicket
+  isMyTicket,
+  sx
 }: Props) {
   const router = useRouter()
   function handleRedirect() {
@@ -37,7 +47,7 @@ function TicketCard({
   }
 
   return (
-    <ButtonBase onClick={handleRedirect}>
+    <ButtonBase onClick={handleRedirect} sx={{ ...sx }}>
       <ContainerCard
         sx={{
           p: 1,

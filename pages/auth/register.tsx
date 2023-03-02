@@ -16,6 +16,7 @@ import CustomerRegisterForm from "../../components/auth/CustomerRegisterForm"
 import FadeEntrance from "../../components/motion/FadeEntrance"
 import { UserContext } from "../../contexts/user/UserContext"
 import { useRouter } from "next/navigation"
+import Head from "next/head"
 
 type RegisterMode = "Customer" | "EventOrganizer"
 
@@ -41,6 +42,9 @@ function Register() {
   if (user) return null
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
+      <Head>
+        <title>Register to Warden</title>
+      </Head>
       <Grid item xs={12} sm={8} lg={6}>
         <FadeEntrance>
           <ContainerCard>
@@ -80,7 +84,6 @@ function Register() {
               {registerMode === "EventOrganizer" && (
                 <EventOrganizerRegisterForm />
               )}
-
               <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
                 <Typography>
                   Already have an account?{" "}

@@ -1,4 +1,4 @@
-import { object, ref, string } from "yup"
+import { boolean, object, ref, string } from "yup"
 
 export const RegisterSchema = object({
   phoneNumber: string()

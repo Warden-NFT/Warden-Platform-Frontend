@@ -7,6 +7,7 @@ import BannerLayout from "../../components/UI/layout/BannerLayout"
 import ContainerCard from "../../components/UI/card/ContainerCard"
 import EventsSearch from "../../components/event/MyEvents/EventsSearch"
 import { Container } from "@mui/system"
+import Head from "next/head"
 
 function EventCreationPage() {
   const router = useRouter()
@@ -25,6 +26,9 @@ function EventCreationPage() {
       actionName="Create Event"
       actionIcon={<AddIcon />}
     >
+      <Head>
+        <title>Create an Event</title>
+      </Head>
       <Container>
         <ContainerCard>
           <EventsSearch />
