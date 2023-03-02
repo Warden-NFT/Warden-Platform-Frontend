@@ -1,15 +1,14 @@
 import { useContext, useState } from "react"
 import { client } from "../configs/axios/axiosConfig"
 import { LayoutContext } from "../contexts/layout/LayoutContext"
+import { UserContext } from "../contexts/user/UserContext"
 import { RequestOtpResponseDTO } from "../interfaces/auth/otp.interface"
-import { User } from "../interfaces/auth/user.interface"
 import { AlertType } from "../interfaces/modal/alert.interface"
 
-export const useOTP = (user?: User) => {
-  // Hooks
+export const useOTP = () => {
   const { showErrorAlert } = useContext(LayoutContext)
+  const { user } = useContext(UserContext)
 
-  // States
   const [otp, setOtp] = useState("")
   const [otpToken, setOtpToken] = useState("")
 
@@ -19,7 +18,12 @@ export const useOTP = (user?: User) => {
       const otpRes = await client.get<RequestOtpResponseDTO>(
         `/otp/request/${user.phoneNumber}`
       )
-      return otpRes.data.data.token
+
+      const _otpToken = otpRes.data.data.token
+      if (_otpToken) {
+        setOtpToken(_otpToken)
+      }
+      return _otpToken
     } catch (error) {
       showErrorAlert({
         type: AlertType.ERROR,
