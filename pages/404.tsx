@@ -1,5 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material"
 import { Container } from "@mui/system"
+import Head from "next/head"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import React from "react"
@@ -18,6 +19,9 @@ function NotFoundPage() {
       maxWidth={false}
       sx={{ display: "flex", justifyContent: "center" }}
     >
+      <Head>
+        <title>Error 404</title>
+      </Head>
       <ContainerCard>
         <Stack justifyContent="center" alignItems="center">
           <Image
