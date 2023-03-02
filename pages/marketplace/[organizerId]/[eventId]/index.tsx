@@ -1,5 +1,6 @@
 import { Container } from "@mui/material"
 import { Box } from "@mui/system"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
 import EventInfoBanner from "../../../../components/market/event/EventInfoBanner"
@@ -19,37 +20,44 @@ function MarketEvent() {
   }, [router.query])
 
   return (
-    <BannerLayout
-      backgroundImage={marketTickets?.event.image as string}
-      title=""
-      subtitle=""
-      enableActionButton={false}
-    >
-      <Container>
-        <EventInfoBanner
-          imgFallbackSrc={marketTickets?.organizerInfo.profileImage as string}
-          organizationName={marketTickets?.organizerInfo.organizationName ?? ""}
-          organizerId={marketTickets?.organizerInfo._id}
-          marketTicketName={marketTickets?.event.name ?? ""}
-          eventStartDate={marketTickets?.event.startDate ?? new Date(0)}
-          eventName={marketTickets?.event.name ?? ""}
-          location={
-            marketTickets?.event.location?.structured_formatting.main_text ||
-            marketTickets?.event.online_url
-          }
-        />
-        <Box sx={{ height: 24 }} />
-        <TicketCardList
-          tickets={marketTickets?.ticketCollection.tickets.vip}
-          ticketType="VIP Tickets"
-          isHorizontal
-        />
-        <TicketCardList
-          tickets={marketTickets?.ticketCollection.tickets.general}
-          ticketType="General Admission Tickets"
-        />
-      </Container>
-    </BannerLayout>
+    <>
+      <Head>
+        <title>{marketTickets?.event.name}</title>
+      </Head>
+      <BannerLayout
+        backgroundImage={marketTickets?.event.image as string}
+        title=""
+        subtitle=""
+        enableActionButton={false}
+      >
+        <Container>
+          <EventInfoBanner
+            imgFallbackSrc={marketTickets?.organizerInfo.profileImage as string}
+            organizationName={
+              marketTickets?.organizerInfo.organizationName ?? ""
+            }
+            organizerId={marketTickets?.organizerInfo._id}
+            marketTicketName={marketTickets?.event.name ?? ""}
+            eventStartDate={marketTickets?.event.startDate ?? new Date(0)}
+            eventName={marketTickets?.event.name ?? ""}
+            location={
+              marketTickets?.event.location?.structured_formatting.main_text ||
+              marketTickets?.event.online_url
+            }
+          />
+          <Box sx={{ height: 24 }} />
+          <TicketCardList
+            tickets={marketTickets?.ticketCollection.tickets.vip}
+            ticketType="VIP Tickets"
+            isHorizontal
+          />
+          <TicketCardList
+            tickets={marketTickets?.ticketCollection.tickets.general}
+            ticketType="General Admission Tickets"
+          />
+        </Container>
+      </BannerLayout>
+    </>
   )
 }
 
