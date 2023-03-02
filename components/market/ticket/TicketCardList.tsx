@@ -31,6 +31,7 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
       sx={{
         background: isHorizontal ? deepPurple[100] : "transparent",
         borderRadius: 2,
+        p: 2,
         position: "relative"
       }}
     >

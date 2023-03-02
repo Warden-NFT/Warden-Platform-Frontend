@@ -47,7 +47,7 @@ function TicketCard({
   }
 
   return (
-    <ButtonBase onClick={handleRedirect} sx={{ ...sx }}>
+    <ButtonBase onClick={handleRedirect} sx={{ width: "fit-content", ...sx }}>
       <ContainerCard
         sx={{
           p: 1,

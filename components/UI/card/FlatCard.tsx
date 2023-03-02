@@ -13,10 +13,10 @@ function FlatCard({ children, sx, noPadding }: Props) {
     <Stack
       spacing={2}
       sx={{
-        ...sx,
         backgroundColor: "white",
         marginY: 4,
-        border: 2
+        border: 2,
+        ...sx
       }}
     >
       <Box p={noPadding ? 0 : 4}>{children}</Box>
