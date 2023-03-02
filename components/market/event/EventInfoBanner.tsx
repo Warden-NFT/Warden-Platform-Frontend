@@ -1,5 +1,5 @@
 import { CalendarToday, LocationOnOutlined } from "@mui/icons-material"
-import { Box, Stack, Typography } from "@mui/material"
+import { Box, Stack, SxProps, Typography } from "@mui/material"
 import moment from "moment"
 import { useRouter } from "next/router"
 import React from "react"
@@ -15,6 +15,8 @@ interface P {
   eventStartDate: Date
   eventName: string
   location?: string
+  showBrowseEvents?: boolean
+  sx?: SxProps
 }
 
 function EventInfoBanner({
@@ -23,7 +25,9 @@ function EventInfoBanner({
   organizerId,
   eventName,
   eventStartDate,
-  location
+  location,
+  showBrowseEvents,
+  sx
 }: P) {
   const router = useRouter()
   const onClickBrowseEvent = () => {
@@ -33,7 +37,7 @@ function EventInfoBanner({
   }
 
   return (
-    <ContainerCard sx={{ mt: 12 }}>
+    <ContainerCard sx={{ mt: 12, ...sx }}>
       <Box
         sx={{
           marginTop: -7,
@@ -44,18 +48,20 @@ function EventInfoBanner({
         }}
       >
         <Box sx={{ display: "flex", alignItems: "flex-end", gap: 2 }}>
-          <ImageWithFallback
-            src={imgFallbackSrc}
-            draggable={false}
-            width={100}
-            height={100}
-            alt={organizationName}
-            style={{
-              objectFit: "cover",
-              borderRadius: "50%",
-              border: "4px solid #000"
-            }}
-          />
+          {imgFallbackSrc && (
+            <ImageWithFallback
+              src={imgFallbackSrc}
+              draggable={false}
+              width={100}
+              height={100}
+              alt={organizationName}
+              style={{
+                objectFit: "cover",
+                borderRadius: "50%",
+                border: "4px solid #000"
+              }}
+            />
+          )}
           <Stack>
             <Typography>Event Organizer</Typography>
             <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
@@ -63,11 +69,13 @@ function EventInfoBanner({
             </Typography>
           </Stack>
         </Box>
-        <ContainedButton
-          label="Browse Events"
-          variant="contained"
-          onClick={onClickBrowseEvent}
-        />
+        {showBrowseEvents && (
+          <ContainedButton
+            label="Browse Events"
+            variant="contained"
+            onClick={onClickBrowseEvent}
+          />
+        )}
       </Box>
       <Box
         sx={{
@@ -79,13 +87,15 @@ function EventInfoBanner({
           borderTop: "1px solid #000"
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             {eventName}
           </Typography>
-          <Box sx={{ height: "50px", display: "grid", placeItems: "center" }}>
-            <ContainedButton label="Sell Tickets" variant="outlined" />
-          </Box>
+          {showBrowseEvents && (
+            <Box sx={{ height: "50px", display: "grid", placeItems: "center" }}>
+              <ContainedButton label="Sell Tickets" variant="outlined" />
+            </Box>
+          )}
         </Box>
         <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
           <CalendarToday sx={{ fontSize: 18 }} />

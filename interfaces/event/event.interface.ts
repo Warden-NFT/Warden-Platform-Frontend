@@ -11,6 +11,12 @@ export const TicketTypeLabel = {
   RESERVED_SEAT: "ReservedSeat"
 }
 
+export const TicketTypeKey = {
+  GENERAL: "general",
+  VIP: "vip",
+  RESERVED_SEAT: "reservedSeat"
+}
+
 export type EventStatusType =
   | "NOT_STARTED"
   | "ADMISSION_STARTED"

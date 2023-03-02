@@ -40,6 +40,7 @@ function MyTicketView() {
             ticketListing?.event.location?.structured_formatting.main_text ||
             ticketListing?.event.online_url
           }
+          showBrowseEvents
         />
         <Box sx={{ my: 4 }} />
         <Box>

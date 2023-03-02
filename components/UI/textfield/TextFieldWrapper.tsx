@@ -25,7 +25,7 @@ export const TextFieldWrapper = (props: TextFieldProps) => {
 
   const handleOnChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      event.persist()
+      event?.persist()
 
       const newValue = event.currentTarget.value
       setInnerValue(newValue)

@@ -33,7 +33,9 @@ function OrganizerEvents() {
             alignItems: "flex-end"
           }}
         >
-          <OrganizerInfoCard marketEvents={filteredMarketEvents} />
+          <OrganizerInfoCard
+            organizerInfo={filteredMarketEvents?.organizerInfo}
+          />
           <OrganizerEventSearch />
         </Box>
         <Box sx={{ height: 40 }} />

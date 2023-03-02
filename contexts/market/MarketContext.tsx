@@ -40,6 +40,10 @@ interface MarketContextStruct {
   getMarketEvents: (organizerId: string) => Promise<MarketEvents | undefined>
   searchOrganizerEvents: (searchTerm: string, sortBy: string) => void
   getMarketTickets: (organizerId: string) => Promise<MarketTickets | undefined>
+  getOwnedMarketTickets: (
+    organizerId: string,
+    walletAddress: string
+  ) => Promise<MarketTickets | undefined>
   getTicketListingFromTicketId: (
     ticketId: string
   ) => Promise<TicketListing | undefined>
@@ -200,6 +204,31 @@ const MarketContextProvider = ({ ...props }) => {
     }
   }
 
+  const getOwnedMarketTickets = async (
+    eventId: string,
+    walletAddress: string
+  ) => {
+    try {
+      const _marketTickets = await client.get<MarketTickets>(
+        "/market/tickets/owned",
+        {
+          params: {
+            eventId,
+            walletAddress
+          }
+        }
+      )
+      setMarketTickets(_marketTickets.data)
+      return _marketTickets.data
+    } catch (error) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Error error",
+        description: "Unable to search for tickets. Please try again later."
+      })
+    }
+  }
+
   const values: MarketContextStruct = {
     featuredEvents,
     setFeaturedEvents,
@@ -221,6 +250,7 @@ const MarketContextProvider = ({ ...props }) => {
     getMarketEvents,
     searchOrganizerEvents,
     getMarketTickets,
+    getOwnedMarketTickets,
     ticketListing,
     setTicketListing,
     getTicketListingFromTicketId

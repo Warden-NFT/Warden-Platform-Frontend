@@ -1,14 +1,14 @@
-import { Box, CircularProgress, Container, Typography } from "@mui/material"
+import { Box, CircularProgress, Typography } from "@mui/material"
 import Image from "next/image"
 import React from "react"
-import { MarketEvents } from "../../../interfaces/market/marketEvent.interface"
+import { EventOrganizerUser } from "../../../interfaces/auth/user.interface"
 import ContainerCard from "../../UI/card/ContainerCard"
 
 type Props = {
-  marketEvents: MarketEvents | undefined
+  organizerInfo: EventOrganizerUser | undefined
 }
 
-function OrganizerInfoCard({ marketEvents }: Props) {
+function OrganizerInfoCard({ organizerInfo }: Props) {
   return (
     <ContainerCard
       sx={{
@@ -18,7 +18,7 @@ function OrganizerInfoCard({ marketEvents }: Props) {
         textAlign: "center"
       }}
     >
-      {marketEvents ? (
+      {organizerInfo ? (
         <>
           <Box
             sx={{
@@ -28,7 +28,7 @@ function OrganizerInfoCard({ marketEvents }: Props) {
             }}
           >
             <Image
-              src={marketEvents?.organizerInfo.profileImage as string}
+              src={organizerInfo?.profileImage as string}
               width={120}
               height={120}
               alt="organizer profile image"
@@ -46,9 +46,9 @@ function OrganizerInfoCard({ marketEvents }: Props) {
             textAlign="center"
             fontWeight={600}
           >
-            {marketEvents?.organizerInfo.organizationName}
+            {organizerInfo.organizationName}
           </Typography>
-          <Typography>{marketEvents?.organizerInfo.email}</Typography>
+          <Typography>{organizerInfo.email}</Typography>
           <Typography fontWeight={200}>Event Organizer</Typography>
         </>
       ) : (

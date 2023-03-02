@@ -7,7 +7,6 @@ import {
 } from "@mui/material"
 import React from "react"
 import { SUPPORTED_DIGITAL_CURRENCIES } from "../../../constants/currencies/digital"
-import { TextFieldWrapper } from "../textfield/TextFieldWrapper"
 
 interface Props {
   label: string
@@ -51,11 +50,12 @@ function ControlledCurrencyPriceSelect({
         type="number"
         variant="outlined"
         size="small"
+        fullWidth
         error={Boolean(amountError)}
         helperText={amountError ? amountError : undefined}
         InputProps={{
           endAdornment: (
-            <TextFieldWrapper
+            <TextField
               disabled={selectDisabled}
               name={currencyName}
               variant="filled"
@@ -81,7 +81,7 @@ function ControlledCurrencyPriceSelect({
                   {currency.name}
                 </MenuItem>
               ))}
-            </TextFieldWrapper>
+            </TextField>
           )
         }}
       />
