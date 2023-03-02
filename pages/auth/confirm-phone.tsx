@@ -1,7 +1,6 @@
 import { Alert, Grid, Snackbar } from "@mui/material"
 import React, { useContext, useState } from "react"
 import FadeEntrance from "../../components/motion/FadeEntrance"
-import { UserContext } from "../../contexts/user/UserContext"
 import { useRouter } from "next/navigation"
 import { useOTP } from "../../hooks/useOTP"
 import { client } from "../../configs/axios/axiosConfig"
@@ -13,7 +12,6 @@ function ConfirmPhone() {
   const [openOtpErrorSnackbar, setOpenOtpErrorSnackbar] = useState(false)
   const [openOtpSuccessSnackbar, setOpenOtpSuccessSnackbar] = useState(false)
 
-  const { user } = useContext(UserContext)
   const { verifyOTP, otp, setOtp, otpToken, setOtpToken } = useOTP()
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
