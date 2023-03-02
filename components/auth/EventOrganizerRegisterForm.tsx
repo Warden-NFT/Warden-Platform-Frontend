@@ -13,12 +13,14 @@ import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import Image from "next/image"
 import RecaptchaBox from "../UI/button/RecaptchaBox"
+import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 function EventOrganizerRegisterForm() {
   const [profileImage, setProfileImage] = useState<File>()
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
+  const { token } = useContext(BotPreventionContext)
   const {
     values,
     handleChange,
@@ -35,7 +37,7 @@ function EventOrganizerRegisterForm() {
       password: "",
       repeatPassword: "",
       organizationName: "",
-      recaptchaTested: "NOT_TESTED"
+      recaptchaTested: token ? "TESTED" : "NOT_TESTED"
     },
     validationSchema: EventOrganizerRegisterSchema,
     onSubmit: async (data) => {

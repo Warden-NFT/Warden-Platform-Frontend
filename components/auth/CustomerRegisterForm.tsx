@@ -13,10 +13,12 @@ import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import Image from "next/image"
 import RecaptchaBox from "../UI/button/RecaptchaBox"
+import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 function CustomerRegisterForm() {
   const [profileImage, setProfileImage] = useState<File>()
   const { setUserInfo } = useContext(UserContext)
+  const { token } = useContext(BotPreventionContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
 
@@ -37,7 +39,7 @@ function CustomerRegisterForm() {
       repeatPassword: "",
       firstName: "",
       lastName: "",
-      recaptchaTested: "NOT_TESTED"
+      recaptchaTested: token ? "TESTED" : "NOT_TESTED"
     },
     validationSchema: RegisterSchema,
     onSubmit: async (data) => {

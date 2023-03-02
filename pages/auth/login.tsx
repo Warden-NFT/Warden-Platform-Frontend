@@ -22,11 +22,13 @@ import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import RecaptchaBox from "../../components/UI/button/RecaptchaBox"
+import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
 
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
+  const { token } = useContext(BotPreventionContext)
 
   const {
     values,
@@ -41,7 +43,7 @@ function Login() {
     initialValues: {
       phoneNumber: "",
       password: "",
-      recaptchaTested: "NOT_TESTED"
+      recaptchaTested: token ? "TESTED" : "NOT_TESTED"
     },
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
