@@ -22,6 +22,7 @@ import Axios, { AxiosError } from "axios"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import { BotPreventionContext } from "../../contexts/user/BotPreventionContext"
+import Head from "next/head"
 
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
@@ -75,6 +76,9 @@ function Login() {
   if (user) return null
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
+      <Head>
+        <title>Login to Warden</title>
+      </Head>
       <Grid item xs={12} sm={8} lg={6}>
         <FadeEntrance>
           <ContainerCard>
