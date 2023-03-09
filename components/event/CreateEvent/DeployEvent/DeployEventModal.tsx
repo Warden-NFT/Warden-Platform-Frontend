@@ -56,7 +56,7 @@ function DeployEventModal({
 
   const [isDeployingContract, setDeployingContract] = useState<boolean>(false)
   const [smartContractArguments, setSmartContractArguments] =
-    useState<(string | number)[]>()
+    useState<(string | string[][] | number)[]>()
 
   const prepareSmartContractArguments = async (
     address: `0x${string}`,
@@ -77,35 +77,31 @@ function DeployEventModal({
       ...(ticketCollection.data.tickets.reservedSeat ?? [])
     ]
 
-    const ticketPriceGeneral =
-      ticketCollection.data.ticketPrice.general?.default
-    if (!ticketPriceGeneral) {
-      showErrorAlert({
-        type: AlertType.ERROR,
-        title: "Ticket Details Error",
-        description:
-          "There is an error with your ticket details. Please try again later."
-      })
-      return
-    }
+    const ticketPrice = ticketCollection.data.ticketPrice
+    const toWei = (value: number | undefined) =>
+      value ? web3.utils.toWei(value.toString()) : "0"
 
-    const generalTicketPriceInWei = web3.utils.toWei(
-      ticketPriceGeneral.toString()
-    )
+    const ticketPrices = [
+      [
+        toWei(ticketPrice.general?.default),
+        toWei(ticketPrice.general?.min),
+        toWei(ticketPrice.general?.max)
+      ],
+      [
+        toWei(ticketPrice.vip?.default),
+        toWei(ticketPrice.vip?.min),
+        toWei(ticketPrice.vip?.max)
+      ],
+      [
+        toWei(ticketPrice.reservedSeat?.default),
+        toWei(ticketPrice.reservedSeat?.min),
+        toWei(ticketPrice.reservedSeat?.max)
+      ]
+    ]
 
-    let generalMaxPriceFactor = 1
-    if (
-      ticketCollection.data.ticketPrice.general &&
-      ticketCollection.data.ticketPrice.general?.max &&
-      ticketCollection.data.ticketPrice.general?.min &&
-      ticketCollection.data.ticketPrice.general?.default
-    ) {
-      generalMaxPriceFactor =
-        ticketCollection.data.ticketPrice.general?.max /
-        ticketCollection.data.ticketPrice.general?.default
-    }
-
-    const transferFee = ticketCollection.data.royaltyFee
+    const transferFee = parseInt(
+      `${ticketCollection.data.royaltyFee * 100}`
+    ).toString()
 
     const _smartContractArguments = [
       address, // address _owner: wallet address of the smart contract owner
@@ -116,8 +112,7 @@ function DeployEventModal({
       moment(event.startDate).unix(), // uint64 _eventStartDate,
       moment(event.endDate).unix(), // uint64 _eventEndDate,
       ticketSupply.length, // TODO uint64 _ticketSupply maximum tickets allowed for this event
-      generalTicketPriceInWei, // TODO uint256 _initialTicketPrice: ticket price in wei unit
-      generalMaxPriceFactor, // TODO uint64 _maxPriceFactor: percentage of ticket price factor allowed
+      ticketPrices, // TODO uint256 _initialTicketPrice: ticket price in wei unit
       transferFee // TODO uint64 _transferFee: percentage of royalty fee collected by the event organizer when the ticket is resold
     ]
     setSmartContractArguments(_smartContractArguments)
@@ -128,7 +123,7 @@ function DeployEventModal({
     abi: any,
     bytecode: any,
     web3: Web3 | undefined,
-    smartContractArguments: (string | number)[]
+    smartContractArguments: (string | string[][] | number)[]
   ) => {
     if (!web3) throw new Error("web3 is undefined")
     const contract = new web3.eth.Contract(abi.abi)
@@ -149,10 +144,14 @@ function DeployEventModal({
             eventOrganizerId: user?._id
           }
           const updatedEventResponse = await client.put<Event>(
-            "event/updateEvent",
+            "event",
             updateEventPayload
           )
           setCurrentEvent(updatedEventResponse.data)
+          setDeployingContract(false)
+        })
+        .on("error", () => {
+          throw new Error("Unable to deploy smart contract")
         })
     } catch (err) {
       showErrorAlert({
@@ -161,7 +160,6 @@ function DeployEventModal({
         description:
           "Unable to deploy the smart contract for your event at this time. Please try again later."
       })
-    } finally {
       setDeployingContract(false)
     }
   }
