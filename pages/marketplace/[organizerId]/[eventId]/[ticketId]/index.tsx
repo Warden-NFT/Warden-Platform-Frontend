@@ -8,7 +8,7 @@ import {
   Typography
 } from "@mui/material"
 import { useRouter } from "next/router"
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import EventInfoBanner from "../../../../../components/market/event/EventInfoBanner"
 import BannerLayout from "../../../../../components/UI/layout/BannerLayout"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
@@ -22,7 +22,6 @@ import { MarketTickets } from "../../../../../interfaces/market/marketEvent.inte
 import { blue, grey } from "@mui/material/colors"
 import moment from "moment"
 import Head from "next/head"
-import { BotPreventionContext } from "../../../../../contexts/user/BotPreventionContext"
 import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -74,7 +73,6 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const router = useRouter()
   const isSold = Math.random() > 0.5
   const [showPurchaseModal, setShowPurchaseModal] = useState(false)
-  const { showRecaptcha } = useContext(BotPreventionContext)
 
   function getEventLocationUrl() {
     if (event.online_url) {
@@ -261,7 +259,6 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
             <Button
               variant="contained"
               onClick={() => {
-                showRecaptcha()
                 setShowPurchaseModal(true)
               }}
             >

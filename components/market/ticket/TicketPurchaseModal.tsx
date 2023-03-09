@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react"
+import React, { Dispatch, SetStateAction, useContext } from "react"
 import {
   Modal,
   Box,
@@ -12,6 +12,7 @@ import { grey } from "@mui/material/colors"
 import { Close } from "@mui/icons-material"
 import { EventTicket } from "../../../dtos/ticket/ticket.dto"
 import Link from "next/link"
+import { BotPreventionContext } from "../../../contexts/user/BotPreventionContext"
 
 const style = {
   position: "absolute" as const,
@@ -33,6 +34,14 @@ interface P {
 }
 
 function TicketPurchaseModal({ open, setOpen, ticket }: P) {
+  const { showRecaptcha } = useContext(BotPreventionContext)
+
+  function handlePayment() {
+    showRecaptcha()
+    // add is loading layout
+    alert(`Paying for ${ticket.name} ~`)
+  }
+
   return (
     <Modal
       open={open}
@@ -145,7 +154,11 @@ function TicketPurchaseModal({ open, setOpen, ticket }: P) {
                 </Stack>
               </Box>
             </Box>
-            <Button variant="contained" sx={{ marginTop: 1, width: "100%" }}>
+            <Button
+              onClick={handlePayment}
+              variant="contained"
+              sx={{ marginTop: 1, width: "100%" }}
+            >
               <Typography>Advance to Payment</Typography>
             </Button>
           </Box>
