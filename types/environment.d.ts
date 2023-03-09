@@ -14,6 +14,7 @@ declare global {
       VERCEL_ENV: "development" | "production"
 
       NEXT_PUBLIC_POLYGONSCAN_URL: string
+      NODE_ENV: "development" | "production"
     }
   }
 }
