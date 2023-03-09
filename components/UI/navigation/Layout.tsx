@@ -28,7 +28,7 @@ const style = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { showLoadingBackdrop } = useContext(LayoutContext)
-  const { showModal, setShowModal, token, setToken } =
+  const { isRecaptchaShown, token, setToken, setIsRecaptchaShown } =
     useContext(BotPreventionContext)
 
   useEffect(() => {
@@ -58,9 +58,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }}
     >
       <Modal
-        open={showModal}
+        open={isRecaptchaShown}
         onClose={() => {
-          if (token) setShowModal(false)
+          if (token) setIsRecaptchaShown(false)
         }}
         aria-labelledby="recaptcha-modal"
         aria-describedby="confirm-recaptcha-modal"
@@ -76,7 +76,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
             onVerify={(response) => {
               setToken(response)
-              setShowModal(false)
+              setIsRecaptchaShown(false)
             }}
           />
         </Box>
