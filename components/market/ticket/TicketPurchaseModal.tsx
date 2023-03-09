@@ -1,8 +1,17 @@
 import React, { Dispatch, SetStateAction } from "react"
-import { Modal, Box, Typography, Stack, Divider, Button } from "@mui/material"
-import FlatCard from "../../../components/UI/card/FlatCard"
+import {
+  Modal,
+  Box,
+  Typography,
+  Stack,
+  Divider,
+  Button,
+  IconButton
+} from "@mui/material"
 import { grey } from "@mui/material/colors"
-import ContainedButton from "../../UI/button/ContainedButton"
+import { Close } from "@mui/icons-material"
+import { EventTicket } from "../../../dtos/ticket/ticket.dto"
+import Link from "next/link"
 
 const style = {
   position: "absolute" as const,
@@ -20,9 +29,10 @@ const style = {
 interface P {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
+  ticket: EventTicket
 }
 
-function TicketPurchaseModal({ open, setOpen }: P) {
+function TicketPurchaseModal({ open, setOpen, ticket }: P) {
   return (
     <Modal
       open={open}
@@ -31,14 +41,29 @@ function TicketPurchaseModal({ open, setOpen }: P) {
       aria-describedby="purchase-ticket-modal"
     >
       <Box sx={style}>
-        <Typography
-          id="purchase-ticket-title"
-          variant="h4"
-          component="h1"
-          sx={{ marginBottom: 2 }}
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          Purchase this Ticket
-        </Typography>
+          <Typography
+            id="purchase-ticket-title"
+            variant="h4"
+            component="h1"
+            sx={{ marginBottom: 2 }}
+          >
+            Purchase this Ticket
+          </Typography>
+          <IconButton
+            onClick={() => setOpen(false)}
+            color="primary"
+            aria-label="close"
+            component="label"
+            disableRipple
+          >
+            <Close />
+          </IconButton>
+        </Stack>
         <Stack direction="row">
           <Stack direction="column" flex="1" sx={{ marginRight: 2 }}>
             <Box sx={{ border: 2, p: 2, borderRadius: 2, marginBottom: 2 }}>
@@ -76,24 +101,26 @@ function TicketPurchaseModal({ open, setOpen }: P) {
                 <Typography variant="h6" fontWeight="700">
                   Summary
                 </Typography>
-                <Box sx={{ height: "215px" }}>
+                <Box sx={{ height: "195px" }}>
                   <Typography fontWeight="700" sx={{ marginTop: 2 }}>
                     Ticket
                   </Typography>
                   <Stack direction="row" justifyContent="space-between">
                     <Typography>Ticket Name</Typography>
-                    <Typography>Ticket Price</Typography>
-                  </Stack>
-                  <Typography fontWeight="700" sx={{ marginTop: 2 }}>
-                    Ticket Name
-                  </Typography>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography>Blockchain Gas Fee</Typography>
-                    <Typography>Gas Fee</Typography>
+                    <Typography>
+                      {ticket.price.amount} {ticket.price.currency}
+                    </Typography>
                   </Stack>
                 </Box>
               </Stack>
               <Box>
+                <Box
+                  sx={{ width: "100%", display: "grid", placeItems: "center" }}
+                >
+                  <Typography variant="caption">
+                    *** This price does not include gas fee ***
+                  </Typography>
+                </Box>
                 <Divider sx={{ marginBottom: 2 }} />
                 <Stack
                   direction="row"
@@ -105,11 +132,15 @@ function TicketPurchaseModal({ open, setOpen }: P) {
                   </Typography>
                   <Stack alignItems="flex-end">
                     <Typography variant="h6" fontWeight="700">
-                      Price
+                      {ticket.price.amount} {ticket.price.currency}
                     </Typography>
-                    <Typography variant="body1" fontWeight="200">
-                      uwu
-                    </Typography>
+                    <Link
+                      href={`https://www.google.com/search?q=${ticket.price.amount}+${ticket.price.currency}+to+thb`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View price in Google
+                    </Link>
                   </Stack>
                 </Stack>
               </Box>

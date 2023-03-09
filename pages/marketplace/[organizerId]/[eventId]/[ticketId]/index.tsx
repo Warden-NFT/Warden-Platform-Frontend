@@ -92,6 +92,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
         <title>Purchase a Ticket</title>
       </Head>
       <TicketPurchaseModal
+        ticket={ticket}
         open={showPurchaseModal}
         setOpen={setShowPurchaseModal}
       />
