@@ -38,6 +38,8 @@ export const useOTP = () => {
       token: otpToken,
       pin: otp
     }
+    // Allow OTP bypass on the development environment
+    if (process.env.NODE_ENV === "development" && otp === "000000") return true
     const otpRes = await client.post<RequestOtpResponseDTO>(
       "/otp/verifyOTP",
       data
