@@ -36,9 +36,15 @@ function DeployEventBanner({ event, setCurrentEvent }: Props) {
           alignItems: "center"
         }}
       >
-        <Typography fontWeight={600}>Ready to share your event?</Typography>
+        {isConnected ? (
+          <Typography fontWeight={600}>Ready to share your event?</Typography>
+        ) : (
+          <Typography fontWeight={600}>
+            Connect your wallet to proceed.
+          </Typography>
+        )}
         <ContainedButton
-          label="Publish Event"
+          label={isConnected ? "Publish Event" : "Connect Wallet"}
           variant="contained"
           width="200px"
           onClick={onClickPublicEvent}

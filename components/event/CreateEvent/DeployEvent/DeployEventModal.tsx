@@ -1,7 +1,20 @@
-import { Backdrop, Box, Fade, Modal, Typography } from "@mui/material"
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  Fade,
+  Modal,
+  Typography
+} from "@mui/material"
 import { Stack } from "@mui/system"
 import moment from "moment"
-import React, { Dispatch, SetStateAction, useContext, useState } from "react"
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState
+} from "react"
 import { useAccount } from "wagmi"
 import { useSmartContract } from "../../../../hooks/useSmartContract"
 import { Event } from "../../../../interfaces/event/event.interface"
@@ -12,6 +25,7 @@ import { UserContext } from "../../../../contexts/user/UserContext"
 import Web3 from "web3"
 import { AlertType } from "../../../../interfaces/modal/alert.interface"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
+import { TicketCollectionDTO } from "../../../../dtos/ticket/ticket.dto"
 
 type Props = {
   open: boolean
@@ -41,33 +55,80 @@ function DeployEventModal({
   const { showErrorAlert } = useContext(LayoutContext)
 
   const [isDeployingContract, setDeployingContract] = useState<boolean>(false)
+  const [smartContractArguments, setSmartContractArguments] =
+    useState<(string | number)[]>()
 
-  const getTicketSupply = (_: Event) => {
-    return (
-      // Placeholder. To be determined from the tickets information
-      100
+  const prepareSmartContractArguments = async (
+    address: `0x${string}`,
+    event: Event
+  ) => {
+    // Only continue if web3 is available
+    if (!web3) return
+    const ticketCollection = await client.get<TicketCollectionDTO>("ticket", {
+      params: { collectionId: event.ticketCollectionId }
+    })
+
+    // Address must not be empty before calling this function
+    if (!address) return
+
+    const ticketSupply = [
+      ...(ticketCollection.data.tickets.general ?? []),
+      ...(ticketCollection.data.tickets.vip ?? []),
+      ...(ticketCollection.data.tickets.reservedSeat ?? [])
+    ]
+
+    const ticketPriceGeneral =
+      ticketCollection.data.ticketPrice.general?.default
+    if (!ticketPriceGeneral) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Ticket Details Error",
+        description:
+          "There is an error with your ticket details. Please try again later."
+      })
+      return
+    }
+
+    const generalTicketPriceInWei = web3.utils.toWei(
+      ticketPriceGeneral.toString()
     )
-  }
 
-  const smartContractArguments = [
-    address, // address _owner: wallet address of the smart contract owner
-    event._id, // string memory _eventID: id of the event document
-    event.name, // string memory _eventName: name of the event
-    event._id, // string memory _eventSymbol: symbol of the event
-    moment(event.doorTime).unix(), // _eventDoorTime
-    moment(event.startDate).unix(), // uint64 _eventStartDate,
-    moment(event.endDate).unix(), // uint64 _eventEndDate,
-    getTicketSupply(event), // TODO uint64 _ticketSupply maximum tickets allowed for this event
-    61_000_000_000_000, // TODO uint256 _initialTicketPrice: ticket price in wei unit
-    20, // TODO uint64 _maxPriceFactor: percentage of ticket price factor allowed
-    20 // TODO uint64 _transferFee: percentage of royalty fee collected by the event organizer when the ticket is resold
-  ]
+    let generalMaxPriceFactor = 1
+    if (
+      ticketCollection.data.ticketPrice.general &&
+      ticketCollection.data.ticketPrice.general?.max &&
+      ticketCollection.data.ticketPrice.general?.min &&
+      ticketCollection.data.ticketPrice.general?.default
+    ) {
+      generalMaxPriceFactor =
+        ticketCollection.data.ticketPrice.general?.max /
+        ticketCollection.data.ticketPrice.general?.default
+    }
+
+    const transferFee = ticketCollection.data.royaltyFee
+
+    const _smartContractArguments = [
+      address, // address _owner: wallet address of the smart contract owner
+      event._id, // string memory _eventID: id of the event document
+      event.name, // string memory _eventName: name of the event
+      event._id, // string memory _eventSymbol: symbol of the event
+      moment(event.doorTime).unix(), // _eventDoorTime
+      moment(event.startDate).unix(), // uint64 _eventStartDate,
+      moment(event.endDate).unix(), // uint64 _eventEndDate,
+      ticketSupply.length, // TODO uint64 _ticketSupply maximum tickets allowed for this event
+      generalTicketPriceInWei, // TODO uint256 _initialTicketPrice: ticket price in wei unit
+      generalMaxPriceFactor, // TODO uint64 _maxPriceFactor: percentage of ticket price factor allowed
+      transferFee // TODO uint64 _transferFee: percentage of royalty fee collected by the event organizer when the ticket is resold
+    ]
+    setSmartContractArguments(_smartContractArguments)
+  }
 
   const onCLickDeployContract = async (
     account: `0x${string}`,
     abi: any,
     bytecode: any,
-    web3: Web3 | undefined
+    web3: Web3 | undefined,
+    smartContractArguments: (string | number)[]
   ) => {
     if (!web3) throw new Error("web3 is undefined")
     const contract = new web3.eth.Contract(abi.abi)
@@ -105,6 +166,11 @@ function DeployEventModal({
     }
   }
 
+  useEffect(() => {
+    if (!address || !web3) return
+    prepareSmartContractArguments(address, event)
+  }, [address, event, web3])
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -134,16 +200,24 @@ function DeployEventModal({
                 variant="outlined"
                 onClick={handleClose}
               />
-              {address && (
+              {address && smartContractArguments ? (
                 <ContainedButton
                   label="Deploy Now"
                   variant="contained"
                   disabled={!abi || !bytecode}
                   isLoading={isDeployingContract}
                   onClick={() =>
-                    onCLickDeployContract(address, abi, bytecode, web3)
+                    onCLickDeployContract(
+                      address,
+                      abi,
+                      bytecode,
+                      web3,
+                      smartContractArguments
+                    )
                   }
                 />
+              ) : (
+                <CircularProgress />
               )}
             </Stack>
           </FlatCard>
