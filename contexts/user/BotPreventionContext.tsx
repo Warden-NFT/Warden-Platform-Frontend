@@ -3,8 +3,9 @@ import { createContext, Dispatch, SetStateAction, useState } from "react"
 interface BotPreventionContextStruct {
   token: string | null
   setToken: Dispatch<SetStateAction<string | null>>
-  showModal: boolean
-  setShowModal: Dispatch<SetStateAction<boolean>>
+  isRecaptchaShown: boolean
+  setIsRecaptchaShown: Dispatch<SetStateAction<boolean>>
+  showRecaptcha: () => void
 }
 
 export const BotPreventionContext = createContext(
@@ -13,13 +14,20 @@ export const BotPreventionContext = createContext(
 
 const BotPreventionContextProvider = ({ ...props }) => {
   const [token, setToken] = useState<string | null>(null)
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const [isRecaptchaShown, setIsRecaptchaShown] = useState<boolean>(false)
+
+  function showRecaptcha() {
+    if (!token) {
+      setIsRecaptchaShown(true)
+    }
+  }
 
   const values: BotPreventionContextStruct = {
     token,
     setToken,
-    showModal,
-    setShowModal
+    showRecaptcha,
+    isRecaptchaShown,
+    setIsRecaptchaShown
   }
   return <BotPreventionContext.Provider value={values} {...props} />
 }

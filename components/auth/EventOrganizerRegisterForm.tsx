@@ -19,7 +19,7 @@ function EventOrganizerRegisterForm() {
   const { setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
-  const { token, setShowModal } = useContext(BotPreventionContext)
+  const { token, showRecaptcha } = useContext(BotPreventionContext)
 
   const { values, handleChange, touched, errors, handleSubmit, setErrors } =
     useFormik({
@@ -223,10 +223,7 @@ function EventOrganizerRegisterForm() {
       <ContainedButton
         type="submit"
         onClick={() => {
-          if (!token) {
-            setShowModal(true)
-            return
-          }
+          showRecaptcha()
           handleSubmit()
         }}
         disabled={false}

@@ -22,6 +22,7 @@ import { MarketTickets } from "../../../../../interfaces/market/marketEvent.inte
 import { blue, grey } from "@mui/material/colors"
 import moment from "moment"
 import Head from "next/head"
+import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -71,7 +72,7 @@ interface PageProps {
 const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const router = useRouter()
   const isSold = Math.random() > 0.5
-  const [hasClicked, setHasClicked] = useState(false)
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false)
 
   function getEventLocationUrl() {
     if (event.online_url) {
@@ -83,15 +84,16 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     return "/marketplace"
   }
 
-  async function handleChangeReCaptcha(val: string | null) {
-    if (!val) return
-  }
-
   return (
     <>
       <Head>
         <title>Purchase a Ticket</title>
       </Head>
+      <TicketPurchaseModal
+        ticket={ticket}
+        open={showPurchaseModal}
+        setOpen={setShowPurchaseModal}
+      />
       <Container>
         <BannerLayout
           backgroundImage={event.image as string}
@@ -254,13 +256,14 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                 {ticket.price.amount} {ticket.price.currency}
               </Typography>
             </Stack>
-            {hasClicked ? (
-              <></>
-            ) : (
-              <Button variant="contained" onClick={() => setHasClicked(true)}>
-                <Typography>Purchase Ticket</Typography>
-              </Button>
-            )}
+            <Button
+              variant="contained"
+              onClick={() => {
+                setShowPurchaseModal(true)
+              }}
+            >
+              <Typography>Purchase Ticket</Typography>
+            </Button>
           </Stack>
         </BannerLayout>
       </Container>

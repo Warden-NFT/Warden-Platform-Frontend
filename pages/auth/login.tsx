@@ -28,7 +28,7 @@ function Login() {
   const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
-  const { token, setShowModal } = useContext(BotPreventionContext)
+  const { showRecaptcha } = useContext(BotPreventionContext)
 
   const {
     values,
@@ -131,10 +131,7 @@ function Login() {
               <ContainedButton
                 type="submit"
                 onClick={() => {
-                  if (!token) {
-                    setShowModal(true)
-                    return
-                  }
+                  showRecaptcha()
                   handleSubmit()
                 }}
                 disabled={false}
