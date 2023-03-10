@@ -1,6 +1,6 @@
 import Navbar from "./NavBar"
 import Footer from "./Footer"
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import {
   Backdrop,
   Box,
@@ -30,8 +30,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { showLoadingBackdrop } = useContext(LayoutContext)
   const { showModal, setShowModal, token, setToken } =
     useContext(BotPreventionContext)
+  const [isSafari, setIsSafari] = useState(false)
 
   useEffect(() => {
+    const _isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    setIsSafari(_isSafari)
+
     const blob = document.getElementById("blob")
     window.onpointermove = (event) => {
       const { clientX, clientY } = event
@@ -81,9 +85,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           />
         </Box>
       </Modal>
-      <Box id="blob" />
+      <Box id={isSafari ? "" : "blob"} />
       <Container
-        id="blur"
+        id={isSafari ? "" : "blur"}
         sx={{
           padding: "0 !important",
           width: "100vw",

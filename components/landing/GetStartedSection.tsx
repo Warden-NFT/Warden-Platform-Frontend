@@ -36,8 +36,8 @@ function GetStartedSection() {
             width="200px"
           />
         </Box>
-        <Box sx={{ mt: 8, width: "600px" }}>
-          <Typography color="#fff" align="center" fontSize={16}>
+        <Box sx={{ mt: 6, px: 2, width: "600px", height: "100%" }}>
+          <Typography color="#fff" align="center" fontSize={[14, 14, 16]}>
             Warden aims to develop a unified platform of an NFT collection
             generator, a native marketplace, and an events management system to
             address these issues using the capabilities of NFT and blockchain

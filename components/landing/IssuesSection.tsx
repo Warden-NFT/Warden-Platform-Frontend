@@ -23,11 +23,18 @@ function IssuesSection() {
         Issues with the ticketing industry
       </Typography>
       <Box sx={{ height: 24 }} />
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 3,
+          flexWrap: ["wrap", "wrap", "inherit"]
+        }}
+      >
         <Box
           sx={{
-            height: "300px",
-            width: "50%",
+            height: "fit-content",
+            width: ["100%", "100%", "50%"],
             padding: 4,
             color: "#fff",
             background: blackGradient
@@ -56,8 +63,8 @@ function IssuesSection() {
         </Box>
         <Box
           sx={{
-            height: "300px",
-            width: "50%",
+            height: "fit-content",
+            width: ["100%", "100%", "50%"],
             padding: 4,
             color: "#000",
             background: blueGradient

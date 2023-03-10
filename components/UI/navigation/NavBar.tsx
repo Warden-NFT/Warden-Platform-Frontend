@@ -150,14 +150,14 @@ function NavBar() {
               <Box
                 sx={{
                   display: "grid",
-                  width: "100px",
+                  width: "50px",
                   placeItems: "center",
-                  marginRight: 6
+                  marginRight: [0, 0, 8]
                 }}
               >
                 <Image
                   src="/images/logo/WardenDark.svg"
-                  width={100}
+                  width={90}
                   height={40}
                   alt="logo"
                 />
@@ -175,7 +175,7 @@ function NavBar() {
               })}
             </Box>
           </Box>
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", margin: 0 }}>
             {user ? (
               <Avatar
                 sx={{
