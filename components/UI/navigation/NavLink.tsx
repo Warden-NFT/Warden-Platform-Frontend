@@ -18,7 +18,7 @@ function NavLink({ route }: Props) {
           "&:hover": {
             backgroundColor: "white"
           },
-          mr: 2,
+          mr: 1,
           px: 1.5
         }}
       >

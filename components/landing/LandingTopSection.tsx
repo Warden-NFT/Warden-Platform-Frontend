@@ -48,8 +48,8 @@ function LandingTopSection() {
           maxWidth: "1200px"
         }}
       >
-        <Grid item xs={4} maxWidth="xl">
-          <Box sx={{ height: 120 }} />
+        <Grid item xs={10} md={4} lg={4} maxWidth="xl">
+          <Box sx={{ height: [20, 20, 120] }} />
           <Typography variant="h3" component="h1">
             Warden
           </Typography>
@@ -73,12 +73,15 @@ function LandingTopSection() {
         </Grid>
         <Grid
           item
-          xs={7}
+          xs={10}
+          md={7}
           maxWidth="xl"
           sx={{
             position: "relative",
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
+            transform: ["scale(0.7)", "scale(0.7)", "scale(1)", "scale(1)"],
+            right: [40, 40, "inherit", "inherit"]
           }}
         >
           <motion.div animate={controls} transition={{ staggerChildren: 0.5 }}>

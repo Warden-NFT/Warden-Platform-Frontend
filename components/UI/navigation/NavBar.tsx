@@ -1,4 +1,17 @@
-import { AppBar, Avatar, Box, Menu, MenuItem, Toolbar } from "@mui/material"
+import {
+  AppBar,
+  Avatar,
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+  SwipeableDrawer,
+  Toolbar
+} from "@mui/material"
 import React, { MouseEvent, useContext, useEffect, useState } from "react"
 import ConnectWalletButton from "./ConnectWalletButton"
 import NavLink from "./NavLink"
@@ -12,12 +25,54 @@ import Image from "next/image"
 import Link from "next/link"
 import { UserContext } from "../../../contexts/user/UserContext"
 import { Account } from "../../../interfaces/auth/user.interface"
+import { Menu as MenuIcon } from "@mui/icons-material"
 
 function NavBar() {
   const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)
   const [appRoutes, setAppRoutes] = useState<AppRoute[]>(APP_ROUTES)
   const [boxShadowStyle, setBoxShadowStyle] = useState<string>()
   const { user, logOut } = useContext(UserContext)
+  const [isDrawerOpen, setDrawerOpen] = useState(false)
+
+  const list = () => (
+    <Box
+      sx={{ width: 250 }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        {appRoutes.map((route, index) => (
+          <Link
+            href={route.url}
+            key={index}
+            style={{ textDecoration: "none", color: "#000" }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                {/* <NavLink route={{ name: route.name, url: route.url }} key={index} /> */}
+                <ListItemText primary={route.name} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    </Box>
+  )
+
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event &&
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return
+      }
+
+      setDrawerOpen(open)
+    }
 
   const handleOpenUserMenu = (e: MouseEvent<HTMLElement>) => {
     setAvatarElement(e.currentTarget)
@@ -60,6 +115,7 @@ function NavBar() {
       sx={{
         position: "fixed",
         width: "100%",
+        height: "64px",
         background: "rgba(256, 256, 256, 0.9)",
         backdropFilter: "blur(8px)",
         boxShadow: boxShadowStyle,
@@ -72,31 +128,54 @@ function NavBar() {
         maxWidth="xl"
         sx={{ width: "100vw", maxWidth: "1200px", margin: "0 auto" }}
       >
-        <Toolbar>
+        <Toolbar sx={{ px: 1 }}>
           <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
+            <>
+              <IconButton
+                onClick={toggleDrawer(true)}
+                sx={{ display: ["inherit", "inherit", "none"] }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <SwipeableDrawer
+                anchor="left"
+                open={isDrawerOpen}
+                onClose={toggleDrawer(false)}
+                onOpen={toggleDrawer(true)}
+              >
+                {list()}
+              </SwipeableDrawer>
+            </>
             <Link href="/">
               <Box
                 sx={{
                   display: "grid",
-                  width: "100px",
+                  width: "50px",
                   placeItems: "center",
-                  marginRight: 4
+                  marginRight: [0, 0, 8]
                 }}
               >
                 <Image
                   src="/images/logo/WardenDark.svg"
-                  width={100}
+                  width={90}
                   height={40}
                   alt="logo"
                 />
               </Box>
             </Link>
-            {appRoutes.map((appRoute, index) => {
-              if (appRoute.subroutes.length) return null
-              return <NavLink route={appRoute} key={index} />
-            })}
+            <Box sx={{ display: ["none", "none", "inherit", "inherit"] }}>
+              {appRoutes.map((appRoute, index) => {
+                if (appRoute.subroutes.length) return null
+                return (
+                  <NavLink
+                    route={{ name: appRoute.name, url: appRoute.url }}
+                    key={index}
+                  />
+                )
+              })}
+            </Box>
           </Box>
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex", margin: 0 }}>
             {user ? (
               <Avatar
                 sx={{

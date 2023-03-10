@@ -9,8 +9,15 @@ function ObjectivesSection() {
         Our Objectives
       </Typography>
       <Box sx={{ height: 24 }} />
-      <Box sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
-        <ContainerCard>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          justifyContent: "space-between",
+          flexWrap: ["wrap", "wrap", "inherit"]
+        }}
+      >
+        <ContainerCard sx={{ width: "100%" }}>
           <>
             <Typography variant="h6" fontWeight="bold">
               Authenticity of tickets
@@ -19,7 +26,7 @@ function ObjectivesSection() {
             <Typography>Transparency in the system</Typography>
           </>
         </ContainerCard>
-        <ContainerCard>
+        <ContainerCard sx={{ width: "100%" }}>
           <>
             <Typography variant="h6" fontWeight="bold">
               Bot Reduction
@@ -30,7 +37,7 @@ function ObjectivesSection() {
             <Typography>Identity Binding</Typography>
           </>
         </ContainerCard>
-        <ContainerCard>
+        <ContainerCard sx={{ width: "100%" }}>
           <>
             <Typography variant="h6" fontWeight="bold">
               Marketplace Control
@@ -41,8 +48,15 @@ function ObjectivesSection() {
         </ContainerCard>
       </Box>
       <Box sx={{ height: 20 }} />
-      <Box sx={{ display: "flex", gap: 2, justifyContent: "space-between" }}>
-        <ContainerCard>
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          justifyContent: "space-between",
+          flexWrap: ["wrap", "wrap", "inherit"]
+        }}
+      >
+        <ContainerCard sx={{ width: "100%" }}>
           <>
             <Typography variant="h6" fontWeight="bold">
               Redistribute Income
@@ -52,7 +66,7 @@ function ObjectivesSection() {
             </Typography>
           </>
         </ContainerCard>
-        <ContainerCard>
+        <ContainerCard sx={{ width: "100%" }}>
           <>
             <Typography variant="h6" fontWeight="bold">
               Utilizing Tickets
@@ -61,7 +75,7 @@ function ObjectivesSection() {
             <Typography>Tickets for event admisison</Typography>
           </>
         </ContainerCard>
-        <ContainerCard>
+        <ContainerCard sx={{ width: "100%" }}>
           <>
             <Typography variant="h6" fontWeight="bold">
               User-friendliness

@@ -13,6 +13,7 @@ function ConnectWalletButton() {
         smallScreen: "avatar",
         largeScreen: "avatar"
       }}
+      label="Connect Wallet"
     />
   )
 }
