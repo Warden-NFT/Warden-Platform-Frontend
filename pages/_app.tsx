@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=1084,maximum-scale=1.0" />
+        {/* <meta name="viewport" content="width=1084,maximum-scale=1.0" /> */}
       </Head>
       <BotPreventionContextProvider>
         <WagmiConfig client={WagmiClient.wagmiClient}>
