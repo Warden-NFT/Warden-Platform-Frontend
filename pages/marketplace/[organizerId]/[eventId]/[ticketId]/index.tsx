@@ -23,6 +23,7 @@ import { blue, grey } from "@mui/material/colors"
 import moment from "moment"
 import Head from "next/head"
 import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
+import { useAccount } from "wagmi"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -70,9 +71,20 @@ interface PageProps {
 }
 
 const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
+  const { address } = useAccount()
   const router = useRouter()
-  const isSold = Math.random() > 0.5
   const [showPurchaseModal, setShowPurchaseModal] = useState(false)
+
+  function isSold(address: `0x${string}` | undefined) {
+    return ticket.ownerHistory.length > 1 && ticket.ownerHistory[-1] !== address
+  }
+
+  function isResaleTicket() {
+    return (
+      ticket.ownerHistory.length > 1 &&
+      ticket.ownerHistory[-1] !== ticket.ownerHistory[0]
+    )
+  }
 
   function getEventLocationUrl() {
     if (event.online_url) {
@@ -90,6 +102,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
         <title>Purchase a Ticket</title>
       </Head>
       <TicketPurchaseModal
+        event={event}
         ticket={ticket}
         open={showPurchaseModal}
         setOpen={setShowPurchaseModal}
@@ -140,12 +153,12 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                   ticketTypeLabel={ticket?.ticketType ?? ""}
                   price={(ticket?.price?.amount ?? "").toString()}
                   sx={
-                    isSold
+                    isSold(address)
                       ? { filter: "saturate(0.5)", opacity: 0.7 }
                       : undefined
                   }
                 />
-                {isSold && (
+                {isSold(address) && (
                   <Typography
                     variant="h3"
                     fontWeight="600"
@@ -157,16 +170,18 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                 )}
               </Box>
               <Box sx={{ width: "100%", marginLeft: 4 }}>
-                <Alert
-                  severity="info"
-                  sx={{
-                    backgroundColor: blue[500],
-                    color: "white",
-                    marginBottom: 2
-                  }}
-                >
-                  This is a resale ticket by #addressId
-                </Alert>
+                {isResaleTicket() && (
+                  <Alert
+                    severity="info"
+                    sx={{
+                      backgroundColor: blue[500],
+                      color: "white",
+                      marginBottom: 2
+                    }}
+                  >
+                    This is a resale ticket by #addressId
+                  </Alert>
+                )}
                 <Stack spacing={2}>
                   <Typography variant="h6" component="h1">
                     Ticket Details

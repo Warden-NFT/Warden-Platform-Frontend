@@ -127,41 +127,43 @@ function DeployEventModal({
   ) => {
     if (!web3) throw new Error("web3 is undefined")
     const contract = new web3.eth.Contract(abi.abi)
-    try {
-      setDeployingContract(true)
-      contract
-        // @ts-ignore
-        .deploy({
-          data: bytecode.bytecode.object,
-          arguments: smartContractArguments
-        })
-        .send({ from: account })
-        .on("receipt", async (receipt) => {
-          const updateEventPayload = {
-            ...event,
-            smartContractAddress: receipt.contractAddress,
-            eventId: event._id,
-            eventOrganizerId: user?._id
-          }
-          const updatedEventResponse = await client.put<Event>(
-            "event",
-            updateEventPayload
-          )
-          setCurrentEvent(updatedEventResponse.data)
-          setDeployingContract(false)
-        })
-        .on("error", () => {
-          throw new Error("Unable to deploy smart contract")
-        })
-    } catch (err) {
-      showErrorAlert({
-        type: AlertType.ERROR,
-        title: "Smart contract deployment unsuccessful",
-        description:
-          "Unable to deploy the smart contract for your event at this time. Please try again later."
+    setDeployingContract(true)
+    contract
+      // @ts-ignore
+      .deploy({
+        data: bytecode.bytecode.object,
+        arguments: smartContractArguments
       })
-      setDeployingContract(false)
-    }
+      .send({ from: account })
+      .on("receipt", async (receipt) => {
+        const updateEventPayload = {
+          ...event,
+          smartContractAddress: receipt.contractAddress,
+          eventId: event._id,
+          eventOrganizerId: user?._id
+        }
+        const updatedEventResponse = await client.put<Event>(
+          "event",
+          updateEventPayload
+        )
+        setCurrentEvent(updatedEventResponse.data)
+        setDeployingContract(false)
+        showErrorAlert({
+          type: AlertType.INFO,
+          title: "Smart contract deployed",
+          description:
+            "The smart contract for your event has successfully been deployed to the blockchain."
+        })
+      })
+      .on("error", () => {
+        showErrorAlert({
+          type: AlertType.ERROR,
+          title: "Smart contract deployment unsuccessful",
+          description:
+            "Unable to deploy the smart contract for your event at this time. Please try again later."
+        })
+        setDeployingContract(false)
+      })
   }
 
   useEffect(() => {
