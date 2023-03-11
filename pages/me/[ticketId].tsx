@@ -1,18 +1,23 @@
 import { Alert, AlertTitle, Container, Stack, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { useRouter } from "next/router"
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import MyTicketDetails from "../../components/ticket/myTickets/MyTicketDetails"
 import Ticket from "../../components/ticket/Ticket"
 import { MarketContext } from "../../contexts/market/MarketContext"
 import Link from "next/link"
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded"
 import { motion } from "framer-motion"
-import { grey, purple } from "@mui/material/colors"
+import { TicketQRUtilizeValue } from "../../interfaces/ticket/ticket.interface"
+import { useAccount } from "wagmi"
+import { UserContext } from "../../contexts/user/UserContext"
+import Head from "next/head"
 
 function MyTicketView() {
   const router = useRouter()
   const { ticketId } = router.query
+  const { address } = useAccount()
+  const { user } = useContext(UserContext)
   const { ticketListing, getTicketListingFromTicketId } =
     useContext(MarketContext)
 
@@ -21,28 +26,43 @@ function MyTicketView() {
     getTicketListingFromTicketId(ticketId as string)
   }, [router.query])
 
+  const [qrCodeValue, setQrCodeValue] = useState({} as TicketQRUtilizeValue)
+  useEffect(() => {
+    if (!user || !address || !ticketId) return
+    setQrCodeValue({
+      userId: user?._id ?? "",
+      eventId: ticketListing?.event._id ?? "",
+      walletAddress: address,
+      ticketId: ticketId as string
+    })
+  }, [address, user, ticketId])
+
   return (
     <Container sx={{ minHeight: "100vh" }}>
+      <Head>
+        <title>Utilize Ticket - {ticketListing?.ticket.name}</title>
+      </Head>
       <Stack sx={{ alignItems: "center", height: "100vh" }}>
         <Typography variant="h3" component="h1">
           Scan QR Code to Use
         </Typography>
-        <Ticket
-          assetSrc={ticketListing?.event.image as string}
-          assetName={ticketListing?.ticket.name ?? ""}
-          eventName={ticketListing?.event.name ?? ""}
-          eventOrganizer={ticketListing?.organizerInfo.organizationName ?? ""}
-          ticketType={ticketListing?.ticket.ticketType ?? "GENERAL"}
-          date={ticketListing?.event.startDate ?? new Date(0)}
-          location={
-            (ticketListing?.event.location?.structured_formatting.main_text ||
-              ticketListing?.event.online_url) as string
-          }
-          codeDisplayMode="QR"
-          // TODO: decide on which value to use
-          codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
-        />
+        {qrCodeValue && (
+          <Ticket
+            assetSrc={ticketListing?.ticket.ticketMetadata[0].image as string}
+            assetName={ticketListing?.ticket.name ?? ""}
+            eventName={ticketListing?.event.name ?? ""}
+            eventOrganizer={ticketListing?.organizerInfo.organizationName ?? ""}
+            ticketType={ticketListing?.ticket.ticketType ?? "GENERAL"}
+            date={ticketListing?.event.startDate ?? new Date(0)}
+            location={
+              (ticketListing?.event.location?.structured_formatting.main_text ||
+                ticketListing?.event.online_url) as string
+            }
+            codeDisplayMode="QR"
+            codeValue={JSON.stringify(qrCodeValue)}
+            cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
+          />
+        )}
 
         <motion.div
           animate={{

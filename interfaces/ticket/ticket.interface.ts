@@ -7,3 +7,10 @@ export interface TicketSelectValues {
   isDisabled: boolean
   value: TicketTypes
 }
+
+export interface TicketQRUtilizeValue {
+  userId: string
+  eventId: string
+  walletAddress: string
+  ticketId: string
+}
