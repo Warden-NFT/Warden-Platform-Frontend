@@ -1,12 +1,18 @@
-import { Container, Grid } from "@mui/material"
-import React from "react"
+import { Container, Grid, Typography } from "@mui/material"
+import React, { useContext } from "react"
+import TicketCardList from "../../components/market/ticket/TicketCardList"
 import MyTicketActivities from "../../components/ticket/MyTicketActivities"
 import MyTicketsList from "../../components/ticket/myTickets/MyTicketsList"
 import MyTicketsSearch from "../../components/ticket/myTickets/MyTicketsSearch"
+import FlatCard from "../../components/UI/card/FlatCard"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
-import MyTicketsContextProvider from "../../contexts/ticket/myTicketsContext"
+import MyTicketsContextProvider, {
+  MyTicketsContext
+} from "../../contexts/ticket/myTicketsContext"
 
 function MyTickets() {
+  const { filteredMyTickets, getUserTickets } = useContext(MyTicketsContext)
+
   return (
     <MyTicketsContextProvider>
       <BannerLayout
@@ -17,14 +23,21 @@ function MyTickets() {
       >
         <Container>
           <MyTicketsSearch />
-          <Grid container>
+          <FlatCard sx={{ marginY: 4, marginTop: 8, borderRadius: 4 }}>
+            <Typography variant="h4" component="h2">
+              Ticket for sale
+            </Typography>
+            <TicketCardList tickets={filteredMyTickets?.myTicketListing} />
+          </FlatCard>
+          {/* <MyTicketsList /> */}
+          {/* <Grid container>
             <Grid item xs={12}>
               <MyTicketActivities />
             </Grid>
             <Grid item xs={12}>
               <MyTicketsList />
             </Grid>
-          </Grid>
+          </Grid> */}
         </Container>
       </BannerLayout>
     </MyTicketsContextProvider>
