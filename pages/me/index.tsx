@@ -1,5 +1,6 @@
 import { Container, Typography } from "@mui/material"
 import React, { useContext } from "react"
+import { useAccount } from "wagmi"
 import TicketCardList from "../../components/market/ticket/TicketCardList"
 import MyTicketsSearch from "../../components/ticket/myTickets/MyTicketsSearch"
 import FlatCard from "../../components/UI/card/FlatCard"
@@ -8,6 +9,10 @@ import { MyTicketsContext } from "../../contexts/ticket/MyTicketsContext"
 
 function MyTickets() {
   const { filteredMyTickets } = useContext(MyTicketsContext)
+  const { address } = useAccount()
+
+  if (!address)
+    return <Typography>Please connect your decentralize wallet</Typography>
 
   return (
     <BannerLayout
