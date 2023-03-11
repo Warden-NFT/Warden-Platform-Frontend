@@ -30,7 +30,8 @@ function CreateEventStep2() {
     event: currentEvent,
     setEvent,
     setActiveStep,
-    saveEvent
+    saveEvent,
+    resetEvent
   } = useContext(CreateEventContext)
   const { user } = useContext(UserContext)
   const router = useRouter()
@@ -69,7 +70,10 @@ function CreateEventStep2() {
           throw new Error("Invalid user. Please authenticate again.")
         }
         const savedEvent: Event | undefined = await saveEvent(_event, user._id)
-        if (savedEvent) router.push(`/event/detail/${savedEvent._id}`)
+        if (savedEvent) {
+          resetEvent()
+          router.push(`/event/detail/${savedEvent._id}`)
+        }
       } catch (error) {
         // TODO: display error when failing to get a new event
       }

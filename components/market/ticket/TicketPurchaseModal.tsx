@@ -72,7 +72,7 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
     contract.options.address = event.smartContractAddress
     contract.methods
       .buyTicket(
-        `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/metadata?path=${event._id}/${ticket.ticketMetadata[0].name}.png`,
+        `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/metadata?path=${event._id}/${ticket.ticketMetadata[0].name}`,
         TicketTypeKey[ticket.ticketType]
       )
       .send({ from: address, value: price, gas: 2100000, gasPrice: 8000000000 })
