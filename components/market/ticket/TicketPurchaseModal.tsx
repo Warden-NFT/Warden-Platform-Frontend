@@ -138,11 +138,15 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
       )
       .send({ from: address, value: price, gas: 2100000, gasPrice: 8000000000 })
       .then(async (result: any) => {
-        console.log(result)
         const ticketId =
           result.events?.TicketCreated?.returnValues?._ticketId ?? "-1"
         if (ticketId === -1) {
-          console.log("ERROR: incorrect ticketId")
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title: "Database error",
+            description:
+              "Unabble to record the ticket purchase. But don't worry. Your ticket has been purchased successfully."
+          })
           return
         } else {
           await updateSmartContractTicketId(parseInt(ticketId), address)
