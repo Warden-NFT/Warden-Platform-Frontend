@@ -108,7 +108,8 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
       .call()
       .then((result: any, error: any) => {
         console.log({ error, result })
-        setIsOwnedTicket(result.owner === address)
+        // TODO: check owner status using the actual smartContractTicketId
+        // setIsOwnedTicket(result.owner === address)
       })
   }, [web3, abi, address])
 
