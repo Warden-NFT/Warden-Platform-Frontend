@@ -1,17 +1,10 @@
 import { Launch } from "@mui/icons-material"
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Stack,
-  Typography
-} from "@mui/material"
+import { Box, CircularProgress, Stack, Typography } from "@mui/material"
 import moment from "moment"
 import Link from "next/link"
 import React from "react"
 import { TicketTypeLabel } from "../../../interfaces/event/event.interface"
 import { TicketListing } from "../../../interfaces/market/marketEvent.interface"
-import ContainedButton from "../../UI/button/ContainedButton"
 import FlatCard from "../../UI/card/FlatCard"
 
 type Props = {
@@ -24,7 +17,7 @@ function MyTicketDetails({ ticketListing }: Props) {
     <FlatCard
       sx={{
         my: 0,
-        borderRadius: 1,
+        borderRadius: 2,
         width: "100%"
       }}
     >
@@ -37,7 +30,7 @@ function MyTicketDetails({ ticketListing }: Props) {
       >
         <Box
           sx={{
-            height: 458
+            minHeight: "240px"
           }}
         >
           <Typography variant="h6" sx={{ fontWeight: 500 }}>
@@ -153,29 +146,6 @@ function MyTicketDetails({ ticketListing }: Props) {
                 )}
               </Box>
             </Box>
-          </Box>
-        </Box>
-
-        {/* Sell ticket section */}
-        <Box>
-          <Divider />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              gap: 2,
-              mt: 4
-            }}
-          >
-            <Typography sx={{ opacity: 0.5 }}>
-              Can’t attend this event? Don’t worry. You can resell your ticket
-            </Typography>
-            <ContainedButton
-              label="Sell Ticket"
-              variant="contained"
-              sx={{ background: "#AE6DC2" }}
-            />
           </Box>
         </Box>
       </Stack>

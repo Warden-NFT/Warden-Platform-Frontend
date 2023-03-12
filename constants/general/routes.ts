@@ -40,5 +40,10 @@ export const CUSTOMER_APP_ROUTES: AppRoute[] = [
     name: "Marketplace",
     url: "/marketplace",
     subroutes: []
+  },
+  {
+    name: "Use Ticket",
+    url: "/me",
+    subroutes: []
   }
 ]

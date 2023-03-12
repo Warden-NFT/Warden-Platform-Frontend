@@ -8,7 +8,6 @@ function Footer() {
       <Box
         sx={{
           padding: "1rem 0 1rem 0",
-          marginTop: "20px",
           backgroundColor: "white",
           width: "100%"
         }}

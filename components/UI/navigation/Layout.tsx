@@ -32,6 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     useContext(BotPreventionContext)
   const [isSafari, setIsSafari] = useState(false)
 
+  // This useEffect solve performance issue in Safari
   useEffect(() => {
     const _isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
     setIsSafari(_isSafari)

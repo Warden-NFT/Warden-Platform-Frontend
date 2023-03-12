@@ -1,4 +1,10 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react"
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState
+} from "react"
 
 interface BotPreventionContextStruct {
   token: string | null
@@ -15,6 +21,12 @@ export const BotPreventionContext = createContext(
 const BotPreventionContextProvider = ({ ...props }) => {
   const [token, setToken] = useState<string | null>(null)
   const [isRecaptchaShown, setIsRecaptchaShown] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "development") {
+      showRecaptcha()
+    }
+  }, [])
 
   function showRecaptcha() {
     if (!token) {

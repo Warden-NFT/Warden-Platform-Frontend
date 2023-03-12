@@ -1,25 +1,32 @@
 import { createContext, Dispatch, SetStateAction, useState } from "react"
+import { useAccount } from "wagmi"
 import { client } from "../../configs/axios/axiosConfig"
 import { MyTicketsDTO } from "../../dtos/ticket/ticket.dto"
+import useAsyncEffect from "../../hooks/useAsyncEffect"
 
 interface MyTicketsContextStruct {
   myTickets: MyTicketsDTO | undefined
   setMyTickets: Dispatch<SetStateAction<MyTicketsDTO | undefined>>
   filteredMyTickets: MyTicketsDTO | undefined
   setFilteredMyTickets: Dispatch<SetStateAction<MyTicketsDTO | undefined>>
-  getUserTickets: (
-    walletAddress: `0x${string}`
-  ) => Promise<MyTicketsDTO | undefined>
   searchMyTickets: (searchTerm: string) => MyTicketsDTO
 }
 
 export const MyTicketsContext = createContext({} as MyTicketsContextStruct)
 
 const MyTicketsContextProvider = ({ ...props }) => {
-  const [myTickets, setMyTickets] = useState<MyTicketsDTO | undefined>()
+  const { address } = useAccount()
+  const [myTickets, setMyTickets] = useState<MyTicketsDTO | undefined>(
+    undefined
+  )
   const [filteredMyTickets, setFilteredMyTickets] = useState<
     MyTicketsDTO | undefined
   >()
+
+  useAsyncEffect(async () => {
+    if (!getUserTickets || !address) return
+    await getUserTickets(address)
+  }, [address])
 
   const searchMyTickets = (searchTerm: string): MyTicketsDTO => {
     if (!myTickets)
@@ -68,6 +75,7 @@ const MyTicketsContextProvider = ({ ...props }) => {
       const _tickets = await client.get<MyTicketsDTO>(
         `/ticket/user/${walletAddress}`
       )
+      console.log(_tickets.data)
       setMyTickets(_tickets.data)
       setFilteredMyTickets(_tickets.data)
       return _tickets.data
@@ -81,7 +89,6 @@ const MyTicketsContextProvider = ({ ...props }) => {
   const values: MyTicketsContextStruct = {
     myTickets,
     setMyTickets,
-    getUserTickets,
     filteredMyTickets,
     setFilteredMyTickets,
     searchMyTickets

@@ -61,7 +61,7 @@ function Ticket({
           ...cardSx
         }}
       >
-        <Stack>
+        <Stack sx={{ overflow: "hidden" }}>
           <PNGAssetPreview
             name={assetName}
             data={assetSrc}
@@ -92,12 +92,17 @@ function Ticket({
               </Box>
             </Box>
 
-            <Stack direction="row" justifyContent="space-between">
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              sx={{ overflow: "hidden", textOverflow: "ellipsis" }}
+            >
               <Stack direction="row">
                 <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
                 <Typography>Location</Typography>
+                <Box sx={{ width: "40px" }} />
               </Stack>
-              <Typography>{location}</Typography>
+              <Typography whiteSpace="nowrap">{location}</Typography>
             </Stack>
             <Stack direction="row" justifyContent="space-between">
               <Stack direction="row">

@@ -14,6 +14,7 @@ import CreateEventContextProvider from "../contexts/event/CreateEventContext"
 import LayoutContextProvider from "../contexts/layout/LayoutContext"
 import MarketContextProvider from "../contexts/market/MarketContext"
 import BotPreventionContextProvider from "../contexts/user/BotPreventionContext"
+import MyTicketsContextProvider from "../contexts/ticket/myTicketsContext"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -35,13 +36,15 @@ export default function App({ Component, pageProps }: AppProps) {
               <LayoutContextProvider>
                 <LocalizationProvider dateAdapter={AdapterMoment}>
                   <UserContextProvider>
-                    <CreateEventContextProvider>
-                      <MarketContextProvider>
-                        <Layout>
-                          <Component {...pageProps} />
-                        </Layout>
-                      </MarketContextProvider>
-                    </CreateEventContextProvider>
+                    <MyTicketsContextProvider>
+                      <CreateEventContextProvider>
+                        <MarketContextProvider>
+                          <Layout>
+                            <Component {...pageProps} />
+                          </Layout>
+                        </MarketContextProvider>
+                      </CreateEventContextProvider>
+                    </MyTicketsContextProvider>
                   </UserContextProvider>
                 </LocalizationProvider>
               </LayoutContextProvider>

@@ -24,14 +24,12 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
     })
   }
 
-  if (!tickets) return null
-  if (tickets.length === 0) return <Box>No results</Box>
+  if (!tickets || tickets.length === 0) return null
   return (
     <Box
       sx={{
         background: isHorizontal ? deepPurple[100] : "transparent",
         borderRadius: 2,
-        p: 2,
         position: "relative"
       }}
     >
@@ -51,30 +49,44 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
         )}
       </Box>
       <Box sx={{ height: 12 }} />
-      {isHorizontal ? (
-        <Box
-          className="ticket-list"
-          ref={ticketListRef}
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 2,
-            pb: 2,
-            overflowX: "scroll"
-          }}
-        >
-          {tickets.map((ticket, index) => (
-            <TicketCard
-              ticketId={ticket._id}
-              key={index}
-              name={ticket.name}
-              image={ticket.ticketMetadata[0].image as string}
-              ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
-              price={ticket.price?.amount.toString()}
-              enableRedirect
-              isMyTicket
-            />
-          ))}
+      <Box
+        className="ticket-list"
+        ref={ticketListRef}
+        sx={
+          isHorizontal
+            ? {
+              display: "flex",
+              flexDirection: "row",
+              gap: 2,
+              pb: 2,
+              overflowX: "scroll"
+            }
+            : {
+              display: "grid",
+              gap: 4,
+              mt: 2,
+              gridTemplateColumns: [
+                "repeat(1, 1fr)",
+                "repeat(2, 1fr)",
+                "repeat(3, 1fr)",
+                "repeat(4, 1fr)"
+              ]
+            }
+        }
+      >
+        {tickets.map((ticket, index) => (
+          <TicketCard
+            ticketId={ticket._id}
+            key={index}
+            name={ticket.name}
+            image={ticket.ticketMetadata[0].image as string}
+            ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
+            price={ticket.price?.amount.toString()}
+            enableRedirect
+            isMyTicket
+          />
+        ))}
+        {isHorizontal && (
           <Box
             sx={{
               position: "absolute",
@@ -85,35 +97,8 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
                 "linear-gradient(to left, #d1c4e9, #d1c4e9 10%, transparent 80%);"
             }}
           ></Box>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            display: "grid",
-            gap: 4,
-            mt: 2,
-            gridTemplateColumns: [
-              "repeat(1, 1fr)",
-              "repeat(2, 1fr)",
-              "repeat(3, 1fr)",
-              "repeat(4, 1fr)"
-            ]
-          }}
-        >
-          {tickets.map((ticket, index) => (
-            <TicketCard
-              ticketId={ticket._id}
-              key={index}
-              name={ticket.name}
-              image={ticket.ticketMetadata[0].image as string}
-              ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
-              price={ticket.price?.amount.toString()}
-              enableRedirect
-              isMyTicket
-            />
-          ))}
-        </Box>
-      )}
+        )}
+      </Box>
     </Box>
   )
 }
