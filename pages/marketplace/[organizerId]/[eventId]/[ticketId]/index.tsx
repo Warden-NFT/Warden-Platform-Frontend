@@ -79,13 +79,15 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const { abi, bytecode, web3 } = useSmartContract()
 
   function isSold(address: `0x${string}` | undefined) {
-    return ticket.ownerHistory.length > 1 && ticket.ownerHistory[-1] !== address
+    return (
+      ticket.ownerHistory.length > 1 && ticket.ownerHistory.at(-1) !== address
+    )
   }
 
   function isResaleTicket() {
     return (
       ticket.ownerHistory.length > 1 &&
-      ticket.ownerHistory[-1] !== ticket.ownerHistory[0]
+      ticket.ownerHistory.at(-1) !== ticket.ownerHistory.at(0)
     )
   }
 

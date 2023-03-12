@@ -29,6 +29,8 @@ import { Event, TicketTypeKey } from "../../../interfaces/event/event.interface"
 import { useConnectModal } from "@rainbow-me/rainbowkit"
 import { ethers } from "ethers"
 import { SupportedDigitalCurrencyKey } from "../../../interfaces/currency/currency.interface"
+import { client } from "../../../configs/axios/axiosConfig"
+import { TicketPurchasePermissionResponse } from "../../../interfaces/ticket/ticket.interface"
 
 interface P {
   open: boolean
@@ -50,8 +52,10 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
   // States
   const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
 
-  function handlePayment() {
+  const handlePayment = async () => {
     setPaymentProcessing(true)
+
+    // Check web3
     if (!web3 || !abi?.abi || !bytecode || !address) {
       showErrorAlert({
         type: AlertType.ERROR,
@@ -62,11 +66,36 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
       return
     }
 
+    // Check ticket purchase permission
+    const permissionPayload = {
+      walletAddress: address,
+      eventId: event._id,
+      ticketCollectionId: event.ticketCollectionId,
+      ticketId: ticket._id
+    }
+    const allowedPurchaseResponse =
+      await client.post<TicketPurchasePermissionResponse>(
+        "/ticket/transaction/permission",
+        permissionPayload
+      )
+    const allowedPurchase = allowedPurchaseResponse.data.allowed
+    if (!allowedPurchase) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Ticket purchase failed",
+        description: `You do not have the permission to purchase this ticket. ${
+          allowedPurchaseResponse.data.reason ?? ""
+        }`
+      })
+      return
+    }
+
+    // Get the price in ether
     const price = ethers.utils.parseUnits(
       ticket.price.amount.toString(),
       SupportedDigitalCurrencyKey[ticket.price.currency]
     )
-    console.log(price)
+
     // Connect to web3 and send the buyTicket transaction
     const contract = new web3.eth.Contract(abi.abi)
     contract.options.address = event.smartContractAddress
@@ -76,8 +105,7 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
         TicketTypeKey[ticket.ticketType]
       )
       .send({ from: address, value: price, gas: 2100000, gasPrice: 8000000000 })
-      .then((result: any, error: any) => {
-        console.log({ error, result })
+      .then(() => {
         showErrorAlert({
           type: AlertType.INFO,
           title: "Ticket purchased successfully",
@@ -85,15 +113,11 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
         })
       })
       .catch((error: any) => {
-        console.log(error.toString())
-        const jsonString = error
-          .toString()
-          .substring(error.toString().indexOf("{"))
         setPaymentProcessing(false)
         showErrorAlert({
           type: AlertType.ERROR,
           title: "Ticket purchase failed",
-          description: jsonString
+          description: error.message
         })
         setPaymentProcessing(false)
       })

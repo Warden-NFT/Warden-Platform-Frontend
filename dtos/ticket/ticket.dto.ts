@@ -29,6 +29,8 @@ export interface EventTicket {
 }
 
 export interface TicketCollectionDTO {
+  _id?: string
+  smartContractTicketId?: string
   tickets: {
     general?: EventTicket[]
     vip?: EventTicket[]
