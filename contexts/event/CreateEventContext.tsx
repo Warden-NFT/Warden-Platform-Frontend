@@ -38,7 +38,6 @@ const CreateEventContextProvider = ({ ...props }) => {
 
   // States
   const DEFAULT_EVENT: Event = {
-    _id: "",
     eventStatus: EVENT_STATUS.NOT_STARTED as unknown as EventStatusType,
     eventKeywords: [],
     location: null,

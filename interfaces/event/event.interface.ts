@@ -31,7 +31,7 @@ export enum EVENT_STATUS_TYPE {
 }
 
 export interface Event {
-  _id: string
+  _id?: string
   eventStatus: EventStatusType
   eventKeywords: string[]
   location: PlaceType | null
