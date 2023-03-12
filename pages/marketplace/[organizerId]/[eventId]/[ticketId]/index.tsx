@@ -8,7 +8,7 @@ import {
   Typography
 } from "@mui/material"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import EventInfoBanner from "../../../../../components/market/event/EventInfoBanner"
 import BannerLayout from "../../../../../components/UI/layout/BannerLayout"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
@@ -24,6 +24,7 @@ import moment from "moment"
 import Head from "next/head"
 import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
 import { useAccount } from "wagmi"
+import { useSmartContract } from "../../../../../hooks/useSmartContract"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -74,6 +75,8 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const { address } = useAccount()
   const router = useRouter()
   const [showPurchaseModal, setShowPurchaseModal] = useState(false)
+  const [isOwnedTicket, setIsOwnedTicket] = useState(false)
+  const { abi, bytecode, web3 } = useSmartContract()
 
   function isSold(address: `0x${string}` | undefined) {
     return ticket.ownerHistory.length > 1 && ticket.ownerHistory[-1] !== address
@@ -95,6 +98,19 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
 
     return "/marketplace"
   }
+
+  useEffect(() => {
+    if (!web3 || !abi) return
+    const contract = new web3.eth.Contract(abi.abi)
+    contract.options.address = event.smartContractAddress
+    contract.methods
+      .getTicket(0)
+      .call()
+      .then((result: any, error: any) => {
+        console.log({ error, result })
+        setIsOwnedTicket(result.owner === address)
+      })
+  }, [web3, abi, address])
 
   return (
     <>
@@ -265,20 +281,28 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
               backgroundColor: "white"
             }}
           >
-            <Stack alignItems="start">
-              <Typography>Want to claim this ticket? Buy now</Typography>
+            {isOwnedTicket ? (
               <Typography fontWeight="700">
-                {ticket.price.amount} {ticket.price.currency}
+                You are the owner of this ticket
               </Typography>
-            </Stack>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setShowPurchaseModal(true)
-              }}
-            >
-              <Typography>Purchase Ticket</Typography>
-            </Button>
+            ) : (
+              <>
+                <Stack alignItems="start">
+                  <Typography>Want to claim this ticket? Buy now</Typography>
+                  <Typography fontWeight="700">
+                    {ticket.price.amount} {ticket.price.currency}
+                  </Typography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setShowPurchaseModal(true)
+                  }}
+                >
+                  <Typography>Purchase Ticket</Typography>
+                </Button>
+              </>
+            )}
           </Stack>
         </BannerLayout>
       </Container>
