@@ -82,6 +82,7 @@ const CreateEventContextProvider = ({ ...props }) => {
 
   const resetEvent = () => {
     setEvent(DEFAULT_EVENT)
+    setActiveStep(1)
   }
 
   const saveEvent = async (event: Event, organizerId: string) => {

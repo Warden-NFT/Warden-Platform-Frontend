@@ -1,4 +1,4 @@
-import { Container } from "@mui/material"
+import { Alert, Container } from "@mui/material"
 import { Box } from "@mui/system"
 import Head from "next/head"
 import { useRouter } from "next/router"
@@ -46,13 +46,18 @@ function MarketEvent() {
             }
           />
           <Box sx={{ height: 24 }} />
+          {!marketTickets?.ticketCollection && (
+            <Alert severity="warning">
+              Tickets unavailable at the moment. Please check back later.
+            </Alert>
+          )}
           <TicketCardList
-            tickets={marketTickets?.ticketCollection.tickets.vip}
+            tickets={marketTickets?.ticketCollection?.tickets.vip ?? []}
             ticketType="VIP Tickets"
             isHorizontal
           />
           <TicketCardList
-            tickets={marketTickets?.ticketCollection.tickets.general}
+            tickets={marketTickets?.ticketCollection?.tickets.general ?? []}
             ticketType="General Admission Tickets"
           />
         </Container>

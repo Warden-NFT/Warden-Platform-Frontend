@@ -15,16 +15,18 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
 import { GetServerSideProps } from "next"
 import { EventTicket } from "../../../../../dtos/ticket/ticket.dto"
 import TicketCard from "../../../../../components/market/ticket/TicketCard"
-import axios, { AxiosError } from "axios"
+import axios from "axios"
 import { Event } from "../../../../../interfaces/event/event.interface"
 import { EventOrganizerUser } from "../../../../../interfaces/auth/user.interface"
 import { MarketTickets } from "../../../../../interfaces/market/marketEvent.interface"
-import { blue, grey } from "@mui/material/colors"
+import { blue, green, grey } from "@mui/material/colors"
 import moment from "moment"
 import Head from "next/head"
 import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
 import { useAccount } from "wagmi"
 import { useSmartContract } from "../../../../../hooks/useSmartContract"
+import Web3 from "web3"
+import { ABIItem } from "../../../../../interfaces/smartContract/smartContract.interface"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -58,7 +60,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       }
     }
   } catch (e) {
-    const err = e as AxiosError
     return {
       notFound: true
     }
@@ -76,19 +77,40 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const router = useRouter()
   const [showPurchaseModal, setShowPurchaseModal] = useState(false)
   const [isOwnedTicket, setIsOwnedTicket] = useState(false)
-  const { abi, bytecode, web3 } = useSmartContract()
+  const [isResaleTicket, setIsResaleTicket] = useState(false)
+  const [isSold, setIsSold] = useState(false)
+  const { abi, web3 } = useSmartContract()
 
-  function isSold(address: `0x${string}` | undefined) {
+  function checkResaleTicket(forSale: boolean) {
     return (
-      ticket.ownerHistory.length > 1 && ticket.ownerHistory.at(-1) !== address
+      // This ticket has been sold before
+      ticket.ownerHistory.length > 1 &&
+      ticket.ownerHistory.at(-1) !== ticket.ownerHistory.at(0) &&
+      // The user is not the ticket's most recent owner
+      ticket.ownerHistory.at(-1) !== address &&
+      // Ticket is marked as for sale in the smart contract
+      forSale
     )
   }
 
-  function isResaleTicket() {
-    return (
-      ticket.ownerHistory.length > 1 &&
-      ticket.ownerHistory.at(-1) !== ticket.ownerHistory.at(0)
-    )
+  function checkTicketOwnership(
+    web3: Web3,
+    abi: { abi: ABIItem[] },
+    address: string
+  ) {
+    // If the ticket hasn't been bought yet (no smartContractTicketId), no need to check for ownership
+    const smartContractTicketId = ticket.smartContractTicketId
+    if (!smartContractTicketId) return
+
+    const contract = new web3.eth.Contract(abi.abi)
+    contract.options.address = event.smartContractAddress
+    contract.methods
+      .getTicket(smartContractTicketId)
+      .call()
+      .then((result: any) => {
+        setIsOwnedTicket(result.owner === address)
+        setIsResaleTicket(checkResaleTicket(result.forSale))
+      })
   }
 
   function getEventLocationUrl() {
@@ -101,18 +123,17 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     return "/marketplace"
   }
 
+  // Checks ticket ownership
   useEffect(() => {
-    if (!web3 || !abi) return
-    const contract = new web3.eth.Contract(abi.abi)
-    contract.options.address = event.smartContractAddress
-    contract.methods
-      .getTicket(0)
-      .call()
-      .then((result: any, error: any) => {
-        console.log({ error, result })
-        // TODO: check owner status using the actual smartContractTicketId
-        // setIsOwnedTicket(result.owner === address)
-      })
+    // If the dependencies aren't ready, don't do anything
+    if (!web3 || !abi || !event.smartContractAddress || !address) return
+    checkTicketOwnership(web3, abi, address)
+    console.log(
+      ticket.ownerHistory.length > 1 && ticket.ownerHistory.at(-1) !== address
+    )
+    setIsSold(
+      ticket.ownerHistory.length > 1 && ticket.ownerHistory.at(-1) !== address
+    )
   }, [web3, abi, address])
 
   return (
@@ -172,12 +193,12 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                   ticketTypeLabel={ticket?.ticketType ?? ""}
                   price={(ticket?.price?.amount ?? "").toString()}
                   sx={
-                    isSold(address)
+                    isSold
                       ? { filter: "saturate(0.5)", opacity: 0.7 }
                       : undefined
                   }
                 />
-                {isSold(address) && (
+                {isSold && (
                   <Typography
                     variant="h3"
                     fontWeight="600"
@@ -189,7 +210,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                 )}
               </Box>
               <Box sx={{ width: "100%", marginLeft: 4 }}>
-                {isResaleTicket() && (
+                {isResaleTicket && (
                   <Alert
                     severity="info"
                     sx={{
@@ -273,40 +294,50 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
               </Box>
             </Stack>
           </Box>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            sx={{
-              marginY: 4,
-              border: 2,
-              borderRadius: 2,
-              padding: 2,
-              backgroundColor: "white"
-            }}
-          >
-            {isOwnedTicket ? (
-              <Typography fontWeight="700">
-                You are the owner of this ticket
-              </Typography>
-            ) : (
-              <>
-                <Stack alignItems="start">
-                  <Typography>Want to claim this ticket? Buy now</Typography>
-                  <Typography fontWeight="700">
-                    {ticket.price.amount} {ticket.price.currency}
-                  </Typography>
-                </Stack>
+          {isOwnedTicket && (
+            <Alert
+              action={
                 <Button
-                  variant="contained"
-                  onClick={() => {
-                    setShowPurchaseModal(true)
-                  }}
+                  color="inherit"
+                  size="small"
+                  onClick={() => router.push(`/me/${ticket._id}`)}
                 >
-                  <Typography>Purchase Ticket</Typography>
+                  View Ticket
                 </Button>
-              </>
-            )}
-          </Stack>
+              }
+              sx={{ border: `2px solid ${green[100]}`, mt: 2 }}
+            >
+              You are the owner of this ticket
+            </Alert>
+          )}
+          {!isOwnedTicket && !isSold && (
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              sx={{
+                marginY: 4,
+                border: 2,
+                borderRadius: 2,
+                padding: 2,
+                backgroundColor: "white"
+              }}
+            >
+              <Stack alignItems="start">
+                <Typography>Want to claim this ticket? Buy now</Typography>
+                <Typography fontWeight="700">
+                  {ticket.price.amount} {ticket.price.currency}
+                </Typography>
+              </Stack>
+              <Button
+                variant="contained"
+                onClick={() => {
+                  setShowPurchaseModal(true)
+                }}
+              >
+                <Typography>Purchase Ticket</Typography>
+              </Button>
+            </Stack>
+          )}
         </BannerLayout>
       </Container>
     </>
