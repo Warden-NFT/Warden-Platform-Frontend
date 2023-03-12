@@ -25,6 +25,10 @@ export interface EventTicketsMetadata {
 
 const URL = process.env.NEXT_PUBLIC_WARDEN_API_URL
 
+const removeFileExtension = (filename: string) => {
+  return filename.split(".").slice(0, -1).join(".")
+}
+
 export function createAssetMetadata(
   assets: UploadedCompleteAsset[],
   files: File[],
@@ -35,7 +39,9 @@ export function createAssetMetadata(
     return {
       name: asset.name,
       description: `Ticket cover image ${asset.name}`,
-      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${formInfo.subjectOf}/${files[i].name}`,
+      image: `${process.env.NEXT_PUBLIC_GCP_STORAGE_URL}${
+        formInfo.subjectOf
+      }/${removeFileExtension(files[i].name)}`,
       attributes: [
         { trait_type: "id", value: asset.id.toString() },
         { trait_type: "quantity", value: asset.quantity.toString() },

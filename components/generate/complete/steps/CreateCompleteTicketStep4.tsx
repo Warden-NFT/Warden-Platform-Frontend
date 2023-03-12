@@ -17,6 +17,7 @@ import {
 } from "../../../../utils/generate/complete"
 import { UserContext } from "../../../../contexts/user/UserContext"
 import ContainedButton from "../../../UI/button/ContainedButton"
+import { useRouter } from "next/router"
 
 function CreateCompleteTicketStep4() {
   const {
@@ -30,6 +31,7 @@ function CreateCompleteTicketStep4() {
   const { address } = useAuthAccount()
   const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
   const { user } = useContext(UserContext)
+  const router = useRouter()
   const [uploading, setUploading] = useState(false)
   const [uploaded, setUploaded] = useState(false)
 
@@ -171,7 +173,7 @@ function CreateCompleteTicketStep4() {
       <ControlledStepperButtons
         isBackDisabled={uploaded === true}
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
-        handleNext={() => setActiveStep((prev) => prev + 1)}
+        handleNext={() => router.push(`/event/detail/${formInfo.subjectOf}`)}
       />
     </FlatCard>
   )

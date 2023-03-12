@@ -11,7 +11,7 @@ export const useSmartContract = () => {
   const { showErrorAlert } = useContext(LayoutContext)
 
   // States
-  const [abi, setAbi] = useState<ABIItem[]>([])
+  const [abi, setAbi] = useState<{ abi: ABIItem[] }>()
   const [bytecode, setBytecode] = useState<any>()
   const [web3, setWeb3] = useState<Web3>()
 
@@ -21,7 +21,7 @@ export const useSmartContract = () => {
 
   useAsyncEffect(async () => {
     try {
-      const _abi = await client.get<ABIItem[]>("/smart-contract/abi")
+      const _abi = await client.get<{ abi: ABIItem[] }>("/smart-contract/abi")
       setAbi(_abi.data)
 
       const _bytecode = await client.get<any>("/smart-contract/bytecode")

@@ -21,6 +21,7 @@ import { UserContext } from "../../../../contexts/user/UserContext"
 import { useAuthAccount } from "../../../../hooks/useAuthAccount"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import { AlertType } from "../../../../interfaces/modal/alert.interface"
+import { useRouter } from "next/router"
 
 interface TicketMetadataBlob {
   metadata: TicketsMetadata
@@ -40,6 +41,7 @@ function CreateLayeredTicketStep6() {
   const { setShowLoadingBackdrop, showErrorAlert } = useContext(LayoutContext)
   const { user } = useContext(UserContext)
   const { address } = useAuthAccount()
+  const router = useRouter()
 
   const [uploaded, setUploaded] = useState(false)
   const [uploading, setUploading] = useState(false)
@@ -78,7 +80,7 @@ function CreateLayeredTicketStep6() {
     })
     setAssetFiles(assetFiles)
     setAssetMetadata(_assetMetadata)
-  }, [layers])
+  }, [layers, layeredGeneratedMetadata, metadataBlob])
 
   async function handleUpload() {
     setShowLoadingBackdrop(true)
@@ -93,7 +95,8 @@ function CreateLayeredTicketStep6() {
     try {
       if (generatedMetadata?.general) {
         const files: File[] = generatedMetadata.general.map(
-          (m) => new File([m.blob], `${m.metadata.name}.png`)
+          (m) =>
+            new File([m.blob], `${m.metadata.name}.png`, { type: "image/png" })
         )
         const metadata = generatedMetadata.general.map((m) => m.metadata)
         const eventMetadata = createEventTicket(
@@ -106,12 +109,13 @@ function CreateLayeredTicketStep6() {
           formInfo.price.general?.default ?? 0
         )
         eventTickets.general = eventMetadata
-        await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
+        await uploadAsset(files, metadata, `${formInfo.subjectOf}`)
       }
 
       if (generatedMetadata?.vip) {
         const files: File[] = generatedMetadata.vip.map(
-          (m) => new File([m.blob], `${m.metadata.name}.png`)
+          (m) =>
+            new File([m.blob], `${m.metadata.name}.png`, { type: "image/png" })
         )
         const metadata = generatedMetadata.vip.map((m) => m.metadata)
         const eventMetadata = createEventTicket(
@@ -125,7 +129,7 @@ function CreateLayeredTicketStep6() {
         )
         eventTickets.vip = eventMetadata
 
-        await uploadAsset(files, metadata, `${formInfo.subjectOf}/generated`)
+        await uploadAsset(files, metadata, `${formInfo.subjectOf}`)
         await setTicketToEvent(
           eventTickets,
           formInfo,
@@ -153,7 +157,7 @@ function CreateLayeredTicketStep6() {
   async function handleDownloadAssetFiles() {
     const zip = new JSZip()
 
-    const generatedDir = zip.folder(`${formInfo.name}/generated`)
+    const generatedDir = zip.folder(`${formInfo.name}`)
     const assetsDir = zip.folder(`${formInfo.name}/assets`)
 
     if (generatedDir) {
@@ -242,7 +246,7 @@ function CreateLayeredTicketStep6() {
       <ControlledStepperButtons
         isBackDisabled={uploaded === true}
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
-        handleNext={() => setActiveStep((prev) => prev + 1)}
+        handleNext={() => router.push(`/event/detail/${formInfo.subjectOf}`)}
       />
     </Box>
   )

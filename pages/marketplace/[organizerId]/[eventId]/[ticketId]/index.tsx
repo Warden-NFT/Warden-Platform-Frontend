@@ -8,7 +8,7 @@ import {
   Typography
 } from "@mui/material"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import EventInfoBanner from "../../../../../components/market/event/EventInfoBanner"
 import BannerLayout from "../../../../../components/UI/layout/BannerLayout"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
@@ -23,6 +23,8 @@ import { blue, grey } from "@mui/material/colors"
 import moment from "moment"
 import Head from "next/head"
 import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
+import { useAccount } from "wagmi"
+import { useSmartContract } from "../../../../../hooks/useSmartContract"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -70,9 +72,24 @@ interface PageProps {
 }
 
 const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
+  const { address } = useAccount()
   const router = useRouter()
-  const isSold = Math.random() > 0.5
   const [showPurchaseModal, setShowPurchaseModal] = useState(false)
+  const [isOwnedTicket, setIsOwnedTicket] = useState(false)
+  const { abi, bytecode, web3 } = useSmartContract()
+
+  function isSold(address: `0x${string}` | undefined) {
+    return (
+      ticket.ownerHistory.length > 1 && ticket.ownerHistory.at(-1) !== address
+    )
+  }
+
+  function isResaleTicket() {
+    return (
+      ticket.ownerHistory.length > 1 &&
+      ticket.ownerHistory.at(-1) !== ticket.ownerHistory.at(0)
+    )
+  }
 
   function getEventLocationUrl() {
     if (event.online_url) {
@@ -84,12 +101,27 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     return "/marketplace"
   }
 
+  useEffect(() => {
+    if (!web3 || !abi) return
+    const contract = new web3.eth.Contract(abi.abi)
+    contract.options.address = event.smartContractAddress
+    contract.methods
+      .getTicket(0)
+      .call()
+      .then((result: any, error: any) => {
+        console.log({ error, result })
+        // TODO: check owner status using the actual smartContractTicketId
+        // setIsOwnedTicket(result.owner === address)
+      })
+  }, [web3, abi, address])
+
   return (
     <>
       <Head>
         <title>Purchase a Ticket</title>
       </Head>
       <TicketPurchaseModal
+        event={event}
         ticket={ticket}
         open={showPurchaseModal}
         setOpen={setShowPurchaseModal}
@@ -140,12 +172,12 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                   ticketTypeLabel={ticket?.ticketType ?? ""}
                   price={(ticket?.price?.amount ?? "").toString()}
                   sx={
-                    isSold
+                    isSold(address)
                       ? { filter: "saturate(0.5)", opacity: 0.7 }
                       : undefined
                   }
                 />
-                {isSold && (
+                {isSold(address) && (
                   <Typography
                     variant="h3"
                     fontWeight="600"
@@ -157,16 +189,18 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                 )}
               </Box>
               <Box sx={{ width: "100%", marginLeft: 4 }}>
-                <Alert
-                  severity="info"
-                  sx={{
-                    backgroundColor: blue[500],
-                    color: "white",
-                    marginBottom: 2
-                  }}
-                >
-                  This is a resale ticket by #addressId
-                </Alert>
+                {isResaleTicket() && (
+                  <Alert
+                    severity="info"
+                    sx={{
+                      backgroundColor: blue[500],
+                      color: "white",
+                      marginBottom: 2
+                    }}
+                  >
+                    This is a resale ticket by #addressId
+                  </Alert>
+                )}
                 <Stack spacing={2}>
                   <Typography variant="h6" component="h1">
                     Ticket Details
@@ -250,20 +284,28 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
               backgroundColor: "white"
             }}
           >
-            <Stack alignItems="start">
-              <Typography>Want to claim this ticket? Buy now</Typography>
+            {isOwnedTicket ? (
               <Typography fontWeight="700">
-                {ticket.price.amount} {ticket.price.currency}
+                You are the owner of this ticket
               </Typography>
-            </Stack>
-            <Button
-              variant="contained"
-              onClick={() => {
-                setShowPurchaseModal(true)
-              }}
-            >
-              <Typography>Purchase Ticket</Typography>
-            </Button>
+            ) : (
+              <>
+                <Stack alignItems="start">
+                  <Typography>Want to claim this ticket? Buy now</Typography>
+                  <Typography fontWeight="700">
+                    {ticket.price.amount} {ticket.price.currency}
+                  </Typography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setShowPurchaseModal(true)
+                  }}
+                >
+                  <Typography>Purchase Ticket</Typography>
+                </Button>
+              </>
+            )}
           </Stack>
         </BannerLayout>
       </Container>

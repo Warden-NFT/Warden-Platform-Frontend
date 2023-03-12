@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useContext } from "react"
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState
+} from "react"
 import {
   Modal,
   Box,
@@ -13,34 +19,113 @@ import { Close } from "@mui/icons-material"
 import { EventTicket } from "../../../dtos/ticket/ticket.dto"
 import Link from "next/link"
 import { BotPreventionContext } from "../../../contexts/user/BotPreventionContext"
-
-const style = {
-  position: "absolute" as const,
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 2
-}
+import ContainedButton from "../../UI/button/ContainedButton"
+import { modalStyle } from "../../../styles/muiStyles"
+import { useSmartContract } from "../../../hooks/useSmartContract"
+import { AlertType } from "../../../interfaces/modal/alert.interface"
+import { LayoutContext } from "../../../contexts/layout/LayoutContext"
+import { useAccount } from "wagmi"
+import { Event, TicketTypeKey } from "../../../interfaces/event/event.interface"
+import { useConnectModal } from "@rainbow-me/rainbowkit"
+import { ethers } from "ethers"
+import { SupportedDigitalCurrencyKey } from "../../../interfaces/currency/currency.interface"
+import { client } from "../../../configs/axios/axiosConfig"
+import { TicketPurchasePermissionResponse } from "../../../interfaces/ticket/ticket.interface"
 
 interface P {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   ticket: EventTicket
+  event: Event
 }
 
-function TicketPurchaseModal({ open, setOpen, ticket }: P) {
+function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
+  // Captcha
   const { showRecaptcha } = useContext(BotPreventionContext)
 
-  function handlePayment() {
-    showRecaptcha()
-    // add is loading layout
-    alert(`Paying for ${ticket.name} ~`)
+  // Web3
+  const { abi, bytecode, web3 } = useSmartContract()
+  const { address } = useAccount()
+  const { showErrorAlert } = useContext(LayoutContext)
+  const { openConnectModal } = useConnectModal()
+
+  // States
+  const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
+
+  const handlePayment = async () => {
+    setPaymentProcessing(true)
+
+    // Check web3
+    if (!web3 || !abi?.abi || !bytecode || !address) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Web3 error",
+        description:
+          "ABI, bytecode, or wallet address unavailable. Please try again."
+      })
+      return
+    }
+
+    // Check ticket purchase permission
+    const permissionPayload = {
+      walletAddress: address,
+      eventId: event._id,
+      ticketCollectionId: event.ticketCollectionId,
+      ticketId: ticket._id
+    }
+    const allowedPurchaseResponse =
+      await client.post<TicketPurchasePermissionResponse>(
+        "/ticket/transaction/permission",
+        permissionPayload
+      )
+    const allowedPurchase = allowedPurchaseResponse.data.allowed
+    if (!allowedPurchase) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Ticket purchase failed",
+        description: `You do not have the permission to purchase this ticket. ${
+          allowedPurchaseResponse.data.reason ?? ""
+        }`
+      })
+      return
+    }
+
+    // Get the price in ether
+    const price = ethers.utils.parseUnits(
+      ticket.price.amount.toString(),
+      SupportedDigitalCurrencyKey[ticket.price.currency]
+    )
+
+    // Connect to web3 and send the buyTicket transaction
+    const contract = new web3.eth.Contract(abi.abi)
+    contract.options.address = event.smartContractAddress
+    contract.methods
+      .buyTicket(
+        `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/metadata?path=${event._id}/${ticket.ticketMetadata[0].name}`,
+        TicketTypeKey[ticket.ticketType]
+      )
+      .send({ from: address, value: price, gas: 2100000, gasPrice: 8000000000 })
+      .then(() => {
+        showErrorAlert({
+          type: AlertType.INFO,
+          title: "Ticket purchased successfully",
+          description: "Ticket purchased successfully"
+        })
+      })
+      .catch((error: any) => {
+        setPaymentProcessing(false)
+        showErrorAlert({
+          type: AlertType.ERROR,
+          title: "Ticket purchase failed",
+          description: error.message
+        })
+        setPaymentProcessing(false)
+      })
   }
+
+  useEffect(() => {
+    open && showRecaptcha()
+  }, [open])
 
   return (
     <Modal
@@ -49,7 +134,7 @@ function TicketPurchaseModal({ open, setOpen, ticket }: P) {
       aria-labelledby="purchase-ticket"
       aria-describedby="purchase-ticket-modal"
     >
-      <Box sx={style}>
+      <Box sx={modalStyle}>
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -154,13 +239,22 @@ function TicketPurchaseModal({ open, setOpen, ticket }: P) {
                 </Stack>
               </Box>
             </Box>
-            <Button
-              onClick={handlePayment}
-              variant="contained"
-              sx={{ marginTop: 1, width: "100%" }}
-            >
-              <Typography>Advance to Payment</Typography>
-            </Button>
+            {address ? (
+              <ContainedButton
+                label="Advance to Payment"
+                variant="contained"
+                isLoading={paymentProcessing}
+                onClick={handlePayment}
+                sx={{ marginTop: 1, width: "100%" }}
+              />
+            ) : (
+              <ContainedButton
+                label="Connect your wallet to proceed"
+                variant="contained"
+                onClick={openConnectModal}
+                sx={{ marginTop: 1, width: "100%" }}
+              />
+            )}
           </Box>
         </Stack>
       </Box>

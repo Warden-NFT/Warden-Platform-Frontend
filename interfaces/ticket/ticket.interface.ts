@@ -14,3 +14,7 @@ export interface TicketQRUtilizeValue {
   walletAddress: string
   ticketId: string
 }
+export interface TicketPurchasePermissionResponse {
+  allowed: boolean
+  reason: string
+}

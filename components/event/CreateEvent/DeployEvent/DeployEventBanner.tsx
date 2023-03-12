@@ -6,6 +6,7 @@ import ContainedButton from "../../../UI/button/ContainedButton"
 import { useAccount } from "wagmi"
 import DeployEventModal from "./DeployEventModal"
 import { Event } from "../../../../interfaces/event/event.interface"
+import { useRouter } from "next/router"
 
 type Props = {
   event: Event
@@ -17,13 +18,40 @@ function DeployEventBanner({ event, setCurrentEvent }: Props) {
   const { isConnected } = useAccount()
   const { openEventDeployModal, setOpenEventDeployModal } =
     useContext(CreateEventContext)
+  const router = useRouter()
 
   const onClickPublicEvent = async () => {
+    if (!event.ticketCollectionId) {
+      router.push("/ticket")
+    }
     if (!isConnected && openConnectModal) {
       openConnectModal()
       return
     }
     setOpenEventDeployModal(true)
+  }
+
+  const renderBannerText = () => {
+    if (!event.ticketCollectionId)
+      return (
+        <Typography fontWeight={600}>Create tickets for this event.</Typography>
+      )
+    if (isConnected)
+      return (
+        <Typography fontWeight={600}>Ready to share your event?</Typography>
+      )
+    if (!isConnected)
+      return (
+        <Typography fontWeight={600}>
+          Connect your wallet to proceed.
+        </Typography>
+      )
+  }
+
+  const getBannerButtonLabel = () => {
+    if (!event.ticketCollectionId) return "Create Tickets"
+    if (isConnected) return "Publish Event"
+    else return "Connect Wallet"
   }
 
   return (
@@ -36,20 +64,22 @@ function DeployEventBanner({ event, setCurrentEvent }: Props) {
           alignItems: "center"
         }}
       >
-        <Typography fontWeight={600}>Ready to share your event?</Typography>
+        {renderBannerText()}
         <ContainedButton
-          label="Publish Event"
+          label={getBannerButtonLabel()}
           variant="contained"
           width="200px"
           onClick={onClickPublicEvent}
         />
       </Card>
-      <DeployEventModal
-        open={openEventDeployModal}
-        handleClose={() => setOpenEventDeployModal(false)}
-        event={event}
-        setCurrentEvent={setCurrentEvent}
-      />
+      {event.ticketCollectionId && (
+        <DeployEventModal
+          open={openEventDeployModal}
+          handleClose={() => setOpenEventDeployModal(false)}
+          event={event}
+          setCurrentEvent={setCurrentEvent}
+        />
+      )}
     </>
   )
 }
