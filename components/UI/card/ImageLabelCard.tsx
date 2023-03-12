@@ -4,7 +4,6 @@ import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
 
 interface Props {
-  imgUrl?: string
   title: string
   description: string
   colorFrom?: string
@@ -13,7 +12,6 @@ interface Props {
 }
 
 function ImageLabelCard({
-  imgUrl,
   title,
   description,
   containerStyles,
@@ -55,7 +53,7 @@ function ImageLabelCard({
             },
             backgroundImage: `linear-gradient(to bottom, ${
               colorFrom ?? "rgba(255, 255, 255, 0.5)"
-            }, ${colorTo ?? "rgba(255, 255, 255, 0.2)"}), url(${imgUrl})`,
+            }, ${colorTo ?? "rgba(255, 255, 255, 0.2)"})`,
             backgroundColor: "white",
             borderRadius: "14px",
             ...containerStyles
