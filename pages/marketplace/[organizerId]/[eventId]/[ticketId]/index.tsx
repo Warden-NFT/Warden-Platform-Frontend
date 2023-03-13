@@ -8,7 +8,7 @@ import {
   Typography
 } from "@mui/material"
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import EventInfoBanner from "../../../../../components/market/event/EventInfoBanner"
 import BannerLayout from "../../../../../components/UI/layout/BannerLayout"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
@@ -19,7 +19,7 @@ import axios from "axios"
 import { Event } from "../../../../../interfaces/event/event.interface"
 import { EventOrganizerUser } from "../../../../../interfaces/auth/user.interface"
 import { MarketTickets } from "../../../../../interfaces/market/marketEvent.interface"
-import { blue, green, grey } from "@mui/material/colors"
+import { blue, green, grey, purple } from "@mui/material/colors"
 import moment from "moment"
 import Head from "next/head"
 import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
@@ -27,6 +27,7 @@ import { useAccount } from "wagmi"
 import { useSmartContract } from "../../../../../hooks/useSmartContract"
 import Web3 from "web3"
 import { ABIItem } from "../../../../../interfaces/smartContract/smartContract.interface"
+import { UserContext } from "../../../../../contexts/user/UserContext"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -80,6 +81,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const [isResaleTicket, setIsResaleTicket] = useState(false)
   const [isSold, setIsSold] = useState(false)
   const { abi, web3 } = useSmartContract()
+  const { user } = useContext(UserContext)
 
   function checkResaleTicket(forSale: boolean) {
     return (
@@ -328,14 +330,36 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                   {ticket.price.amount} {ticket.price.currency}
                 </Typography>
               </Stack>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  setShowPurchaseModal(true)
-                }}
-              >
-                <Typography>Purchase Ticket</Typography>
-              </Button>
+              {user ? (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setShowPurchaseModal(true)
+                  }}
+                  sx={{
+                    background: purple[400],
+                    "&:hover": {
+                      background: purple[500]
+                    }
+                  }}
+                >
+                  <Typography fontWeight={600}>Purchase Ticket</Typography>
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    router.push({
+                      pathname: "/auth/login",
+                      query: {
+                        referrer: window.location.pathname
+                      }
+                    })
+                  }}
+                >
+                  <Typography>Log in to purchase</Typography>
+                </Button>
+              )}
             </Stack>
           )}
         </BannerLayout>

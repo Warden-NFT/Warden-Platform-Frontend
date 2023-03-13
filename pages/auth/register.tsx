@@ -15,7 +15,7 @@ import { grey } from "@mui/material/colors"
 import CustomerRegisterForm from "../../components/auth/CustomerRegisterForm"
 import FadeEntrance from "../../components/motion/FadeEntrance"
 import { UserContext } from "../../contexts/user/UserContext"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/router"
 import Head from "next/head"
 
 type RegisterMode = "Customer" | "EventOrganizer"
@@ -24,6 +24,7 @@ function Register() {
   const [registerMode, setRegisterMode] = useState<RegisterMode>("Customer")
   const { user } = useContext(UserContext)
   const router = useRouter()
+  const { referrer } = router.query
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
@@ -87,7 +88,16 @@ function Register() {
               <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
                 <Typography>
                   Already have an account?{" "}
-                  <Link href="/auth/login">Log in here</Link>
+                  <Link
+                    href={{
+                      pathname: "/auth/login",
+                      query: {
+                        referrer
+                      }
+                    }}
+                  >
+                    Log in here
+                  </Link>
                 </Typography>
               </Box>
             </>
