@@ -65,6 +65,7 @@ function DeployEventModal({
     // Only continue if web3 is available
     // Address must not be empty before calling this function
     if (!web3 || !address) return
+    if (!event._id) return
     const ticketCollection = await client.get<TicketCollectionDTO>("ticket", {
       params: { collectionId: event.ticketCollectionId }
     })
