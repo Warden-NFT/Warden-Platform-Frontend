@@ -13,7 +13,7 @@ import { CreateEventContext } from "../../../../contexts/event/CreateEventContex
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
 import { useFormik } from "formik"
-import { isEmpty } from "../../../../utils/common/objectChecks"
+import { isEmpty } from "../../../../utils/common/missing"
 import GoogleMaps from "../../../UI/textfield/GoogleMapsAuthComplete"
 import { Event } from "../../../../interfaces/event/event.interface"
 import moment from "moment"

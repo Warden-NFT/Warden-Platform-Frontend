@@ -8,7 +8,7 @@ import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperBu
 import { CreateEventContext } from "../../../../contexts/event/CreateEventContext"
 import FlatCard from "../../../UI/card/FlatCard"
 import { Event } from "../../../../interfaces/event/event.interface"
-import { isEmpty } from "../../../../utils/common/objectChecks"
+import { isEmpty } from "../../../../utils/common/missing"
 import { useRouter } from "next/router"
 import ContainedButton from "../../../UI/button/ContainedButton"
 import { Box } from "@mui/system"
