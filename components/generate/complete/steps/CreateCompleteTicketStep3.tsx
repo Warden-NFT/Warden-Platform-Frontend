@@ -15,6 +15,7 @@ import { CompleteAssetCustomizeUtilitySchema } from "../../../../schema/generate
 import Image from "next/image"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import { AlertType } from "../../../../interfaces/modal/alert.interface"
+import { hasRemainderOrEquals } from "../../../../utils/common/missing"
 
 interface AssetValue {
   id: number
@@ -45,18 +46,11 @@ function CreateCompleteTicketStep3() {
       validationSchema: CompleteAssetCustomizeUtilitySchema,
       onSubmit: (values) => {
         // Check if quota exceeds amount
-        const sumAssetQuantity = values.assets.reduce(
-          (sum, asset) => sum + asset.quantity,
-          0
+        const isAssetHigherOrEqual = hasRemainderOrEquals(
+          values.assets.map((asset) => asset.quantity),
+          formInfo.ticketQuota?.general ?? 0
         )
-        const sumVipAssetQuantity = values.vipAssets.reduce(
-          (sum, asset) => sum + asset.quantity,
-          0
-        )
-        if (
-          formInfo.ticketQuota.general &&
-          sumAssetQuantity < formInfo.ticketQuota.general
-        ) {
+        if (!isAssetHigherOrEqual) {
           showErrorAlert({
             type: AlertType.ERROR,
             title:
@@ -66,10 +60,11 @@ function CreateCompleteTicketStep3() {
           })
           return
         }
-        if (
-          formInfo.ticketQuota.vip &&
-          sumVipAssetQuantity < formInfo.ticketQuota.vip
-        ) {
+        const isVipAssetHigherOrEquals = hasRemainderOrEquals(
+          values.vipAssets.map((asset) => asset.quantity),
+          formInfo.ticketQuota?.vip ?? 0
+        )
+        if (!isVipAssetHigherOrEquals) {
           showErrorAlert({
             type: AlertType.ERROR,
             title:
@@ -168,12 +163,13 @@ function CreateCompleteTicketStep3() {
                   type="number"
                   data-test-atd={`asset-${i}-quantity-input`}
                   size="small"
-                  error={
-                    //@ts-ignore
-                    errors.assets && errors.assets[i].quantity ? true : false
-                  }
+                  error={errors.assets && errors.assets[i] ? true : false}
                   //@ts-ignore
-                  helperText={errors.assets ? errors.assets[i].quantity : ""}
+                  helperText={
+                    errors.assets && errors.assets[i]
+                      ? errors.assets[i]?.quantity
+                      : ""
+                  }
                 />
               </Stack>
             ))}
@@ -215,14 +211,17 @@ function CreateCompleteTicketStep3() {
                     data-test-atd={`vipAssets-${i}-quantity-input`}
                     size="small"
                     error={
-                      //@ts-ignore
-                      errors.vipAssets && errors.vipAssets[i].quantity
+                      errors.vipAssets &&
+                      errors.vipAssets &&
+                      errors.vipAssets[i]
                         ? true
                         : false
                     }
                     helperText={
                       //@ts-ignore
-                      errors.vipAssets ? errors.vipAssets[i].quantity : ""
+                      errors.vipAssets && errors.vipAssets[i]
+                        ? errors.vipAssets[i].quantity
+                        : ""
                     }
                   />
                 </Stack>
