@@ -136,7 +136,17 @@ function Ticket({
                 {codeValue ? (
                   <Box>
                     {codeDisplayMode === "QR" && (
-                      <QRCodeCanvas value={codeValue} />
+                      <QRCodeCanvas
+                        width="200"
+                        height="200"
+                        value={codeValue}
+                        imageSettings={{
+                          src: "/images/logo/WardenDark.svg",
+                          width: 40,
+                          height: 14,
+                          excavate: true
+                        }}
+                      />
                     )}
                     {codeDisplayMode === "BAR" && (
                       <Barcode
