@@ -70,6 +70,8 @@ function DeployEventModal({
       params: { collectionId: event.ticketCollectionId }
     })
 
+    if (!ticketCollection) return
+
     const ticketSupply = [
       ...(ticketCollection.data.tickets.general ?? []),
       ...(ticketCollection.data.tickets.vip ?? []),
@@ -77,24 +79,24 @@ function DeployEventModal({
     ]
 
     const ticketPrice = ticketCollection.data.ticketPrice
-    const toWei = (value: number | undefined) =>
-      value ? web3.utils.toWei(value.toString()) : "0"
+    const toWei = (value: string | undefined) =>
+      value ? web3.utils.toWei(value) : "0"
 
     const ticketPrices = [
       [
-        toWei(ticketPrice.general?.default),
-        toWei(ticketPrice.general?.min),
-        toWei(ticketPrice.general?.max)
+        toWei(ticketPrice.general?.default.toFixed(8)),
+        toWei(ticketPrice.general?.min.toFixed(8)),
+        toWei(ticketPrice.general?.max.toFixed(8))
       ],
       [
-        toWei(ticketPrice.vip?.default),
-        toWei(ticketPrice.vip?.min),
-        toWei(ticketPrice.vip?.max)
+        toWei(ticketPrice.vip?.default.toFixed(8)),
+        toWei(ticketPrice.vip?.min.toFixed(8)),
+        toWei(ticketPrice.vip?.max.toFixed(8))
       ],
       [
-        toWei(ticketPrice.reservedSeat?.default),
-        toWei(ticketPrice.reservedSeat?.min),
-        toWei(ticketPrice.reservedSeat?.max)
+        toWei(ticketPrice.reservedSeat?.default.toFixed(8)),
+        toWei(ticketPrice.reservedSeat?.min.toFixed(8)),
+        toWei(ticketPrice.reservedSeat?.max.toFixed(8))
       ]
     ]
 
