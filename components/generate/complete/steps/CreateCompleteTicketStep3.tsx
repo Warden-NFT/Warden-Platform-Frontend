@@ -164,10 +164,10 @@ function CreateCompleteTicketStep3() {
                   data-test-atd={`asset-${i}-quantity-input`}
                   size="small"
                   error={errors.assets && errors.assets[i] ? true : false}
-                  //@ts-ignore
                   helperText={
                     errors.assets && errors.assets[i]
-                      ? errors.assets[i]?.quantity
+                      ? //@ts-ignore
+                      errors.assets[i]?.quantity
                       : ""
                   }
                 />
@@ -218,9 +218,9 @@ function CreateCompleteTicketStep3() {
                         : false
                     }
                     helperText={
-                      //@ts-ignore
                       errors.vipAssets && errors.vipAssets[i]
-                        ? errors.vipAssets[i].quantity
+                        ? //@ts-ignore
+                        errors.vipAssets[i].quantity
                         : ""
                     }
                   />
