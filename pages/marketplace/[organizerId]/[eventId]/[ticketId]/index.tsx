@@ -130,9 +130,6 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     // If the dependencies aren't ready, don't do anything
     if (!web3 || !abi || !event.smartContractAddress || !address) return
     checkTicketOwnership(web3, abi, address)
-    console.log(
-      ticket.ownerHistory.length > 1 && ticket.ownerHistory.at(-1) !== address
-    )
     setIsSold(
       ticket.ownerHistory.length > 1 && ticket.ownerHistory.at(-1) !== address
     )

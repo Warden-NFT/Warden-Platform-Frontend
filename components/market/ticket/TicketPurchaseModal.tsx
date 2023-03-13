@@ -136,11 +136,10 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
         `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/metadata?path=${event._id}/${ticket.ticketMetadata[0].name}`,
         TicketTypeKey[ticket.ticketType]
       )
-      .send({ from: address, value: price, gas: 2100000, gasPrice: 8000000000 })
+      .send({ from: address, value: price })
       .then(async (result: any) => {
-        const ticketId =
-          result.events?.TicketCreated?.returnValues?._ticketId ?? "-1"
-        if (ticketId === -1) {
+        const ticketId = result.events?.TicketCreated?.returnValues?._ticketId
+        if (!ticketId) {
           showErrorAlert({
             type: AlertType.ERROR,
             title: "Database error",
