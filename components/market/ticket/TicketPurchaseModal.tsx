@@ -31,6 +31,7 @@ import { ethers } from "ethers"
 import { SupportedDigitalCurrencyKey } from "../../../interfaces/currency/currency.interface"
 import { client } from "../../../configs/axios/axiosConfig"
 import { TicketPurchasePermissionResponse } from "../../../interfaces/ticket/ticket.interface"
+import { useRouter } from "next/router"
 
 interface P {
   open: boolean
@@ -43,6 +44,9 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
   // Captcha
   const { showRecaptcha } = useContext(BotPreventionContext)
 
+  // Router
+  const router = useRouter()
+
   // Web3
   const { abi, bytecode, web3 } = useSmartContract()
   const { address } = useAccount()
@@ -51,6 +55,34 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
 
   // States
   const [paymentProcessing, setPaymentProcessing] = useState<boolean>(false)
+
+  // Functions
+  const updateSmartContractTicketId = async (
+    smartContractTicketId: number,
+    address: string
+  ) => {
+    const updatedTicket: EventTicket = {
+      ...ticket,
+      smartContractTicketId,
+      ownerHistory: [...ticket.ownerHistory, address]
+    }
+    const payload = {
+      ticket: updatedTicket,
+      ticketCollectionId: event.ticketCollectionId,
+      ownerId: address,
+      isTransactionUpdate: true
+    }
+    try {
+      const _ticket = await client.put("ticket/single", payload)
+      if (_ticket) router.reload()
+    } catch (error) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Database Error",
+        description: "Unable to record the transaction in the database"
+      })
+    }
+  }
 
   const handlePayment = async () => {
     setPaymentProcessing(true)
@@ -104,16 +136,29 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
         `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/metadata?path=${event._id}/${ticket.ticketMetadata[0].name}`,
         TicketTypeKey[ticket.ticketType]
       )
-      .send({ from: address, value: price, gas: 2100000, gasPrice: 8000000000 })
-      .then(() => {
+      .send({ from: address, value: price })
+      .then(async (result: any) => {
+        const ticketId = result.events?.TicketCreated?.returnValues?._ticketId
+        if (!ticketId) {
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title: "Database error",
+            description:
+              "Unabble to record the ticket purchase. But don't worry. Your ticket has been purchased successfully."
+          })
+          return
+        } else {
+          await updateSmartContractTicketId(parseInt(ticketId), address)
+        }
         showErrorAlert({
           type: AlertType.INFO,
           title: "Ticket purchased successfully",
           description: "Ticket purchased successfully"
         })
+        setPaymentProcessing(false)
+        setOpen(false)
       })
       .catch((error: any) => {
-        setPaymentProcessing(false)
         showErrorAlert({
           type: AlertType.ERROR,
           title: "Ticket purchase failed",

@@ -7,7 +7,7 @@ import {
   Typography
 } from "@mui/material"
 import { Box } from "@mui/system"
-import React, { useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import ContainerCard from "../../components/UI/card/ContainerCard"
 import { useFormik } from "formik"
 import ContainedButton from "../../components/UI/button/ContainedButton"
@@ -27,6 +27,7 @@ import Head from "next/head"
 function Login() {
   const { user, setUserInfo } = useContext(UserContext)
   const router = useRouter()
+  const { referrer } = router.query
   const { showErrorAlert } = useContext(LayoutContext)
   const { showRecaptcha } = useContext(BotPreventionContext)
 
@@ -48,7 +49,12 @@ function Login() {
       try {
         const res = await client.post<SuccessfulAuthDTO>("/user/login", data)
         setUserInfo(res.data)
-        router.push("/marketplace")
+        if (referrer) {
+          router.push(referrer as string)
+          return
+        } else {
+          router.push("/marketplace")
+        }
       } catch (error) {
         if (
           Axios.isAxiosError(error) &&
@@ -68,10 +74,6 @@ function Login() {
       }
     }
   })
-
-  useEffect(() => {
-    if (user) router.push("/marketplace")
-  }, [user])
 
   if (user) return null
   return (
@@ -136,14 +138,24 @@ function Login() {
                 }}
                 disabled={false}
                 variant="contained"
-                label="Next"
+                label="Log in"
                 height="40px"
                 width="100%"
               />
 
               <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
                 <Typography>
-                  No account? <Link href="/auth/register">Register here</Link>
+                  No account?
+                  <Link
+                    href={{
+                      pathname: "/auth/register",
+                      query: {
+                        referrer
+                      }
+                    }}
+                  >
+                    Register here
+                  </Link>
                 </Typography>
               </Box>
             </form>

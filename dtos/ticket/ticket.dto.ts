@@ -13,6 +13,7 @@ export type TicketGenerationMode = "complete" | "layer"
 
 export interface EventTicket {
   _id?: string
+  smartContractTicketId?: number
   dateIssued: Date
   ticketNumber: number
   name: string // ticket name
@@ -30,7 +31,6 @@ export interface EventTicket {
 
 export interface TicketCollectionDTO {
   _id?: string
-  smartContractTicketId?: string
   tickets: {
     general?: EventTicket[]
     vip?: EventTicket[]
