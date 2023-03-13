@@ -44,9 +44,7 @@ function LayeredDropzone() {
     onDrop,
     // note: accept only folders with images
     accept: {
-      "image/png": [],
-      "image/jpg": [],
-      "image/gif": []
+      "image/png": []
     }
   })
   return (
