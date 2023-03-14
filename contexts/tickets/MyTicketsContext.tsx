@@ -10,6 +10,7 @@ interface MyTicketsContextStruct {
   filteredMyTickets: MyTicketsDTO | undefined
   setFilteredMyTickets: Dispatch<SetStateAction<MyTicketsDTO | undefined>>
   searchMyTickets: (searchTerm: string) => MyTicketsDTO
+  getUserTickets: (address: `0x${string}`) => Promise<MyTicketsDTO | undefined>
 }
 
 export const MyTicketsContext = createContext({} as MyTicketsContextStruct)
@@ -90,7 +91,8 @@ const MyTicketsContextProvider = ({ ...props }) => {
     setMyTickets,
     filteredMyTickets,
     setFilteredMyTickets,
-    searchMyTickets
+    searchMyTickets,
+    getUserTickets
   }
 
   return <MyTicketsContext.Provider value={values} {...props} />

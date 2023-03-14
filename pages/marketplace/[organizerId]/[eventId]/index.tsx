@@ -31,20 +31,27 @@ function MarketEvent() {
         enableActionButton={false}
       >
         <Container>
-          <EventInfoBanner
-            imgFallbackSrc={marketTickets?.organizerInfo.profileImage as string}
-            organizationName={
-              marketTickets?.organizerInfo.organizationName ?? ""
-            }
-            organizerId={marketTickets?.organizerInfo._id}
-            marketTicketName={marketTickets?.event.name ?? ""}
-            eventStartDate={marketTickets?.event.startDate ?? new Date(0)}
-            eventName={marketTickets?.event.name ?? ""}
-            location={
-              marketTickets?.event.location?.structured_formatting.main_text ||
-              marketTickets?.event.online_url
-            }
-          />
+          {marketTickets && (
+            <EventInfoBanner
+              event={marketTickets?.event}
+              imgFallbackSrc={
+                marketTickets?.organizerInfo.profileImage as string
+              }
+              organizationName={
+                marketTickets?.organizerInfo.organizationName ?? ""
+              }
+              organizerId={marketTickets?.organizerInfo._id}
+              marketTicketName={marketTickets?.event.name ?? ""}
+              eventStartDate={marketTickets?.event.startDate ?? new Date(0)}
+              eventName={marketTickets?.event.name ?? ""}
+              location={
+                marketTickets?.event.location?.structured_formatting
+                  .main_text || marketTickets?.event.online_url
+              }
+              showBrowseEvents
+              enabledResale={marketTickets.ticketCollection.enableResale}
+            />
+          )}
           <Box sx={{ height: 24 }} />
           {!marketTickets?.ticketCollection && (
             <Alert severity="warning">

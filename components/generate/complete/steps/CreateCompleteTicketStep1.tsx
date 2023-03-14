@@ -30,7 +30,19 @@ function CreateCompleteTicketStep1() {
       enableReinitialize: true,
       validationSchema: CreateTicketInfoSchema,
       onSubmit: (data) => {
-        setFormInfo(data)
+        const _data = { ...data }
+
+        // sets the min and max prices equal to the default price in the case where they are zero
+        if (_data.price.general?.max === 0)
+          _data.price.general.max = _data.price.general?.default
+        if (_data.price.general?.min === 0)
+          _data.price.general.max = _data.price.general?.default
+        if (_data.price.vip?.max === 0)
+          _data.price.vip.max = _data.price.vip?.default
+        if (_data.price.vip?.min === 0)
+          _data.price.vip.max = _data.price.vip?.default
+
+        setFormInfo(_data)
         setActiveStep((prev) => prev + 1)
       }
     })

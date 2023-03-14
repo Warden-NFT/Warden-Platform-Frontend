@@ -95,14 +95,15 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     )
   }
 
-  function checkTicketOwnership(
+  const checkTicketOwnership = (
     web3: Web3,
     abi: { abi: ABIItem[] },
-    address: string
-  ) {
+    address: string,
+    force?: boolean
+  ) => {
     // If the ticket hasn't been bought yet (no smartContractTicketId), no need to check for ownership
     const smartContractTicketId = ticket.smartContractTicketId
-    if (!smartContractTicketId) return
+    if (!force && smartContractTicketId === undefined) return
 
     const contract = new web3.eth.Contract(abi.abi)
     contract.options.address = event.smartContractAddress
@@ -140,12 +141,14 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
       <Head>
         <title>Purchase a Ticket</title>
       </Head>
-      <TicketPurchaseModal
-        event={event}
-        ticket={ticket}
-        open={showPurchaseModal}
-        setOpen={setShowPurchaseModal}
-      />
+      {web3 && abi && address && (
+        <TicketPurchaseModal
+          event={event}
+          ticket={ticket}
+          open={showPurchaseModal}
+          setOpen={setShowPurchaseModal}
+        />
+      )}
       <Container>
         <BannerLayout
           backgroundImage={event.image as string}
@@ -154,6 +157,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
           actionName=""
         >
           <EventInfoBanner
+            event={event}
             imgFallbackSrc={organizer.profileImage as string}
             organizationName={organizer.organizationName ?? ""}
             organizerId={organizer._id}

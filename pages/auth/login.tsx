@@ -79,7 +79,7 @@ function Login() {
   return (
     <Grid container spacing={0} marginTop={4} justifyContent="center">
       <Head>
-        <title>Login to Warden</title>
+        <title>Warden | Login</title>
       </Head>
       <Grid item xs={12} sm={8} lg={6}>
         <FadeEntrance>

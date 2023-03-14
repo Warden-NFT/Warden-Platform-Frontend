@@ -9,6 +9,7 @@ import { useEvents } from "../../../hooks/useEvents"
 import useAsyncEffect from "../../../hooks/useAsyncEffect"
 import { LayoutContext } from "../../../contexts/layout/LayoutContext"
 import ViewEventBanner from "../../../components/event/CreateEvent/DeployEvent/ViewEventBanner"
+import Head from "next/head"
 
 function PublishEvent() {
   const router = useRouter()
@@ -26,6 +27,9 @@ function PublishEvent() {
 
   return (
     <>
+      <Head>
+        <title>Warden | {event?.name}</title>
+      </Head>
       <Container>
         <Box sx={{ height: 16 }} />
         {event && !event.smartContractAddress && (

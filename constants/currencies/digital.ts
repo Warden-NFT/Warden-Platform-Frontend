@@ -11,10 +11,10 @@ export const SUPPORTED_DIGITAL_CURRENCIES: SupportedCurrencies[] = [
     name: "Ethereum",
     chain: "Ethereum",
     symbol: "ETH"
-  },
-  {
-    name: "Matic",
-    chain: "Polygon",
-    symbol: "MATIC"
   }
+  // {
+  //   name: "Matic",
+  //   chain: "Polygon",
+  //   symbol: "MATIC"
+  // }
 ]
