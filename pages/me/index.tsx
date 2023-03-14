@@ -8,8 +8,13 @@ import BannerLayout from "../../components/UI/layout/BannerLayout"
 import { MyTicketsContext } from "../../contexts/tickets/MyTicketsContext"
 
 function MyTickets() {
-  const { filteredMyTickets } = useContext(MyTicketsContext)
+  const { filteredMyTickets, getUserTickets } = useContext(MyTicketsContext)
   const { address } = useAccount()
+
+  useEffect(() => {
+    if (!address) return
+    getUserTickets(address)
+  }, [address])
 
   if (!address)
     return <Typography>Please connect your decentralize wallet</Typography>

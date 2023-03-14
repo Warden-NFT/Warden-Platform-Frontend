@@ -3,11 +3,13 @@ import { Box, Stack, SxProps, Typography } from "@mui/material"
 import moment from "moment"
 import { useRouter } from "next/router"
 import React from "react"
+import { Event } from "../../../interfaces/event/event.interface"
 import ContainedButton from "../../UI/button/ContainedButton"
 import ContainerCard from "../../UI/card/ContainerCard"
 import { ImageWithFallback } from "../../UI/image/ImageWithFallback"
 
 interface P {
+  event: Event
   imgFallbackSrc: string
   organizationName: string
   organizerId?: string
@@ -20,6 +22,7 @@ interface P {
 }
 
 function EventInfoBanner({
+  event,
   imgFallbackSrc,
   organizationName,
   organizerId,
@@ -40,29 +43,34 @@ function EventInfoBanner({
     <ContainerCard sx={{ mt: 12, ...sx }}>
       <Box
         sx={{
-          marginTop: -7,
+          height: "fit-content",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-end",
-          gap: 2
+          gap: 2,
+          position: "relative"
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "flex-end", gap: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "flex-end", gap: 2, mt: -2 }}>
           {imgFallbackSrc && (
-            <ImageWithFallback
-              src={imgFallbackSrc}
-              draggable={false}
-              width={100}
-              height={100}
-              alt={organizationName}
-              style={{
-                objectFit: "cover",
-                borderRadius: "50%",
-                border: "4px solid #000"
-              }}
-            />
+            <Box>
+              <ImageWithFallback
+                src={imgFallbackSrc}
+                draggable={false}
+                width={100}
+                height={100}
+                alt={organizationName}
+                style={{
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                  border: "4px solid #000",
+                  position: "absolute",
+                  top: -50
+                }}
+              />
+            </Box>
           )}
-          <Stack>
+          <Stack sx={{ position: "relative", bottom: 0, ml: 14, mt: 2 }}>
             <Typography>Event Organizer</Typography>
             <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
               {organizationName}

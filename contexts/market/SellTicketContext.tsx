@@ -8,6 +8,8 @@ interface SellTicketContextStruct {
   setSelectedTicket: Dispatch<SetStateAction<EventTicket | undefined>>
   resalePrice: number | undefined
   setResalePrice: Dispatch<SetStateAction<number | undefined>>
+  ticketListingSuccess: boolean | undefined
+  setTicketListingSuccess: Dispatch<SetStateAction<boolean | undefined>>
 }
 
 export const SellTicketContext = createContext({} as SellTicketContextStruct)
@@ -16,6 +18,7 @@ const SellTicketContextProvider = ({ ...props }) => {
   const [activeStep, setActiveStep] = useState(1)
   const [selectedTicket, setSelectedTicket] = useState<EventTicket>()
   const [resalePrice, setResalePrice] = useState<number>()
+  const [ticketListingSuccess, setTicketListingSuccess] = useState<boolean>()
 
   const values: SellTicketContextStruct = {
     activeStep,
@@ -23,7 +26,9 @@ const SellTicketContextProvider = ({ ...props }) => {
     selectedTicket,
     setSelectedTicket,
     resalePrice,
-    setResalePrice
+    setResalePrice,
+    ticketListingSuccess,
+    setTicketListingSuccess
   }
   return <SellTicketContext.Provider value={values} {...props} />
 }
