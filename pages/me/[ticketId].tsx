@@ -35,12 +35,12 @@ function MyTicketView() {
       walletAddress: address,
       ticketId: ticketId as string
     })
-  }, [address, user, ticketId])
+  }, [address, user, ticketId, ticketListing])
 
   return (
     <Container sx={{ minHeight: "100vh" }}>
       <Head>
-        <title>Utilize Ticket - {ticketListing?.ticket.name}</title>
+        <title>Utilize Ticket</title>
       </Head>
       <Stack sx={{ alignItems: "center", height: "100vh" }}>
         <Typography variant="h3" component="h1">
@@ -48,6 +48,7 @@ function MyTicketView() {
         </Typography>
         {qrCodeValue && (
           <Ticket
+            hasUsed={ticketListing?.ticket.hasUsed}
             assetSrc={ticketListing?.ticket.ticketMetadata[0].image as string}
             assetName={ticketListing?.ticket.name ?? ""}
             eventName={ticketListing?.event.name ?? ""}
