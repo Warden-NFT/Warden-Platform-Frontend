@@ -26,21 +26,13 @@ import Web3 from "web3"
 import { AlertType } from "../../../../interfaces/modal/alert.interface"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import { TicketCollectionDTO } from "../../../../dtos/ticket/ticket.dto"
+import { modalStyle } from "../../../../styles/muiStyles"
 
 type Props = {
   open: boolean
   handleClose: () => void
   event: Event
   setCurrentEvent: Dispatch<SetStateAction<Event | undefined>>
-}
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  bgcolor: "#fff",
-  boxShadow: 24
 }
 
 function DeployEventModal({
@@ -186,7 +178,7 @@ function DeployEventModal({
     >
       <Fade in={open}>
         <Box>
-          <FlatCard sx={style}>
+          <FlatCard sx={modalStyle}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
               Publish Your Event
             </Typography>
