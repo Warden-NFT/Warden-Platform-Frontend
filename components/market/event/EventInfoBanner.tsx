@@ -18,6 +18,7 @@ interface P {
   eventName: string
   location?: string
   showBrowseEvents?: boolean
+  enabledResale?: boolean
   sx?: SxProps
 }
 
@@ -30,6 +31,7 @@ function EventInfoBanner({
   eventStartDate,
   location,
   showBrowseEvents,
+  enabledResale,
   sx
 }: P) {
   const router = useRouter()
@@ -99,9 +101,13 @@ function EventInfoBanner({
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             {eventName}
           </Typography>
-          {showBrowseEvents && (
+          {showBrowseEvents && enabledResale && (
             <Box sx={{ height: "50px", display: "grid", placeItems: "center" }}>
-              <ContainedButton label="Sell Tickets" variant="outlined" />
+              <ContainedButton
+                label="Sell Tickets"
+                variant="outlined"
+                onClick={() => router.push(`/marketplace/sell/${event._id}`)}
+              />
             </Box>
           )}
         </Box>

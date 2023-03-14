@@ -49,6 +49,7 @@ function MarketEvent() {
                   .main_text || marketTickets?.event.online_url
               }
               showBrowseEvents
+              enabledResale={marketTickets.ticketCollection.enableResale}
             />
           )}
           <Box sx={{ height: 24 }} />
