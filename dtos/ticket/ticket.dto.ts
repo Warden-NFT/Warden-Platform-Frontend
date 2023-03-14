@@ -54,3 +54,9 @@ export interface MyTicketsDTO {
   myTickets: EventTicket[]
   myTicketListing: EventTicket[]
 }
+
+export interface TicketQuotaCheckResultDTO {
+  ownedTicketsCount: number
+  quota: number
+  allowPurchase: boolean
+}
