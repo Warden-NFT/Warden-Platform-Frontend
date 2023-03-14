@@ -20,7 +20,7 @@ function NotFoundPage() {
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <Head>
-        <title>Error 404</title>
+        <title>Page Not Found</title>
       </Head>
       <ContainerCard>
         <Stack justifyContent="center" alignItems="center">

@@ -7,6 +7,7 @@ import { client } from "../../configs/axios/axiosConfig"
 import { AlertType } from "../../interfaces/modal/alert.interface"
 import { LayoutContext } from "../../contexts/layout/LayoutContext"
 import OTPLayout from "../../components/UI/input/OTPLayout"
+import Head from "next/head"
 
 function ConfirmPhone() {
   const [openOtpErrorSnackbar, setOpenOtpErrorSnackbar] = useState(false)
@@ -50,38 +51,43 @@ function ConfirmPhone() {
   }
 
   return (
-    <Grid container spacing={0} marginTop={4} justifyContent="center">
-      <Grid item xs={12} sm={8} lg={6}>
-        <FadeEntrance>
-          <OTPLayout
-            otp={otp}
-            setOtp={setOtp}
-            handleSubmit={handleSubmit}
-            setOtpToken={setOtpToken}
-          />
-        </FadeEntrance>
+    <>
+      <Head>
+        <title>Warden | Confirm Phone</title>
+      </Head>
+      <Grid container spacing={0} marginTop={4} justifyContent="center">
+        <Grid item xs={12} sm={8} lg={6}>
+          <FadeEntrance>
+            <OTPLayout
+              otp={otp}
+              setOtp={setOtp}
+              handleSubmit={handleSubmit}
+              setOtpToken={setOtpToken}
+            />
+          </FadeEntrance>
+        </Grid>
+        <Snackbar
+          open={openOtpErrorSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="Incorrect OTP. Please try again."
+        >
+          <Alert severity="error">Incorrect OTP. Please try again.</Alert>
+        </Snackbar>
+        <Snackbar
+          open={openOtpSuccessSnackbar}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          message="OTP verified. Redirecting you to the home page."
+        >
+          <Alert severity="success">
+            OTP verified. Redirecting you to the home page.
+          </Alert>
+        </Snackbar>
       </Grid>
-      <Snackbar
-        open={openOtpErrorSnackbar}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Incorrect OTP. Please try again."
-      >
-        <Alert severity="error">Incorrect OTP. Please try again.</Alert>
-      </Snackbar>
-      <Snackbar
-        open={openOtpSuccessSnackbar}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="OTP verified. Redirecting you to the home page."
-      >
-        <Alert severity="success">
-          OTP verified. Redirecting you to the home page.
-        </Alert>
-      </Snackbar>
-    </Grid>
+    </>
   )
 }
 

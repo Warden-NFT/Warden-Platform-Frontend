@@ -21,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         {/* <meta name="viewport" content="width=1084,maximum-scale=1.0" /> */}
+        <title>Warden NFT Ticket Platform</title>
       </Head>
       <BotPreventionContextProvider>
         <WagmiConfig client={WagmiClient.wagmiClient}>

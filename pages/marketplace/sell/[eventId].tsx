@@ -1,5 +1,6 @@
 import { Alert, Box, Grid } from "@mui/material"
 import { Container } from "@mui/system"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect } from "react"
 import { useAccount } from "wagmi"
@@ -25,6 +26,9 @@ function SellTicket() {
 
   return (
     <SellTicketContextProvider>
+      <Head>
+        <title>Sell ticket | {marketTickets?.event.name}</title>
+      </Head>
       <BannerLayout
         backgroundImage={marketTickets?.event.image as string}
         title=""
