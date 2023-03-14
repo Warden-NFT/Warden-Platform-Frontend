@@ -1,11 +1,11 @@
 import { Container, Typography } from "@mui/material"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { useAccount } from "wagmi"
 import TicketCardList from "../../components/market/ticket/TicketCardList"
 import MyTicketsSearch from "../../components/ticket/myTickets/MyTicketsSearch"
 import FlatCard from "../../components/UI/card/FlatCard"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
-import { MyTicketsContext } from "../../contexts/ticket/myTicketsContext"
+import { MyTicketsContext } from "../../contexts/tickets/MyTicketsContext"
 
 function MyTickets() {
   const { filteredMyTickets } = useContext(MyTicketsContext)

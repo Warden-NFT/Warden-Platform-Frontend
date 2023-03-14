@@ -80,7 +80,8 @@ export function createEventTicket(
       price: {
         amount: price,
         currency: currency
-      }
+      },
+      hasUsed: false
     }
 
     return eventTicket

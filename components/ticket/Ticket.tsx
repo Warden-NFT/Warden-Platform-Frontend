@@ -10,7 +10,6 @@ import { grey } from "@mui/material/colors"
 import { motion } from "framer-motion"
 import PNGAssetPreview from "../assets/PNGAssetPreview"
 import { Theme } from "@mui/system"
-import Barcode from "react-barcode"
 
 // https://codepen.io/z-/pen/MJKNJZ
 // https://codepen.io/amr-ibrahem/pen/wdrLjL
@@ -21,6 +20,7 @@ interface Props {
   eventName: string
   eventOrganizer: string
   ticketType: TicketTypes
+  hasUsed?: boolean
   date: Date
   seat?: string
   location: string
@@ -43,6 +43,7 @@ function Ticket({
   codeValue,
   isDisabled,
   codeDisplayMode,
+  hasUsed,
   onClick,
   cardSx
 }: Props) {
@@ -62,12 +63,14 @@ function Ticket({
         }}
       >
         <Stack sx={{ overflow: "hidden" }}>
-          <PNGAssetPreview
-            name={assetName}
-            data={assetSrc}
-            width={320}
-            height={240}
-          />
+          <Box>
+            <PNGAssetPreview
+              name={assetName}
+              data={assetSrc}
+              width={320}
+              height={240}
+            />
+          </Box>
           <Stack spacing={1} sx={{ padding: 2, borderBottom: "dashed 2px" }}>
             <Box sx={{ textAlign: "start" }}>
               <Typography
@@ -91,7 +94,6 @@ function Ticket({
                 <Chip sx={{ marginY: 1 }} size="small" label={ticketType} />
               </Box>
             </Box>
-
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -133,24 +135,34 @@ function Ticket({
               </Box>
             ) : (
               <Box>
-                {codeValue ? (
-                  <Box>
-                    {codeDisplayMode === "QR" && (
-                      <QRCodeCanvas value={codeValue} />
+                {!hasUsed ? (
+                  <>
+                    {codeValue && (
+                      <Box>
+                        <QRCodeCanvas
+                          width="200"
+                          height="200"
+                          value={codeValue}
+                          imageSettings={{
+                            src: "/images/logo/WardenDark.svg",
+                            width: 40,
+                            height: 14,
+                            excavate: true
+                          }}
+                        />
+                      </Box>
                     )}
-                    {codeDisplayMode === "BAR" && (
-                      <Barcode
-                        value={codeValue}
-                        displayValue={false}
-                        height={50}
-                      />
-                    )}
-                    {codeDisplayMode === "TEXT" && (
-                      <Typography>{codeValue}</Typography>
-                    )}
-                  </Box>
+                  </>
                 ) : (
-                  <Typography>Waiting</Typography>
+                  <Box
+                    sx={{
+                      display: "grid",
+                      placeItems: "center",
+                      height: "100px"
+                    }}
+                  >
+                    <Typography>This ticket has been used</Typography>
+                  </Box>
                 )}
               </Box>
             )}

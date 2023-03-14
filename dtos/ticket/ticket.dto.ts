@@ -27,6 +27,7 @@ export interface EventTicket {
     currency: SupportedDigitalCurrency
   }
   benefits?: string
+  hasUsed: boolean
 }
 
 export interface TicketCollectionDTO {

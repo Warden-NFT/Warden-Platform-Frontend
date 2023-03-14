@@ -75,7 +75,6 @@ const MyTicketsContextProvider = ({ ...props }) => {
       const _tickets = await client.get<MyTicketsDTO>(
         `/ticket/user/${walletAddress}`
       )
-      console.log(_tickets.data)
       setMyTickets(_tickets.data)
       setFilteredMyTickets(_tickets.data)
       return _tickets.data

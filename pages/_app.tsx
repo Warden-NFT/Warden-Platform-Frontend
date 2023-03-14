@@ -14,7 +14,7 @@ import CreateEventContextProvider from "../contexts/event/CreateEventContext"
 import LayoutContextProvider from "../contexts/layout/LayoutContext"
 import MarketContextProvider from "../contexts/market/MarketContext"
 import BotPreventionContextProvider from "../contexts/user/BotPreventionContext"
-import MyTicketsContextProvider from "../contexts/ticket/myTicketsContext"
+import MyTicketsContextProvider from "../contexts/tickets/MyTicketsContext"
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
