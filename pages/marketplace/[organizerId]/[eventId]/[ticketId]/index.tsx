@@ -35,13 +35,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   try {
     const marketTicketRes = await axios.get<MarketTickets>(
-      `${process.env.NEXT_PUBLIC_WARDEN_API_URL}market/tickets`,
+      `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/market/tickets`,
       {
         params: {
           eventId
         }
       }
     )
+
+    console.log(marketTicketRes)
 
     const { organizerInfo, event, ticketCollection } = marketTicketRes.data
     const tickets = [
