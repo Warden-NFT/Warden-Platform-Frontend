@@ -62,13 +62,14 @@ function EventAdmissionPage() {
           <Stack spacing={2}>
             <Box
               sx={{
-                width: "500px",
+                width: ["240px", "300px", "500px"],
                 border: 2,
                 background: "white",
                 padding: 4,
                 borderRadius: 4
               }}
             >
+              <Typography>Select camera</Typography>
               <Select
                 value={cameraDirection}
                 size="small"
@@ -84,9 +85,10 @@ function EventAdmissionPage() {
               </Select>
               <QrReader
                 constraints={{ facingMode: cameraDirection }} // environment
-                scanDelay={350}
+                scanDelay={2000}
+                videoId="qr-reader"
                 onResult={(result, error) => {
-                  if (result && !open) {
+                  if (result && !isOpen) {
                     onScan(result.getText())
                   }
                 }}

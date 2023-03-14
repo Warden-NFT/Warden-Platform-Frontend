@@ -35,7 +35,11 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
   >()
 
   useAsyncEffect(async () => {
+    setAdmissionStatus(undefined)
     if (!qrValue) return
+
+    const { eventId, ticketId, userId, walletAddress } = qrValue
+    if (!eventId || !ticketId || !userId || !walletAddress) return
 
     try {
       const res = await client.get<{
