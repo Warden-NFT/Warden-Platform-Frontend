@@ -89,10 +89,6 @@ function EventAdmissionPage() {
                   if (result && !open) {
                     onScan(result.getText())
                   }
-
-                  if (error) {
-                    // console.log(error)
-                  }
                 }}
               />
             </Box>
