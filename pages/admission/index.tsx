@@ -33,7 +33,7 @@ function EventAdmissionPage() {
     if (!eid) return
 
     const res = await axios.get<Event>(
-      `${process.env.NEXT_PUBLIC_WARDEN_API_URL}event?id=${eid}`
+      `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/event?id=${eid}`
     )
     setEvent(res.data)
   }, [router.query])

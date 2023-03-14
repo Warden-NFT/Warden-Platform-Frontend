@@ -1,4 +1,5 @@
-import { Alert, Container } from "@mui/material"
+import { Alert, Container, Typography } from "@mui/material"
+import { blue } from "@mui/material/colors"
 import { Box } from "@mui/system"
 import Head from "next/head"
 import { useRouter } from "next/router"
@@ -12,6 +13,20 @@ function MarketEvent() {
   const router = useRouter()
   const { eventId } = router.query
   const { marketTickets, getMarketTickets } = useContext(MarketContext)
+
+  const ticketQuotaText = () => {
+    let text = `The event organizer has set the limit of ${marketTickets?.ticketCollection.ticketQuota.general} ticket `
+    if ((marketTickets?.ticketCollection.ticketQuota.general ?? 0) > 1)
+      text += "s "
+    if ((marketTickets?.ticketCollection.ticketQuota.vip ?? 0) > 0)
+      text += `and ${
+        marketTickets?.ticketCollection.ticketQuota.vip ?? 0
+      } ticket `
+    if (marketTickets?.ticketCollection.ticketQuota.vip ?? 0 ?? 0 > 1)
+      text += "s "
+    text += "per user."
+    return text
+  }
 
   useEffect(() => {
     if (!router.query) return
@@ -58,6 +73,9 @@ function MarketEvent() {
               Tickets unavailable at the moment. Please check back later.
             </Alert>
           )}
+          <Alert severity="info" sx={{ border: `2px solid ${blue[100]}` }}>
+            <Typography>{ticketQuotaText()}</Typography>
+          </Alert>
           <TicketCardList
             tickets={marketTickets?.ticketCollection?.tickets.vip ?? []}
             ticketType="VIP Tickets"
