@@ -402,7 +402,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
               You have purchased{" "}
               {ticketQuotaCheckResult?.ownedTicketsCount.toString()} out of{" "}
               {ticketQuotaCheckResult?.quota} tickets per person. You can not
-              purchse any more tickets from this event.
+              purchase any more tickets from this event.
             </Alert>
           )}
         </BannerLayout>
