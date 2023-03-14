@@ -154,7 +154,15 @@ function Ticket({
                     )}
                   </>
                 ) : (
-                  <Chip sx={{ marginY: 1 }} size="small" label="Used" />
+                  <Box
+                    sx={{
+                      display: "grid",
+                      placeItems: "center",
+                      height: "100px"
+                    }}
+                  >
+                    <Typography>This ticket has been used</Typography>
+                  </Box>
                 )}
               </Box>
             )}
