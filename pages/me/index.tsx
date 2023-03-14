@@ -5,7 +5,7 @@ import TicketCardList from "../../components/market/ticket/TicketCardList"
 import MyTicketsSearch from "../../components/ticket/myTickets/MyTicketsSearch"
 import FlatCard from "../../components/UI/card/FlatCard"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
-import { MyTicketsContext } from "../../contexts/ticket/MyTicketsContext"
+import { MyTicketsContext } from "../../contexts/tickets/MyTicketsContext"
 
 function MyTickets() {
   const { filteredMyTickets } = useContext(MyTicketsContext)

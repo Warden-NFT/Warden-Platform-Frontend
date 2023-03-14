@@ -1,7 +1,7 @@
 import { Clear } from "@mui/icons-material"
 import { IconButton, InputAdornment } from "@mui/material"
 import React, { useContext, useEffect, useState } from "react"
-import { MyTicketsContext } from "../../../contexts/ticket/MyTicketsContext"
+import { MyTicketsContext } from "../../../contexts/tickets/MyTicketsContext"
 import ContainedButton from "../../UI/button/ContainedButton"
 import ContainerCard from "../../UI/card/ContainerCard"
 import { TextFieldWrapper } from "../../UI/textfield/TextFieldWrapper"
