@@ -2,7 +2,7 @@ import { Chip, Grid, Stack, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import Image from "next/image"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import FadeEntrance from "../../motion/FadeEntrance"
 import ContainedButton from "../../UI/button/ContainedButton"
 import FallbackImage from "../../../public/images/common/fallback-image.svg"
@@ -11,6 +11,8 @@ import Link from "next/link"
 import { Event } from "../../../interfaces/event/event.interface"
 import { grey } from "@mui/material/colors"
 import { useRouter } from "next/router"
+import { LayoutContext } from "../../../contexts/layout/LayoutContext"
+import { AlertType } from "../../../interfaces/modal/alert.interface"
 
 type Props = {
   event: Event
@@ -19,7 +21,27 @@ type Props = {
 function EventSummary({ event }: Props) {
   // States
   const [eventImage, setEventImage] = useState(event?.image)
+  const { showErrorAlert } = useContext(LayoutContext)
   const router = useRouter()
+
+  function handleNavigateAdmission() {
+    if (!event || !event.doorTime) return
+
+    const now = moment()
+    if (event.doorTime?.valueOf() < now.valueOf()) {
+      showErrorAlert({
+        type: AlertType.INFO,
+        title: "Alert",
+        description: "Your event is not ready for the door time"
+      })
+    }
+    router.push({
+      pathname: `${router.basePath}/admission`,
+      query: {
+        eid: event._id
+      }
+    })
+  }
 
   if (!event) return null
   return (
@@ -151,22 +173,12 @@ function EventSummary({ event }: Props) {
                 </Box>
                 {event.smartContractAddress && event.ticketCollectionId && (
                   <Box sx={{ width: "100%", my: 2 }}>
-                    <Link
-                      href={{
-                        pathname: `${router.basePath}/admission`,
-                        query: {
-                          eid: event._id
-                        }
-                      }}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <ContainedButton
-                        isLink
-                        variant="contained"
-                        label="Admit User"
-                        sx={{ width: "100%" }}
-                      />
-                    </Link>
+                    <ContainedButton
+                      onClick={handleNavigateAdmission}
+                      variant="contained"
+                      label="Admit User"
+                      sx={{ width: "100%" }}
+                    />
                     <Typography color={grey[600]} variant="caption">
                       Admit User to allow user to enter this event
                     </Typography>
