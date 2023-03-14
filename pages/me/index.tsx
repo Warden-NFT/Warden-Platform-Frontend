@@ -1,5 +1,5 @@
 import { Container, Typography } from "@mui/material"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { useAccount } from "wagmi"
 import TicketCardList from "../../components/market/ticket/TicketCardList"
 import MyTicketsSearch from "../../components/ticket/myTickets/MyTicketsSearch"
