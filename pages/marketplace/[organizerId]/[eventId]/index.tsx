@@ -68,14 +68,16 @@ function MarketEvent() {
             />
           )}
           <Box sx={{ height: 24 }} />
-          {!marketTickets?.ticketCollection && (
+          {marketTickets && !marketTickets?.ticketCollection && (
             <Alert severity="warning">
               Tickets unavailable at the moment. Please check back later.
             </Alert>
           )}
-          <Alert severity="info" sx={{ border: `2px solid ${blue[100]}` }}>
-            <Typography>{ticketQuotaText()}</Typography>
-          </Alert>
+          {marketTickets && (
+            <Alert severity="info" sx={{ border: `2px solid ${blue[100]}` }}>
+              <Typography>{ticketQuotaText()}</Typography>
+            </Alert>
+          )}
           <TicketCardList
             tickets={marketTickets?.ticketCollection?.tickets.vip ?? []}
             ticketType="VIP Tickets"

@@ -13,13 +13,19 @@ import EventInfoBanner from "../../../../../components/market/event/EventInfoBan
 import BannerLayout from "../../../../../components/UI/layout/BannerLayout"
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
 import { GetServerSideProps } from "next"
-import { EventTicket } from "../../../../../dtos/ticket/ticket.dto"
+import {
+  EventTicket,
+  TicketQuotaCheckResultDTO
+} from "../../../../../dtos/ticket/ticket.dto"
 import TicketCard from "../../../../../components/market/ticket/TicketCard"
 import axios from "axios"
-import { Event } from "../../../../../interfaces/event/event.interface"
+import {
+  Event,
+  TicketTypeKey
+} from "../../../../../interfaces/event/event.interface"
 import { EventOrganizerUser } from "../../../../../interfaces/auth/user.interface"
 import { MarketTickets } from "../../../../../interfaces/market/marketEvent.interface"
-import { blue, green, grey, purple } from "@mui/material/colors"
+import { blue, green, grey, orange, purple } from "@mui/material/colors"
 import moment from "moment"
 import Head from "next/head"
 import TicketPurchaseModal from "../../../../../components/market/ticket/TicketPurchaseModal"
@@ -28,6 +34,7 @@ import { useSmartContract } from "../../../../../hooks/useSmartContract"
 import Web3 from "web3"
 import { ABIItem } from "../../../../../interfaces/smartContract/smartContract.interface"
 import { UserContext } from "../../../../../contexts/user/UserContext"
+import { client } from "../../../../../configs/axios/axiosConfig"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -82,8 +89,11 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const [isOwnedTicket, setIsOwnedTicket] = useState(false)
   const [isResaleTicket, setIsResaleTicket] = useState(false)
   const [isSold, setIsSold] = useState(false)
+  const [statusChecked, setStatusChecked] = useState(false)
   const { abi, web3 } = useSmartContract()
   const { user } = useContext(UserContext)
+  const [ticketQuotaCheckResult, setTicketQuotaCheckResult] =
+    useState<TicketQuotaCheckResultDTO>()
 
   function checkResaleTicket(forSale: boolean) {
     return (
@@ -97,15 +107,28 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     )
   }
 
-  const checkTicketOwnership = (
+  const checkTicketOwnership = async (
     web3: Web3,
     abi: { abi: ABIItem[] },
     address: string,
     force?: boolean
   ) => {
+    // Check the user's ticket purchase quota
+    const _ticketQuotaCheckResult = await client.get("/ticket/quota/check", {
+      params: {
+        address,
+        ticketCollectionId: event.ticketCollectionId,
+        ticketType: TicketTypeKey[ticket.ticketType]
+      }
+    })
+    setTicketQuotaCheckResult(_ticketQuotaCheckResult.data)
+
     // If the ticket hasn't been bought yet (no smartContractTicketId), no need to check for ownership
     const smartContractTicketId = ticket.smartContractTicketId
-    if (!force && smartContractTicketId === undefined) return
+    if (!force && smartContractTicketId === undefined) {
+      setStatusChecked(true)
+      return
+    }
 
     const contract = new web3.eth.Contract(abi.abi)
     contract.options.address = event.smartContractAddress
@@ -115,7 +138,9 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
       .then((result: any) => {
         setIsOwnedTicket(result.owner === address)
         setIsResaleTicket(checkResaleTicket(result.forSale))
+        setStatusChecked(true)
       })
+      .catch(() => setStatusChecked(true))
   }
 
   function getEventLocationUrl() {
@@ -315,7 +340,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
               You are the owner of this ticket
             </Alert>
           )}
-          {!isOwnedTicket && !isSold && (
+          {statusChecked && !isOwnedTicket && !isSold && (
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -336,6 +361,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
               {user ? (
                 <Button
                   variant="contained"
+                  disabled={!ticketQuotaCheckResult?.allowPurchase}
                   onClick={() => {
                     setShowPurchaseModal(true)
                   }}
@@ -364,6 +390,20 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
                 </Button>
               )}
             </Stack>
+          )}
+          {statusChecked && !ticketQuotaCheckResult?.allowPurchase && (
+            <Alert
+              severity="warning"
+              sx={{
+                mt: 2,
+                border: `2px solid ${orange[100]}`
+              }}
+            >
+              You have purchased{" "}
+              {ticketQuotaCheckResult?.ownedTicketsCount.toString()} out of{" "}
+              {ticketQuotaCheckResult?.quota} tickets per person. You can not
+              purchase any more tickets from this event.
+            </Alert>
           )}
         </BannerLayout>
       </Container>
