@@ -129,7 +129,14 @@ function NavBar() {
         sx={{ width: "100vw", maxWidth: "1200px", margin: "0 auto" }}
       >
         <Toolbar sx={{ px: 1 }}>
-          <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "row" }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              flexDirection: "row",
+              height: "64px"
+            }}
+          >
             <>
               <IconButton
                 onClick={toggleDrawer(true)}
@@ -151,6 +158,7 @@ function NavBar() {
                 sx={{
                   display: "grid",
                   width: "50px",
+                  height: "64px",
                   placeItems: "center",
                   marginRight: [0, 0, 8]
                 }}
