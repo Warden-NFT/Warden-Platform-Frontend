@@ -91,8 +91,9 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     return (
       // This ticket has been sold before
       ticket.ownerHistory.length > 1 &&
-      // The user is not the ticket's most recent owner
-      ticket.ownerHistory.at(-1) !== address &&
+      // The user is either not the ticket's most recent owner or is the smart contract owner
+      (ticket.ownerHistory.at(-1) !== address ||
+        ticket.ownerHistory.at(-1) === address) &&
       // Ticket is marked as for sale in the smart contract
       forSale
     )
@@ -112,7 +113,8 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
       params: {
         address,
         ticketCollectionId: event.ticketCollectionId,
-        ticketType: TicketTypeKey[ticket.ticketType]
+        ticketType: TicketTypeKey[ticket.ticketType],
+        smartContractTicketId: ticket.smartContractTicketId
       }
     })
     setTicketQuotaCheckResult(_ticketQuotaCheckResult.data)
@@ -137,7 +139,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
         setIsSold(
           ticket.ownerHistory.length > 1 &&
             ticket.ownerHistory.at(-1) !== address &&
-            !isResaleTicket
+            ticket.ownerHistory.at(-1) !== ticket.ownerHistory.at(0)
         )
         setTimeout(() => {
           setStatusChecked(true)
@@ -213,10 +215,12 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
           <TicketListingActions
             user={user}
             ticket={ticket}
+            event={event}
             statusChecked={statusChecked}
             isSold={isSold}
             isResaleTicket={isResaleTicket}
             isOwnedTicket={isOwnedTicket}
+            isEventOrganizer={address === event.ownerAddress}
             ticketQuotaCheckResult={ticketQuotaCheckResult}
             setShowPurchaseModal={setShowPurchaseModal}
           />

@@ -1,6 +1,6 @@
 import { Alert, Box, Divider, Typography } from "@mui/material"
 import { useFormik } from "formik"
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { useAccount } from "wagmi"
 import { client } from "../../../../configs/axios/axiosConfig"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
@@ -31,6 +31,9 @@ function SellTicketStep2() {
     useContext(BotPreventionContext)
   const { abi, bytecode, web3 } = useSmartContract()
   const { address } = useAccount()
+
+  // States
+  const [isListingTicket, setIsListingTicket] = useState(false)
 
   const { values, handleChange, errors, handleSubmit } = useFormik({
     initialValues: {
@@ -91,6 +94,7 @@ function SellTicketStep2() {
       const price = parseInt(toWei(selectedTicket.price.amount.toFixed(8)))
 
       // Call setTicketForSale from the smart contract
+      setIsListingTicket(true)
       try {
         const contract = new web3.eth.Contract(abi.abi)
         contract.options.address = marketTickets.event.smartContractAddress
@@ -105,8 +109,10 @@ function SellTicketStep2() {
             saveTicketListingDetails(marketTickets, selectedTicket)
           })
           .catch(() => showTicketListingFailureAlert())
+          .finally(() => setIsListingTicket(false))
       } catch (error) {
         showTicketListingFailureAlert()
+        setIsListingTicket(false)
       }
     }
   })
@@ -208,6 +214,7 @@ function SellTicketStep2() {
           variant="contained"
           disabled={!selectedTicket}
           onClick={handleSubmit}
+          isLoading={isListingTicket}
         />
       </Box>
     </Box>

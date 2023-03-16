@@ -1,21 +1,29 @@
-import { Info, InfoOutlined } from "@mui/icons-material"
+import { InfoOutlined } from "@mui/icons-material"
+import { LoadingButton } from "@mui/lab"
 import { Stack, Typography, Button, Alert, Box } from "@mui/material"
-import { purple, orange, green } from "@mui/material/colors"
+import { purple, orange, green, blue } from "@mui/material/colors"
 import router from "next/router"
-import React, { Dispatch, SetStateAction } from "react"
+import React, { Dispatch, SetStateAction, useContext, useState } from "react"
+import { useAccount } from "wagmi"
+import { client } from "../../../../configs/axios/axiosConfig"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import {
   EventTicket,
   TicketQuotaCheckResultDTO
 } from "../../../../dtos/ticket/ticket.dto"
 import { User } from "../../../../interfaces/auth/user.interface"
+import { Event } from "../../../../interfaces/event/event.interface"
+import { AlertType } from "../../../../interfaces/modal/alert.interface"
 
 type Props = {
   user: User | undefined
   ticket: EventTicket
+  event: Event
   statusChecked: boolean
   isSold: boolean
   isResaleTicket: boolean
   isOwnedTicket: boolean
+  isEventOrganizer: boolean
   ticketQuotaCheckResult: TicketQuotaCheckResultDTO | undefined
   setShowPurchaseModal: Dispatch<SetStateAction<boolean>>
 }
@@ -23,18 +31,60 @@ type Props = {
 function TicketListingActions({
   user,
   ticket,
+  event,
   statusChecked,
   isSold,
   isResaleTicket,
   isOwnedTicket,
+  isEventOrganizer,
   ticketQuotaCheckResult,
   setShowPurchaseModal
 }: Props) {
-  const handleRequestTicketPurchase = () => {
-    // TODO: Connect backend
+  const { address } = useAccount()
+  const { showErrorAlert } = useContext(LayoutContext)
+  const [isRequestingPermission, setIsRequestingPermission] =
+    useState<boolean>(false)
+
+  const handleRequestTicketPurchase = async () => {
+    setIsRequestingPermission(true)
+    const payload = {
+      address,
+      ticketCollectionId: event.ticketCollectionId,
+      ticketId: ticket._id,
+      smartContractTicketId: ticket.smartContractTicketId
+    }
+    try {
+      const permissionResponse = await client.post(
+        "/ticket/permission/buy-resale",
+        payload
+      )
+      if (permissionResponse.data.success) {
+        showErrorAlert({
+          type: AlertType.INFO,
+          title: "Request sent",
+          description:
+            "Please wait for the event organizer to accept your request to purchase this resale ticket."
+        })
+      }
+      setIsRequestingPermission(false)
+    } catch (error) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Authentication error",
+        description: "Permission already sent."
+      })
+    } finally {
+      setIsRequestingPermission(false)
+    }
   }
 
   if (!user) return null
+  if (isEventOrganizer)
+    return (
+      <Alert severity="info" sx={{ mt: 2, border: `2px solid ${blue[100]}` }}>
+        You are the organizer of this event.
+      </Alert>
+    )
   return (
     <>
       {isOwnedTicket && (
@@ -73,7 +123,13 @@ function TicketListingActions({
               {ticket.price.amount} {ticket.price.currency}
             </Typography>
           </Stack>
-          {user && !isResaleTicket && (
+
+          {/* This address is approved to buy resale tickets, or this is an unsold non-resale ticket */}
+          {((user &&
+            isResaleTicket &&
+            ticketQuotaCheckResult?.resalePurchaseApproved &&
+            !ticketQuotaCheckResult?.resalePurchasePendingApproval) ||
+            (user && !isResaleTicket)) && (
             <Button
               size="small"
               variant="contained"
@@ -91,6 +147,35 @@ function TicketListingActions({
               <Typography fontWeight={600}>Purchase Ticket</Typography>
             </Button>
           )}
+
+          {/* This address is awaiting approval or this address haven't made a request to buy a resale ticket */}
+          {user &&
+            isResaleTicket &&
+            !ticketQuotaCheckResult?.resalePurchaseApproved && (
+            <>
+              <Box sx={{ display: "flex", gap: 2, height: "fit-content" }}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => router.back()}
+                >
+                    Find other tickets
+                </Button>
+                {ticketQuotaCheckResult?.resalePurchasePendingApproval ? (
+                  <Button>Pending Purchase Approval</Button>
+                ) : (
+                  <LoadingButton
+                    size="large"
+                    variant="contained"
+                    onClick={handleRequestTicketPurchase}
+                    loading={isRequestingPermission}
+                  >
+                      Request permission to buy
+                  </LoadingButton>
+                )}
+              </Box>
+            </>
+          )}
           {!user && (
             <Button
               size="small"
@@ -107,34 +192,16 @@ function TicketListingActions({
               <Typography>Log in to purchase</Typography>
             </Button>
           )}
-          {user && isResaleTicket && (
-            <>
-              <Box sx={{ display: "flex", gap: 2, height: "fit-content" }}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  onClick={() => router.back()}
-                >
-                  Find other tickets
-                </Button>
-                <Button
-                  size="large"
-                  variant="contained"
-                  onClick={handleRequestTicketPurchase}
-                >
-                  <Typography>Request permission to buy</Typography>
-                </Button>
-              </Box>
-              <Box sx={{ display: "flex", gap: 1 }}>
-                <InfoOutlined />
-                <Typography>
-                  You need a permission to purchase a resale ticket from the
-                  event organizer. Once the request is sent, please wait for the
-                  event organizer to grant your purchase permission.
-                </Typography>
-              </Box>
-            </>
-          )}
+        </Box>
+      )}
+      {user && isResaleTicket && (
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <InfoOutlined />
+          <Typography>
+            You need a permission to purchase a resale ticket from the event
+            organizer. Once the request is sent, please wait for the event
+            organizer to grant your purchase permission.
+          </Typography>
         </Box>
       )}
       {statusChecked && !ticketQuotaCheckResult?.allowPurchase && (

@@ -60,6 +60,8 @@ export interface TicketQuotaCheckResultDTO {
   ownedTicketsCount: number
   quota: number
   allowPurchase: boolean
+  resalePurchaseApproved?: boolean
+  resalePurchasePendingApproval?: boolean
 }
 
 export interface ResaleTicketPurchasePermission {
