@@ -100,8 +100,7 @@ function EventSummary({
     contract.methods
       .approve(walletAddress, ticketId)
       .send({ from: address, gas: 5000000 })
-      .then(async (result: any) => {
-        console.log(result)
+      .then(async () => {
         const payload = {
           ticketCollectionId: event.ticketCollectionId,
           permissionId
