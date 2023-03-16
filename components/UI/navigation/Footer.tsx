@@ -21,6 +21,7 @@ function Footer() {
           color="textSecondary"
           marginBottom={2}
           component="p"
+          fontSize={12}
         >
           Platform for Combatting Event Ticketing Exploits using NFT Utility
           Platform with Added Revenue Generation Capabilities

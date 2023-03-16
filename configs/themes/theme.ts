@@ -17,7 +17,7 @@ const theme = createTheme({
       "Helvetica Neue",
       "sans-serif"
     ].join(),
-    fontSize: 14
+    fontSize: 13
   },
   palette: {
     mode: "light",
@@ -26,6 +26,15 @@ const theme = createTheme({
     },
     secondary: {
       main: "#C397FE"
+    }
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536
     }
   }
 })

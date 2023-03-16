@@ -76,16 +76,17 @@ function TicketCardList({ tickets, ticketType, isHorizontal }: Props) {
         }
       >
         {tickets.map((ticket, index) => (
-          <TicketCard
-            ticketId={ticket._id}
-            key={index}
-            name={ticket.name}
-            image={ticket.ticketMetadata[0].image as string}
-            ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
-            price={ticket.price?.amount.toString()}
-            enableRedirect
-            isMyTicket
-          />
+          <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
+            <TicketCard
+              ticketId={ticket._id}
+              name={ticket.name}
+              image={ticket.ticketMetadata[0].image as string}
+              ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
+              price={ticket.price?.amount.toString()}
+              enableRedirect
+              isMyTicket
+            />
+          </Box>
         ))}
         {isHorizontal && (
           <Box

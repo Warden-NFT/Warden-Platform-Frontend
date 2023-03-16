@@ -1,6 +1,10 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { client } from "../configs/axios/axiosConfig"
 import { LayoutContext } from "../contexts/layout/LayoutContext"
+import {
+  ResaleTicketPurchasePermissionRequestsList,
+  TicketCollectionDTO
+} from "../dtos/ticket/ticket.dto"
 import { Event } from "../interfaces/event/event.interface"
 import { AlertType } from "../interfaces/modal/alert.interface"
 
@@ -12,6 +16,11 @@ export const useEvents = () => {
   // States
   const [events, setEvents] = useState<Event[]>([])
   const [currentEvent, setCurrentEvent] = useState<Event>()
+  const [resaleTicketPurchaseRequests, setResaleTicketPurchaseRequests] =
+    useState<ResaleTicketPurchasePermissionRequestsList>({
+      approved: [],
+      notApproved: []
+    })
 
   const getEventFromOrganizer = async (eventOrganizerId: string) => {
     setEventLoading(true)
@@ -52,6 +61,36 @@ export const useEvents = () => {
     }
   }
 
+  const getResaleTicketPurchaseRequests = async (collectionId: string) => {
+    try {
+      const ticketCollection = await client.get<TicketCollectionDTO>(
+        "/ticket",
+        { params: { collectionId } }
+      )
+      setResaleTicketPurchaseRequests({
+        approved: ticketCollection.data.resaleTicketPurchasePermission.filter(
+          (permission) => permission.approved
+        ),
+        notApproved:
+          ticketCollection.data.resaleTicketPurchasePermission.filter(
+            (permission) => !permission.approved
+          )
+      })
+    } catch (error) {
+      showErrorAlert({
+        type: AlertType.ERROR,
+        title: "Error",
+        description:
+          "Unable to fetch resale ticket purchase requests at this time. Please try again later."
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!currentEvent?.ticketCollectionId) return
+    getResaleTicketPurchaseRequests(currentEvent?.ticketCollectionId)
+  }, [currentEvent])
+
   return {
     events,
     setEvents,
@@ -59,6 +98,9 @@ export const useEvents = () => {
     setCurrentEvent,
     getEventFromOrganizer,
     getEvent,
-    eventLoading
+    eventLoading,
+    resaleTicketPurchaseRequests,
+    setResaleTicketPurchaseRequests,
+    getResaleTicketPurchaseRequests
   }
 }

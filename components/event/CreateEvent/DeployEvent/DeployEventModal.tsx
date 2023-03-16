@@ -131,6 +131,7 @@ function DeployEventModal({
       .on("receipt", async (receipt) => {
         const updateEventPayload = {
           ...event,
+          ownerAddress: account,
           smartContractAddress: receipt.contractAddress,
           eventId: event._id,
           eventOrganizerId: user?._id

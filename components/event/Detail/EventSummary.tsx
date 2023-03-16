@@ -2,7 +2,7 @@ import { Chip, Grid, Stack, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import Image from "next/image"
-import React, { useContext, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import FadeEntrance from "../../motion/FadeEntrance"
 import ContainedButton from "../../UI/button/ContainedButton"
 import FallbackImage from "../../../public/images/common/fallback-image.svg"
@@ -13,16 +13,34 @@ import { grey } from "@mui/material/colors"
 import { useRouter } from "next/router"
 import { LayoutContext } from "../../../contexts/layout/LayoutContext"
 import { AlertType } from "../../../interfaces/modal/alert.interface"
+import { ResaleTicketPurchasePermissionRequestsList } from "../../../dtos/ticket/ticket.dto"
+import { useSmartContract } from "../../../hooks/useSmartContract"
+import { useAccount } from "wagmi"
+import EventManagement from "./EventManagement"
+import { client } from "../../../configs/axios/axiosConfig"
 
 type Props = {
   event: Event
+  resaleTicketPurchaseRequests: ResaleTicketPurchasePermissionRequestsList
+  getResaleTicketPurchaseRequests: (ticketCollectionId: string) => void
 }
 
-function EventSummary({ event }: Props) {
-  // States
-  const [eventImage, setEventImage] = useState(event?.image)
+function EventSummary({
+  event,
+  resaleTicketPurchaseRequests,
+  getResaleTicketPurchaseRequests
+}: Props) {
   const { showErrorAlert } = useContext(LayoutContext)
   const router = useRouter()
+  const { abi, bytecode, web3 } = useSmartContract()
+  const { address } = useAccount()
+  const { setShowLoadingBackdrop } = React.useContext(LayoutContext)
+
+  // States
+  const [eventImage, setEventImage] = useState(event?.image)
+  const [checkedPrivileges, setCheckedPrivileges] = useState<boolean>(false)
+  const [isSmartContractOwner, setIsSmartContractOwner] =
+    useState<boolean>(false)
 
   function handleNavigateAdmission() {
     if (!event || !event.doorTime) return
@@ -42,6 +60,77 @@ function EventSummary({ event }: Props) {
       }
     })
   }
+
+  const getEventOrganizerPrivileges = async () => {
+    if (!abi || !bytecode || !web3 || !address) return
+    // Check if the user is the owner of the smart contract using the wallet address (use owner() function in the smart contract)
+    const contract = new web3.eth.Contract(abi.abi)
+    contract.options.address = event.smartContractAddress
+    contract.methods
+      .owner()
+      .call()
+      .then((result: any) => {
+        console.log("Check owner", result)
+        setIsSmartContractOwner(result === address)
+      })
+      .catch(() => {
+        setCheckedPrivileges(true)
+        showErrorAlert({
+          type: AlertType.INFO,
+          title: "Smart contract deployed",
+          description:
+            "The smart contract for your event has successfully been deployed to the blockchain."
+        })
+      })
+      .finally(() => {
+        setCheckedPrivileges(true)
+      })
+  }
+
+  const approveResaleTicketPurchaseRequest = async (
+    permissionId: string,
+    walletAddress: string,
+    ticketId: number
+  ) => {
+    if (!abi || !bytecode || !web3 || !address) return
+
+    setShowLoadingBackdrop(true)
+    const contract = new web3.eth.Contract(abi.abi)
+    contract.options.address = event.smartContractAddress
+    contract.methods
+      .approve(walletAddress, ticketId)
+      .send({ from: address, gas: 5000000 })
+      .then(async () => {
+        const payload = {
+          ticketCollectionId: event.ticketCollectionId,
+          permissionId
+        }
+        try {
+          await client.post("/ticket/permission/approve", payload)
+          getResaleTicketPurchaseRequests(event.ticketCollectionId)
+          setShowLoadingBackdrop(false)
+        } catch (error) {
+          setShowLoadingBackdrop(false)
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title: "Approval record error",
+            description: `Address ${walletAddress} was granted the permisison to purcahse ticket ${ticketId}, but was not successfully recorded.`
+          })
+        }
+      })
+      .catch(() => {
+        setShowLoadingBackdrop(false)
+        showErrorAlert({
+          type: AlertType.ERROR,
+          title: "Approval Unsuccessful",
+          description: `Unable to grant an approval for address ${walletAddress} to purcahse ticket ${ticketId}`
+        })
+      })
+  }
+
+  useEffect(() => {
+    getEventOrganizerPrivileges()
+  }, [abi, bytecode, web3, address])
 
   if (!event) return null
   return (
@@ -94,7 +183,7 @@ function EventSummary({ event }: Props) {
             </Grid>
             <Grid item xs={4}>
               <Box sx={{ p: 2 }}>
-                <Box sx={{ bgcolor: "info.main", p: 2 }}>
+                <Box sx={{ bgcolor: grey[200], p: 2 }}>
                   {event.online_url && (
                     <Box sx={{ height: 80 }}>
                       <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}>
@@ -145,7 +234,7 @@ function EventSummary({ event }: Props) {
                 <Box sx={{ height: 16 }} />
                 <Box
                   sx={{
-                    bgcolor: "info.main",
+                    bgcolor: grey[200],
                     p: 2
                   }}
                 >
@@ -171,24 +260,23 @@ function EventSummary({ event }: Props) {
                     </Typography>
                   </Stack>
                 </Box>
-                {event.smartContractAddress && event.ticketCollectionId && (
-                  <Box sx={{ width: "100%", my: 2 }}>
-                    <ContainedButton
-                      onClick={handleNavigateAdmission}
-                      variant="contained"
-                      label="Admit User"
-                      sx={{ width: "100%" }}
-                    />
-                    <Typography color={grey[600]} variant="caption">
-                      Admit User to allow user to enter this event
-                    </Typography>
-                  </Box>
-                )}
               </Box>
             </Grid>
           </Grid>
         </Box>
       </FlatCard>
+      {event.smartContractAddress && (
+        <EventManagement
+          event={event}
+          checkedPrivileges={checkedPrivileges}
+          isSmartContractOwner={isSmartContractOwner}
+          resaleTicketPurchaseRequests={resaleTicketPurchaseRequests}
+          handleNavigateAdmission={handleNavigateAdmission}
+          approveResaleTicketPurchaseRequest={
+            approveResaleTicketPurchaseRequest
+          }
+        />
+      )}
     </FadeEntrance>
   )
 }

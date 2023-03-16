@@ -6,6 +6,9 @@ import { useRouter } from "next/router"
 import React from "react"
 import ContainedButton from "../UI/button/ContainedButton"
 import Ticket from "../ticket/Ticket"
+import Link from "next/link"
+import { GitHub, LinkOutlined } from "@mui/icons-material"
+import { dark } from "@mui/material/styles/createPalette"
 
 function LandingTopSection() {
   const router = useRouter()
@@ -45,12 +48,13 @@ function LandingTopSection() {
           left: 0,
           right: 0,
           margin: "0 auto",
-          maxWidth: "1200px"
+          maxWidth: "1200px",
+          px: 3
         }}
       >
-        <Grid item xs={10} md={4} lg={4} maxWidth="xl">
+        <Grid item xs={10} md={5} lg={5} maxWidth="xl">
           <Box sx={{ height: [20, 20, 120] }} />
-          <Typography variant="h3" component="h1">
+          <Typography variant="h3" component="h1" fontWeight={500}>
             Warden
           </Typography>
           <Box sx={{ height: 12 }} />
@@ -70,6 +74,28 @@ function LandingTopSection() {
             height="40px"
             width="200px"
           />
+          <Box sx={{ width: 200, mt: [2, 2, 30] }}>
+            <motion.div
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ ease: "easeOut", duration: 0.1 }}
+              style={{ border: `2px solid ${grey[900]}`, padding: "8px" }}
+            >
+              <Link
+                href="https://github.com/Warden-NFT"
+                target="_blank"
+                style={{
+                  textDecoration: "none",
+                  color: grey[900],
+                  display: "flex",
+                  gap: "12px"
+                }}
+              >
+                <GitHub />
+                <Typography>View on Github</Typography>
+              </Link>
+            </motion.div>
+          </Box>
         </Grid>
         <Grid
           item

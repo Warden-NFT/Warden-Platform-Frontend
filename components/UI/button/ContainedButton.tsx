@@ -66,6 +66,7 @@ function ContainedButton({
           boxShadow: "none",
           ...sx
         }}
+        size="small"
       >
         {children ?? label}
       </LoadingButton>
