@@ -115,7 +115,8 @@ export async function setTicketToEvent(
     currency: formInfo.currency,
     enableResale: formInfo.enableResale,
     ticketQuota: formInfo.ticketQuota,
-    generationMethod: mode
+    generationMethod: mode,
+    resaleTicketPurchasePermission: []
   }
 
   const res = await client.post<{
