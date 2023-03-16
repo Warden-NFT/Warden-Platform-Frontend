@@ -120,6 +120,9 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     // If the ticket hasn't been bought yet (no smartContractTicketId), no need to check for ownership
     const smartContractTicketId = ticket.smartContractTicketId
     if (!force && smartContractTicketId === undefined) {
+      setShowLoadingBackdrop(false)
+      setStatusChecked(true)
+      setIsSold(false)
       return
     }
 
@@ -138,9 +141,13 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
         )
         setTimeout(() => {
           setStatusChecked(true)
+          setShowLoadingBackdrop(false)
         }, 1000)
       })
-      .catch(() => setStatusChecked(true))
+      .catch(() => {
+        setStatusChecked(true)
+        setShowLoadingBackdrop(false)
+      })
       .finally(() => {
         setShowLoadingBackdrop(false)
       })

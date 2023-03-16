@@ -1,3 +1,4 @@
+import { Info, InfoOutlined } from "@mui/icons-material"
 import { Stack, Typography, Button, Alert, Box } from "@mui/material"
 import { purple, orange, green } from "@mui/material/colors"
 import router from "next/router"
@@ -107,22 +108,32 @@ function TicketListingActions({
             </Button>
           )}
           {user && isResaleTicket && (
-            <Box sx={{ display: "flex", gap: 2, height: "fit-content" }}>
-              <Button
-                size="small"
-                variant="outlined"
-                onClick={() => router.back()}
-              >
-                Find other tickets
-              </Button>
-              <Button
-                size="large"
-                variant="contained"
-                onClick={handleRequestTicketPurchase}
-              >
-                <Typography>Request for ticket purchase</Typography>
-              </Button>
-            </Box>
+            <>
+              <Box sx={{ display: "flex", gap: 2, height: "fit-content" }}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  onClick={() => router.back()}
+                >
+                  Find other tickets
+                </Button>
+                <Button
+                  size="large"
+                  variant="contained"
+                  onClick={handleRequestTicketPurchase}
+                >
+                  <Typography>Request permission to buy</Typography>
+                </Button>
+              </Box>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <InfoOutlined />
+                <Typography>
+                  You need a permission to purchase a resale ticket from the
+                  event organizer. Once the request is sent, please wait for the
+                  event organizer to grant your purchase permission.
+                </Typography>
+              </Box>
+            </>
           )}
         </Box>
       )}

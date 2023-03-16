@@ -41,7 +41,7 @@ function BannerLayout({
             }}
           />
         </Container>
-        <Box sx={{ position: "relative", top: -160, mx: 8 }}>
+        <Box sx={{ position: "relative", top: -160 }}>
           <Container
             sx={{
               display: "flex",

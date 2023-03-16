@@ -48,6 +48,7 @@ export interface TicketCollectionDTO {
   currency: SupportedDigitalCurrency
   ticketQuota: TicketQuota
   generationMethod: GenerationMode
+  resaleTicketPurchasePermission: ResaleTicketPurchasePermission[]
 }
 
 export interface MyTicketsDTO {
@@ -59,4 +60,18 @@ export interface TicketQuotaCheckResultDTO {
   ownedTicketsCount: number
   quota: number
   allowPurchase: boolean
+}
+
+export interface ResaleTicketPurchasePermission {
+  _id?: string | undefined
+  address: string
+  ticketCollectionId: string
+  ticketId: string
+  smartContractTicketId: number
+  approved?: boolean
+}
+
+export interface ResaleTicketPurchasePermissionRequestsList {
+  approved: ResaleTicketPurchasePermission[]
+  notApproved: ResaleTicketPurchasePermission[]
 }

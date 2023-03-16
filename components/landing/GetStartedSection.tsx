@@ -6,7 +6,7 @@ import ContainedButton from "../UI/button/ContainedButton"
 function GetStartedSection() {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Box sx={{ height: 220 }} />
+      <Box sx={{ height: 240 }} />
       <Box
         sx={{
           position: "absolute",

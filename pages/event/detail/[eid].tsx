@@ -14,7 +14,13 @@ import Head from "next/head"
 function PublishEvent() {
   const router = useRouter()
   const { eid } = router.query
-  const { getEvent, currentEvent: event, setCurrentEvent } = useEvents()
+  const {
+    getEvent,
+    currentEvent: event,
+    setCurrentEvent,
+    resaleTicketPurchaseRequests,
+    getResaleTicketPurchaseRequests
+  } = useEvents()
   const { setShowLoadingBackdrop } = useContext(LayoutContext)
 
   useAsyncEffect(async () => {
@@ -38,7 +44,13 @@ function PublishEvent() {
         {event && event.smartContractAddress && (
           <ViewEventBanner smartContractAddress={event.smartContractAddress} />
         )}
-        {event && <EventSummary event={event} />}
+        {event && (
+          <EventSummary
+            event={event}
+            resaleTicketPurchaseRequests={resaleTicketPurchaseRequests}
+            getResaleTicketPurchaseRequests={getResaleTicketPurchaseRequests}
+          />
+        )}
       </Container>
     </>
   )
