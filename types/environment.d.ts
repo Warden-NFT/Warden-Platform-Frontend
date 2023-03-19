@@ -3,9 +3,7 @@ declare global {
     interface ProcessEnv {
       NEXT_PUBLIC_WARDEN_API_URL: string
       NEXT_PUBLIC_APP_URL: string
-      NEXT_PUBLIC_SENTRY_DSN: string
       NEXT_PUBLIC_ALCHEMY_KEY: string
-      SENTRY_AUTH_TOKEN: string
       GOOGLE_MAPS_API_KEY: string
       NEXT_PUBLIC_GCP_STORAGE_URL: string
       NEXT_PUBLIC_RECAPTCHA_SITE_KEY: string
