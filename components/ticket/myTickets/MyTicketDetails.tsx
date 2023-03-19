@@ -121,13 +121,15 @@ function MyTicketDetails({ ticketListing }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Typography>
-                      {
-                        ticketListing.event.location.structured_formatting
-                          .main_text
-                      }
-                    </Typography>
-                    <Launch sx={{ fontSize: 16 }} />
+                    <>
+                      <Typography>
+                        {
+                          ticketListing.event.location.structured_formatting
+                            .main_text
+                        }
+                      </Typography>
+                      <Launch sx={{ fontSize: 16 }} />
+                    </>
                   </Link>
                 ) : (
                   <Link
@@ -140,8 +142,10 @@ function MyTicketDetails({ ticketListing }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Typography>{ticketListing?.event.online_url}</Typography>
-                    <Launch sx={{ fontSize: 16 }} />
+                    <>
+                      <Typography>{ticketListing?.event.online_url}</Typography>
+                      <Launch sx={{ fontSize: 16 }} />
+                    </>
                   </Link>
                 )}
               </Box>

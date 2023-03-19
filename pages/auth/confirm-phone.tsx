@@ -1,7 +1,7 @@
 import { Alert, Grid, Snackbar } from "@mui/material"
 import React, { useContext, useState } from "react"
 import FadeEntrance from "../../components/motion/FadeEntrance"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/router"
 import { useOTP } from "../../hooks/useOTP"
 import { client } from "../../configs/axios/axiosConfig"
 import { AlertType } from "../../interfaces/modal/alert.interface"

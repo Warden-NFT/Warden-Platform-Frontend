@@ -95,8 +95,10 @@ function LandingTopSection() {
                   gap: "12px"
                 }}
               >
-                <GitHub />
-                <Typography>View on Github</Typography>
+                <>
+                  <GitHub />
+                  <Typography>View on Github</Typography>
+                </>
               </Link>
             </motion.div>
             <motion.div
@@ -119,8 +121,10 @@ function LandingTopSection() {
                   gap: "12px"
                 }}
               >
-                <DescriptionRounded />
-                <Typography>See Documentation</Typography>
+                <>
+                  <DescriptionRounded />
+                  <Typography>See Documentation</Typography>
+                </>
               </Link>
             </motion.div>
           </Box>
