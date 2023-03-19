@@ -22,9 +22,6 @@ function GeneratePage() {
         </Typography>
       </Box>
       <GenerateModeSelector />
-      <Box sx={{ marginTop: 8, textDecoration: "underline" }}>
-        <Typography variant="h5">Some documentations</Typography>
-      </Box>
     </Container>
   )
 }

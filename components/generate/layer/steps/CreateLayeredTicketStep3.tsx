@@ -39,7 +39,7 @@ function CreateLayeredTicketStep3() {
               <Typography variant="h5" component="h1">
                 Drag each item to reorder
               </Typography>
-              <Typography variant="caption" component="p">
+              <Typography>
                 The order will determine how your ticket will be generated
               </Typography>
             </Box>

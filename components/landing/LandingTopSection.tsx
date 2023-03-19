@@ -7,8 +7,7 @@ import React from "react"
 import ContainedButton from "../UI/button/ContainedButton"
 import Ticket from "../ticket/Ticket"
 import Link from "next/link"
-import { GitHub, LinkOutlined } from "@mui/icons-material"
-import { dark } from "@mui/material/styles/createPalette"
+import { GitHub, DescriptionRounded } from "@mui/icons-material"
 
 function LandingTopSection() {
   const router = useRouter()
@@ -74,12 +73,17 @@ function LandingTopSection() {
             height="40px"
             width="200px"
           />
-          <Box sx={{ width: 200, mt: [2, 2, 30] }}>
+          <Box sx={{ width: 200, mt: [2, 2, 26] }}>
             <motion.div
               whileTap={{ scale: 0.9 }}
               whileHover={{ scale: 1.05 }}
               transition={{ ease: "easeOut", duration: 0.1 }}
-              style={{ border: `2px solid ${grey[900]}`, padding: "8px" }}
+              style={{
+                border: `2px solid ${grey[900]}`,
+                padding: "8px",
+                width: "200px",
+                marginBottom: 4
+              }}
             >
               <Link
                 href="https://github.com/Warden-NFT"
@@ -93,6 +97,30 @@ function LandingTopSection() {
               >
                 <GitHub />
                 <Typography>View on Github</Typography>
+              </Link>
+            </motion.div>
+            <motion.div
+              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              transition={{ ease: "easeOut", duration: 0.1 }}
+              style={{
+                border: `2px solid ${grey[900]}`,
+                padding: "8px",
+                width: "200px"
+              }}
+            >
+              <Link
+                href="https://chuchuwiiii.notion.site/Warden-s-Platform-Documentation-a6ae50840f09419b871ccab3e8d975c9"
+                target="_blank"
+                style={{
+                  textDecoration: "none",
+                  color: grey[900],
+                  display: "flex",
+                  gap: "12px"
+                }}
+              >
+                <DescriptionRounded />
+                <Typography>See Documentation</Typography>
               </Link>
             </motion.div>
           </Box>

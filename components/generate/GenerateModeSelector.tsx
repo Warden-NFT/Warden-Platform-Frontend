@@ -1,8 +1,7 @@
 import { Container, Stack } from "@mui/material"
 import React from "react"
-import ImageLabelCard from "../UI/card/ImageLabelCard"
+import TextDescriptionCard from "../UI/card/TextDescriptionCard"
 import { useRouter } from "next/router"
-import { orange, pink } from "@mui/material/colors"
 
 function GenerateModeSelector() {
   const router = useRouter()
@@ -18,11 +17,9 @@ function GenerateModeSelector() {
               })
             }}
           >
-            <ImageLabelCard
+            <TextDescriptionCard
               title="Complete Assets Mode"
-              description="Ticket will be created with your uploaded assets such as image or video. You can also customize the quantity of each assets to be distributed to your customers."
-              colorFrom={orange[300]}
-              colorTo={orange[700]}
+              description="Ticket will be created with your uploaded assets such as image. You can also customize the quantity of each assets to match the amount of attendees."
             />
           </div>
 
@@ -33,11 +30,9 @@ function GenerateModeSelector() {
               })
             }}
           >
-            <ImageLabelCard
+            <TextDescriptionCard
               title="Layered Assets Mode"
               description="Ticket will be created with your uploaded assets and randomly generate by its rarity. You can customize the rarity of each asset or layer."
-              colorFrom={pink[300]}
-              colorTo={pink[700]}
             />
           </div>
         </Stack>
