@@ -124,16 +124,16 @@ function LandingTopSection() {
               id="card1"
             >
               <Ticket
-                assetSrc="/images/background/ticket-cover-test.jpg"
-                assetName="Test1"
+                assetSrc="/images/landing/ticket-image-conference.jpg"
+                assetName="Chicken Conference"
                 eventName="Among Us Party"
-                eventOrganizer="Warden"
+                eventOrganizer="Gus Fring"
                 ticketType="GENERAL"
                 date={new Date()}
                 seat="A 14"
-                location="MIRA HQ"
+                location="LOS POLOS HEMANOS"
                 codeDisplayMode="QR"
-                codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                codeValue="https://www.youtube.com/watch?v=B9RgougnhiE"
               />
             </motion.div>
             <motion.div
@@ -149,14 +149,13 @@ function LandingTopSection() {
               id="card2"
             >
               <Ticket
-                assetSrc="/images/background/ticket-cover-test.jpg"
+                assetSrc="/images/landing/ticket-image-theatre.jpg"
                 assetName="Test1"
-                eventName="Among Us Party"
-                eventOrganizer="Warden"
+                eventName="Batman Begins"
+                eventOrganizer="Chill"
                 ticketType="GENERAL"
                 date={new Date()}
-                seat="A 14"
-                location="MIRA HQ"
+                location="Monarch Theatre"
                 codeDisplayMode="QR"
                 codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
               />
@@ -173,16 +172,15 @@ function LandingTopSection() {
               id="card3"
             >
               <Ticket
-                assetSrc="/images/background/ticket-cover-test.jpg"
+                assetSrc="/images/landing/ticket-image-dj.jpg"
                 assetName="Test1"
                 eventName="Among Us Party"
                 eventOrganizer="Warden"
                 ticketType="GENERAL"
                 date={new Date()}
-                seat="A 14"
-                location="MIRA HQ"
+                location="CHULALONGKORN"
                 codeDisplayMode="QR"
-                codeValue="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                codeValue="https://goo.gl/maps/z9UQha4fGgmPHghv7"
               />
             </motion.div>
           </motion.div>
