@@ -215,13 +215,14 @@ function CreateLayeredTicketStep6() {
             justifyContent="space-between"
           >
             <Typography>If you are ready</Typography>
-            <Box sx={{ width: "280px" }}>
+            <Box>
               <ContainedButton
                 isLoading={uploading}
                 label="Create ticket"
                 width="100%"
                 variant="contained"
                 onClick={handleUpload}
+                sx={{ width: "280px" }}
               />
             </Box>
           </Stack>
@@ -233,13 +234,12 @@ function CreateLayeredTicketStep6() {
           alignItems="center"
         >
           <Typography>Download your generated assets here</Typography>
-          <Box sx={{ width: "280px" }}>
-            <ContainedButton
-              variant="contained"
-              label="Download generated assets"
-              onClick={handleDownloadAssetFiles}
-            />
-          </Box>
+          <ContainedButton
+            variant="contained"
+            label="Download generated assets"
+            onClick={handleDownloadAssetFiles}
+            sx={{ width: "280px" }}
+          />
         </Stack>
       </Stack>
 
