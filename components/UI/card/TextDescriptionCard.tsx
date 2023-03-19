@@ -63,7 +63,6 @@ function TextDescriptionCard({ title, description, containerStyles }: Props) {
           <Box sx={{ padding: 2, textAlign: "center" }}>
             <Typography>{description}</Typography>
           </Box>
-          {/* <Button variant='contained'>Go</Button> */}
           <IconButton
             aria-label="Go to page"
             sx={{ position: "absolute", right: "10px", bottom: "0px" }}
