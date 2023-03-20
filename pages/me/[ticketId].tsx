@@ -150,7 +150,10 @@ function MyTicketView() {
         >
           <AlertTitle>Want to sell this ticket?</AlertTitle>
           If you no longer need this ticket{" "}
-          <Link href="/me/sell" style={{ color: "white" }}>
+          <Link
+            href={`/marketplace/sell/${ticketListing?.event?._id}`}
+            style={{ color: "white" }}
+          >
             Sell it here!
           </Link>
         </Alert>
