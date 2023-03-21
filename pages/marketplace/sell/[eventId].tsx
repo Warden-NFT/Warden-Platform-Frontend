@@ -11,10 +11,7 @@ import ContainerCard from "../../../components/UI/card/ContainerCard"
 import BannerLayout from "../../../components/UI/layout/BannerLayout"
 import { MarketContext } from "../../../contexts/market/MarketContext"
 import SellTicketContextProvider from "../../../contexts/market/SellTicketContext"
-import {
-  withCustomerGuard,
-  withEventOrganizerGuard
-} from "../../../guards/withAuth"
+import { withCustomerGuard } from "../../../guards/withAuth"
 
 function SellTicket() {
   const router = useRouter()

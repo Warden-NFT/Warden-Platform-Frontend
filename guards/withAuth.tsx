@@ -72,8 +72,6 @@ export const withCustomerGuard = (Component: React.ComponentType<any>) => {
     const { token } = useContext(UserContext)
 
     useEffect(() => {
-      console.log({ token })
-      if (!token) router.push("/auth/login")
       const getUser = async () => {
         try {
           const response = await client.get<User>("user")
