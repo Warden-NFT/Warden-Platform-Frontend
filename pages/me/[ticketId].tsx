@@ -86,8 +86,8 @@ function MyTicketView() {
               <ArrowForwardIosRoundedIcon
                 sx={{
                   transform: "rotate(90deg)",
-                  width: "80px",
-                  height: "80px"
+                  width: "40px",
+                  height: "40px"
                 }}
               />
             </motion.div>
@@ -104,8 +104,8 @@ function MyTicketView() {
               <ArrowForwardIosRoundedIcon
                 sx={{
                   transform: "rotate(90deg)",
-                  width: "80px",
-                  height: "80px"
+                  width: "40px",
+                  height: "40px"
                 }}
               />
             </motion.div>
@@ -122,8 +122,8 @@ function MyTicketView() {
               <ArrowForwardIosRoundedIcon
                 sx={{
                   transform: "rotate(90deg)",
-                  width: "80px",
-                  height: "80px"
+                  width: "40px",
+                  height: "40px"
                 }}
               />
             </motion.div>
@@ -146,7 +146,8 @@ function MyTicketView() {
             background: "black",
             color: "white",
             marginBottom: 2,
-            width: "400px"
+            width: "100%",
+            maxWidth: "320px"
           }}
         >
           <AlertTitle>Want to sell this ticket?</AlertTitle>

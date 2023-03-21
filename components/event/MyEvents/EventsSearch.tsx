@@ -30,7 +30,7 @@ function EventsSearch() {
           placeholder="ex: My Concert"
           variant="outlined"
           size="small"
-          sx={{ width: "400px" }}
+          sx={{ width: "280px" }}
         />
       </Box>
       <Box>

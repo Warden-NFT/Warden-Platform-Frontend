@@ -203,7 +203,7 @@ function TicketListingActions({
         </Box>
       )}
       {user && isResaleTicket && (
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box sx={{ display: "flex", gap: 1, my: 1 }}>
           <InfoOutlined />
           <Typography>
             You need a permission to purchase a resale ticket from the event

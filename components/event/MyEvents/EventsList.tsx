@@ -38,7 +38,12 @@ function EventsList() {
         display: "grid",
         gap: 2,
         mt: 2,
-        gridTemplateColumns: "repeat(3, 1fr)"
+        gridTemplateColumns: [
+          "repeat(1, 1fr)",
+          "repeat(2, 1fr)",
+          "repeat(3, 1fr)",
+          "repeat(4, 1fr)"
+        ]
       }}
     >
       {eventLoading ? (

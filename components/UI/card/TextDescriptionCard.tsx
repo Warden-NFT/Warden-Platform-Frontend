@@ -4,6 +4,8 @@ import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
 import { grey, purple } from "@mui/material/colors"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
+import ContainerCard from "./ContainerCard"
+import FlatCard from "./FlatCard"
 
 interface Props {
   title: string
@@ -16,7 +18,7 @@ function TextDescriptionCard({ title, description, containerStyles }: Props) {
     rest: {
       x: 0,
       y: 0,
-      borderRadius: "14px",
+      borderRadius: 2,
       transition: {
         duration: 1
       }
@@ -25,51 +27,26 @@ function TextDescriptionCard({ title, description, containerStyles }: Props) {
   }
 
   return (
-    <motion.div
-      initial="rest"
-      animate="rest"
-      whileHover="hover"
-      style={{ width: "400px" }}
-    >
+    <motion.div initial="rest" animate="rest" whileHover="hover">
       <motion.div variants={containerMotion}>
-        <Box
-          sx={{
-            border: 2,
-            borderColor: "black",
-            overflow: "hidden",
-            "&:hover": {
-              cursor: "pointer"
-            },
-            backgroundColor: "white",
-            borderRadius: "14px",
-            height: "220px",
-            position: "relative",
-            ...containerStyles
-          }}
-        >
+        <FlatCard noPadding sx={{ p: 0, overflow: "hidden", height: 240 }}>
           <Box
             sx={{
               width: "100%",
               height: "50px",
               backgroundColor: purple[400],
-              display: "grid",
-              placeItems: "center"
+              pt: 2,
+              pl: 2
             }}
           >
             <Typography variant="h5" fontWeight="600" color="white">
               {title}
             </Typography>
           </Box>
-          <Box sx={{ padding: 2, textAlign: "center" }}>
+          <Box sx={{ padding: 2 }}>
             <Typography>{description}</Typography>
           </Box>
-          <IconButton
-            aria-label="Go to page"
-            sx={{ position: "absolute", right: "10px", bottom: "0px" }}
-          >
-            <ChevronRightIcon sx={{ fontSize: "60px", color: grey[400] }} />
-          </IconButton>
-        </Box>
+        </FlatCard>
       </motion.div>
     </motion.div>
   )

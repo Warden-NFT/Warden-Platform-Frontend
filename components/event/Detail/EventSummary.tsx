@@ -1,4 +1,4 @@
-import { Chip, Grid, Stack, Typography } from "@mui/material"
+import { Chip, Divider, Grid, Stack, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import Image from "next/image"
@@ -162,10 +162,11 @@ function EventSummary({
         </Box>
         <Box sx={{ borderTop: "2px solid #000" }}>
           <Grid container>
-            <Grid item xs={8} sx={{ borderRight: "2px solid #000" }}>
-              <Box sx={{ borderColor: "#000", borderBottom: 2, p: 2 }}>
+            <Grid item xs={12} lg={8}>
+              <Box sx={{ borderColor: "#000", p: 2 }}>
                 <Typography variant="h4">{event.name}</Typography>
               </Box>
+              <Divider sx={{ mx: 2 }} />
               <Box sx={{ borderColor: "#000", p: 2 }}>
                 <Typography fontWeight={600}>Description</Typography>
                 <Typography>{event.description}</Typography>
@@ -187,7 +188,7 @@ function EventSummary({
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} lg={4}>
               <Box sx={{ p: 2 }}>
                 <Box sx={{ bgcolor: grey[200], p: 2 }}>
                   {event.online_url && (

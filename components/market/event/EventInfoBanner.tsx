@@ -1,5 +1,5 @@
 import { CalendarToday, LocationOnOutlined } from "@mui/icons-material"
-import { Box, Stack, SxProps, Typography } from "@mui/material"
+import { Box, Grid, Stack, SxProps, Typography } from "@mui/material"
 import { grey } from "@mui/material/colors"
 import moment from "moment"
 import Link from "next/link"
@@ -45,7 +45,8 @@ function EventInfoBanner({
 
   return (
     <ContainerCard sx={{ mt: 12, ...sx }}>
-      <Box
+      <Grid
+        container
         sx={{
           height: "fit-content",
           display: "flex",
@@ -55,7 +56,10 @@ function EventInfoBanner({
           position: "relative"
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "flex-end", gap: 2, mt: -2 }}>
+        <Grid
+          item
+          sx={{ display: "flex", alignItems: "flex-end", gap: 2, mt: -2 }}
+        >
           {imgFallbackSrc && (
             <Box>
               <ImageWithFallback
@@ -80,7 +84,7 @@ function EventInfoBanner({
               {organizationName}
             </Typography>
           </Stack>
-        </Box>
+        </Grid>
         {showBrowseEvents && (
           <ContainedButton
             label="Browse Events"
@@ -88,7 +92,7 @@ function EventInfoBanner({
             onClick={onClickBrowseEvent}
           />
         )}
-      </Box>
+      </Grid>
       <Box
         sx={{
           backgroundColor: "#F4F4F0",
