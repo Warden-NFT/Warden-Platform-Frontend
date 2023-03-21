@@ -4,7 +4,8 @@ import {
   FormLabel,
   TextField,
   ToggleButton,
-  ToggleButtonGroup
+  ToggleButtonGroup,
+  Typography
 } from "@mui/material"
 import React, { useContext, useState } from "react"
 import FlatCard from "../../../UI/card/FlatCard"
@@ -118,8 +119,11 @@ function CreateEventStep2() {
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <FlatCard>
-        <FormControl required sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 96 }}>
           <FormLabel>Event Start Date</FormLabel>
+          <Typography variant="caption" color="gray">
+            The date and time when your event begins.
+          </Typography>
           <DateTimePicker
             renderInput={(props) => (
               <TextField
@@ -142,8 +146,11 @@ function CreateEventStep2() {
           />
         </FormControl>
 
-        <FormControl required sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 96 }}>
           <FormLabel>Event End Date</FormLabel>
+          <Typography variant="caption" color="gray">
+            The date and time when your event ends.
+          </Typography>
           <DateTimePicker
             renderInput={(props) => (
               <TextField
@@ -166,8 +173,11 @@ function CreateEventStep2() {
           />
         </FormControl>
 
-        <FormControl required sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 96 }}>
           <FormLabel>Event Door Time</FormLabel>
+          <Typography variant="caption" color="gray">
+            The date and time when your event starts admitting event attendees.
+          </Typography>
           <DateTimePicker
             renderInput={(props) => (
               <TextField
@@ -192,6 +202,9 @@ function CreateEventStep2() {
 
         <FormControl required sx={{ width: "100%", height: 184 }}>
           <FormLabel>Event Location</FormLabel>
+          <Typography variant="caption" color="gray">
+            Google Maps location or online meeting URL
+          </Typography>
           <Box sx={{ my: 2 }} />
           <Box>
             <ToggleButtonGroup

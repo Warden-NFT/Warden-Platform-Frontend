@@ -17,8 +17,7 @@ function MyTicketDetails({ ticketListing }: Props) {
     <FlatCard
       sx={{
         my: 0,
-        borderRadius: 2,
-        width: "100%"
+        borderRadius: 2
       }}
     >
       <Stack
@@ -39,7 +38,7 @@ function MyTicketDetails({ ticketListing }: Props) {
 
           <Box sx={{ display: "flex", gap: 4 }}>
             <Box>
-              <Typography sx={{ opacity: 0.4, width: 160 }}>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
                 Ticket name
               </Typography>
             </Box>
@@ -50,7 +49,7 @@ function MyTicketDetails({ ticketListing }: Props) {
 
           <Box sx={{ display: "flex", gap: 4 }}>
             <Box>
-              <Typography sx={{ opacity: 0.4, width: 160 }}>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
                 Description
               </Typography>
             </Box>
@@ -61,7 +60,7 @@ function MyTicketDetails({ ticketListing }: Props) {
 
           <Box sx={{ display: "flex", gap: 4 }}>
             <Box>
-              <Typography sx={{ opacity: 0.4, width: 160 }}>Type</Typography>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>Type</Typography>
             </Box>
             <Box>
               <Typography>
@@ -76,22 +75,33 @@ function MyTicketDetails({ ticketListing }: Props) {
 
           <Box sx={{ display: "flex", gap: 4 }}>
             <Box>
-              <Typography sx={{ opacity: 0.4, width: 160 }}>
-                Event Date
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
+                Event Starts
               </Typography>
             </Box>
             <Box>
               <Typography>
-                {`${moment(ticketListing?.event.startDate).format(
-                  "lll"
-                )} - ${moment(ticketListing?.event.endDate).format("lll")}`}
+                {moment(ticketListing?.event.startDate).format("lll")}
               </Typography>
             </Box>
           </Box>
 
           <Box sx={{ display: "flex", gap: 4 }}>
             <Box>
-              <Typography sx={{ opacity: 0.4, width: 160 }}>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
+                Event Ends
+              </Typography>
+            </Box>
+            <Box>
+              <Typography>
+                {moment(ticketListing?.event.endDate).format("lll")}
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: "flex", gap: 4 }}>
+            <Box>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
                 Event Doortime
               </Typography>
             </Box>
@@ -104,7 +114,7 @@ function MyTicketDetails({ ticketListing }: Props) {
 
           <Box sx={{ display: "flex", gap: 4 }}>
             <Box>
-              <Typography sx={{ opacity: 0.4, width: 160 }}>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
                 Event Location
               </Typography>
             </Box>

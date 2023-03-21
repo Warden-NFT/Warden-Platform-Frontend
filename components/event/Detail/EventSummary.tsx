@@ -1,4 +1,4 @@
-import { Chip, Grid, Stack, Typography } from "@mui/material"
+import { Chip, Divider, Grid, Stack, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from "moment"
 import Image from "next/image"
@@ -21,12 +21,14 @@ import { client } from "../../../configs/axios/axiosConfig"
 
 type Props = {
   event: Event
+  isOrganizerView: () => boolean
   resaleTicketPurchaseRequests: ResaleTicketPurchasePermissionRequestsList
   getResaleTicketPurchaseRequests: (ticketCollectionId: string) => void
 }
 
 function EventSummary({
   event,
+  isOrganizerView,
   resaleTicketPurchaseRequests,
   getResaleTicketPurchaseRequests
 }: Props) {
@@ -64,27 +66,31 @@ function EventSummary({
   const getEventOrganizerPrivileges = async () => {
     if (!abi || !bytecode || !web3 || !address) return
     // Check if the user is the owner of the smart contract using the wallet address (use owner() function in the smart contract)
-    const contract = new web3.eth.Contract(abi.abi)
-    contract.options.address = event.smartContractAddress
-    contract.methods
-      .owner()
-      .call()
-      .then((result: any) => {
-        console.log("Check owner", result)
-        setIsSmartContractOwner(result === address)
-      })
-      .catch(() => {
-        setCheckedPrivileges(true)
-        showErrorAlert({
-          type: AlertType.INFO,
-          title: "Smart contract deployed",
-          description:
-            "The smart contract for your event has successfully been deployed to the blockchain."
+    try {
+      const contract = new web3.eth.Contract(abi.abi)
+      contract.options.address = event.smartContractAddress
+      contract.methods
+        .owner()
+        .call()
+        .then((result: any) => {
+          console.log("Check owner", result)
+          setIsSmartContractOwner(result === address)
         })
-      })
-      .finally(() => {
-        setCheckedPrivileges(true)
-      })
+        .catch(() => {
+          setCheckedPrivileges(true)
+          showErrorAlert({
+            type: AlertType.INFO,
+            title: "Smart contract deployed",
+            description:
+              "The smart contract for your event has successfully been deployed to the blockchain."
+          })
+        })
+        .finally(() => {
+          setCheckedPrivileges(true)
+        })
+    } catch (error) {
+      setCheckedPrivileges(true)
+    }
   }
 
   const approveResaleTicketPurchaseRequest = async (
@@ -136,7 +142,7 @@ function EventSummary({
   return (
     <FadeEntrance>
       <FlatCard sx={{ padding: 0 }} noPadding>
-        <Box sx={{ fontSize: 0 }}>
+        <Box sx={{ fontSize: 0, minHeight: "520px" }}>
           {event.image && (
             <Image
               src={(event.image as string) ?? eventImage}
@@ -156,10 +162,11 @@ function EventSummary({
         </Box>
         <Box sx={{ borderTop: "2px solid #000" }}>
           <Grid container>
-            <Grid item xs={8} sx={{ borderRight: "2px solid #000" }}>
-              <Box sx={{ borderColor: "#000", borderBottom: 2, p: 2 }}>
+            <Grid item xs={12} lg={8}>
+              <Box sx={{ borderColor: "#000", p: 2 }}>
                 <Typography variant="h4">{event.name}</Typography>
               </Box>
+              <Divider sx={{ mx: 2 }} />
               <Box sx={{ borderColor: "#000", p: 2 }}>
                 <Typography fontWeight={600}>Description</Typography>
                 <Typography>{event.description}</Typography>
@@ -181,7 +188,7 @@ function EventSummary({
                 </Stack>
               </Box>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} lg={4}>
               <Box sx={{ p: 2 }}>
                 <Box sx={{ bgcolor: grey[200], p: 2 }}>
                   {event.online_url && (
@@ -265,7 +272,7 @@ function EventSummary({
           </Grid>
         </Box>
       </FlatCard>
-      {event.smartContractAddress && (
+      {isOrganizerView() && event.smartContractAddress && (
         <EventManagement
           event={event}
           checkedPrivileges={checkedPrivileges}

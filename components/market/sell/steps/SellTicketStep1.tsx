@@ -23,9 +23,9 @@ function SellTicketStep1({ ownedTickets }: Props) {
   // computed value
   const getAllOwnedTickets = (ownedTickets: MarketTickets) => {
     return [
-      ...(ownedTickets.ticketCollection.tickets.general ?? []),
-      ...(ownedTickets.ticketCollection.tickets.vip ?? []),
-      ...(ownedTickets.ticketCollection.tickets.reservedSeat ?? [])
+      ...(ownedTickets?.ticketCollection.tickets.general ?? []),
+      ...(ownedTickets?.ticketCollection.tickets.vip ?? []),
+      ...(ownedTickets?.ticketCollection.tickets.reservedSeat ?? [])
     ]
   }
 

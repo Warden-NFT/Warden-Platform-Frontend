@@ -61,7 +61,7 @@ function Register() {
                 }}
               >
                 <FormLabel sx={{ fontWeight: 600 }}>
-                  Are you registerring as a customer or an event organizer?
+                  Are you registering as a customer or an event organizer?
                 </FormLabel>
                 <Box sx={{ my: 2 }} />
                 <Box>

@@ -7,6 +7,7 @@ import MyTicketsSearch from "../../components/ticket/myTickets/MyTicketsSearch"
 import FlatCard from "../../components/UI/card/FlatCard"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
 import { MyTicketsContext } from "../../contexts/tickets/MyTicketsContext"
+import { withCustomerGuard } from "../../guards/withAuth"
 
 function MyTickets() {
   const { filteredMyTickets, getUserTickets } = useContext(MyTicketsContext)
@@ -57,4 +58,4 @@ function MyTickets() {
   )
 }
 
-export default MyTickets
+export default withCustomerGuard(MyTickets)

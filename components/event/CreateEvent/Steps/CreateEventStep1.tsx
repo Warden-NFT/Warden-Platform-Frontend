@@ -74,8 +74,11 @@ function CreateEventStep1() {
   return (
     <>
       <FlatCard>
-        <FormControl required sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 96 }}>
           <FormLabel>Event Name</FormLabel>
+          <Typography variant="caption" color="gray">
+            The name of your event. Searchable in the Warden Marketplace.
+          </Typography>
           <TextFieldWrapper
             name="name"
             value={values.name}
@@ -92,8 +95,11 @@ function CreateEventStep1() {
           />
         </FormControl>
 
-        <FormControl required sx={{ width: "100%", height: 84 }}>
+        <FormControl required sx={{ width: "100%", height: 96 }}>
           <FormLabel>Event Description</FormLabel>
+          <Typography variant="caption" color="gray">
+            Desription of your project. Searchable in Warden Marketplace.
+          </Typography>
           <TextFieldWrapper
             name="description"
             value={values.description}
@@ -110,8 +116,11 @@ function CreateEventStep1() {
           />
         </FormControl>
 
-        <FormControl sx={{ width: "100%", minHeight: 84 }}>
+        <FormControl sx={{ width: "100%", minHeight: 96 }}>
           <FormLabel>Event Image</FormLabel>
+          <Typography variant="caption" color="gray">
+            Cover photo for your event.
+          </Typography>
           <Box sx={{ height: 12 }} />
           <Box sx={{ maxWidth: "100%" }}>
             {eventImage && (
@@ -141,8 +150,11 @@ function CreateEventStep1() {
           </ContainedButton>
         </FormControl>
 
-        <FormControl sx={{ width: "100%", height: 84 }}>
+        <FormControl sx={{ width: "100%", height: 96 }}>
           <FormLabel>Event url</FormLabel>
+          <Typography variant="caption" color="gray">
+            Optional: an external URL to link to your event
+          </Typography>
           <TextFieldWrapper
             name="url"
             value={values.url}
@@ -158,8 +170,12 @@ function CreateEventStep1() {
             helperText={touched.url && errors.url}
           />
         </FormControl>
-        <FormControl sx={{ width: "100%", height: 84 }}>
+        <FormControl sx={{ width: "100%", height: 96 }}>
           <FormLabel>Event Keywords</FormLabel>
+          <Typography variant="caption" color="gray">
+            Optional: Provide keywords for your event. Searchable in the Warden
+            Marketplace.
+          </Typography>
           <MuiChipsInput
             value={
               eventKeywords.length ? eventKeywords : currentEvent.eventKeywords

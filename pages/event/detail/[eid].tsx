@@ -3,16 +3,17 @@ import { Container } from "@mui/system"
 import { useRouter } from "next/router"
 import React, { useContext } from "react"
 import EventSummary from "../../../components/event/Detail/EventSummary"
-import { withEventOrganizerGuard } from "../../../guards/withAuth"
 import DeployEventBanner from "../../../components/event/CreateEvent/DeployEvent/DeployEventBanner"
 import { useEvents } from "../../../hooks/useEvents"
 import useAsyncEffect from "../../../hooks/useAsyncEffect"
 import { LayoutContext } from "../../../contexts/layout/LayoutContext"
 import ViewEventBanner from "../../../components/event/CreateEvent/DeployEvent/ViewEventBanner"
 import Head from "next/head"
+import { UserContext } from "../../../contexts/user/UserContext"
 
-function PublishEvent() {
+function EventDetailPage() {
   const router = useRouter()
+  const { user } = useContext(UserContext)
   const { eid } = router.query
   const {
     getEvent,
@@ -22,6 +23,10 @@ function PublishEvent() {
     getResaleTicketPurchaseRequests
   } = useEvents()
   const { setShowLoadingBackdrop } = useContext(LayoutContext)
+
+  const isEventOrganizer = () => {
+    return Boolean(user && user.accountType === "EVENT_ORGANIZER")
+  }
 
   useAsyncEffect(async () => {
     if (!eid) return
@@ -38,15 +43,16 @@ function PublishEvent() {
       </Head>
       <Container>
         <Box sx={{ height: 16 }} />
-        {event && !event.smartContractAddress && (
+        {isEventOrganizer() && event && !event.smartContractAddress && (
           <DeployEventBanner event={event} setCurrentEvent={setCurrentEvent} />
         )}
-        {event && event.smartContractAddress && (
+        {isEventOrganizer() && event && event.smartContractAddress && (
           <ViewEventBanner smartContractAddress={event.smartContractAddress} />
         )}
         {event && (
           <EventSummary
             event={event}
+            isOrganizerView={isEventOrganizer}
             resaleTicketPurchaseRequests={resaleTicketPurchaseRequests}
             getResaleTicketPurchaseRequests={getResaleTicketPurchaseRequests}
           />
@@ -56,4 +62,4 @@ function PublishEvent() {
   )
 }
 
-export default withEventOrganizerGuard(PublishEvent)
+export default EventDetailPage

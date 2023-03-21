@@ -1,4 +1,4 @@
-import { Stack, Typography, Alert, Box } from "@mui/material"
+import { Stack, Typography, Alert, Box, Grid } from "@mui/material"
 import { grey, blue } from "@mui/material/colors"
 import moment from "moment"
 import React from "react"
@@ -40,8 +40,8 @@ function TicketListingDetails({
         backgroundColor: "white"
       }}
     >
-      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-        <Box sx={{ position: "relative" }}>
+      <Grid container sx={{ justifyContent: "space-between" }}>
+        <Grid item xs={12} md={4} lg={3} sx={{ position: "relative", mb: 3 }}>
           <TicketCard
             ticketId={ticket?._id ?? ""}
             image={ticket?.ticketMetadata[0].image as string}
@@ -64,87 +64,89 @@ function TicketListingDetails({
               SOLD
             </Typography>
           )}
-        </Box>
-        <Box sx={{ width: "100%", marginLeft: 4 }}>
-          {isResaleTicket && (
-            <Alert
-              severity="info"
-              sx={{
-                backgroundColor: blue[500],
-                color: "white",
-                marginBottom: 2
-              }}
-            >
-              This is a resale ticket by {ticket.ownerHistory.at(-2)}
-            </Alert>
-          )}
-          <Stack spacing={2}>
-            <Typography variant="h6" component="h1">
-              Ticket Details
-            </Typography>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography color={grey[500]}>Ticket Name</Typography>
-              <Typography>{ticket.name}</Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography color={grey[500]}>Description</Typography>
-              <Typography>{ticket.description}</Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography color={grey[500]}>Type</Typography>
-              <Typography>{ticket.ticketType}</Typography>
-            </Stack>
-            <Typography variant="h6" component="h1">
-              Event Details
-            </Typography>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography color={grey[500]}>Event Date</Typography>
-              <Typography>{moment(event.startDate).format("lll")}</Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography color={grey[500]}>Door Time</Typography>
-              <Typography>{moment(event.doorTime).format("lll")}</Typography>
-            </Stack>
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography color={grey[500]}>Location</Typography>
-              <a
-                target="_blank"
-                href={getEventLocationUrl()}
-                rel="noopener noreferrer"
+        </Grid>
+        <Grid item xs={12} md={8} lg={9}>
+          <Box sx={{ width: "100%" }}>
+            {isResaleTicket && (
+              <Alert
+                severity="info"
+                sx={{
+                  backgroundColor: blue[500],
+                  color: "white",
+                  marginBottom: 2
+                }}
               >
-                <Typography>
-                  {event.location?.structured_formatting.main_text ||
-                    event.online_url}
-                </Typography>
-              </a>
+                This is a resale ticket by {ticket.ownerHistory.at(-2)}
+              </Alert>
+            )}
+            <Stack>
+              <Typography variant="h6" component="h1">
+                Ticket Details
+              </Typography>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography color={grey[500]}>Ticket Name</Typography>
+                <Typography>{ticket.name}</Typography>
+              </Stack>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography color={grey[500]}>Description</Typography>
+                <Typography>{ticket.description}</Typography>
+              </Stack>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography color={grey[500]}>Type</Typography>
+                <Typography>{ticket.ticketType}</Typography>
+              </Stack>
+              <Typography variant="h6" component="h1">
+                Event Details
+              </Typography>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography color={grey[500]}>Event Date</Typography>
+                <Typography>{moment(event.startDate).format("lll")}</Typography>
+              </Stack>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography color={grey[500]}>Door Time</Typography>
+                <Typography>{moment(event.doorTime).format("lll")}</Typography>
+              </Stack>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography color={grey[500]}>Location</Typography>
+                <a
+                  target="_blank"
+                  href={getEventLocationUrl()}
+                  rel="noopener noreferrer"
+                >
+                  <Typography>
+                    {event.location?.structured_formatting.main_text ||
+                      event.online_url}
+                  </Typography>
+                </a>
+              </Stack>
             </Stack>
-          </Stack>
-        </Box>
-      </Stack>
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   )
 }

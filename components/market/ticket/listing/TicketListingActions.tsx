@@ -78,7 +78,15 @@ function TicketListingActions({
     }
   }
 
-  if (!user) return null
+  if (!address)
+    return (
+      <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+        <InfoOutlined />
+        <Typography>
+          Please connect your wallet to purchase this ticket.
+        </Typography>
+      </Box>
+    )
   if (isEventOrganizer)
     return (
       <Alert severity="info" sx={{ mt: 2, border: `2px solid ${blue[100]}` }}>
@@ -195,7 +203,7 @@ function TicketListingActions({
         </Box>
       )}
       {user && isResaleTicket && (
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box sx={{ display: "flex", gap: 1, my: 1 }}>
           <InfoOutlined />
           <Typography>
             You need a permission to purchase a resale ticket from the event

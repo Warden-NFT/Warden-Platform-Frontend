@@ -131,7 +131,7 @@ function EventOrganizerRegisterForm() {
       </FormControl>
 
       <FormControl sx={{ width: "100%", minHeight: 84 }}>
-        <FormLabel>Event Image</FormLabel>
+        <FormLabel>Profile Image</FormLabel>
         <Box sx={{ height: 12 }} />
         <Box sx={{ maxWidth: "100%" }}>
           {profileImage && (
@@ -139,7 +139,7 @@ function EventOrganizerRegisterForm() {
               src={URL.createObjectURL(profileImage)}
               width={200}
               height={200}
-              alt="event image"
+              alt="Profile image"
               style={{ objectFit: "cover", width: "200px", height: "200px" }}
             />
           )}

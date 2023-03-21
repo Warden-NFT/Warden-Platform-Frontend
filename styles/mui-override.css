@@ -19,3 +19,7 @@
 .css-1gzkxga-MuiSelect-select-MuiInputBase-input-MuiFilledInput-input {
   padding: 8px;
 }
+
+.MuiSelect-select {
+  padding: 12px
+}

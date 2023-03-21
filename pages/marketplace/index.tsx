@@ -21,8 +21,6 @@ function MarketplacePage() {
         backgroundImage="/images/background/market-home-background.png"
         title="Events"
         subtitle="Create and manage NFT-ticket based events"
-        enableActionButton
-        actionName="Sell Ticket"
       >
         <Container>
           <EventSearch />

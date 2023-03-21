@@ -29,12 +29,18 @@ function EventCard({ event }: Props) {
     router.push(`/marketplace/${organizerId}/${eventId}`)
   }
   return (
-    <ContainerCard
-      sx={{ minHeight: "440px", height: "fit-content", borderRadius: 1, p: 0 }}
+    <ButtonBase
+      sx={{ textAlign: "start", width: "100%", height: "100%" }}
+      onClick={() => onClickEvent(event.organizerId, event._id)}
     >
-      <ButtonBase
-        sx={{ textAlign: "start", width: "100%", height: "100%" }}
-        onClick={() => onClickEvent(event.organizerId, event._id)}
+      <ContainerCard
+        sx={{
+          minHeight: "440px",
+          height: "fit-content",
+          width: "100%",
+          borderRadius: 1,
+          p: 0
+        }}
       >
         <Card
           sx={{
@@ -46,7 +52,8 @@ function EventCard({ event }: Props) {
         >
           <Box
             sx={{
-              height: 280,
+              height: "280px",
+              maxHeight: "280px",
               position: "relative"
             }}
           >
@@ -113,8 +120,8 @@ function EventCard({ event }: Props) {
             </Typography>
           </CardContent>
         </Card>
-      </ButtonBase>
-    </ContainerCard>
+      </ContainerCard>
+    </ButtonBase>
   )
 }
 
