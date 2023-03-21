@@ -21,12 +21,14 @@ import { client } from "../../../configs/axios/axiosConfig"
 
 type Props = {
   event: Event
+  isOrganizerView: () => boolean
   resaleTicketPurchaseRequests: ResaleTicketPurchasePermissionRequestsList
   getResaleTicketPurchaseRequests: (ticketCollectionId: string) => void
 }
 
 function EventSummary({
   event,
+  isOrganizerView,
   resaleTicketPurchaseRequests,
   getResaleTicketPurchaseRequests
 }: Props) {
@@ -265,7 +267,7 @@ function EventSummary({
           </Grid>
         </Box>
       </FlatCard>
-      {event.smartContractAddress && (
+      {isOrganizerView() && event.smartContractAddress && (
         <EventManagement
           event={event}
           checkedPrivileges={checkedPrivileges}

@@ -1,6 +1,8 @@
 import { CalendarToday, LocationOnOutlined } from "@mui/icons-material"
 import { Box, Stack, SxProps, Typography } from "@mui/material"
+import { grey } from "@mui/material/colors"
 import moment from "moment"
+import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
 import { Event } from "../../../interfaces/event/event.interface"
@@ -98,9 +100,20 @@ function EventInfoBanner({
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-          <Typography variant="h5" sx={{ fontWeight: 600 }}>
-            {eventName}
-          </Typography>
+          <Link
+            href={`/event/detail/${event._id}`}
+            style={{ color: grey[900], textDecoration: "none" }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: 600,
+                "&:hover": { textDecoration: "underline" }
+              }}
+            >
+              {eventName}
+            </Typography>
+          </Link>
           {showBrowseEvents && enabledResale && (
             <Box sx={{ height: "50px", display: "grid", placeItems: "center" }}>
               <ContainedButton
