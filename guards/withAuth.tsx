@@ -8,6 +8,7 @@ export const withAuth = (Component: React.ComponentType<any>) => {
   const AuthenticatedComponent = () => {
     const router = useRouter()
     const { user, setUser } = useContext(UserContext)
+    const { token } = useContext(UserContext)
 
     useEffect(() => {
       const getUser = async () => {
@@ -24,7 +25,7 @@ export const withAuth = (Component: React.ComponentType<any>) => {
         }
       }
       getUser()
-    }, [])
+    }, [token])
 
     return user ? <Component /> : null // Render whatever you want while the authentication occurs
   }
@@ -38,6 +39,7 @@ export const withEventOrganizerGuard = (
   const AuthenticatedComponent = () => {
     const router = useRouter()
     const { user, setUser } = useContext(UserContext)
+    const { token } = useContext(UserContext)
 
     useEffect(() => {
       if (user) return
@@ -55,7 +57,7 @@ export const withEventOrganizerGuard = (
         }
       }
       getUser()
-    }, [])
+    }, [token])
 
     return user ? <Component /> : null // Render whatever you want while the authentication occurs
   }
@@ -67,8 +69,11 @@ export const withCustomerGuard = (Component: React.ComponentType<any>) => {
   const AuthenticatedComponent = () => {
     const router = useRouter()
     const { user, setUser } = useContext(UserContext)
+    const { token } = useContext(UserContext)
 
     useEffect(() => {
+      console.log({ token })
+      if (!token) router.push("/auth/login")
       const getUser = async () => {
         try {
           const response = await client.get<User>("user")
@@ -83,7 +88,7 @@ export const withCustomerGuard = (Component: React.ComponentType<any>) => {
         }
       }
       getUser()
-    }, [])
+    }, [token])
 
     return user ? <Component /> : null // Render whatever you want while the authentication occurs
   }

@@ -12,6 +12,7 @@ import { TicketQRUtilizeValue } from "../../interfaces/ticket/ticket.interface"
 import { useAccount } from "wagmi"
 import { UserContext } from "../../contexts/user/UserContext"
 import Head from "next/head"
+import { withCustomerGuard } from "../../guards/withAuth"
 
 function MyTicketView() {
   const router = useRouter()
@@ -163,4 +164,4 @@ function MyTicketView() {
   )
 }
 
-export default MyTicketView
+export default withCustomerGuard(MyTicketView)

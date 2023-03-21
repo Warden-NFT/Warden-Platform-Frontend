@@ -3,6 +3,7 @@ import Head from "next/head"
 import React from "react"
 import CompleteGenerateContainer from "../../../components/generate/complete/CompleteGenerateContainer"
 import GenerateCompleteContextProvider from "../../../contexts/generate/GenerateCompleteContext"
+import { withEventOrganizerGuard } from "../../../guards/withAuth"
 
 function CompleteGeneratePage() {
   return (
@@ -17,4 +18,4 @@ function CompleteGeneratePage() {
   )
 }
 
-export default CompleteGeneratePage
+export default withEventOrganizerGuard(CompleteGeneratePage)
