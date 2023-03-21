@@ -142,7 +142,7 @@ function EventSummary({
   return (
     <FadeEntrance>
       <FlatCard sx={{ padding: 0 }} noPadding>
-        <Box sx={{ fontSize: 0 }}>
+        <Box sx={{ fontSize: 0, minHeight: "520px" }}>
           {event.image && (
             <Image
               src={(event.image as string) ?? eventImage}

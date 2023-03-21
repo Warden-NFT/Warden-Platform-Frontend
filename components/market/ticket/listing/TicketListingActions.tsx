@@ -78,7 +78,15 @@ function TicketListingActions({
     }
   }
 
-  if (!user) return null
+  if (!address)
+    return (
+      <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+        <InfoOutlined />
+        <Typography>
+          Please connect your wallet to purchase this ticket.
+        </Typography>
+      </Box>
+    )
   if (isEventOrganizer)
     return (
       <Alert severity="info" sx={{ mt: 2, border: `2px solid ${blue[100]}` }}>
