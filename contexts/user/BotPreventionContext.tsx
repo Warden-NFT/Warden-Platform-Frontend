@@ -17,7 +17,7 @@ const BotPreventionContextProvider = ({ ...props }) => {
   const [isRecaptchaShown, setIsRecaptchaShown] = useState<boolean>(false)
 
   function showRecaptcha() {
-    if (!token && process.env.NODE_ENV !== "development") {
+    if (!token) {
       setIsRecaptchaShown(true)
     }
   }

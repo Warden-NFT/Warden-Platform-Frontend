@@ -42,7 +42,7 @@ interface P {
 
 function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
   // Captcha
-  const { showRecaptcha } = useContext(BotPreventionContext)
+  const { showRecaptcha, token } = useContext(BotPreventionContext)
 
   // Router
   const router = useRouter()
@@ -169,7 +169,9 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
   }
 
   useEffect(() => {
-    open && showRecaptcha()
+    if (open && !token) {
+      showRecaptcha()
+    }
   }, [open])
 
   return (
