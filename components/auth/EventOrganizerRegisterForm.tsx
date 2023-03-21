@@ -223,7 +223,10 @@ function EventOrganizerRegisterForm() {
       <ContainedButton
         type="submit"
         onClick={() => {
-          showRecaptcha()
+          if (!token) {
+            showRecaptcha()
+            return
+          }
           handleSubmit()
         }}
         disabled={false}

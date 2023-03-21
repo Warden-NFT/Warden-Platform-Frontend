@@ -20,7 +20,7 @@ function CustomerRegisterForm() {
   const router = useRouter()
   const { showErrorAlert } = useContext(LayoutContext)
 
-  const { showRecaptcha } = useContext(BotPreventionContext)
+  const { token, showRecaptcha } = useContext(BotPreventionContext)
 
   const { values, handleChange, touched, errors, handleSubmit, setErrors } =
     useFormik({
@@ -240,7 +240,10 @@ function CustomerRegisterForm() {
       <ContainedButton
         type="submit"
         onClick={() => {
-          showRecaptcha()
+          if (!token) {
+            showRecaptcha()
+            return
+          }
           handleSubmit()
         }}
         disabled={false}

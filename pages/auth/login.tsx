@@ -29,7 +29,7 @@ function Login() {
   const router = useRouter()
   const { referrer } = router.query
   const { showErrorAlert } = useContext(LayoutContext)
-  const { showRecaptcha } = useContext(BotPreventionContext)
+  const { showRecaptcha, token } = useContext(BotPreventionContext)
 
   const {
     values,
@@ -133,7 +133,10 @@ function Login() {
               <ContainedButton
                 type="submit"
                 onClick={() => {
-                  showRecaptcha()
+                  if (!token) {
+                    showRecaptcha()
+                    return
+                  }
                   handleSubmit()
                 }}
                 disabled={false}
