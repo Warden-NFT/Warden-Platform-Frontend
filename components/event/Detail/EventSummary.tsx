@@ -66,27 +66,31 @@ function EventSummary({
   const getEventOrganizerPrivileges = async () => {
     if (!abi || !bytecode || !web3 || !address) return
     // Check if the user is the owner of the smart contract using the wallet address (use owner() function in the smart contract)
-    const contract = new web3.eth.Contract(abi.abi)
-    contract.options.address = event.smartContractAddress
-    contract.methods
-      .owner()
-      .call()
-      .then((result: any) => {
-        console.log("Check owner", result)
-        setIsSmartContractOwner(result === address)
-      })
-      .catch(() => {
-        setCheckedPrivileges(true)
-        showErrorAlert({
-          type: AlertType.INFO,
-          title: "Smart contract deployed",
-          description:
-            "The smart contract for your event has successfully been deployed to the blockchain."
+    try {
+      const contract = new web3.eth.Contract(abi.abi)
+      contract.options.address = event.smartContractAddress
+      contract.methods
+        .owner()
+        .call()
+        .then((result: any) => {
+          console.log("Check owner", result)
+          setIsSmartContractOwner(result === address)
         })
-      })
-      .finally(() => {
-        setCheckedPrivileges(true)
-      })
+        .catch(() => {
+          setCheckedPrivileges(true)
+          showErrorAlert({
+            type: AlertType.INFO,
+            title: "Smart contract deployed",
+            description:
+              "The smart contract for your event has successfully been deployed to the blockchain."
+          })
+        })
+        .finally(() => {
+          setCheckedPrivileges(true)
+        })
+    } catch (error) {
+      setCheckedPrivileges(true)
+    }
   }
 
   const approveResaleTicketPurchaseRequest = async (
