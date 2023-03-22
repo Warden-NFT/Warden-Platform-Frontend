@@ -95,7 +95,14 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <Avatar sx={{ width: "200px", height: "200px" }}>
+              <Avatar
+                sx={{
+                  width: "200px",
+                  height: "200px",
+                  bgColor: "black",
+                  color: "white"
+                }}
+              >
                 {user?.username}
               </Avatar>
             )}
