@@ -15,14 +15,14 @@ function MarketEvent() {
   const { marketTickets, getMarketTickets } = useContext(MarketContext)
 
   const ticketQuotaText = () => {
-    let text = `The event organizer has set the limit of ${marketTickets?.ticketCollection.ticketQuota.general} ticket `
-    if ((marketTickets?.ticketCollection.ticketQuota.general ?? 0) > 1)
+    let text = `The event organizer has set the limit of ${marketTickets?.ticketCollection?.ticketQuota?.general} ticket `
+    if ((marketTickets?.ticketCollection?.ticketQuota?.general ?? 0) > 1)
       text += "s "
-    if ((marketTickets?.ticketCollection.ticketQuota.vip ?? 0) > 0)
+    if ((marketTickets?.ticketCollection?.ticketQuota?.vip ?? 0) > 0)
       text += `and ${
-        marketTickets?.ticketCollection.ticketQuota.vip ?? 0
+        marketTickets?.ticketCollection?.ticketQuota?.vip ?? 0
       } ticket `
-    if (marketTickets?.ticketCollection.ticketQuota.vip ?? 0 ?? 0 > 1)
+    if (marketTickets?.ticketCollection?.ticketQuota?.vip ?? 0 ?? 0 > 1)
       text += "s "
     text += "per user."
     return text
@@ -64,7 +64,9 @@ function MarketEvent() {
                   .main_text || marketTickets?.event.online_url
               }
               showBrowseEvents
-              enabledResale={marketTickets.ticketCollection.enableResale}
+              enabledResale={
+                marketTickets?.ticketCollection?.enableResale ?? false
+              }
             />
           )}
           <Box sx={{ height: 24 }} />
