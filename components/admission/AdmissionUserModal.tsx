@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Modal, Typography } from "@mui/material"
+import { Alert, Avatar, Box, Button, Modal, Typography } from "@mui/material"
 import { Stack } from "@mui/system"
 import Image from "next/image"
 import React, { Dispatch, SetStateAction, useState } from "react"
@@ -85,14 +85,27 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
               overflow: "hidden"
             }}
           >
-            <Image
-              src={user?.profileImage ?? "/images/logo/WardenLight.svg"}
-              width="200"
-              height="200"
-              alt="User profile"
-              draggable={false}
-              style={{ objectFit: "cover" }}
-            />
+            {user?.profileImage ? (
+              <Image
+                src={user?.profileImage}
+                width="200"
+                height="200"
+                alt="User profile"
+                draggable={false}
+                style={{ objectFit: "contain" }}
+              />
+            ) : (
+              <Avatar
+                sx={{
+                  width: "200px",
+                  height: "200px",
+                  bgColor: "black",
+                  color: "white"
+                }}
+              >
+                {user?.username}
+              </Avatar>
+            )}
           </Box>
           <Typography variant="h6" component="h2">
             {user?.username}

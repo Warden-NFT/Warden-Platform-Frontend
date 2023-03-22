@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material"
+import { Container, Stack, Typography } from "@mui/material"
 import { grey } from "@mui/material/colors"
 import { Box } from "@mui/system"
 import Image from "next/image"
@@ -72,7 +72,13 @@ function LayeredDropzone() {
             alt="Accepting Files"
           />
         ) : (
-          <Typography>Drag files OR Click to select</Typography>
+          <Stack direction="column" sx={{ alignItems: "center" }}>
+            <Typography>Drag files OR Click to select</Typography>
+            <Typography>We only accept .png file</Typography>
+            <Typography>
+              Please view documentation to match the required directory
+            </Typography>
+          </Stack>
         )}
       </Container>
     </Box>

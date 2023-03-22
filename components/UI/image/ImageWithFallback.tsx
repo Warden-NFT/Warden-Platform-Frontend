@@ -1,8 +1,6 @@
 import Image from "next/image"
 import { useState, useEffect } from "react"
 
-import FallbackImage from "../../../public/images/common/fallback-image.svg"
-
 type Props = {
   alt: string
   src: string
@@ -30,7 +28,7 @@ export const ImageWithFallback = ({
     <Image
       alt={alt}
       onError={() => setError(true)}
-      src={error ? FallbackImage : src}
+      src={error ? "/images/logo/WardenDark.svg" : src}
       width={width}
       height={height}
       {...props}

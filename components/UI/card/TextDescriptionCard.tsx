@@ -29,7 +29,15 @@ function TextDescriptionCard({ title, description, containerStyles }: Props) {
   return (
     <motion.div initial="rest" animate="rest" whileHover="hover">
       <motion.div variants={containerMotion}>
-        <FlatCard noPadding sx={{ p: 0, overflow: "hidden", height: 240 }}>
+        <FlatCard
+          noPadding
+          sx={{
+            p: 0,
+            overflow: "hidden",
+            height: 240,
+            "&:hover": { cursor: "pointer" }
+          }}
+        >
           <Box
             sx={{
               width: "100%",
