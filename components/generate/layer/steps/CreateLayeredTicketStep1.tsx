@@ -238,6 +238,9 @@ function CreateLayeredTicketStep1() {
               name="ticketQuota.general"
               value={values.ticketQuota.general}
               onChange={handleChange}
+              onWheel={(event) => {
+                event.preventDefault()
+              }}
               id="ticketQuota.general-input"
               data-testid="ticketQuota.general-input"
               variant="outlined"
@@ -262,6 +265,9 @@ function CreateLayeredTicketStep1() {
               name="ticketQuota.vip"
               value={values.ticketQuota.vip}
               onChange={handleChange}
+              onWheel={(event) => {
+                event.preventDefault()
+              }}
               id="ticketQuota.vip-input"
               data-testid="ticketQuota.vip-input"
               placeholder="1"

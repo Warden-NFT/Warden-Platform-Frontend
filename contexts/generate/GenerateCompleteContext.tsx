@@ -54,7 +54,8 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
     enableRoyaltyFee: false,
     royaltyFeePercentage: 0,
     ticketQuota: {
-      general: 1
+      general: 1,
+      vip: 0
     }
   })
 

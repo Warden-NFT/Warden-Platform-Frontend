@@ -61,7 +61,8 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     enableResale: false,
     enableRoyaltyFee: false,
     ticketQuota: {
-      general: 1
+      general: 1,
+      vip: 0
     },
     royaltyFeePercentage: 0,
     generationAmount: 1,

@@ -10,7 +10,7 @@ import {
 } from "@mui/material"
 import { red, purple } from "@mui/material/colors"
 import { useFormik } from "formik"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { CreateTicketInfoSchema } from "../../../../schema/generate/complete"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
@@ -260,6 +260,9 @@ function CreateCompleteTicketStep1() {
               name="ticketQuota.general"
               value={values.ticketQuota.general}
               onChange={handleChange}
+              onWheel={(event) => {
+                event.preventDefault()
+              }}
               id="ticketQuota.general-input"
               data-testid="ticketQuota.general-input"
               variant="outlined"
@@ -284,6 +287,9 @@ function CreateCompleteTicketStep1() {
               name="ticketQuota.vip"
               value={values.ticketQuota.vip}
               onChange={handleChange}
+              onWheel={(event) => {
+                event.preventDefault()
+              }}
               id="ticketQuota.vip-input"
               data-testid="ticketQuota.vip-input"
               placeholder="1"
