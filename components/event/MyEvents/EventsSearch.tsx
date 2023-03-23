@@ -1,17 +1,8 @@
-import {
-  Stack,
-  InputLabel,
-  TextField,
-  Select,
-  MenuItem,
-  Box
-} from "@mui/material"
+import { Stack, InputLabel, TextField, Box } from "@mui/material"
 
-import React, { useState } from "react"
-import { SORT_BY } from "../../../constants/search/sort"
+import React from "react"
 
 function EventsSearch() {
-  const [sortBy, setSortBy] = useState<SORT_BY>(SORT_BY.lastCreated)
   const handleSearchChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
@@ -32,19 +23,6 @@ function EventsSearch() {
           size="small"
           sx={{ width: "280px" }}
         />
-      </Box>
-      <Box>
-        <InputLabel>Sort By</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={sortBy}
-          size="small"
-          onChange={(e) => setSortBy(e.target.value as SORT_BY)}
-        >
-          <MenuItem value={SORT_BY.lastCreated}>Last Created</MenuItem>
-          <MenuItem value={SORT_BY.alphabetical}>Alphabetical</MenuItem>
-        </Select>
       </Box>
     </Stack>
   )

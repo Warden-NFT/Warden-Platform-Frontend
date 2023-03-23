@@ -18,6 +18,7 @@ import { useSmartContract } from "../../../hooks/useSmartContract"
 import { useAccount } from "wagmi"
 import EventManagement from "./EventManagement"
 import { client } from "../../../configs/axios/axiosConfig"
+import { CalendarToday, Launch, LocationOn } from "@mui/icons-material"
 
 type Props = {
   event: Event
@@ -193,9 +194,19 @@ function EventSummary({
                 <Box sx={{ bgcolor: grey[200], p: 2 }}>
                   {event.online_url && (
                     <Box sx={{ height: 80 }}>
-                      <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}>
-                        Online Event
-                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <Typography
+                          sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}
+                        >
+                          Online Event
+                        </Typography>
+                        <Launch />
+                      </Box>
                       <Link
                         href={event.online_url}
                         target="_blank"
@@ -216,9 +227,19 @@ function EventSummary({
                   )}
                   {event.location && (
                     <Box sx={{ height: 80 }}>
-                      <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}>
-                        Event Location
-                      </Typography>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <Typography
+                          sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}
+                        >
+                          Event Location
+                        </Typography>
+                        <LocationOn />
+                      </Box>
                       <Link
                         href={`https://www.google.com/maps/place/?q=place_id:${event.location.place_id}`}
                         target="_blank"
@@ -245,9 +266,18 @@ function EventSummary({
                     p: 2
                   }}
                 >
-                  <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}>
-                    Schedule
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}
+                  >
+                    <Typography sx={{ fontSize: 18, fontWeight: 600, mb: 2 }}>
+                      Schedule
+                    </Typography>
+                    <CalendarToday />
+                  </Box>
+
                   <Stack direction="row">
                     <Typography sx={{ width: 100 }}>Start</Typography>
                     <Typography>
