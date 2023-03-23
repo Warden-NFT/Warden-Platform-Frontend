@@ -10,7 +10,7 @@ import {
 } from "@mui/material"
 import { red, purple } from "@mui/material/colors"
 import { useFormik } from "formik"
-import React, { useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { CreateTicketInfoSchema } from "../../../../schema/generate/complete"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"

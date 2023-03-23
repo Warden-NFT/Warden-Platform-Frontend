@@ -20,7 +20,6 @@ interface P {
 }
 
 function OTPLayout({ otp, setOtp, handleSubmit, setOtpToken }: P) {
-  const { user } = useContext(UserContext)
   const { getOTP } = useOTP()
   const [seconds, setSeconds] = useState(0)
 

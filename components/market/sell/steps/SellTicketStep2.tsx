@@ -93,7 +93,7 @@ function SellTicketStep2() {
       // Get the price in wei
       const toWei = (value: string | undefined) =>
         value ? web3.utils.toWei(value) : "0"
-      const price = parseInt(toWei(selectedTicket.price.amount.toFixed(8)))
+      const price = parseInt(toWei(data.resalePrice.toFixed(8)))
 
       // Call setTicketForSale from the smart contract
       setIsListingTicket(true)
@@ -123,6 +123,7 @@ function SellTicketStep2() {
     marketTickets: MarketTickets,
     selectedTicket: EventTicket
   ) => {
+    // TODO: Fix this. You need to also save the new ticket price
     const payload = {
       walletAddress: address,
       eventId: marketTickets.event._id,

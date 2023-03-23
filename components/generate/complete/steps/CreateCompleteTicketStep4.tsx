@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material"
 import { purple } from "@mui/material/colors"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import FlatCard from "../../../UI/card/FlatCard"

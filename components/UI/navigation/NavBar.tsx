@@ -26,7 +26,7 @@ import Link from "next/link"
 import { UserContext } from "../../../contexts/user/UserContext"
 import { Account } from "../../../interfaces/auth/user.interface"
 import { Menu as MenuIcon } from "@mui/icons-material"
-import { deepPurple, purple } from "@mui/material/colors"
+import { deepPurple } from "@mui/material/colors"
 
 function NavBar() {
   const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)

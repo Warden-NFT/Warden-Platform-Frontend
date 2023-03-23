@@ -1,10 +1,8 @@
-import { Box, IconButton, SxProps, Typography } from "@mui/material"
+import { Box, SxProps, Typography } from "@mui/material"
 import React from "react"
 import { motion, Variants } from "framer-motion"
 import { Theme } from "@mui/system"
-import { grey, purple } from "@mui/material/colors"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import ContainerCard from "./ContainerCard"
+import { purple } from "@mui/material/colors"
 import FlatCard from "./FlatCard"
 
 interface Props {
@@ -13,7 +11,7 @@ interface Props {
   containerStyles?: SxProps<Theme>
 }
 
-function TextDescriptionCard({ title, description, containerStyles }: Props) {
+function TextDescriptionCard({ title, description }: Props) {
   const containerMotion: Variants = {
     rest: {
       x: 0,

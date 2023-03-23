@@ -87,7 +87,7 @@ function EventAdmissionPage() {
                 constraints={{ facingMode: cameraDirection }} // environment
                 scanDelay={2000}
                 videoId="qr-reader"
-                onResult={(result, error) => {
+                onResult={(result) => {
                   if (result && !isOpen) {
                     onScan(result.getText())
                   }

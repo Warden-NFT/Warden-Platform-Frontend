@@ -1,4 +1,4 @@
-import { Container, Box, Typography } from "@mui/material"
+import { Container } from "@mui/material"
 import React from "react"
 import GenerateModeSelector from "../../components/generate/GenerateModeSelector"
 import { useAuthAccount } from "../../hooks/useAuthAccount"
