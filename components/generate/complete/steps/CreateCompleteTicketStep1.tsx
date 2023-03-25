@@ -176,6 +176,7 @@ function CreateCompleteTicketStep1() {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            sx={{ maxWidth: 700, background: purple[50], p: 2 }}
           >
             <Stack>
               <FormLabel>Enable Resale</FormLabel>
@@ -260,9 +261,6 @@ function CreateCompleteTicketStep1() {
               name="ticketQuota.general"
               value={values.ticketQuota.general}
               onChange={handleChange}
-              onWheel={(event) => {
-                event.preventDefault()
-              }}
               id="ticketQuota.general-input"
               data-testid="ticketQuota.general-input"
               variant="outlined"
@@ -287,9 +285,6 @@ function CreateCompleteTicketStep1() {
               name="ticketQuota.vip"
               value={values.ticketQuota.vip}
               onChange={handleChange}
-              onWheel={(event) => {
-                event.preventDefault()
-              }}
               id="ticketQuota.vip-input"
               data-testid="ticketQuota.vip-input"
               placeholder="1"

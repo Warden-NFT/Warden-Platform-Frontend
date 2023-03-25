@@ -154,6 +154,7 @@ function CreateLayeredTicketStep1() {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            sx={{ maxWidth: 700, background: purple[50], p: 2 }}
           >
             <Stack>
               <FormLabel>Enable Resale</FormLabel>

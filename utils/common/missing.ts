@@ -9,6 +9,7 @@ export const isEmpty = (object: any) => {
  * @returns boolean which indicates that summation is higher or equal to than the target
  */
 export function hasRemainderOrEquals(numbers: number[], target: number) {
+  if (!numbers.length) return true
   const sum = numbers.reduce((_sum, val) => _sum + val)
   return sum >= target
 }

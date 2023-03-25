@@ -162,9 +162,11 @@ function CreateCompleteTicketStep4() {
             <ContainedButton
               isLoading={uploading}
               label="Click to create ticket!"
-              width="100%"
+              width="400px"
+              height="48px"
               variant="contained"
               onClick={handleUpload}
+              sx={{ maxWidth: "100%" }}
             />
           </Box>
         </Box>
@@ -174,6 +176,7 @@ function CreateCompleteTicketStep4() {
         isBackDisabled={uploaded === true}
         handlePrevious={() => setActiveStep((prev) => prev - 1)}
         handleNext={() => router.push(`/event/detail/${formInfo.subjectOf}`)}
+        isRightDisabled={!uploaded}
       />
     </FlatCard>
   )
