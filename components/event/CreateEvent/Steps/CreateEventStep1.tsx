@@ -28,28 +28,6 @@ function CreateEventStep1() {
 
   const router = useRouter()
 
-<<<<<<< HEAD
-  const { values, handleChange, errors, touched, handleSubmit, handleBlur } =
-    useFormik({
-      initialValues: {
-        name: currentEvent.name || "",
-        description: currentEvent.description || "",
-        url: currentEvent.url || ""
-      },
-      validateOnChange: false,
-      validateOnBlur: false,
-      validationSchema: CreateEventStep1Schema,
-      onSubmit: async (data) => {
-        const updatedEvent: Event = {
-          ...currentEvent,
-          ...data,
-          eventKeywords: eventKeywords,
-          image: eventImage
-        }
-        setEvent(updatedEvent)
-        setActiveStep((step) => step + 1)
-        setIsFirstVisit(false)
-=======
   const {
     values,
     handleChange,
@@ -71,7 +49,6 @@ function CreateEventStep1() {
         ...data,
         eventKeywords: eventKeywords,
         image: eventImage
->>>>>>> c903a76 (feat: enhance create event UI)
       }
       setEvent(updatedEvent)
       setActiveStep((step) => step + 1)

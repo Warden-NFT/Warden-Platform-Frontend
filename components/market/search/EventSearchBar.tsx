@@ -67,7 +67,7 @@ function EventSearchBar() {
               onChange={handleChange}
               id="location-input"
               data-testid="location-input"
-              placeholder="Location"
+              placeholder="ex: Location"
               variant="outlined"
               size="small"
               multiline
@@ -147,7 +147,7 @@ function EventSearchBar() {
                   onChange={handleChange}
                   id="searchTerm-input"
                   data-testid="searchTerm-input"
-                  placeholder="searchTerm"
+                  placeholder="ex: searchTerm"
                   variant="outlined"
                   size="small"
                   error={errors.searchTerm != null}
