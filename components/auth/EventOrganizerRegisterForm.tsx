@@ -31,6 +31,8 @@ function EventOrganizerRegisterForm() {
         repeatPassword: "",
         organizationName: ""
       },
+      validateOnChange: false,
+      validateOnBlur: false,
       validationSchema: EventOrganizerRegisterSchema,
       onSubmit: async (data) => {
         const payload = { ...data }

@@ -29,6 +29,8 @@ function CreateLayeredTicketStep4() {
         generationAmount: formInfo.generationAmount,
         layers: [] as FormLayerData[]
       },
+      validateOnChange: false,
+      validateOnBlur: false,
       validationSchema: createLayerOccurrenceForm(layers),
       onSubmit: (data) => {
         const _formInfo = { ...formInfo }
@@ -39,7 +41,7 @@ function CreateLayeredTicketStep4() {
           layer.layerOccurrence = data.layers[i].layerOccurrence
           layer.layerName = data.layers[i].layerName
           layer.assets.forEach((asset, j) => {
-            (asset.occurrence = data.layers[i].assets[j].occurrence),
+            ;(asset.occurrence = data.layers[i].assets[j].occurrence),
             (asset.name = data.layers[i].assets[j].name),
             (asset.isVipAsset = data.layers[i].assets[j].isVipAsset)
           })

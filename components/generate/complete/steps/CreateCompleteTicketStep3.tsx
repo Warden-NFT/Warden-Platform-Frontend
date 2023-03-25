@@ -42,6 +42,8 @@ function CreateCompleteTicketStep3() {
         assets: AssetValue[]
         vipAssets: AssetValue[]
       },
+      validateOnChange: false,
+      validateOnBlur: false,
       enableReinitialize: true,
       validationSchema: CompleteAssetCustomizeUtilitySchema,
       onSubmit: (values) => {

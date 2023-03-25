@@ -25,6 +25,8 @@ function EventSearchBar() {
         endDate: null,
         searchTerm: ""
       },
+      validateOnChange: false,
+      validateOnBlur: false,
       enableReinitialize: true,
       onSubmit: async (data) => {
         const payload = {

@@ -59,6 +59,8 @@ function CreateEventStep2() {
       online_url: currentEvent.online_url
     },
     validationSchema: CreateEventStep2Schema,
+    validateOnChange: false,
+    validateOnBlur: false,
     onSubmit: async (data) => {
       const _event: Event = {
         ...currentEvent,

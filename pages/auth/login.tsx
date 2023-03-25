@@ -44,6 +44,8 @@ function Login() {
       phoneNumber: "",
       password: ""
     },
+    validateOnChange: false,
+    validateOnBlur: false,
     validationSchema: LoginSchema,
     onSubmit: async (data) => {
       try {
