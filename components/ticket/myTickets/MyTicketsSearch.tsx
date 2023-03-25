@@ -29,7 +29,7 @@ function MyTicketsSearch() {
         onChange={handleChange}
         id="searchTerm-input"
         data-testid="searchTerm-input"
-        placeholder="searchTerm"
+        placeholder="ex: searchTerm"
         variant="outlined"
         size="small"
         fullWidth

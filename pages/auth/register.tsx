@@ -1,4 +1,5 @@
 import {
+  Button,
   Divider,
   FormLabel,
   Grid,
@@ -11,7 +12,7 @@ import React, { useContext, useEffect, useState } from "react"
 import ContainerCard from "../../components/UI/card/ContainerCard"
 import Link from "next/link"
 import EventOrganizerRegisterForm from "../../components/auth/EventOrganizerRegisterForm"
-import { grey } from "@mui/material/colors"
+import { purple } from "@mui/material/colors"
 import CustomerRegisterForm from "../../components/auth/CustomerRegisterForm"
 import FadeEntrance from "../../components/motion/FadeEntrance"
 import { UserContext } from "../../contexts/user/UserContext"
@@ -42,11 +43,17 @@ function Register() {
 
   if (user) return null
   return (
-    <Grid container spacing={0} marginTop={4} justifyContent="center">
+    <Grid
+      container
+      spacing={0}
+      marginTop={4}
+      marginBottom={4}
+      justifyContent="center"
+    >
       <Head>
         <title>Warden | Register</title>
       </Head>
-      <Grid item xs={12} sm={8} lg={6}>
+      <Grid item xs={12} sm={8} lg={6} xl={4}>
         <FadeEntrance>
           <ContainerCard>
             <>
@@ -57,7 +64,7 @@ function Register() {
               <Box
                 sx={{
                   padding: 2,
-                  backgroundColor: grey[100]
+                  backgroundColor: purple[50]
                 }}
               >
                 <FormLabel sx={{ fontWeight: 600 }}>
@@ -71,6 +78,7 @@ function Register() {
                     exclusive
                     onChange={handleChange}
                     aria-label="Platform"
+                    sx={{}}
                   >
                     <ToggleButton value="Customer">Customer</ToggleButton>
                     <ToggleButton value="EventOrganizer">
@@ -85,20 +93,29 @@ function Register() {
               {registerMode === "EventOrganizer" && (
                 <EventOrganizerRegisterForm />
               )}
-              <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-                <Typography>
-                  Already have an account?{" "}
-                  <Link
-                    href={{
-                      pathname: "/auth/login",
-                      query: {
-                        referrer
-                      }
-                    }}
-                  >
-                    Log in here
-                  </Link>
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 2,
+                  gap: 1,
+                  alignItems: "center"
+                }}
+              >
+                <Typography>Already have an account?{"   "}</Typography>
+                <Link
+                  href={{
+                    pathname: "/auth/login",
+                    query: {
+                      referrer
+                    }
+                  }}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button disableElevation variant="outlined" color="primary">
+                    Log in now
+                  </Button>
+                </Link>
               </Box>
             </>
           </ContainerCard>

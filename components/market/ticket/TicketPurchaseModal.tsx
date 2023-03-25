@@ -11,7 +11,6 @@ import {
   Typography,
   Stack,
   Divider,
-  Button,
   IconButton
 } from "@mui/material"
 import { grey } from "@mui/material/colors"
@@ -181,7 +180,7 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
       aria-labelledby="purchase-ticket"
       aria-describedby="purchase-ticket-modal"
     >
-      <Box sx={modalStyle}>
+      <Box sx={{ ...modalStyle, p: 2 }}>
         <Stack
           direction="row"
           justifyContent="space-between"

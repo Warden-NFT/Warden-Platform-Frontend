@@ -1,12 +1,9 @@
-import { Box, Container, Stack } from "@mui/material"
+import { Box } from "@mui/material"
 import React from "react"
 import TextDescriptionCard from "../UI/card/TextDescriptionCard"
-import { useRouter } from "next/router"
 import BannerLayout from "../UI/layout/BannerLayout"
 
 function GenerateModeSelector() {
-  const router = useRouter()
-
   return (
     <BannerLayout
       backgroundImage="/images/background/event-background.jpeg"
@@ -21,32 +18,16 @@ function GenerateModeSelector() {
           gridTemplateColumns: ["repeat(1, 1fr)", "repeat(2, 1fr)"]
         }}
       >
-        <Box
-          onClick={() => {
-            router.push({
-              pathname: "ticket/asset"
-            })
-          }}
-          sx={{ width: "100%" }}
-        >
-          <TextDescriptionCard
-            title="Complete Assets Mode"
-            description="Ticket will be created with your uploaded assets such as image. You can also customize the quantity of each assets to match the amount of attendees."
-          />
-        </Box>
-
-        <Box
-          onClick={() => {
-            router.push({
-              pathname: "ticket/layer"
-            })
-          }}
-        >
-          <TextDescriptionCard
-            title="Layered Assets Mode"
-            description="Ticket will be created with your uploaded assets and randomly generate by its rarity. You can customize the rarity of each asset or layer."
-          />
-        </Box>
+        <TextDescriptionCard
+          title="Complete Assets Mode"
+          description="Ticket will be created with your uploaded assets such as image. You can also customize the quantity of each assets to match the amount of attendees."
+          path="ticket/asset"
+        />
+        <TextDescriptionCard
+          title="Layered Assets Mode"
+          description="Ticket will be created with your uploaded assets and randomly generate by its rarity. You can customize the rarity of each asset or layer."
+          path="ticket/layer"
+        />
       </Box>
     </BannerLayout>
   )

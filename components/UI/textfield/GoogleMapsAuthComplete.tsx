@@ -61,7 +61,7 @@ export default function GoogleMaps({
           request: { input: string },
           callback: (results?: readonly PlaceType[]) => void
         ) => {
-          (autocompleteService.current as any).getPlacePredictions(
+          ;(autocompleteService.current as any).getPlacePredictions(
             request,
             callback
           )
@@ -135,7 +135,7 @@ export default function GoogleMaps({
           {...params}
           name={name}
           size="small"
-          placeholder="Event Location"
+          placeholder="ex: Event Location"
           fullWidth
           error={hasError}
           helperText={errorMessage}

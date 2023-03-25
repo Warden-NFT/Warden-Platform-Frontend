@@ -28,28 +28,33 @@ function CreateEventStep1() {
 
   const router = useRouter()
 
-  const { values, handleChange, errors, touched, handleSubmit, handleBlur } =
-    useFormik({
-      initialValues: {
-        name: currentEvent.name || "",
-        description: currentEvent.description || "",
-        url: currentEvent.url || ""
-      },
-      validateOnChange: false,
-      validateOnBlur: false,
-      validationSchema: CreateEventStep1Schema,
-      onSubmit: async (data) => {
-        const updatedEvent: Event = {
-          ...currentEvent,
-          ...data,
-          eventKeywords: eventKeywords,
-          image: eventImage
-        }
-        setEvent(updatedEvent)
-        setActiveStep((step) => step + 1)
-        setIsFirstVisit(false)
+  const {
+    values,
+    handleChange,
+    errors,
+    touched,
+    handleSubmit,
+    handleBlur,
+    setFieldValue
+  } = useFormik({
+    initialValues: {
+      name: currentEvent.name || "",
+      description: currentEvent.description || "",
+      url: currentEvent.url || ""
+    },
+    validationSchema: CreateEventStep1Schema,
+    onSubmit: async (data) => {
+      const updatedEvent: Event = {
+        ...currentEvent,
+        ...data,
+        eventKeywords: eventKeywords,
+        image: eventImage
       }
-    })
+      setEvent(updatedEvent)
+      setActiveStep((step) => step + 1)
+      setIsFirstVisit(false)
+    }
+  })
 
   // States
 
@@ -124,7 +129,7 @@ function CreateEventStep1() {
             Cover photo for your event.
           </Typography>
           <Box sx={{ height: 12 }} />
-          <Box sx={{ maxWidth: "100%" }}>
+          <Box sx={{ width: "100%", maxWidth: "300px" }}>
             {eventImage && (
               <Image
                 src={URL.createObjectURL(eventImage)}
@@ -150,6 +155,7 @@ function CreateEventStep1() {
               onChange={handleEventImageChange}
             />
           </ContainedButton>
+          <Box sx={{ my: 2 }} />
         </FormControl>
 
         <FormControl sx={{ width: "100%", height: 96 }}>
@@ -161,10 +167,16 @@ function CreateEventStep1() {
             name="url"
             value={values.url}
             onChange={handleChange}
-            onBlur={handleBlur("url")}
+            onBlur={() => {
+              handleBlur("url")
+              if (values.url === "https://") setFieldValue("url", "", true)
+            }}
+            onFocus={() => {
+              setFieldValue("url", "https://", false)
+            }}
             id="event-url-input"
             data-testid="event-url-input"
-            placeholder="ex: Event url"
+            placeholder="ex: https://event-url.com"
             variant="outlined"
             size="small"
             type="text"

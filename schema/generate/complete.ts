@@ -33,10 +33,13 @@ export const CreateTicketInfoSchema = object().shape(
           then: (schema) => schema.required("This field is required")
         }),
       vip: number()
-        .min(1, "Minimum cannot be below than 1")
+        .min(0, "Ticket quota cannot be negative number")
         .when(["enableResale", "vipEnabled"], {
           is: [true, true],
-          then: (schema) => schema.required("This field is required")
+          then: (schema) =>
+            schema
+              .required("This field is required")
+              .min(1, "Minimum cannot be below than 1")
         })
     }),
     // Not allow enabling ticket type that contradict General Admission

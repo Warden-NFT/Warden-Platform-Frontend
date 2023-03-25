@@ -49,7 +49,7 @@ function CreateCompleteTicketStep3() {
       onSubmit: (values) => {
         // Check if quota exceeds amount
         const isAssetHigherOrEqual = hasRemainderOrEquals(
-          values.assets.map((asset) => asset.quantity),
+          { ...values }.assets.map((asset) => asset.quantity),
           formInfo.ticketQuota?.general ?? 0
         )
         if (!isAssetHigherOrEqual) {
@@ -63,7 +63,7 @@ function CreateCompleteTicketStep3() {
           return
         }
         const isVipAssetHigherOrEquals = hasRemainderOrEquals(
-          values.vipAssets.map((asset) => asset.quantity),
+          { ...values }.vipAssets.map((asset) => asset.quantity),
           formInfo.ticketQuota?.vip ?? 0
         )
         if (!isVipAssetHigherOrEquals) {
@@ -123,6 +123,7 @@ function CreateCompleteTicketStep3() {
 
   return (
     <Box>
+      <div>{JSON.stringify(errors)}</div>
       <Stack
         spacing={2}
         p={4}

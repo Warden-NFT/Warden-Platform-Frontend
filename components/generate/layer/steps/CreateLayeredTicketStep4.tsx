@@ -100,7 +100,7 @@ function CreateLayeredTicketStep4() {
             onChange={handleChange}
             id="generation-amount-input"
             data-testid="generation-amount-input"
-            placeholder="Generation amount"
+            placeholder="ex: Generation amount"
             variant="outlined"
             size="small"
             type="number"
@@ -144,7 +144,7 @@ function CreateLayeredTicketStep4() {
                     onChange={handleChange}
                     id="name-input"
                     data-testid="price-input"
-                    placeholder="WARDEN Event Ticket"
+                    placeholder="ex: WARDEN Event Ticket"
                     variant="outlined"
                     size="small"
                   />
@@ -223,7 +223,7 @@ function CreateLayeredTicketStep4() {
                     />
                   </Box>
                   <TextField
-                    placeholder="Asset Name"
+                    placeholder="ex: Asset Name"
                     value={values.layers[i].assets[j].name}
                     onChange={handleChange}
                     name={`layers[${i}].assets[${j}].name`}

@@ -1,4 +1,5 @@
 import {
+  Button,
   Divider,
   FormControl,
   FormLabel,
@@ -79,11 +80,17 @@ function Login() {
 
   if (user) return null
   return (
-    <Grid container spacing={0} marginTop={4} justifyContent="center">
+    <Grid
+      container
+      spacing={0}
+      marginTop={4}
+      marginBottom={4}
+      justifyContent="center"
+    >
       <Head>
         <title>Warden | Login</title>
       </Head>
-      <Grid item xs={12} sm={8} lg={6}>
+      <Grid item xs={12} sm={8} lg={6} xl={4}>
         <FadeEntrance>
           <ContainerCard>
             <form onSubmit={handleSubmit}>
@@ -148,20 +155,29 @@ function Login() {
                 width="100%"
               />
 
-              <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
-                <Typography>
-                  No account?
-                  <Link
-                    href={{
-                      pathname: "/auth/register",
-                      query: {
-                        referrer
-                      }
-                    }}
-                  >
-                    Register here
-                  </Link>
-                </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 2,
+                  gap: 1,
+                  alignItems: "center"
+                }}
+              >
+                <Typography>No account?{"   "}</Typography>
+                <Link
+                  href={{
+                    pathname: "/auth/register",
+                    query: {
+                      referrer
+                    }
+                  }}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button disableElevation variant="outlined" color="primary">
+                    Register now
+                  </Button>
+                </Link>
               </Box>
             </form>
           </ContainerCard>

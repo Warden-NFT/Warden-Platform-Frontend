@@ -62,7 +62,7 @@ function CreateLayeredTicketStep1() {
             onChange={handleChange}
             id="name-input"
             data-testid="price-input"
-            placeholder="WARDEN Event Ticket"
+            placeholder="ex: WARDEN Event Ticket"
             variant="outlined"
             size="small"
             error={touched.name && errors.name != null}
@@ -86,7 +86,7 @@ function CreateLayeredTicketStep1() {
             onChange={handleChange}
             id="description-input"
             data-testid="description-input"
-            placeholder="Description"
+            placeholder="ex: Description"
             variant="outlined"
             size="small"
             multiline
@@ -141,7 +141,7 @@ function CreateLayeredTicketStep1() {
               onChange={handleChange}
               id="vipBenefit-input"
               data-testid="vipBenefit-input"
-              placeholder="Describe about the perk of VIP ticket"
+              placeholder="ex: Describe about the perk of VIP ticket"
               variant="outlined"
               size="small"
               error={errors.vipBenefit != null}
@@ -154,6 +154,7 @@ function CreateLayeredTicketStep1() {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            sx={{ maxWidth: 700, background: purple[50], p: 2 }}
           >
             <Stack>
               <FormLabel>Enable Resale</FormLabel>
@@ -238,6 +239,9 @@ function CreateLayeredTicketStep1() {
               name="ticketQuota.general"
               value={values.ticketQuota.general}
               onChange={handleChange}
+              onWheel={(event) => {
+                event.preventDefault()
+              }}
               id="ticketQuota.general-input"
               data-testid="ticketQuota.general-input"
               variant="outlined"
@@ -262,9 +266,12 @@ function CreateLayeredTicketStep1() {
               name="ticketQuota.vip"
               value={values.ticketQuota.vip}
               onChange={handleChange}
+              onWheel={(event) => {
+                event.preventDefault()
+              }}
               id="ticketQuota.vip-input"
               data-testid="ticketQuota.vip-input"
-              placeholder="1"
+              placeholder="ex: 1"
               variant="outlined"
               size="small"
               type="number"

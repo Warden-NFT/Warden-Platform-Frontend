@@ -2,6 +2,7 @@ import {
   Box,
   FormControl,
   FormLabel,
+  Grid,
   TextField,
   ToggleButton,
   ToggleButtonGroup,
@@ -121,61 +122,68 @@ function CreateEventStep2() {
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <FlatCard>
-        <FormControl required sx={{ width: "100%", height: 96 }}>
-          <FormLabel>Event Start Date</FormLabel>
-          <Typography variant="caption" color="gray">
-            The date and time when your event begins.
-          </Typography>
-          <DateTimePicker
-            renderInput={(props) => (
-              <TextField
-                name="startDate"
-                size="small"
-                variant="outlined"
-                {...props}
-                error={Boolean(errors.startDate)}
-                helperText={errors.startDate}
+        <Grid container spacing={2}>
+          <Grid item xs={12} lg={6}>
+            <FormControl required sx={{ width: "100%", height: 108 }}>
+              <FormLabel>Event Start Date</FormLabel>
+              <Typography variant="caption" color="gray">
+                The date and time when your event begins.
+              </Typography>
+              <DateTimePicker
+                renderInput={(props) => (
+                  <TextField
+                    name="startDate"
+                    size="small"
+                    variant="outlined"
+                    sx={{ maxWidth: "400px" }}
+                    {...props}
+                    error={Boolean(errors.startDate)}
+                    helperText={errors.startDate}
+                  />
+                )}
+                value={values.startDate}
+                onChange={(newValue) => {
+                  if (!newValue) return
+                  setFieldValue(
+                    "startDate",
+                    moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+                  )
+                }}
               />
-            )}
-            value={values.startDate}
-            onChange={(newValue) => {
-              if (!newValue) return
-              setFieldValue(
-                "startDate",
-                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
-              )
-            }}
-          />
-        </FormControl>
-
-        <FormControl required sx={{ width: "100%", height: 96 }}>
-          <FormLabel>Event End Date</FormLabel>
-          <Typography variant="caption" color="gray">
-            The date and time when your event ends.
-          </Typography>
-          <DateTimePicker
-            renderInput={(props) => (
-              <TextField
-                name="endDate"
-                size="small"
-                variant="outlined"
-                {...props}
-                error={Boolean(errors.endDate)}
-                helperText={touched.endDate && errors.endDate}
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <FormControl required sx={{ width: "100%", height: 108 }}>
+              <FormLabel>Event End Date</FormLabel>
+              <Typography variant="caption" color="gray">
+                The date and time when your event ends.
+              </Typography>
+              <DateTimePicker
+                renderInput={(props) => (
+                  <TextField
+                    name="endDate"
+                    size="small"
+                    variant="outlined"
+                    sx={{ maxWidth: "400px" }}
+                    {...props}
+                    error={Boolean(errors.endDate)}
+                    helperText={touched.endDate && errors.endDate}
+                  />
+                )}
+                value={values.endDate}
+                onChange={(newValue) => {
+                  if (!newValue) return
+                  setFieldValue(
+                    "endDate",
+                    moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
+                  )
+                }}
               />
-            )}
-            value={values.endDate}
-            onChange={(newValue) => {
-              if (!newValue) return
-              setFieldValue(
-                "endDate",
-                moment(newValue, "DD/MM/YYYY HH:mm:ss").toDate()
-              )
-            }}
-          />
-        </FormControl>
+            </FormControl>
+          </Grid>
+        </Grid>
 
-        <FormControl required sx={{ width: "100%", height: 96 }}>
+        <FormControl required sx={{ width: "100%", height: 108 }}>
           <FormLabel>Event Door Time</FormLabel>
           <Typography variant="caption" color="gray">
             The date and time when your event starts admitting event attendees.
@@ -186,6 +194,7 @@ function CreateEventStep2() {
                 name="doorTime"
                 size="small"
                 variant="outlined"
+                sx={{ maxWidth: "400px" }}
                 {...props}
                 error={Boolean(errors.doorTime)}
                 helperText={errors.doorTime}
@@ -210,13 +219,13 @@ function CreateEventStep2() {
           <Box sx={{ my: 2 }} />
           <Box>
             <ToggleButtonGroup
-              color="primary"
+              color="info"
               value={isOnlineEvent}
               exclusive
               onChange={handleChangeLocationMode}
               aria-label="Platform"
             >
-              <ToggleButton value={false}>Offline Event</ToggleButton>
+              <ToggleButton value={false}>On-site Event</ToggleButton>
               <ToggleButton value={true}>Online Event</ToggleButton>
             </ToggleButtonGroup>
           </Box>
@@ -236,7 +245,14 @@ function CreateEventStep2() {
               name="online_url"
               value={values.online_url}
               onChange={handleChange}
-              onBlur={handleBlur("online_url")}
+              onBlur={() => {
+                handleBlur("online_url")
+                if (values.online_url === "https://")
+                  setFieldValue("online_url", "", true)
+              }}
+              onFocus={() => {
+                setFieldValue("online_url", "https://", false)
+              }}
               id="event-online_url-input"
               data-testid="event-online_url-input"
               placeholder="ex: http://your-event.com"
