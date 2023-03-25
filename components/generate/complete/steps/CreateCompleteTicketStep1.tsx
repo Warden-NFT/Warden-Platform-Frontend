@@ -29,6 +29,8 @@ function CreateCompleteTicketStep1() {
       initialValues: { ...formInfo },
       enableReinitialize: true,
       validationSchema: CreateTicketInfoSchema,
+      validateOnChange: false,
+      validateOnBlur: false,
       onSubmit: (data) => {
         const _data = { ...data }
 

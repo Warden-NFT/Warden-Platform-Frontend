@@ -33,6 +33,8 @@ function CustomerRegisterForm() {
         firstName: "",
         lastName: ""
       },
+      validateOnChange: false,
+      validateOnBlur: false,
       validationSchema: RegisterSchema,
       onSubmit: async (data) => {
         const payload = { ...data }

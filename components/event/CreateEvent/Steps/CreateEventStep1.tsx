@@ -35,6 +35,8 @@ function CreateEventStep1() {
         description: currentEvent.description || "",
         url: currentEvent.url || ""
       },
+      validateOnChange: false,
+      validateOnBlur: false,
       validationSchema: CreateEventStep1Schema,
       onSubmit: async (data) => {
         const updatedEvent: Event = {

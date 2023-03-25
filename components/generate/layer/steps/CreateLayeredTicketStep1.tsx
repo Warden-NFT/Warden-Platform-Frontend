@@ -28,6 +28,8 @@ function CreateLayeredTicketStep1() {
     useFormik({
       initialValues: { ...formInfo },
       enableReinitialize: true,
+      validateOnChange: false,
+      validateOnBlur: false,
       validationSchema: CreateTicketInfoSchema,
       onSubmit: (data) => {
         setFormInfo(data)
