@@ -188,10 +188,11 @@ function DeployEventModal({
               deployed. Proceed?
             </Typography>
             <Typography variant="caption" sx={{ mt: 2 }}>
-              For your tickets to be controlled, you must deploy a smart
-              contract into the blockchain to allow governance of your tickets
-              and review your transaction. Once deployed, your tickets can be
-              listed for sale and viewed its history transparently.
+              Smart contracts are essentially logic that lives on the
+              blockchain. Deploying the smart contract gives you governance over
+              your tickets and who can buy/sell them. Once deployed, your
+              tickets can be listed and all transaction history can be viewed
+              transparently.
             </Typography>
             <Box sx={{ height: 12 }} />
             <Stack direction="row" gap={2} sx={{ justifyContent: "flex-end" }}>
