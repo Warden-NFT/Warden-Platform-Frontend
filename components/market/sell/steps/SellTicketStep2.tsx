@@ -108,7 +108,11 @@ function SellTicketStep2() {
           )
           .send({ from: address, gas: 5000000 })
           .then(async () => {
-            saveTicketListingDetails(marketTickets, selectedTicket)
+            saveTicketListingDetails(
+              marketTickets,
+              selectedTicket,
+              data.resalePrice
+            )
           })
           .catch(() => showTicketListingFailureAlert())
           .finally(() => setIsListingTicket(false))
@@ -121,14 +125,19 @@ function SellTicketStep2() {
 
   const saveTicketListingDetails = async (
     marketTickets: MarketTickets,
-    selectedTicket: EventTicket
+    selectedTicket: EventTicket,
+    newResalePrice: number
   ) => {
     // TODO: Fix this. You need to also save the new ticket price
     const payload = {
       walletAddress: address,
       eventId: marketTickets.event._id,
       ticketCollectionId: marketTickets.ticketCollection._id,
-      ticketId: selectedTicket._id
+      ticketId: selectedTicket._id,
+      price: {
+        amount: newResalePrice,
+        currency: "ETH"
+      }
     }
     try {
       // Save the ticket listing to the database
