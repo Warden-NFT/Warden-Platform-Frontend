@@ -14,7 +14,7 @@ import { UserContext } from "../../contexts/user/UserContext"
 import Head from "next/head"
 import { withCustomerGuard } from "../../guards/withAuth"
 
-const TIME_LIMIT_SECONDS = 10 * 60
+const TIME_LIMIT_SECONDS = 15
 
 function MyTicketView() {
   const [seconds, setSeconds] = useState(TIME_LIMIT_SECONDS)
@@ -36,6 +36,8 @@ function MyTicketView() {
   }, [router.query])
 
   useEffect(() => {
+    if (ticketListing?.ticket?.hasUsed) return
+
     let interval: NodeJS.Timer | null = null
     if (seconds === 0) {
       setSeconds(TIME_LIMIT_SECONDS)
@@ -93,9 +95,11 @@ function MyTicketView() {
               codeValue={JSON.stringify(qrCodeValue)}
               cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
             />
-            <Box sx={{ display: "grid", placeItems: "center" }}>
-              <Typography>This QR Code is valid until {seconds}</Typography>
-            </Box>
+            {!ticketListing?.ticket.hasUsed && (
+              <Box sx={{ display: "grid", placeItems: "center" }}>
+                <Typography>This QR Code is valid until {seconds}</Typography>
+              </Box>
+            )}
           </Box>
         )}
 
