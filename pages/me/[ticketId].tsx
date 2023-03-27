@@ -14,7 +14,11 @@ import { UserContext } from "../../contexts/user/UserContext"
 import Head from "next/head"
 import { withCustomerGuard } from "../../guards/withAuth"
 
+const TIME_LIMIT_SECONDS = 15
+
 function MyTicketView() {
+  const [seconds, setSeconds] = useState(TIME_LIMIT_SECONDS)
+
   const router = useRouter()
   const { ticketId } = router.query
   const { address } = useAccount()
@@ -23,20 +27,44 @@ function MyTicketView() {
     useContext(MarketContext)
 
   useEffect(() => {
+    resetQrCode()
+  }, [user, address, ticketId])
+
+  useEffect(() => {
     if (!ticketId) return
     getTicketListingFromTicketId(ticketId as string)
   }, [router.query])
 
-  const [qrCodeValue, setQrCodeValue] = useState({} as TicketQRUtilizeValue)
   useEffect(() => {
+    if (ticketListing?.ticket?.hasUsed) return
+
+    let interval: NodeJS.Timer | null = null
+    if (seconds === 0) {
+      setSeconds(TIME_LIMIT_SECONDS)
+      resetQrCode()
+    } else {
+      interval = setInterval(() => {
+        setSeconds((seconds) => seconds - 1)
+      }, 1000)
+    }
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [seconds])
+
+  const [qrCodeValue, setQrCodeValue] = useState<TicketQRUtilizeValue>()
+
+  function resetQrCode() {
     if (!user || !address || !ticketId) return
+
     setQrCodeValue({
       userId: user?._id ?? "",
       eventId: ticketListing?.event._id ?? "",
       walletAddress: address,
-      ticketId: ticketId as string
+      ticketId: ticketId as string,
+      generateSince: new Date()
     })
-  }, [address, user, ticketId, ticketListing])
+  }
 
   return (
     <Container sx={{ minHeight: "100vh" }}>
@@ -48,22 +76,31 @@ function MyTicketView() {
           Scan QR Code to Use
         </Typography>
         {qrCodeValue && (
-          <Ticket
-            hasUsed={ticketListing?.ticket.hasUsed}
-            assetSrc={ticketListing?.ticket.ticketMetadata[0].image as string}
-            assetName={ticketListing?.ticket.name ?? ""}
-            eventName={ticketListing?.event.name ?? ""}
-            eventOrganizer={ticketListing?.organizerInfo.organizationName ?? ""}
-            ticketType={ticketListing?.ticket.ticketType ?? "GENERAL"}
-            date={ticketListing?.event.startDate ?? new Date(0)}
-            location={
-              (ticketListing?.event.location?.structured_formatting.main_text ||
-                ticketListing?.event.online_url) as string
-            }
-            codeDisplayMode="QR"
-            codeValue={JSON.stringify(qrCodeValue)}
-            cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
-          />
+          <Box sx={{ position: "relative" }}>
+            <Ticket
+              hasUsed={ticketListing?.ticket.hasUsed}
+              assetSrc={ticketListing?.ticket.ticketMetadata[0].image as string}
+              assetName={ticketListing?.ticket.name ?? ""}
+              eventName={ticketListing?.event.name ?? ""}
+              eventOrganizer={
+                ticketListing?.organizerInfo.organizationName ?? ""
+              }
+              ticketType={ticketListing?.ticket.ticketType ?? "GENERAL"}
+              date={ticketListing?.event.startDate ?? new Date(0)}
+              location={
+                (ticketListing?.event.location?.structured_formatting
+                  .main_text || ticketListing?.event.online_url) as string
+              }
+              codeDisplayMode="QR"
+              codeValue={JSON.stringify(qrCodeValue)}
+              cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
+            />
+            {!ticketListing?.ticket.hasUsed && (
+              <Box sx={{ display: "grid", placeItems: "center" }}>
+                <Typography>This QR Code is valid until {seconds}</Typography>
+              </Box>
+            )}
+          </Box>
         )}
 
         <motion.div

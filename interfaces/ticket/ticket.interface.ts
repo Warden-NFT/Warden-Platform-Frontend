@@ -13,6 +13,7 @@ export interface TicketQRUtilizeValue {
   eventId: string
   walletAddress: string
   ticketId: string
+  generateSince: Date
 }
 export interface TicketPurchasePermissionResponse {
   allowed: boolean
