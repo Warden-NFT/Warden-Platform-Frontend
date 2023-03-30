@@ -1,6 +1,6 @@
 import { CalendarToday, LocationOnOutlined } from "@mui/icons-material"
 import { Box, Grid, Stack, SxProps, Typography } from "@mui/material"
-import { grey } from "@mui/material/colors"
+import { grey, purple } from "@mui/material/colors"
 import moment from "moment"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -80,17 +80,51 @@ function EventInfoBanner({
           )}
           <Stack sx={{ position: "relative", bottom: 0, ml: 14, mt: 2 }}>
             <Typography>Event Organizer</Typography>
-            <Typography variant="h5" component="h2" sx={{ fontWeight: 600 }}>
-              {organizationName}
-            </Typography>
+            <Link
+              href={`/marketplace/${organizerId}`}
+              style={{
+                textDecoration: "none",
+
+                color: "#000"
+              }}
+            >
+              <Typography
+                variant="h5"
+                component="h2"
+                sx={{
+                  fontWeight: 600,
+                  "&:hover": { textDecoration: "underline" }
+                }}
+              >
+                {organizationName}
+              </Typography>
+            </Link>
           </Stack>
         </Grid>
         {showBrowseEvents && (
-          <ContainedButton
-            label="Browse Events"
-            variant="contained"
-            onClick={onClickBrowseEvent}
-          />
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <ContainedButton
+              label="Browse Events"
+              variant="contained"
+              onClick={onClickBrowseEvent}
+            />
+            <Link
+              href={`${process.env.NEXT_PUBLIC_POLYGONSCAN_URL}/address/${event.smartContractAddress}`}
+              target="_blank"
+              style={{ textDecoration: "none" }}
+            >
+              <ContainedButton
+                label="View All Transactions History"
+                variant="contained"
+                height="32px"
+                isLink
+                sx={{
+                  background: purple[400],
+                  "&:hover": { background: purple[400] }
+                }}
+              />
+            </Link>
+          </Box>
         )}
       </Grid>
       <Box
@@ -119,12 +153,37 @@ function EventInfoBanner({
             </Typography>
           </Link>
           {showBrowseEvents && enabledResale && (
-            <Box sx={{ height: "50px", display: "grid", placeItems: "center" }}>
+            <Box
+              sx={{
+                height: "32px",
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "row",
+                gap: 2
+              }}
+            >
               <ContainedButton
                 label="Sell Tickets"
                 variant="outlined"
+                height="32px"
                 onClick={() => router.push(`/marketplace/sell/${event._id}`)}
               />
+              <Link
+                href={`${process.env.NEXT_PUBLIC_POLYGONSCAN_URL}/address/${event.smartContractAddress}`}
+                target="_blank"
+                style={{ textDecoration: "none" }}
+              >
+                <ContainedButton
+                  label="View All Transactions History"
+                  variant="contained"
+                  height="32px"
+                  isLink
+                  sx={{
+                    background: purple[400],
+                    "&:hover": { background: purple[400] }
+                  }}
+                />
+              </Link>
             </Box>
           )}
         </Box>

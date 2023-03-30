@@ -1,5 +1,7 @@
 import { Box, CircularProgress, Typography } from "@mui/material"
 import Image from "next/image"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import React from "react"
 import { EventOrganizerUser } from "../../../interfaces/auth/user.interface"
 import ContainerCard from "../../UI/card/ContainerCard"
@@ -9,11 +11,13 @@ type Props = {
 }
 
 function OrganizerInfoCard({ organizerInfo }: Props) {
+  const router = useRouter()
+  const { eventId } = router.query
   return (
     <ContainerCard
       sx={{
-        width: 300,
-        height: 160,
+        maxWidth: 400,
+        height: 180,
         backgroundColor: "#fff",
         textAlign: "center"
       }}
@@ -40,14 +44,20 @@ function OrganizerInfoCard({ organizerInfo }: Props) {
             />
           </Box>
           <Box sx={{ height: 16 }} />
-          <Typography
-            variant="h5"
-            component="h2"
-            textAlign="center"
-            fontWeight={600}
+          <Link
+            href={`/marketplace/${organizerInfo._id}`}
+            style={{ textDecoration: "none", color: "#000" }}
           >
-            {organizerInfo.organizationName}
-          </Typography>
+            <Typography
+              variant="h5"
+              component="h2"
+              textAlign="center"
+              fontWeight={600}
+              sx={{ "&:hover": { textDecoration: "underline" } }}
+            >
+              {organizerInfo.organizationName}
+            </Typography>
+          </Link>
           <Typography>{organizerInfo.email}</Typography>
           <Typography fontWeight={200}>Event Organizer</Typography>
         </>

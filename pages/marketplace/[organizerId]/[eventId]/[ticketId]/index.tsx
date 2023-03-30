@@ -194,6 +194,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
               event.location?.structured_formatting.main_text ||
               event.online_url
             }
+            showBrowseEvents
           />
           <Stack direction="row" sx={{ alignItems: "center", marginY: 3 }}>
             <IconButton
