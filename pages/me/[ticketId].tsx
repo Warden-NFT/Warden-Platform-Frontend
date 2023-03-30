@@ -62,7 +62,8 @@ function MyTicketView() {
       eventId: ticketListing?.event._id ?? "",
       walletAddress: address,
       ticketId: ticketId as string,
-      generateSince: new Date()
+      generateSince: new Date(),
+      isVip: ticketListing?.ticket?.ticketType === "VIP"
     })
   }
 
@@ -187,14 +188,22 @@ function MyTicketView() {
             maxWidth: "320px"
           }}
         >
-          <AlertTitle>Want to sell this ticket?</AlertTitle>
-          If you no longer need this ticket{" "}
-          <Link
-            href={`/marketplace/sell/${ticketListing?.event?._id}`}
-            style={{ color: "white" }}
-          >
-            Sell it here!
-          </Link>
+          {ticketListing?.ticket?.hasUsed ? (
+            <Typography>
+              This ticket has been used. It cannot be resale.
+            </Typography>
+          ) : (
+            <>
+              <AlertTitle>Want to sell this ticket?</AlertTitle>
+              If you no longer need this ticket
+              <Link
+                href={`/marketplace/sell/${ticketListing?.event?._id}`}
+                style={{ color: "white" }}
+              >
+                Sell it here!
+              </Link>
+            </>
+          )}
         </Alert>
         <MyTicketDetails ticketListing={ticketListing} />
       </Box>

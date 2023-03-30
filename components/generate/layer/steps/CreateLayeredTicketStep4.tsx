@@ -11,7 +11,7 @@ import {
 } from "@mui/material"
 import { useFormik } from "formik"
 import Image from "next/image"
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import { FormLayerData } from "../../../../interfaces/generate/file.interface"
 import { createLayerOccurrenceForm } from "../../../../schema/generate/layered"
@@ -23,6 +23,8 @@ function CreateLayeredTicketStep4() {
   const { layers, setLayers, formInfo, setFormInfo, setActiveStep } =
     useContext(GenerateLayerContext)
 
+  const [tmpLayers, setTmpLayers] = useState<FormLayerData[]>([])
+
   const { values, handleChange, touched, errors, setFieldValue, handleSubmit } =
     useFormik({
       initialValues: {
@@ -31,7 +33,8 @@ function CreateLayeredTicketStep4() {
       },
       validateOnChange: false,
       validateOnBlur: false,
-      validationSchema: createLayerOccurrenceForm(layers),
+      validationSchema: createLayerOccurrenceForm(tmpLayers),
+      enableReinitialize: true,
       onSubmit: (data) => {
         const _formInfo = { ...formInfo }
         const _layers = [...layers]
@@ -85,6 +88,10 @@ function CreateLayeredTicketStep4() {
     setFieldValue("assetOccurrences", _assetOccurrences)
   }, [layers, setFieldValue])
 
+  useEffect(() => {
+    setTmpLayers(values.layers)
+  }, [values.layers])
+
   return (
     <Box>
       <form>
@@ -115,7 +122,7 @@ function CreateLayeredTicketStep4() {
           <Typography>
             Maximum generation amount is:{" "}
             <span style={{ fontWeight: "600" }}>
-              {calculateCombination(layers.map((layer) => layer.assets.length))}
+              {Math.floor(calculateCombination(values.layers)).toFixed(0)}
             </span>
           </Typography>
         </FormControl>
@@ -258,6 +265,7 @@ function CreateLayeredTicketStep4() {
                       {values.layers[i].assets[j].name} will appears ≈{" "}
                       {(
                         ((values.layers[i].assets[j].occurrence / 100) *
+                          (values.layers[i].layerOccurrence / 100) *
                           values.generationAmount) /
                         values.layers[i].assets.length
                       ).toFixed(2)}{" "}

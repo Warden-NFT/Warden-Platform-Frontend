@@ -1,5 +1,5 @@
 import { array, number, object, string } from "yup"
-import { LayerData } from "../../interfaces/generate/file.interface"
+import { FormLayerData } from "../../interfaces/generate/file.interface"
 import { TicketTypes } from "../../interfaces/ticket/ticket.interface"
 import { calculateCombination } from "../../utils/random/combination"
 
@@ -23,16 +23,15 @@ export const CreateLayeredTicketStep1Schema = object({
     .required("Ticket type is required")
 })
 
-export function createLayerOccurrenceForm(layers: LayerData[]) {
-  const assetsLen = layers.map((layer) => layer.assets.length)
-  const limit = calculateCombination(assetsLen)
+export function createLayerOccurrenceForm(layers: FormLayerData[]) {
+  const limit = calculateCombination(layers)
 
   return object({
     generationAmount: number().test({
       name: "max",
       exclusive: false,
       params: {},
-      message: "Quantity exceeds maximum combinations.",
+      message: `Quantity exceeds maximum combinations of ${limit}.`,
       test: (_, context) => {
         return context.parent.generationAmount <= limit
       }

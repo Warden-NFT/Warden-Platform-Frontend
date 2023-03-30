@@ -6,7 +6,7 @@ import React, {
   lazy,
   useState
 } from "react"
-import { Box, IconButton, Stack, Typography } from "@mui/material"
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material"
 import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import { generateRandomLayer } from "../../../../utils/generate/layer"
@@ -42,7 +42,7 @@ function CreateLayeredTicketStep5() {
       return
     }
     handleGenerate()
-  }, [])
+  }, [layers, formInfo])
 
   useEffect(() => {
     let _vipCounts = 0
@@ -83,11 +83,9 @@ function CreateLayeredTicketStep5() {
           >
             <SettingsIcon />
           </IconButton>
-          <ContainedButton
-            label="Regenerate"
-            variant="contained"
-            onClick={handleGenerate}
-          />
+          <Button variant="outlined" onClick={handleGenerate}>
+            Regenerate
+          </Button>
         </Stack>
       </Stack>
       <Stack

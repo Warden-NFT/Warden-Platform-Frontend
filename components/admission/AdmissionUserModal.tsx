@@ -19,7 +19,7 @@ interface P {
 function AdmissionUserModal({ open, setOpen, qrValue }: P) {
   const [user, setUser] = useState<User>()
   const [admissionStatus, setAdmissionStatus] = useState<
-    "SUCCESS" | "FAILED" | "USED"
+    "SUCCESS" | "FAILED" | "USED" | "TIME"
   >()
 
   useAsyncEffect(async () => {
@@ -53,7 +53,9 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
     } catch (e) {
       const err = e as AxiosError<{ success: boolean }>
       if (err.response?.status === 400) {
-        setAdmissionStatus("USED")
+        if (err.message === "ticket_already_used") setAdmissionStatus("USED")
+        else if (err.message === "qr_code_time_exceed")
+          setAdmissionStatus("TIME")
       } else {
         setAdmissionStatus("FAILED")
       }
@@ -110,6 +112,9 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
           <Typography variant="h6" component="h2">
             {user?.username}
           </Typography>
+          {qrValue?.isVip && (
+            <Typography component="p">VIP Customer</Typography>
+          )}
           <Stack alignItems="center">
             <Typography id="modal-modal-description">
               Would you like to admit this user?
@@ -128,6 +133,11 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
               <Alert severity="error">
                 An error has occured, this user cannot be admitted to the event.
                 Try again later.
+              </Alert>
+            )}
+            {admissionStatus === "TIME" && (
+              <Alert severity="error">
+                QR-Code time exceed, please try again.
               </Alert>
             )}
             {admissionStatus === "USED" && (

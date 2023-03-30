@@ -19,12 +19,12 @@ function GenerateModeSelector() {
         }}
       >
         <TextDescriptionCard
-          title="Complete Assets Mode"
+          title="Create Ticket with Finished Assets"
           description="Ticket will be created with your uploaded assets such as image. You can also customize the quantity of each assets to match the amount of attendees."
           path="ticket/asset"
         />
         <TextDescriptionCard
-          title="Layered Assets Mode"
+          title="Create Ticket with Layered Assets"
           description="Ticket will be created with your uploaded assets and randomly generate by its rarity. You can customize the rarity of each asset or layer."
           path="ticket/layer"
         />
