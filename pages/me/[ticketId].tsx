@@ -62,7 +62,8 @@ function MyTicketView() {
       eventId: ticketListing?.event._id ?? "",
       walletAddress: address,
       ticketId: ticketId as string,
-      generateSince: new Date()
+      generateSince: new Date(),
+      isVip: ticketListing?.ticket?.ticketType === "VIP"
     })
   }
 

@@ -112,6 +112,9 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
           <Typography variant="h6" component="h2">
             {user?.username}
           </Typography>
+          {qrValue?.isVip && (
+            <Typography component="p">VIP Customer</Typography>
+          )}
           <Stack alignItems="center">
             <Typography id="modal-modal-description">
               Would you like to admit this user?

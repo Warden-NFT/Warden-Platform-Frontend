@@ -14,6 +14,7 @@ export interface TicketQRUtilizeValue {
   walletAddress: string
   ticketId: string
   generateSince: Date
+  isVip: boolean
 }
 export interface TicketPurchasePermissionResponse {
   allowed: boolean
