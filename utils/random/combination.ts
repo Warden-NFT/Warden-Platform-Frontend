@@ -1,7 +1,4 @@
-import {
-  FormLayerData,
-  FormUploadedAsset
-} from "../../interfaces/generate/file.interface"
+import { FormLayerData } from "../../interfaces/generate/file.interface"
 
 export function calculateCombination(layers: FormLayerData[]) {
   let sum = 1
