@@ -3,7 +3,7 @@ export interface AssetDimension {
   height: number
 }
 
-interface FormUploadedAsset {
+export interface FormUploadedAsset {
   id: number
   name: string
   occurrence: number
