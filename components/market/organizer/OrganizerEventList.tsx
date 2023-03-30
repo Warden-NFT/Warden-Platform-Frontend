@@ -95,6 +95,7 @@ function OrganizerEventList({ events, eventTicketPreviews }: Props) {
                 <TicketPreviewList
                   eventTicketPreviews={eventTicketPreviews}
                   eventIndex={index}
+                  event={event}
                 />
               </Box>
             </Box>

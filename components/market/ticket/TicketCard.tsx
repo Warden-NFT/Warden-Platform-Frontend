@@ -37,7 +37,7 @@ function TicketCard({
   const router = useRouter()
   function handleRedirect() {
     const path = router.asPath
-    if (!isMyTicket) {
+    if (isMyTicket) {
       router.push(`/my-tickets/${ticketId}`)
     }
     if (ticketId && enableRedirect && path) {
