@@ -1,11 +1,12 @@
 import {
   Box,
   FormControl,
+  FormControlLabel,
   FormLabel,
   Grid,
+  Radio,
+  RadioGroup,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
   Typography
 } from "@mui/material"
 import React, { useContext, useState } from "react"
@@ -15,7 +16,6 @@ import { CreateEventContext } from "../../../../contexts/event/CreateEventContex
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
 import { useFormik } from "formik"
-import { isEmpty } from "../../../../utils/common/missing"
 import GoogleMaps from "../../../UI/textfield/GoogleMapsAuthComplete"
 import { Event } from "../../../../interfaces/event/event.interface"
 import moment from "moment"
@@ -24,6 +24,7 @@ import { CreateEventStep2Schema } from "../../../../schema/event/createEventStep
 import { TextFieldWrapper } from "../../../UI/textfield/TextFieldWrapper"
 import { useRouter } from "next/router"
 import { UserContext } from "../../../../contexts/user/UserContext"
+import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 
 function CreateEventStep2() {
   // Hooks
@@ -36,6 +37,7 @@ function CreateEventStep2() {
     resetEvent
   } = useContext(CreateEventContext)
   const { user } = useContext(UserContext)
+  const { setShowLoadingBackdrop } = useContext(LayoutContext)
   const router = useRouter()
   const {
     values,
@@ -46,6 +48,8 @@ function CreateEventStep2() {
     handleBlur,
     handleChange
   } = useFormik({
+    validateOnBlur: true,
+    validateOnChange: true,
     initialValues: {
       startDate: currentEvent.startDate
         ? moment(currentEvent.startDate).toDate()
@@ -68,16 +72,19 @@ function CreateEventStep2() {
       }
       setEvent(_event)
       try {
+        setShowLoadingBackdrop(true)
         if (!user || !user._id) {
           throw new Error("Invalid user. Please authenticate again.")
         }
         const savedEvent: Event | undefined = await saveEvent(_event, user._id)
         if (savedEvent) {
           resetEvent()
+          setShowLoadingBackdrop(false)
           router.push(`/event/detail/${savedEvent._id}`)
         }
       } catch (error) {
         // TODO: display error when failing to get a new event
+        setShowLoadingBackdrop(false)
       }
     }
   })
@@ -109,12 +116,16 @@ function CreateEventStep2() {
   }
 
   const handleChangeLocationMode = (
-    event: React.MouseEvent<HTMLElement>,
-    isOnlineEvent: boolean
+    // MUI radio button event type
+    event: React.ChangeEvent<HTMLInputElement>,
+    value: string
   ) => {
-    if (isOnlineEvent) setFieldValue("location", null)
-    else setFieldValue("online_url", "")
-    setIsOnlineEvent(isOnlineEvent)
+    const _isOnlineEvent = value === "true"
+    if (_isOnlineEvent) {
+      setFieldValue("location", null)
+      setLocationValue(null)
+    } else setFieldValue("online_url", "")
+    setIsOnlineEvent(_isOnlineEvent)
   }
 
   return (
@@ -214,20 +225,24 @@ function CreateEventStep2() {
           <Typography variant="caption" color="gray">
             Google Maps location or online meeting URL
           </Typography>
-          <Box sx={{ my: 2 }} />
           <Box>
-            <ToggleButtonGroup
-              color="info"
+            <RadioGroup
               value={isOnlineEvent}
-              exclusive
               onChange={handleChangeLocationMode}
-              aria-label="Platform"
             >
-              <ToggleButton value={false}>On-site Event</ToggleButton>
-              <ToggleButton value={true}>Online Event</ToggleButton>
-            </ToggleButtonGroup>
+              <FormControlLabel
+                value={false}
+                control={<Radio />}
+                label="I'm hosting an on-site event"
+              />
+              <FormControlLabel
+                value={true}
+                control={<Radio />}
+                label="I'm hosting an online event"
+              />
+            </RadioGroup>
           </Box>
-          <Box sx={{ my: 2 }} />
+          <Box sx={{ my: 1 }} />
           {!isOnlineEvent && (
             <GoogleMaps
               name="location"
@@ -268,7 +283,7 @@ function CreateEventStep2() {
         handleNext={handleSubmit}
         nextLabel="Save and Continue"
         isBackDisabled={false}
-        isRightDisabled={(false && isEmpty(touched)) || !isEmpty(errors)}
+        // isRightDisabled={(false && isEmpty(touched)) || !isEmpty(errors)}
       />
     </LocalizationProvider>
   )
