@@ -1,4 +1,4 @@
-import { Box, Typography, Link } from "@mui/material"
+import { Box, Typography, Link, Stack } from "@mui/material"
 import React, {
   Dispatch,
   SetStateAction,
@@ -53,10 +53,40 @@ function OTPLayout({ otp, setOtp, handleSubmit, setOtpToken }: P) {
         <Typography variant="h5" fontWeight="bold" component="h1">
           Verify your phone number
         </Typography>
-        <Typography component="p">
-          A 6-digit code is sent to your phone.
-        </Typography>
+
         <Box sx={{ my: 2 }} />
+        {seconds > 0 ? (
+          <Stack direction="column">
+            <Typography fontWeight="600" sx={{ mr: 1 }}>
+              Step 1.
+            </Typography>
+
+            <Typography>OTP Sent! Try again in {seconds} seconds.</Typography>
+          </Stack>
+        ) : (
+          <Stack direction="column">
+            <Typography fontWeight="600" sx={{ mr: 1 }}>
+              {"Step 1."}
+            </Typography>
+            <Typography component="p">
+              Click here to receive the OTP code.{" "}
+              <Link
+                onClick={requestOTP}
+                sx={{ "&:hover": { cursor: "pointer" }, fontWeight: "600" }}
+              >
+                Send OTP code
+              </Link>
+            </Typography>
+          </Stack>
+        )}
+        <Stack direction="column">
+          <Typography fontWeight="600" sx={{ mr: 1 }}>
+            {"Step 2."}
+          </Typography>
+          <Typography component="p">
+            Input 6-digit code is sent to your phone.
+          </Typography>
+        </Stack>
         <OtpInput
           value={otp}
           onChange={handleChange}
@@ -65,19 +95,6 @@ function OTPLayout({ otp, setOtp, handleSubmit, setOtpToken }: P) {
           inputStyle={{ padding: "0.75rem", margin: "0.5rem" }}
         />
         <Box sx={{ my: 2 }} />
-        {seconds > 0 ? (
-          <Typography>Try again in {seconds} seconds.</Typography>
-        ) : (
-          <Typography component="p">
-            Click here to receive the OTP code.{" "}
-            <Link
-              onClick={requestOTP}
-              sx={{ "&:hover": { cursor: "pointer" } }}
-            >
-              Send OTP code
-            </Link>
-          </Typography>
-        )}
         <ContainedButton
           onClick={() => handleSubmit()}
           disabled={otp.length < 6}
