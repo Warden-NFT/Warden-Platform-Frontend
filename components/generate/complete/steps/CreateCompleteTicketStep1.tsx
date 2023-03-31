@@ -307,14 +307,9 @@ function CreateCompleteTicketStep1() {
             <ControlledTicketPriceFields
               values={[
                 values.price.general?.default,
-                values.price.general?.min,
                 values.price.general?.max
               ]}
-              names={[
-                "price.general.default",
-                "price.general.min",
-                "price.general.max"
-              ]}
+              names={["price.general.default", "price.general.max"]}
               error={errors.price?.general}
               touched={Boolean(touched.price?.general)}
               handleChange={handleChange}
@@ -333,12 +328,8 @@ function CreateCompleteTicketStep1() {
               VIP Tickets Pricings
             </Typography>
             <ControlledTicketPriceFields
-              values={[
-                values.price.vip?.default,
-                values.price.vip?.min,
-                values.price.vip?.max
-              ]}
-              names={["price.vip.default", "price.vip.min", "price.vip.max"]}
+              values={[values.price.vip?.default, values.price.vip?.max]}
+              names={["price.vip.default", "price.vip.max"]}
               error={errors.price?.vip}
               touched={Boolean(touched.price?.vip)}
               handleChange={handleChange}

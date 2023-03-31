@@ -4,8 +4,8 @@ import { SupportedDigitalCurrency } from "../../../interfaces/currency/currency.
 import ControlledCurrencyPriceSelect from "../../UI/input/ControlledCurrencyPriceSelect"
 
 interface Props {
-  values: [number | undefined, number | undefined, number | undefined]
-  names: [string, string, string]
+  values: [number | undefined, number | undefined]
+  names: [string, string]
   error?: any
   touched: boolean
   handleChange: any
@@ -16,16 +16,8 @@ interface Props {
   enableResale: boolean
 }
 
-const LABELS = [
-  "Ticket price",
-  "Ticket's minimum resale price",
-  "Ticket's maximum resale price"
-]
-const LABELS_DESC = [
-  "Set your ticket price",
-  "Set your minimum resale price",
-  "Set your maximum resale price"
-]
+const LABELS = ["Ticket price", "Ticket's maximum resale price"]
+const LABELS_DESC = ["Set your ticket price", "Set your maximum resale price"]
 
 function ControlledTicketPriceFields({
   values,
@@ -61,19 +53,6 @@ function ControlledTicketPriceFields({
             labelDescription={LABELS_DESC[1]}
             amountName={names[1]}
             amountValue={values[1] ?? 0}
-            handleChange={handleChange}
-            amountError={error && error?.min}
-            amountTouched={touched}
-            currencyName={currencyName}
-            currencyValue={currencyValue}
-            currencyError={currencyTouched && Boolean(currencyError)}
-            currencyTouched={currencyTouched}
-          />
-          <ControlledCurrencyPriceSelect
-            label={LABELS[2]}
-            labelDescription={LABELS_DESC[2]}
-            amountName={names[2]}
-            amountValue={values[2] ?? 0}
             handleChange={handleChange}
             amountError={error && error.max}
             amountTouched={touched}
