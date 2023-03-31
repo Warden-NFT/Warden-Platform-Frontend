@@ -48,8 +48,8 @@ function CreateEventStep2() {
     handleBlur,
     handleChange
   } = useFormik({
-    validateOnBlur: true,
-    validateOnChange: true,
+    validateOnBlur: false,
+    validateOnChange: false,
     initialValues: {
       startDate: currentEvent.startDate
         ? moment(currentEvent.startDate).toDate()
@@ -77,7 +77,7 @@ function CreateEventStep2() {
           throw new Error("Invalid user. Please authenticate again.")
         }
         const savedEvent: Event | undefined = await saveEvent(_event, user._id)
-        if (savedEvent) {
+        if (savedEvent && savedEvent._id) {
           resetEvent()
           setShowLoadingBackdrop(false)
           router.push(`/event/detail/${savedEvent._id}`)
