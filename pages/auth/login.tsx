@@ -150,11 +150,10 @@ function Login() {
                 }}
                 disabled={false}
                 variant="contained"
-                label="Log in"
+                label={token ? "Log in" : "Verify"}
                 height="40px"
                 width="100%"
               />
-
               <Box
                 sx={{
                   display: "flex",

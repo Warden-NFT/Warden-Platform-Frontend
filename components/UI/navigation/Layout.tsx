@@ -13,18 +13,7 @@ import { LayoutContext } from "../../../contexts/layout/LayoutContext"
 import AlertModal from "../../alert/AlertModal"
 import { BotPreventionContext } from "../../../contexts/user/BotPreventionContext"
 import Reaptcha from "reaptcha"
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4
-}
+import { modalStyle } from "../../../styles/muiStyles"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { showLoadingBackdrop } = useContext(LayoutContext)
@@ -70,7 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         aria-labelledby="recaptcha-modal"
         aria-describedby="confirm-recaptcha-modal"
       >
-        <Box sx={style}>
+        <Box sx={{ ...modalStyle, width: "400px" }}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             RECAPTCHA
           </Typography>
