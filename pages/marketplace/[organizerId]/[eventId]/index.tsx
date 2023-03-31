@@ -81,12 +81,24 @@ function MarketEvent() {
             </Alert>
           )}
           <TicketCardList
-            tickets={marketTickets?.ticketCollection?.tickets.vip ?? []}
-            ticketType="VIP Tickets"
-            isHorizontal
+            tickets={
+              marketTickets?.ticketCollection?.tickets.vip?.filter(
+                (_ticket) =>
+                  _ticket.ownerHistory.at(-1) ===
+                  marketTickets.event.ownerAddress
+              ) ?? []
+            }
+            ticketType="VIP Tickets ✨"
+            isVip
           />
           <TicketCardList
-            tickets={marketTickets?.ticketCollection?.tickets.general ?? []}
+            tickets={
+              marketTickets?.ticketCollection?.tickets.general?.filter(
+                (_ticket) =>
+                  _ticket.ownerHistory.at(-1) ===
+                  marketTickets.event.ownerAddress
+              ) ?? []
+            }
             ticketType="General Admission Tickets"
           />
         </Container>
