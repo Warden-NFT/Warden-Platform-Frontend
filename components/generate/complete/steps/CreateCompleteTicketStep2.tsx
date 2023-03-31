@@ -58,7 +58,9 @@ function CreateCompleteTicketStep2() {
         }}
       >
         <Box sx={{ padding: 2, borderRadius: 2, backgroundColor: grey[100] }}>
-          <Typography variant="h4">Assets for Regular Tickets</Typography>
+          <Typography variant="h4">
+            Assets for General Admission Tickets
+          </Typography>
           {uploadedAssets.length > 0 && (
             <Box
               sx={{
@@ -82,7 +84,7 @@ function CreateCompleteTicketStep2() {
             assets={assets}
             setAssets={setAssets}
             setUploadedAssets={setUploadedAssets}
-            dragLabel="Drag & Drop to regular zone"
+            dragLabel="Drag & Drop to general admission zone"
             sx={{
               backgroundColor: grey[200],
               border: "dashed 2px black",

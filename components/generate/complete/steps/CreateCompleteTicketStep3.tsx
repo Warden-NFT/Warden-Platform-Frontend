@@ -133,9 +133,9 @@ function CreateCompleteTicketStep3() {
           border: 2
         }}
       >
-        {/* Customize Regular */}
+        {/* Customize general admission */}
         <FormControl required>
-          <FormLabel>Customize Regular Ticket</FormLabel>
+          <FormLabel>Customize General Admission Ticket</FormLabel>
           <Stack spacing={1}>
             <Stack direction="row" justifyContent="space-between">
               <Typography fontWeight="600">Asset</Typography>
