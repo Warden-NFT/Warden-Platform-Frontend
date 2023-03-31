@@ -1,7 +1,7 @@
 import { Alert, Avatar, Box, Button, Modal, Typography } from "@mui/material"
 import { Stack } from "@mui/system"
 import Image from "next/image"
-import React, { Dispatch, SetStateAction, useState } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { client } from "../../configs/axios/axiosConfig"
 import { EventTicket } from "../../dtos/ticket/ticket.dto"
 import useAsyncEffect from "../../hooks/useAsyncEffect"
@@ -21,6 +21,19 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
   const [admissionStatus, setAdmissionStatus] = useState<
     "SUCCESS" | "FAILED" | "USED" | "TIME"
   >()
+  const [timer, setTimer] = useState(3)
+
+  useEffect(() => {
+    if (admissionStatus === "SUCCESS") {
+      const interval = setInterval(() => {
+        setTimer((prev) => prev - 1)
+        if (timer <= 0) setOpen(false)
+      }, 1000)
+      return () => {
+        clearInterval(interval)
+      }
+    }
+  }, [admissionStatus])
 
   useAsyncEffect(async () => {
     setAdmissionStatus(undefined)
@@ -42,7 +55,7 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
         setUser(user)
       }
     } catch (e) {
-      return
+      setOpen(false)
     }
 
     try {
@@ -51,10 +64,12 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
       })
       setAdmissionStatus("SUCCESS")
     } catch (e) {
-      const err = e as AxiosError<{ success: boolean }>
+      const err = e as AxiosError<{ message: string }>
+      console.log(err)
       if (err.response?.status === 400) {
-        if (err.message === "ticket_already_used") setAdmissionStatus("USED")
-        else if (err.message === "qr_code_time_exceed")
+        if (err.response?.data?.message === "ticket_already_used")
+          setAdmissionStatus("USED")
+        else if (err.response?.data?.message === "qr_code_time_exceed")
           setAdmissionStatus("TIME")
       } else {
         setAdmissionStatus("FAILED")
@@ -81,8 +96,8 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
           </Typography>
           <Box
             sx={{
-              width: "200px",
-              height: "200px",
+              width: "180px",
+              height: "180px",
               borderRadius: "50%",
               overflow: "hidden"
             }}
@@ -90,11 +105,11 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
             {user?.profileImage ? (
               <Image
                 src={user?.profileImage}
-                width="200"
-                height="200"
+                width="180"
+                height="180"
                 alt="User profile"
                 draggable={false}
-                style={{ objectFit: "contain" }}
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <Avatar
@@ -147,7 +162,9 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
             )}
           </Box>
           <Button onClick={() => setOpen(false)} variant="outlined">
-            Close
+            {admissionStatus === "SUCCESS"
+              ? `Close in ${timer} seconds`
+              : "Close"}
           </Button>
         </Stack>
       </Box>
