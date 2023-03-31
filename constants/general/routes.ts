@@ -42,7 +42,7 @@ export const CUSTOMER_APP_ROUTES: AppRoute[] = [
     subroutes: []
   },
   {
-    name: "Use Ticket",
+    name: "My Tickets",
     url: "/me",
     subroutes: []
   }
