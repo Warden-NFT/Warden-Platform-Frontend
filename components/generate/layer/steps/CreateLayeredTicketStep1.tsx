@@ -184,7 +184,7 @@ function CreateLayeredTicketStep1() {
               alignItems="center"
             >
               <Stack>
-                <FormLabel>Enable Loyalty Fee</FormLabel>
+                <FormLabel>Enable Royalty Fee</FormLabel>
                 <Typography variant="caption" color="gray">
                   Would you like to get any monery benefit when ticket resale
                   occurs? The benefit amount will be a % of the resale price.
@@ -208,13 +208,13 @@ function CreateLayeredTicketStep1() {
               alignItems="center"
             >
               <Stack>
-                <FormLabel>Select Loyalty Fee Percentage</FormLabel>
+                <FormLabel>Select Royalty Fee Percentage</FormLabel>
                 <Typography variant="caption" color="gray">
                   What is the ticket name?
                 </Typography>
               </Stack>
               <Slider
-                aria-label="loyalty-fee"
+                aria-label="royalty-fee"
                 name="royaltyFeePercentage"
                 value={values.royaltyFeePercentage}
                 onChange={handleChange}
