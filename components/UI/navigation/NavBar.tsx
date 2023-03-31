@@ -26,7 +26,8 @@ import Link from "next/link"
 import { UserContext } from "../../../contexts/user/UserContext"
 import { Account } from "../../../interfaces/auth/user.interface"
 import { Menu as MenuIcon } from "@mui/icons-material"
-import { deepPurple } from "@mui/material/colors"
+import { deepPurple, grey } from "@mui/material/colors"
+import { useRouter } from "next/router"
 
 function NavBar() {
   const [avatarElement, setAvatarElement] = useState<HTMLElement | null>(null)
@@ -34,6 +35,13 @@ function NavBar() {
   const [boxShadowStyle, setBoxShadowStyle] = useState<string>()
   const { user, logOut } = useContext(UserContext)
   const [isDrawerOpen, setDrawerOpen] = useState(false)
+
+  const router = useRouter()
+  const [currentRoute, setCurrentRoute] = useState("")
+
+  useEffect(() => {
+    setCurrentRoute(router.pathname)
+  }, [router])
 
   const list = () => (
     <Box
@@ -51,8 +59,16 @@ function NavBar() {
           >
             <ListItem disablePadding>
               <ListItemButton>
-                {/* <NavLink route={{ name: route.name, url: route.url }} key={index} /> */}
-                <ListItemText primary={route.name} />
+                <ListItemText
+                  primary={route.name}
+                  sx={{
+                    backgroundColor:
+                      currentRoute === route.url ? grey[200] : "transparent",
+                    m: 0,
+                    p: 1.5,
+                    borderRadius: "8px"
+                  }}
+                />
               </ListItemButton>
             </ListItem>
           </Link>
@@ -179,6 +195,12 @@ function NavBar() {
                   <NavLink
                     route={{ name: appRoute.name, url: appRoute.url }}
                     key={index}
+                    sx={{
+                      backgroundColor:
+                        currentRoute === appRoute.url
+                          ? grey[200]
+                          : "transparent"
+                    }}
                   />
                 )
               })}
