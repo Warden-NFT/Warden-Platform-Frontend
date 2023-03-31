@@ -22,7 +22,7 @@ import Head from "next/head"
 type RegisterMode = "Customer" | "EventOrganizer"
 
 function Register() {
-  const [registerMode, setRegisterMode] = useState<RegisterMode>("Customer")
+  const [registerMode, setRegisterMode] = useState<RegisterMode>()
   const { user } = useContext(UserContext)
   const router = useRouter()
   const { referrer } = router.query
@@ -63,8 +63,7 @@ function Register() {
               <Divider sx={{ my: 2 }} />
               <Box
                 sx={{
-                  padding: 2,
-                  backgroundColor: purple[50]
+                  padding: 2
                 }}
               >
                 <FormLabel sx={{ fontWeight: 600 }}>
@@ -73,7 +72,7 @@ function Register() {
                 <Box sx={{ my: 2 }} />
                 <Box>
                   <ToggleButtonGroup
-                    color="primary"
+                    color="secondary"
                     value={registerMode}
                     exclusive
                     onChange={handleChange}

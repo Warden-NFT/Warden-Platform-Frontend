@@ -67,7 +67,6 @@ function AlertModal() {
       )}
       {alertContent.type === AlertType.INFO && (
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handlePrimaryAction} autoFocus variant="contained">
             OK
           </Button>

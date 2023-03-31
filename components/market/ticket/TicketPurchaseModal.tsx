@@ -287,7 +287,7 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
             </Box>
             {address ? (
               <ContainedButton
-                label="Advance to Payment"
+                label={token ? "Advance to Payment" : "Verify"}
                 variant="contained"
                 isLoading={paymentProcessing}
                 onClick={handlePayment}

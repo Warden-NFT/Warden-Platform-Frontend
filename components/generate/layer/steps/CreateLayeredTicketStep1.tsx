@@ -184,7 +184,7 @@ function CreateLayeredTicketStep1() {
               alignItems="center"
             >
               <Stack>
-                <FormLabel>Enable Loyalty Fee</FormLabel>
+                <FormLabel>Enable Royalty Fee</FormLabel>
                 <Typography variant="caption" color="gray">
                   Would you like to get any monery benefit when ticket resale
                   occurs? The benefit amount will be a % of the resale price.
@@ -208,13 +208,13 @@ function CreateLayeredTicketStep1() {
               alignItems="center"
             >
               <Stack>
-                <FormLabel>Select Loyalty Fee Percentage</FormLabel>
+                <FormLabel>Select Royalty Fee Percentage</FormLabel>
                 <Typography variant="caption" color="gray">
                   What is the ticket name?
                 </Typography>
               </Stack>
               <Slider
-                aria-label="loyalty-fee"
+                aria-label="royalty-fee"
                 name="royaltyFeePercentage"
                 value={values.royaltyFeePercentage}
                 onChange={handleChange}
@@ -291,14 +291,9 @@ function CreateLayeredTicketStep1() {
             <ControlledTicketPriceFields
               values={[
                 values.price.general?.default,
-                values.price.general?.min,
                 values.price.general?.max
               ]}
-              names={[
-                "price.general.default",
-                "price.general.min",
-                "price.general.max"
-              ]}
+              names={["price.general.default", "price.general.max"]}
               // @ts-ignore
               error={errors.price?.general}
               touched={Boolean(touched.price?.general)}
@@ -318,12 +313,8 @@ function CreateLayeredTicketStep1() {
               VIP Tickets Pricings
             </Typography>
             <ControlledTicketPriceFields
-              values={[
-                values.price.vip?.default,
-                values.price.vip?.min,
-                values.price.vip?.max
-              ]}
-              names={["price.vip.default", "price.vip.min", "price.vip.max"]}
+              values={[values.price.vip?.default, values.price.vip?.max]}
+              names={["price.vip.default", "price.vip.max"]}
               error={errors.price?.vip}
               touched={Boolean(touched.price?.vip)}
               handleChange={handleChange}

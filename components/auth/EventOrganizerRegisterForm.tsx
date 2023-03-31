@@ -233,7 +233,7 @@ function EventOrganizerRegisterForm() {
         }}
         disabled={false}
         variant="contained"
-        label="Next"
+        label={token ? "Next" : "Verify"}
         height="40px"
         width="100%"
       />

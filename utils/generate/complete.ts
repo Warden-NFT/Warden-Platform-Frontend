@@ -9,7 +9,6 @@ import {
   TicketInfo
 } from "../../interfaces/generate/collection.interface"
 import { UploadedCompleteAsset } from "../../interfaces/generate/file.interface"
-import { TicketGenerationMode } from "../../dtos/ticket/ticket.dto"
 
 export interface AssetsMetadata {
   general?: TicketsMetadata[]

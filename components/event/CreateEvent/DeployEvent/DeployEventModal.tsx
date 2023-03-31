@@ -181,7 +181,7 @@ function DeployEventModal({
         <Box>
           <FlatCard sx={modalStyle}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
-              Publish Your Event
+              List your Tickets and Events for Sale
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
               When an event is published, a corresponding smart contract will be

@@ -222,7 +222,7 @@ function SellTicketStep2() {
           }}
         />
         <ContainedButton
-          label="List ticket for sale"
+          label={recaptchaToken ? "List ticket for sale" : "Verify"}
           variant="contained"
           disabled={!selectedTicket}
           onClick={handleSubmit}
