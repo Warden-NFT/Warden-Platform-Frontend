@@ -108,22 +108,6 @@ function EventInfoBanner({
               variant="contained"
               onClick={onClickBrowseEvent}
             />
-            <Link
-              href={`${process.env.NEXT_PUBLIC_POLYGONSCAN_URL}/address/${event.smartContractAddress}`}
-              target="_blank"
-              style={{ textDecoration: "none" }}
-            >
-              <ContainedButton
-                label="View All Transactions History"
-                variant="contained"
-                height="32px"
-                isLink
-                sx={{
-                  background: purple[400],
-                  "&:hover": { background: purple[400] }
-                }}
-              />
-            </Link>
           </Box>
         )}
       </Grid>

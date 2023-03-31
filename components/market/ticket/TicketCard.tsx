@@ -6,7 +6,7 @@ import {
   Box,
   SxProps
 } from "@mui/material"
-import { grey } from "@mui/material/colors"
+import { grey, purple } from "@mui/material/colors"
 import { Theme } from "@mui/system"
 import { useRouter } from "next/router"
 import React from "react"
@@ -51,14 +51,14 @@ function TicketCard({
       <ContainerCard
         sx={{
           p: 1,
-          width: "200px",
+          width: "210px",
           borderRadius: 1,
           textAlign: "start"
         }}
       >
         <ImageWithFallback
           src={image}
-          width={200}
+          width={210}
           height={200}
           alt={name}
           style={{
@@ -72,7 +72,14 @@ function TicketCard({
         <Box sx={{ height: 8 }} />
         <Typography sx={{ fontSize: 11, fontWeight: 300 }}>{name}</Typography>
         <Box sx={{ height: 8 }} />
-        <Chip label={ticketTypeLabel} />
+        <Chip
+          label={ticketTypeLabel}
+          sx={
+            ticketTypeLabel === "VIP"
+              ? { background: purple[200], color: "#fff" }
+              : { background: grey[200], color: "#000" }
+          }
+        />
         <Divider sx={{ borderColor: "#000", mx: -1, my: 2 }} />
         <Box
           sx={{
