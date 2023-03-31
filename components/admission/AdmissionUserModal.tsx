@@ -65,7 +65,6 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
       setAdmissionStatus("SUCCESS")
     } catch (e) {
       const err = e as AxiosError<{ message: string }>
-      console.log(err)
       if (err.response?.status === 400) {
         if (err.response?.data?.message === "ticket_already_used")
           setAdmissionStatus("USED")
