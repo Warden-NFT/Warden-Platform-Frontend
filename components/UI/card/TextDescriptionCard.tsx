@@ -5,15 +5,17 @@ import { Theme } from "@mui/system"
 import { purple } from "@mui/material/colors"
 import FlatCard from "./FlatCard"
 import { useRouter } from "next/router"
+import Image from "next/image"
 
 interface Props {
   title: string
   description: string
   path: string
+  imgSrc: string
   containerStyles?: SxProps<Theme>
 }
 
-function TextDescriptionCard({ title, description, path }: Props) {
+function TextDescriptionCard({ title, description, imgSrc, path }: Props) {
   const router = useRouter()
   const containerMotion: Variants = {
     rest: {
@@ -40,7 +42,8 @@ function TextDescriptionCard({ title, description, path }: Props) {
               p: 0,
               overflow: "hidden",
               height: 280,
-              "&:hover": { cursor: "pointer" }
+              "&:hover": { cursor: "pointer" },
+              position: "relative"
             }}
           >
             <Box
@@ -66,6 +69,14 @@ function TextDescriptionCard({ title, description, path }: Props) {
               </Box>
               <Box sx={{ padding: 2, height: "140px" }}>
                 <Typography>{description}</Typography>
+              </Box>
+              <Box sx={{ position: "absolute", bottom: "20px", right: "40px" }}>
+                <Image
+                  src={imgSrc}
+                  alt="placeholder"
+                  width={100}
+                  height={100}
+                />
               </Box>
               <Box onClick={() => router.push(path)}>
                 <Typography
