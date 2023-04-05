@@ -198,7 +198,7 @@ function SellTicketStep2() {
       <Divider sx={{ my: 2 }} />
       <ControlledCurrencyPriceSelect
         label="Ticket resale price"
-        labelDescription={`The event organizer has allowed the resale price between ${values.minResalePrice} and ${values.maxResalePrice} ${marketTickets?.ticketCollection.currency}`}
+        labelDescription={`The event organizer has allowed the max resale price to be ${values.maxResalePrice} ${marketTickets?.ticketCollection.currency}`}
         amountName="resalePrice"
         amountValue={values.resalePrice ?? 0}
         handleChange={handleChange}

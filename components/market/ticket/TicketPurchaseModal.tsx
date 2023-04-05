@@ -206,7 +206,14 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
         </Stack>
         <Stack direction="row">
           <Stack direction="column" flex="1" sx={{ marginRight: 2 }}>
-            <Box sx={{ border: 2, p: 2, borderRadius: 2, marginBottom: 2 }}>
+            <Box
+              sx={{
+                background: grey[100],
+                p: 2,
+                borderRadius: 2,
+                marginBottom: 2
+              }}
+            >
               <Typography variant="h6" fontWeight="600">
                 Payment
               </Typography>
@@ -222,7 +229,7 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
                 Terms and Conditions
               </Typography>
             </Box>
-            <Box sx={{ border: 2, p: 2, borderRadius: 2 }}>
+            <Box sx={{ background: grey[100], p: 2, borderRadius: 2 }}>
               <Typography variant="h6" fontWeight="600">
                 View your Purchases
               </Typography>
@@ -291,7 +298,7 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
                 variant="contained"
                 isLoading={paymentProcessing}
                 onClick={handlePayment}
-                sx={{ marginTop: 1, width: "100%" }}
+                sx={{ marginTop: 1, width: "100%", height: 32 }}
               />
             ) : (
               <ContainedButton

@@ -12,7 +12,8 @@ import {
 import axios from "axios"
 import {
   Event,
-  TicketTypeKey
+  TicketTypeKey,
+  TicketTypeKeyCapital
 } from "../../../../../interfaces/event/event.interface"
 import { EventOrganizerUser } from "../../../../../interfaces/auth/user.interface"
 import { MarketTickets } from "../../../../../interfaces/market/marketEvent.interface"
@@ -105,6 +106,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     address: string,
     force?: boolean
   ) => {
+    console.log("RUN")
     // Show loading backdrop
     setShowLoadingBackdrop(true)
 
@@ -158,6 +160,12 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   // Checks ticket ownership
   useEffect(() => {
     // If the dependencies aren't ready, don't do anything
+    console.log(
+      Boolean(web3),
+      Boolean(abi),
+      Boolean(event.smartContractAddress),
+      Boolean(address)
+    )
     if (!web3 || !abi || !event.smartContractAddress || !address) return
     checkTicketOwnership(web3, abi, address)
   }, [web3, abi, address, isResaleTicket])
@@ -221,7 +229,9 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
             isSold={isSold}
             isResaleTicket={isResaleTicket}
             isOwnedTicket={isOwnedTicket}
-            isEventOrganizer={address === event.ownerAddress}
+            isEventOrganizer={
+              address === event.ownerAddress || user?._id === event.organizerId
+            }
             ticketQuotaCheckResult={ticketQuotaCheckResult}
             setShowPurchaseModal={setShowPurchaseModal}
           />

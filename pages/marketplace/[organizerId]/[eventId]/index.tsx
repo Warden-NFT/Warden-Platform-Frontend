@@ -15,13 +15,13 @@ function MarketEvent() {
   const { marketTickets, getMarketTickets } = useContext(MarketContext)
 
   const ticketQuotaText = () => {
-    let text = `The event organizer has set the limit of ${marketTickets?.ticketCollection?.ticketQuota?.general} ticket `
+    let text = `The event organizer has set the limit of ${marketTickets?.ticketCollection?.ticketQuota?.general} general ticket`
     if ((marketTickets?.ticketCollection?.ticketQuota?.general ?? 0) > 1)
       text += "s "
     if ((marketTickets?.ticketCollection?.ticketQuota?.vip ?? 0) > 0)
       text += `and ${
         marketTickets?.ticketCollection?.ticketQuota?.vip ?? 0
-      } ticket `
+      } VIP ticket`
     if (marketTickets?.ticketCollection?.ticketQuota?.vip ?? 0 ?? 0 > 1)
       text += "s "
     text += "per user."
@@ -85,7 +85,8 @@ function MarketEvent() {
               marketTickets?.ticketCollection?.tickets.vip?.filter(
                 (_ticket) =>
                   _ticket.ownerHistory.at(-1) ===
-                  marketTickets.event.ownerAddress
+                    marketTickets.event.ownerAddress ||
+                  _ticket.ownerHistory.length === 1
               ) ?? []
             }
             ticketType="VIP Tickets ✨"
@@ -96,7 +97,8 @@ function MarketEvent() {
               marketTickets?.ticketCollection?.tickets.general?.filter(
                 (_ticket) =>
                   _ticket.ownerHistory.at(-1) ===
-                  marketTickets.event.ownerAddress
+                    marketTickets.event.ownerAddress ||
+                  _ticket.ownerHistory.length === 1
               ) ?? []
             }
             ticketType="General Admission Tickets"

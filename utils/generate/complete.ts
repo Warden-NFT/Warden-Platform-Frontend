@@ -3,7 +3,7 @@ import { TicketsMetadata } from "../../dtos/ticket/metadata.dto"
 import { EventTicket, TicketCollectionDTO } from "../../dtos/ticket/ticket.dto"
 import { User } from "../../interfaces/auth/user.interface"
 import { SupportedDigitalCurrency } from "../../interfaces/currency/currency.interface"
-import { TicketType } from "../../interfaces/event/event.interface"
+import { Event, TicketType } from "../../interfaces/event/event.interface"
 import {
   GenerationMode,
   TicketInfo
@@ -50,7 +50,7 @@ export function createAssetMetadata(
   })
 }
 
-export function createEventTicket(
+export async function createEventTicket(
   assetMetadata: TicketsMetadata[],
   info: TicketInfo,
   address: string | undefined,
@@ -58,10 +58,15 @@ export function createEventTicket(
   ticketType: TicketType,
   currency: SupportedDigitalCurrency,
   price: number
-): EventTicket[] {
+): Promise<EventTicket[]> {
   if (!address || !user || user?._id == null) return []
 
+  const eventInfo = await client.get<Event>("/event", {
+    params: { id: info.subjectOf }
+  })
+
   const now = new Date()
+  console.log(eventInfo)
   return assetMetadata.map((data, i) => {
     const eventTicket: EventTicket = {
       dateIssued: now,
@@ -80,7 +85,9 @@ export function createEventTicket(
         amount: price,
         currency: currency
       },
-      hasUsed: false
+      hasUsed: false,
+      eventId: info.subjectOf,
+      startDate: eventInfo.data.startDate as Date
     }
 
     return eventTicket

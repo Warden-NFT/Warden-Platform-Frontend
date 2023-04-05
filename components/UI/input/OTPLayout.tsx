@@ -1,13 +1,6 @@
 import { Box, Typography, Link, Stack } from "@mui/material"
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState
-} from "react"
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import OtpInput from "react-otp-input"
-import { UserContext } from "../../../contexts/user/UserContext"
 import { useOTP } from "../../../hooks/useOTP"
 import ContainedButton from "../button/ContainedButton"
 import ContainerCard from "../card/ContainerCard"
@@ -32,6 +25,17 @@ function OTPLayout({ otp, setOtp, handleSubmit, setOtpToken }: P) {
     const token = await getOTP()
     if (token) setOtpToken(token)
   }
+
+  useEffect(() => {
+    async function fn() {
+      if (process.env.NODE_ENV === "production") {
+        await requestOTP()
+        setSeconds(60)
+      }
+    }
+
+    fn()
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {

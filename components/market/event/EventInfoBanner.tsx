@@ -4,11 +4,13 @@ import { grey, purple } from "@mui/material/colors"
 import moment from "moment"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useContext } from "react"
 import { Event } from "../../../interfaces/event/event.interface"
 import ContainedButton from "../../UI/button/ContainedButton"
 import ContainerCard from "../../UI/card/ContainerCard"
 import { ImageWithFallback } from "../../UI/image/ImageWithFallback"
+import { UserContext } from "../../../contexts/user/UserContext"
+import { Account } from "../../../interfaces/auth/user.interface"
 
 interface P {
   event: Event
@@ -37,6 +39,8 @@ function EventInfoBanner({
   sx
 }: P) {
   const router = useRouter()
+  const { user } = useContext(UserContext)
+
   const onClickBrowseEvent = () => {
     if (organizerId) {
       router.push(`/marketplace/${organizerId}`)
@@ -146,12 +150,14 @@ function EventInfoBanner({
                 gap: 2
               }}
             >
-              <ContainedButton
-                label="Sell Tickets"
-                variant="outlined"
-                height="32px"
-                onClick={() => router.push(`/marketplace/sell/${event._id}`)}
-              />
+              {user?.accountType === Account.CUSTOMER && (
+                <ContainedButton
+                  label="Sell Tickets"
+                  variant="outlined"
+                  height="32px"
+                  onClick={() => router.push(`/marketplace/sell/${event._id}`)}
+                />
+              )}
               <Link
                 href={`${process.env.NEXT_PUBLIC_POLYGONSCAN_URL}/address/${event.smartContractAddress}`}
                 target="_blank"

@@ -99,7 +99,7 @@ function CreateLayeredTicketStep6() {
             new File([m.blob], `${m.metadata.name}.png`, { type: "image/png" })
         )
         const metadata = generatedMetadata.general.map((m) => m.metadata)
-        const eventMetadata = createEventTicket(
+        const eventMetadata = await createEventTicket(
           metadata,
           formInfo,
           address,
@@ -118,7 +118,7 @@ function CreateLayeredTicketStep6() {
             new File([m.blob], `${m.metadata.name}.png`, { type: "image/png" })
         )
         const metadata = generatedMetadata.vip.map((m) => m.metadata)
-        const eventMetadata = createEventTicket(
+        const eventMetadata = await createEventTicket(
           metadata,
           formInfo,
           address,

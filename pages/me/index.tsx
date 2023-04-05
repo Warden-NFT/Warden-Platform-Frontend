@@ -38,9 +38,12 @@ function MyTickets() {
             filteredMyTickets?.myTicketListing.length > 0 && (
             <FlatCard sx={{ marginY: 4, marginTop: 8, borderRadius: 4 }}>
               <Typography variant="h4" component="h2">
-                  Ticket for sale
+                  Tickets for sale
               </Typography>
-              <TicketCardList tickets={filteredMyTickets?.myTicketListing} />
+              <TicketCardList
+                tickets={filteredMyTickets?.myTicketListing}
+                isForSale
+              />
             </FlatCard>
           )}
           <FlatCard sx={{ marginY: 4, marginTop: 8, borderRadius: 4 }}>
