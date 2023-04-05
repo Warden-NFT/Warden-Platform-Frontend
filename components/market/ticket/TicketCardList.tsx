@@ -4,6 +4,8 @@ import { EventTicket } from "../../../dtos/ticket/ticket.dto"
 import { TicketTypeLabel } from "../../../interfaces/event/event.interface"
 import TicketCard from "./TicketCard"
 import moment from "moment"
+import { checkResaleTicket } from "../../../utils/ownership"
+import { useAccount } from "wagmi"
 
 type Props = {
   tickets: EventTicket[] | undefined
@@ -13,6 +15,7 @@ type Props = {
 
 function TicketCardList({ tickets, ticketType, isVip }: Props) {
   const ticketListRef = useRef<HTMLDivElement>(null)
+  const { address } = useAccount()
   const [page, setPage] = useState(1)
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
@@ -66,6 +69,7 @@ function TicketCardList({ tickets, ticketType, isVip }: Props) {
               ticketTypeLabel={TicketTypeLabel[ticket.ticketType]}
               price={ticket.price?.amount.toString()}
               enableRedirect
+              isMyTicket={checkResaleTicket(ticket, address)}
             />
           </Box>
         ))}

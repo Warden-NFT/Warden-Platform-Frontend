@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertTitle,
   Box,
   FormControlLabel,
   Radio,
@@ -52,6 +54,9 @@ function SellTicketStep1({ ownedTickets }: Props) {
       <Box>
         <Box sx={{ my: 2 }} />
         <Typography variant="h6">Select the tickets to sell</Typography>
+        <Alert severity="warning">
+          <AlertTitle>You cannot revert ticket sellings</AlertTitle>
+        </Alert>
         <RadioGroup
           aria-labelledby="demo-controlled-radio-buttons-group"
           name="controlled-radio-buttons-group"
