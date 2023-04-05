@@ -223,7 +223,7 @@ function TicketListingActions({
           You have purchased{" "}
           {ticketQuotaCheckResult?.ownedTicketsCount.toString()} out of{" "}
           {ticketQuotaCheckResult?.quota} tickets per person. You can not
-          purchase any more tickets from this event.
+          purchase any more tickets of this type from this event.
         </Alert>
       )}
     </>

@@ -11,9 +11,10 @@ type Props = {
   tickets: EventTicket[] | undefined
   ticketType?: string
   isVip?: boolean
+  isForSale?: boolean
 }
 
-function TicketCardList({ tickets, ticketType, isVip }: Props) {
+function TicketCardList({ tickets, ticketType, isVip, isForSale }: Props) {
   const ticketListRef = useRef<HTMLDivElement>(null)
   const { address } = useAccount()
   const [page, setPage] = useState(1)
@@ -70,6 +71,7 @@ function TicketCardList({ tickets, ticketType, isVip }: Props) {
               price={ticket.price?.amount.toString()}
               enableRedirect
               isMyTicket={checkResaleTicket(ticket, address)}
+              isForSale={isForSale}
             />
           </Box>
         ))}

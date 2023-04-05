@@ -23,6 +23,7 @@ type Props = {
   price: string
   enableRedirect?: boolean
   isMyTicket?: boolean
+  isForSale?: boolean
   sx?: SxProps<Theme>
 }
 
@@ -34,6 +35,7 @@ function TicketCard({
   price,
   enableRedirect,
   isMyTicket,
+  isForSale,
   sx
 }: Props) {
   const { showErrorAlert } = useContext(LayoutContext)
@@ -42,7 +44,7 @@ function TicketCard({
   function handleRedirect() {
     const path = router.asPath
 
-    if (!isMyTicket) {
+    if (isForSale) {
       showErrorAlert({
         title: "Ticket Listed For Sale",
         description: "You cannot access your ticket that you are selling",
@@ -50,6 +52,10 @@ function TicketCard({
       })
       return
     }
+
+    // if (isMyTicket) {
+    //   router.push(`/my-tickets/${ticketId}`)
+    // }
 
     if (ticketId && enableRedirect && path) {
       router.push(`${path}/${ticketId}`)

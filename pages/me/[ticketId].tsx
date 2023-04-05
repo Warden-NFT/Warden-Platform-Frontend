@@ -1,4 +1,11 @@
-import { Alert, AlertTitle, Container, Stack, Typography } from "@mui/material"
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  Container,
+  Stack,
+  Typography
+} from "@mui/material"
 import { Box } from "@mui/system"
 import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
@@ -75,12 +82,12 @@ function MyTicketView() {
   }
 
   return (
-    <Container sx={{ minHeight: "100vh" }}>
+    <Container sx={{ mb: 6 }}>
       <Head>
         <title>Utilize Ticket</title>
       </Head>
-      <Stack sx={{ alignItems: "center", height: "100vh" }}>
-        <Typography variant="h3" component="h1">
+      <Stack sx={{ alignItems: "center", mt: 4 }}>
+        <Typography variant="h4" component="h1">
           Scan QR Code to Use
         </Typography>
         {qrCodeValue && (
@@ -203,14 +210,23 @@ function MyTicketView() {
           ) : (
             <>
               <AlertTitle>Want to sell this ticket?</AlertTitle>
-              <span style={{ marginRight: 4 }}>
+              <span style={{ marginRight: 4, marginBottom: 4 }}>
                 If you no longer need this ticket
               </span>
+              <Box sx={{ my: 2 }} />
               <Link
                 href={`/marketplace/sell/${ticketListing?.event?._id}`}
-                style={{ color: "white", fontWeight: 600, fontSize: "14px" }}
+                style={{
+                  color: "white",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  textDecoration: "none",
+                  marginTop: "16px"
+                }}
               >
-                Sell it here!
+                <Button variant="contained" color="info">
+                  Sell it here!
+                </Button>
               </Link>
             </>
           )}
