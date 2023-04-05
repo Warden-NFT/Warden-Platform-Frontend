@@ -1,10 +1,9 @@
-import { Box, IconButton, Pagination, Stack, Typography } from "@mui/material"
-import { deepPurple } from "@mui/material/colors"
-import React, { useRef, useState } from "react"
+import { Box, Pagination, Typography } from "@mui/material"
+import React, { useEffect, useRef, useState } from "react"
 import { EventTicket } from "../../../dtos/ticket/ticket.dto"
 import { TicketTypeLabel } from "../../../interfaces/event/event.interface"
 import TicketCard from "./TicketCard"
-import { ChevronLeft, ChevronRight } from "@mui/icons-material"
+import moment from "moment"
 
 type Props = {
   tickets: EventTicket[] | undefined
@@ -18,6 +17,14 @@ function TicketCardList({ tickets, ticketType, isVip }: Props) {
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
   }
+
+  const [myTickets, setMyTickets] = useState(tickets)
+  useEffect(() => {
+    const _tickets = tickets?.sort((a, b) =>
+      moment(b.dateIssued).diff(moment(a.dateIssued))
+    )
+    setMyTickets(_tickets)
+  }, [tickets])
 
   if (!tickets || tickets.length === 0) return null
   return (
@@ -50,7 +57,7 @@ function TicketCardList({ tickets, ticketType, isVip }: Props) {
           ]
         }}
       >
-        {tickets.slice((page - 1) * 4, page * 4).map((ticket, index) => (
+        {myTickets?.slice((page - 1) * 4, page * 4).map((ticket, index) => (
           <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
             <TicketCard
               ticketId={ticket._id}
