@@ -13,6 +13,7 @@ import { useAccount } from "wagmi"
 import { UserContext } from "../../contexts/user/UserContext"
 import Head from "next/head"
 import { withCustomerGuard } from "../../guards/withAuth"
+import { checkResaleTicket } from "../../utils/ownership"
 
 const TIME_LIMIT_SECONDS = 15
 
@@ -23,12 +24,18 @@ function MyTicketView() {
   const { ticketId } = router.query
   const { address } = useAccount()
   const { user } = useContext(UserContext)
+  const [isResaleTicket, setIsResaleTicket] = useState(false)
   const { ticketListing, getTicketListingFromTicketId } =
     useContext(MarketContext)
 
   useEffect(() => {
     resetQrCode()
   }, [user, address, ticketId])
+
+  useEffect(() => {
+    const isResale = checkResaleTicket(ticketListing?.ticket, address)
+    setIsResaleTicket(isResale)
+  }, [address, ticketListing])
 
   useEffect(() => {
     if (!ticketId) return
@@ -55,7 +62,7 @@ function MyTicketView() {
   const [qrCodeValue, setQrCodeValue] = useState<TicketQRUtilizeValue>()
 
   function resetQrCode() {
-    if (!user || !address || !ticketId) return
+    if (!user || !address || !ticketId || isResaleTicket) return
 
     setQrCodeValue({
       userId: user?._id ?? "",
@@ -96,11 +103,12 @@ function MyTicketView() {
               codeValue={JSON.stringify(qrCodeValue)}
               cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
             />
-            {!ticketListing?.ticket.hasUsed && (
-              <Box sx={{ display: "grid", placeItems: "center" }}>
-                <Typography>This QR Code is valid until {seconds}</Typography>
-              </Box>
-            )}
+            {!ticketListing?.ticket.hasUsed ||
+              (isResaleTicket === false && (
+                <Box sx={{ display: "grid", placeItems: "center" }}>
+                  <Typography>This QR Code is valid until {seconds}</Typography>
+                </Box>
+              ))}
           </Box>
         )}
 
@@ -185,20 +193,22 @@ function MyTicketView() {
             color: "white",
             marginBottom: 2,
             width: "100%",
-            maxWidth: "320px"
+            maxWidth: "360px"
           }}
         >
-          {ticketListing?.ticket?.hasUsed ? (
+          {ticketListing?.ticket?.hasUsed || isResaleTicket === false ? (
             <Typography>
               This ticket has been used. It cannot be resale.
             </Typography>
           ) : (
             <>
               <AlertTitle>Want to sell this ticket?</AlertTitle>
-              If you no longer need this ticket
+              <span style={{ marginRight: 4 }}>
+                If you no longer need this ticket
+              </span>
               <Link
                 href={`/marketplace/sell/${ticketListing?.event?._id}`}
-                style={{ color: "white" }}
+                style={{ color: "white", fontWeight: 600, fontSize: "14px" }}
               >
                 Sell it here!
               </Link>

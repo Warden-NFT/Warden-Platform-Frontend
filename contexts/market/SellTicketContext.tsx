@@ -1,4 +1,10 @@
-import { createContext, Dispatch, SetStateAction, useState } from "react"
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState
+} from "react"
 import { EventTicket } from "../../dtos/ticket/ticket.dto"
 
 interface SellTicketContextStruct {
@@ -19,6 +25,12 @@ const SellTicketContextProvider = ({ ...props }) => {
   const [selectedTicket, setSelectedTicket] = useState<EventTicket>()
   const [resalePrice, setResalePrice] = useState<number>()
   const [ticketListingSuccess, setTicketListingSuccess] = useState<boolean>()
+
+  useEffect(() => {
+    if (selectedTicket && !resalePrice) {
+      setResalePrice(selectedTicket?.price?.amount ?? 0)
+    }
+  }, [selectedTicket])
 
   const values: SellTicketContextStruct = {
     activeStep,

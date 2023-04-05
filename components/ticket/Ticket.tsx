@@ -161,7 +161,9 @@ function Ticket({
                       height: "100px"
                     }}
                   >
-                    <Typography>This ticket has been used</Typography>
+                    <Typography>
+                      This ticket has been used or is in resale
+                    </Typography>
                   </Box>
                 )}
               </Box>

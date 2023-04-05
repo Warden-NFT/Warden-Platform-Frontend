@@ -9,9 +9,11 @@ import {
 import { grey, purple } from "@mui/material/colors"
 import { Theme } from "@mui/system"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useContext } from "react"
 import ContainerCard from "../../UI/card/ContainerCard"
 import { ImageWithFallback } from "../../UI/image/ImageWithFallback"
+import { LayoutContext } from "../../../contexts/layout/LayoutContext"
+import { AlertType } from "../../../interfaces/modal/alert.interface"
 
 type Props = {
   ticketId?: string
@@ -34,12 +36,21 @@ function TicketCard({
   isMyTicket,
   sx
 }: Props) {
+  const { showErrorAlert } = useContext(LayoutContext)
+
   const router = useRouter()
   function handleRedirect() {
     const path = router.asPath
-    if (isMyTicket) {
-      router.push(`/my-tickets/${ticketId}`)
+
+    if (!isMyTicket) {
+      showErrorAlert({
+        title: "Ticket Listed For Sale",
+        description: "You cannot access your ticket that you are selling",
+        type: AlertType.WARNING
+      })
+      return
     }
+
     if (ticketId && enableRedirect && path) {
       router.push(`${path}/${ticketId}`)
       return
