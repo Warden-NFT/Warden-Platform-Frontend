@@ -38,7 +38,7 @@ function ControlledCurrencyPriceSelect({
   return (
     <FormControl required>
       <FormLabel>{label}</FormLabel>
-      <Typography variant="caption" color="gray">
+      <Typography fontSize="12px" color="gray" fontWeight="600">
         {labelDescription}
       </Typography>
       <TextField
