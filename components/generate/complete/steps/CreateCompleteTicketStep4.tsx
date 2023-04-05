@@ -77,7 +77,7 @@ function CreateCompleteTicketStep4() {
     )
 
     // Events
-    ticketMetadata.general = createEventTicket(
+    ticketMetadata.general = await createEventTicket(
       assetsMetadata.general,
       formInfo,
       address,
@@ -86,7 +86,7 @@ function CreateCompleteTicketStep4() {
       formInfo.currency,
       formInfo.price.general?.default ?? 0
     )
-    ticketMetadata.vip = createEventTicket(
+    ticketMetadata.vip = await createEventTicket(
       assetsMetadata.vip,
       formInfo,
       address,

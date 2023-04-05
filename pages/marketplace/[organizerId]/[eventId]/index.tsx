@@ -85,7 +85,8 @@ function MarketEvent() {
               marketTickets?.ticketCollection?.tickets.vip?.filter(
                 (_ticket) =>
                   _ticket.ownerHistory.at(-1) ===
-                  marketTickets.event.ownerAddress
+                    marketTickets.event.ownerAddress ||
+                  _ticket.ownerHistory.length === 1
               ) ?? []
             }
             ticketType="VIP Tickets ✨"
@@ -96,7 +97,8 @@ function MarketEvent() {
               marketTickets?.ticketCollection?.tickets.general?.filter(
                 (_ticket) =>
                   _ticket.ownerHistory.at(-1) ===
-                  marketTickets.event.ownerAddress
+                    marketTickets.event.ownerAddress ||
+                  _ticket.ownerHistory.length === 1
               ) ?? []
             }
             ticketType="General Admission Tickets"

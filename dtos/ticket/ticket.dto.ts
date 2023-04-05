@@ -28,6 +28,8 @@ export interface EventTicket {
   }
   benefits?: string
   hasUsed: boolean
+  eventId?: string
+  startDate?: Date
 }
 
 export interface TicketCollectionDTO {
