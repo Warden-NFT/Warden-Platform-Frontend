@@ -185,7 +185,7 @@ function MyTicketView() {
             color: "white",
             marginBottom: 2,
             width: "100%",
-            maxWidth: "320px"
+            maxWidth: "360px"
           }}
         >
           {ticketListing?.ticket?.hasUsed ? (
@@ -195,10 +195,12 @@ function MyTicketView() {
           ) : (
             <>
               <AlertTitle>Want to sell this ticket?</AlertTitle>
-              If you no longer need this ticket
+              <span style={{ marginRight: 4 }}>
+                If you no longer need this ticket
+              </span>
               <Link
                 href={`/marketplace/sell/${ticketListing?.event?._id}`}
-                style={{ color: "white" }}
+                style={{ color: "white", fontWeight: 600, fontSize: "14px" }}
               >
                 Sell it here!
               </Link>
