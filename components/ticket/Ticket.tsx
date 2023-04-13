@@ -29,6 +29,7 @@ interface Props {
   codeValue?: string
   onClick?: () => void
   cardSx?: SxProps<Theme>
+  isOrganizer: boolean
 }
 
 function Ticket({
@@ -45,7 +46,8 @@ function Ticket({
   codeDisplayMode,
   hasUsed,
   onClick,
-  cardSx
+  cardSx,
+  isOrganizer
 }: Props) {
   return (
     <motion.div whileHover={{ y: -12 }} style={{ position: "relative" }}>
@@ -167,6 +169,11 @@ function Ticket({
                   </Box>
                 )}
               </Box>
+            )}
+            {isOrganizer && (
+              <Typography fontSize="14px" color={grey[600]} sx={{ mt: 2 }}>
+                You are the event organizer and cannot use this ticket.
+              </Typography>
             )}
           </Box>
         </Stack>

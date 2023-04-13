@@ -122,6 +122,8 @@ function MyTicketView() {
               codeDisplayMode="QR"
               codeValue={JSON.stringify(qrCodeValue)}
               cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
+              isDisabled={address === ticketListing?.event?.ownerAddress}
+              isOrganizer={address === ticketListing?.event?.ownerAddress}
             />
             {!ticketListing?.ticket.hasUsed ||
               (isResaleTicket === false && (
