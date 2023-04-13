@@ -1,9 +1,10 @@
 import { getDefaultWallets } from "@rainbow-me/rainbowkit"
 import { chain, configureChains, createClient } from "wagmi"
+import { alchemyProvider } from "wagmi/providers/alchemy"
 import { publicProvider } from "wagmi/providers/public"
 
 const availableChains = [chain.polygon]
-if (process.env.ENABLE_TESTNET === "true") {
+if (process.env.NEXT_PUBLIC_ENABLE_TESTNET === "true") {
   availableChains.push(chain.polygonMumbai)
 }
 
