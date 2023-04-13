@@ -10,7 +10,7 @@ import {
 } from "@mui/material"
 import { red, purple } from "@mui/material/colors"
 import { useFormik } from "formik"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { GenerateCompleteContext } from "../../../../contexts/generate/GenerateCompleteContext"
 import { CreateTicketInfoSchema } from "../../../../schema/generate/complete"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
@@ -48,6 +48,14 @@ function CreateCompleteTicketStep1() {
         setActiveStep((prev) => prev + 1)
       }
     })
+
+  useEffect(() => {
+    if (values.vipEnabled && values.ticketQuota.vip === 0) {
+      setFieldValue("ticketQuota.vip", 1)
+    } else if (values.vipEnabled === false) {
+      setFieldValue("ticketQuota.vip", 0)
+    }
+  }, [values.vipEnabled])
 
   return (
     <Box>
