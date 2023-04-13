@@ -76,7 +76,7 @@ function MyTicketDetails({ ticketListing }: Props) {
               </Typography>
             </Box>
             <Box>
-              <Typography>{ticketListing?.ticket.benefits}</Typography>
+              <Typography>{ticketListing?.ticket.benefits ?? "-"}</Typography>
             </Box>
           </Box>
 
