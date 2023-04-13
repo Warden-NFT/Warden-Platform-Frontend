@@ -13,6 +13,7 @@ declare global {
 
       NEXT_PUBLIC_POLYGONSCAN_URL: string
       NODE_ENV: "development" | "production"
+      ENABLE_TESTNET: "true" | "false"
     }
   }
 }

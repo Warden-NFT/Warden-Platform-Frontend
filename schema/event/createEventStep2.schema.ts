@@ -7,12 +7,9 @@ export const CreateEventStep2Schema = object().shape(
       .required("Event start date cannot be empty")
       .test(
         "isLeast",
-        "Start date must be before end date and door time",
+        "Start date must be before end date",
         (val, _context) => {
-          return !(
-            val &&
-            (_context.parent.endDate < val || _context.parent.doorTime < val)
-          )
+          return !(val && _context.parent.endDate < val)
         }
       )
       .test("isNotPast", "Start date cannot be in the past", (val) => {
@@ -41,12 +38,9 @@ export const CreateEventStep2Schema = object().shape(
       .required("Event door time cannot be empty")
       .test(
         "isLeast",
-        "Door time must be between the start date and end date",
+        "Door time cannot be later than the end date end date",
         (val, _context) => {
-          return !(
-            val &&
-            (_context.parent.startDate > val || _context.parent.endDate < val)
-          )
+          return !(val && _context.parent.endDate <= val)
         }
       )
       .test("isNotPast", "Start date cannot be in the past", (val) => {

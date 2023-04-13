@@ -15,6 +15,7 @@ export const useEvents = () => {
 
   // States
   const [events, setEvents] = useState<Event[]>([])
+  const [originalEvents, setOriginalEvents] = useState<Event[]>([])
   const [currentEvent, setCurrentEvent] = useState<Event>()
   const [resaleTicketPurchaseRequests, setResaleTicketPurchaseRequests] =
     useState<ResaleTicketPurchasePermissionRequestsList>({
@@ -32,6 +33,7 @@ export const useEvents = () => {
       })
       const events: Event[] = res.data
       setEvents(events)
+      setOriginalEvents(events)
       setEventLoading(false)
       return events
     } catch (error) {
@@ -86,6 +88,17 @@ export const useEvents = () => {
     }
   }
 
+  const searchMyEvents = (searchValue: string) => {
+    if (searchValue) {
+      const filteredEvents = events.filter((event) =>
+        event.name.toLowerCase().includes(searchValue.toLowerCase())
+      )
+      setEvents(filteredEvents)
+    } else {
+      setEvents(originalEvents)
+    }
+  }
+
   useEffect(() => {
     if (!currentEvent?.ticketCollectionId) return
     getResaleTicketPurchaseRequests(currentEvent?.ticketCollectionId)
@@ -101,6 +114,7 @@ export const useEvents = () => {
     eventLoading,
     resaleTicketPurchaseRequests,
     setResaleTicketPurchaseRequests,
-    getResaleTicketPurchaseRequests
+    getResaleTicketPurchaseRequests,
+    searchMyEvents
   }
 }
