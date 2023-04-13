@@ -39,17 +39,7 @@ function SellTicketStep2() {
     initialValues: {
       resalePrice: resalePrice || 0,
       currency: marketTickets?.ticketCollection.currency ?? "ETH",
-      minResalePrice:
-        marketTickets?.ticketCollection.ticketPrice[
-          TicketTypeKey[
-            selectedTicket?.ticketType ?? "GENERAL"
-          ] as TicketTypeKey
-        ]?.min ||
-        marketTickets?.ticketCollection.ticketPrice[
-          TicketTypeKey[
-            selectedTicket?.ticketType ?? "GENERAL"
-          ] as TicketTypeKey
-        ]?.default,
+      minResalePrice: 0,
       maxResalePrice:
         marketTickets?.ticketCollection.ticketPrice[
           TicketTypeKey[
