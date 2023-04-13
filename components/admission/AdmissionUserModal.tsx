@@ -24,10 +24,10 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
   const [timer, setTimer] = useState(3)
 
   useEffect(() => {
+    if (timer <= 0) setOpen(false)
     if (admissionStatus === "SUCCESS") {
       const interval = setInterval(() => {
         setTimer((prev) => prev - 1)
-        if (timer <= 0) setOpen(false)
       }, 1000)
       return () => {
         clearInterval(interval)
@@ -83,90 +83,89 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={modalStyle}>
-        <Stack alignItems="center" spacing={2}>
-          <Typography
-            id="modal-modal-title"
-            variant="h5"
-            fontWeight="500"
-            component="h2"
-          >
-            Admit this User
-          </Typography>
-          <Box
-            sx={{
-              width: "180px",
-              height: "180px",
-              borderRadius: "50%",
-              overflow: "hidden"
-            }}
-          >
-            {user?.profileImage ? (
-              <Image
-                src={user?.profileImage}
-                width="180"
-                height="180"
-                alt="User profile"
-                draggable={false}
-                style={{ objectFit: "cover" }}
-              />
-            ) : (
-              <Avatar
-                sx={{
-                  width: "200px",
-                  height: "200px",
-                  bgColor: "black",
-                  color: "white"
-                }}
-              >
-                {user?.username}
-              </Avatar>
+      <>
+        <Box sx={{ ...modalStyle, width: "400px" }}>
+          <Stack alignItems="center" spacing={2}>
+            <Typography
+              id="modal-modal-title"
+              variant="h5"
+              fontWeight="500"
+              component="h2"
+            >
+              Admit this User
+            </Typography>
+            <Box
+              sx={{
+                overflow: "hidden"
+              }}
+            >
+              {user?.profileImage ? (
+                <Image
+                  src={user?.profileImage}
+                  width="140"
+                  height="140"
+                  alt="User profile"
+                  draggable={false}
+                  style={{ objectFit: "cover", borderRadius: "50%" }}
+                />
+              ) : (
+                <Avatar
+                  sx={{
+                    width: "140px",
+                    height: "140px",
+                    bgColor: "black",
+                    color: "white"
+                  }}
+                >
+                  {user?.username}
+                </Avatar>
+              )}
+            </Box>
+            <Typography variant="h6" component="h2">
+              {user?.username}
+            </Typography>
+            {qrValue?.isVip && (
+              <Typography component="p">VIP Customer</Typography>
             )}
-          </Box>
-          <Typography variant="h6" component="h2">
-            {user?.username}
-          </Typography>
-          {qrValue?.isVip && (
-            <Typography component="p">VIP Customer</Typography>
-          )}
-          <Stack alignItems="center">
-            <Typography id="modal-modal-description">
-              Would you like to admit this user?
-            </Typography>
-            <Typography fontSize="12px">
-              Ticket ID: {qrValue?.ticketId}
-            </Typography>
+            <Stack alignItems="center">
+              <Typography id="modal-modal-description">
+                Would you like to admit this user?
+              </Typography>
+              <Typography fontSize="12px">
+                Ticket ID: {qrValue?.ticketId}
+              </Typography>
+            </Stack>
+            <Box sx={{ my: 2 }}>
+              {admissionStatus === "SUCCESS" && (
+                <Alert severity="success">
+                  This user has been admitted to the event
+                </Alert>
+              )}
+              {admissionStatus === "FAILED" && (
+                <Alert severity="error">
+                  An error has occured, this user cannot be admitted to the
+                  event. Try again later.
+                </Alert>
+              )}
+              {admissionStatus === "TIME" && (
+                <Alert severity="error">
+                  QR-Code time exceed, please try again.
+                </Alert>
+              )}
+              {admissionStatus === "USED" && (
+                <Alert severity="warning">
+                  This ticket has already been used.
+                </Alert>
+              )}
+            </Box>
+            <Button onClick={() => setOpen(false)} variant="outlined">
+              {admissionStatus === "SUCCESS"
+                ? `Close in ${timer} seconds`
+                : "Close"}
+            </Button>
           </Stack>
-          <Box sx={{ my: 2 }}>
-            {admissionStatus === "SUCCESS" && (
-              <Alert severity="success">
-                This user has been admitted to the event
-              </Alert>
-            )}
-            {admissionStatus === "FAILED" && (
-              <Alert severity="error">
-                An error has occured, this user cannot be admitted to the event.
-                Try again later.
-              </Alert>
-            )}
-            {admissionStatus === "TIME" && (
-              <Alert severity="error">
-                QR-Code time exceed, please try again.
-              </Alert>
-            )}
-            {admissionStatus === "USED" && (
-              <Alert severity="warning">
-                This ticket has already been used.
-              </Alert>
-            )}
-          </Box>
-          <Button onClick={() => setOpen(false)} variant="outlined">
-            {admissionStatus === "SUCCESS"
-              ? `Close in ${timer} seconds`
-              : "Close"}
-          </Button>
-        </Stack>
-      </Box>
+        </Box>
+      </>
     </Modal>
   )
 }
