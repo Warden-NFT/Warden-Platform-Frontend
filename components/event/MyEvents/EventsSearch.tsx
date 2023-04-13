@@ -1,13 +1,18 @@
 import { Stack, InputLabel, TextField, Box } from "@mui/material"
 
 import React from "react"
+import { Event } from "../../../interfaces/event/event.interface"
 
-function EventsSearch() {
+type Props = {
+  events: Event[]
+  searchMyEvents: (search: string) => void
+}
+
+function EventsSearch({ events, searchMyEvents }: Props) {
   const handleSearchChange = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    // TODO
-    console.log(e.currentTarget.value)
+    searchMyEvents(e.target.value)
   }
 
   return (
@@ -15,7 +20,7 @@ function EventsSearch() {
       <Box>
         <InputLabel>Search Events</InputLabel>
         <TextField
-          onChange={handleSearchChange}
+          onChange={(e) => handleSearchChange(e)}
           id="event-search-input"
           data-testid="event-search-input"
           placeholder="ex: My Concert"

@@ -15,9 +15,14 @@ import { Event } from "../../../interfaces/event/event.interface"
 import { useRouter } from "next/router"
 import { UserContext } from "../../../contexts/user/UserContext"
 
-function EventsList() {
+type Props = {
+  events: Event[]
+  getEventFromOrganizer: (userId: string) => Promise<Event[] | undefined>
+  eventLoading: boolean
+}
+
+function EventsList({ events, getEventFromOrganizer, eventLoading }: Props) {
   const { user } = useContext(UserContext)
-  const { events, getEventFromOrganizer, eventLoading } = useEvents()
   const router = useRouter()
 
   useEffect(() => {

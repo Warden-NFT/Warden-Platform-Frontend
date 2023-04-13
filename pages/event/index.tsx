@@ -2,15 +2,18 @@ import React from "react"
 import { withEventOrganizerGuard } from "../../guards/withAuth"
 import AddIcon from "@mui/icons-material/Add"
 import { useRouter } from "next/router"
-import MyEvents from "../../components/event/MyEvents/EventsList"
+import EventList from "../../components/event/MyEvents/EventsList"
 import BannerLayout from "../../components/UI/layout/BannerLayout"
 import ContainerCard from "../../components/UI/card/ContainerCard"
 import EventsSearch from "../../components/event/MyEvents/EventsSearch"
 import { Container } from "@mui/system"
 import Head from "next/head"
+import { useEvents } from "../../hooks/useEvents"
 
 function EventCreationPage() {
   const router = useRouter()
+  const { events, getEventFromOrganizer, eventLoading, searchMyEvents } =
+    useEvents()
 
   const onCLickCreateEvent = () => {
     router.push("/event/create")
@@ -31,8 +34,12 @@ function EventCreationPage() {
       </Head>
       <Container>
         <ContainerCard>
-          <EventsSearch />
-          <MyEvents />
+          <EventsSearch events={events} searchMyEvents={searchMyEvents} />
+          <EventList
+            events={events}
+            getEventFromOrganizer={getEventFromOrganizer}
+            eventLoading={eventLoading}
+          />
         </ContainerCard>
       </Container>
     </BannerLayout>
