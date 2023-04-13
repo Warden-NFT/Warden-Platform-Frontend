@@ -68,7 +68,7 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
     const payload = {
       ticket: updatedTicket,
       ticketCollectionId: event.ticketCollectionId,
-      ownerId: address,
+      walletAddress: address,
       isTransactionUpdate: true
     }
     try {
