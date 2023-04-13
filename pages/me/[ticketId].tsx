@@ -122,11 +122,13 @@ function MyTicketView() {
               codeDisplayMode="QR"
               codeValue={JSON.stringify(qrCodeValue)}
               cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
-              isDisabled={address === ticketListing?.event?.ownerAddress}
+              isDisabled={
+                address === ticketListing?.event?.ownerAddress || isResaleTicket
+              }
               isOrganizer={address === ticketListing?.event?.ownerAddress}
             />
             {!ticketListing?.ticket.hasUsed ||
-              (isResaleTicket === false && (
+              (!isResaleTicket && (
                 <Box sx={{ display: "grid", placeItems: "center" }}>
                   <Typography>This QR Code is valid until {seconds}</Typography>
                 </Box>
@@ -219,7 +221,7 @@ function MyTicketView() {
               maxWidth: "360px"
             }}
           >
-            {ticketListing?.ticket?.hasUsed || !isResaleTicket ? (
+            {ticketListing?.ticket?.hasUsed || isResaleTicket ? (
               <Typography>
                 {getTicketResaleDisabledText(
                   Boolean(ticketListing?.ticket?.hasUsed),

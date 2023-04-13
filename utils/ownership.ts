@@ -8,6 +8,6 @@ export function checkResaleTicket(
     ticket &&
       address &&
       ticket?.ownerHistory.length > 1 &&
-      ticket?.ownerHistory.at(-2) !== address
+      ticket?.ownerHistory.at(-2) === address
   )
 }

@@ -17,7 +17,10 @@ function MyTicketDetails({ ticketListing }: Props) {
     <FlatCard
       sx={{
         my: 0,
-        borderRadius: 2
+        borderRadius: 2,
+        mx: "auto",
+        width: "400px",
+        maxWidth: "calc(100vw - 20px)"
       }}
     >
       <Stack
