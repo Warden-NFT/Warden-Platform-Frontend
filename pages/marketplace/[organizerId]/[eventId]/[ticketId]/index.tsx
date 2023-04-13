@@ -106,7 +106,6 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     address: string,
     force?: boolean
   ) => {
-    console.log("RUN")
     // Show loading backdrop
     setShowLoadingBackdrop(true)
 
