@@ -127,12 +127,11 @@ function MyTicketView() {
               }
               isOrganizer={address === ticketListing?.event?.ownerAddress}
             />
-            {!ticketListing?.ticket.hasUsed ||
-              (!isResaleTicket && (
-                <Box sx={{ display: "grid", placeItems: "center" }}>
-                  <Typography>This QR Code is valid until {seconds}</Typography>
-                </Box>
-              ))}
+            {(!ticketListing?.ticket.hasUsed || !isResaleTicket) && (
+              <Box sx={{ display: "grid", placeItems: "center" }}>
+                <Typography>This QR Code is valid until {seconds}</Typography>
+              </Box>
+            )}
           </Box>
         )}
 
