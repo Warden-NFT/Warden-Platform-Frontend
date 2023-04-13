@@ -19,8 +19,8 @@ function MarketplacePage() {
       </Head>
       <BannerLayout
         backgroundImage="/images/background/market-home-background.png"
-        title="Events"
-        subtitle="Create and manage NFT-ticket based events"
+        title="Ticket Marketplace"
+        subtitle="Browse NFT tickets for upcoming events"
       >
         <Container>
           <EventSearch />
