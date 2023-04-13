@@ -15,6 +15,7 @@ interface P {
 function OTPLayout({ otp, setOtp, handleSubmit, setOtpToken }: P) {
   const { getOTP } = useOTP()
   const [seconds, setSeconds] = useState(0)
+  const [sentInitialOTP, setSentInitialOTP] = useState(false)
 
   const handleChange = (newValue: string) => {
     setOtp(newValue)
@@ -31,6 +32,12 @@ function OTPLayout({ otp, setOtp, handleSubmit, setOtpToken }: P) {
       if (process.env.NODE_ENV === "production") {
         await requestOTP()
         setSeconds(60)
+      } else {
+        if (!sentInitialOTP) {
+          await requestOTP()
+          setSeconds(60)
+          setSentInitialOTP(true)
+        }
       }
     }
 

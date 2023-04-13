@@ -68,6 +68,31 @@ function MyTicketDetails({ ticketListing }: Props) {
               </Typography>
             </Box>
           </Box>
+
+          <Box sx={{ display: "flex", gap: 4 }}>
+            <Box>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
+                Benefits
+              </Typography>
+            </Box>
+            <Box>
+              <Typography>{ticketListing?.ticket.benefits ?? "-"}</Typography>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: "flex", gap: 4 }}>
+            <Box>
+              <Typography sx={{ opacity: 0.4, width: 120 }}>
+                Date Issued
+              </Typography>
+            </Box>
+            <Box>
+              <Typography>
+                {moment(ticketListing?.ticket?.dateIssued).format("lll")}
+              </Typography>
+            </Box>
+          </Box>
+
           <Box sx={{ my: 4 }} />
           <Typography variant="h6" sx={{ fontWeight: 500 }}>
             Event Details

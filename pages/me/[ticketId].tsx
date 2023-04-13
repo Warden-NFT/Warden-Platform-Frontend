@@ -81,6 +81,19 @@ function MyTicketView() {
     })
   }
 
+  const getTicketResaleDisabledText = (
+    hasUsed: boolean,
+    isResaleTicket: boolean
+  ) => {
+    if (hasUsed && !isResaleTicket) {
+      return "This ticket has been used. It cannot be resold."
+    } else if (!hasUsed && isResaleTicket) {
+      return "This ticket is already listed for sale."
+    } else {
+      return "This ticket cannot be resold."
+    }
+  }
+
   return (
     <Container sx={{ mb: 6 }}>
       <Head>
@@ -109,6 +122,8 @@ function MyTicketView() {
               codeDisplayMode="QR"
               codeValue={JSON.stringify(qrCodeValue)}
               cardSx={{ boxShadow: "5px 10px 10px #C397FE", height: "600px" }}
+              isDisabled={address === ticketListing?.event?.ownerAddress}
+              isOrganizer={address === ticketListing?.event?.ownerAddress}
             />
             {!ticketListing?.ticket.hasUsed ||
               (isResaleTicket === false && (
@@ -184,53 +199,60 @@ function MyTicketView() {
         </motion.div>
       </Stack>
       {/* Event */}
-      <Box
-        sx={{
-          width: "100%",
-          display: "grid",
-          placeItems: "center",
-          paddingY: 10
-        }}
-      >
-        <Alert
-          severity="info"
+      {address !== ticketListing?.event.ownerAddress && (
+        <Box
           sx={{
-            maginY: 4,
-            background: "black",
-            color: "white",
-            marginBottom: 2,
             width: "100%",
-            maxWidth: "360px"
+            display: "grid",
+            placeItems: "center",
+            paddingY: 10
           }}
         >
-          {ticketListing?.ticket?.hasUsed || isResaleTicket === false ? (
-            <Typography>
-              This ticket has been used. It cannot be resale.
-            </Typography>
-          ) : (
-            <>
-              <AlertTitle>Want to sell this ticket?</AlertTitle>
-              <span style={{ marginRight: 4, marginBottom: 4 }}>
-                If you no longer need this ticket
-              </span>
-              <Box sx={{ my: 2 }} />
-              <Link
-                href={`/marketplace/sell/${ticketListing?.event?._id}`}
-                style={{
-                  color: "white",
-                  fontWeight: 600,
-                  fontSize: "14px",
-                  textDecoration: "none",
-                  marginTop: "16px"
-                }}
-              >
-                <Button variant="contained" color="info">
-                  Sell it here!
-                </Button>
-              </Link>
-            </>
-          )}
-        </Alert>
+          <Alert
+            severity="info"
+            sx={{
+              maginY: 4,
+              background: "black",
+              color: "white",
+              marginBottom: 2,
+              width: "100%",
+              maxWidth: "360px"
+            }}
+          >
+            {ticketListing?.ticket?.hasUsed || !isResaleTicket ? (
+              <Typography>
+                {getTicketResaleDisabledText(
+                  Boolean(ticketListing?.ticket?.hasUsed),
+                  isResaleTicket
+                )}
+              </Typography>
+            ) : (
+              <>
+                <AlertTitle>Want to sell this ticket?</AlertTitle>
+                <span style={{ marginRight: 4, marginBottom: 4 }}>
+                  If you no longer need this ticket
+                </span>
+                <Box sx={{ my: 2 }} />
+                <Link
+                  href={`/marketplace/sell/${ticketListing?.event?._id}`}
+                  style={{
+                    color: "white",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    textDecoration: "none",
+                    marginTop: "16px"
+                  }}
+                >
+                  <Button variant="contained" color="info">
+                    Sell it here!
+                  </Button>
+                </Link>
+              </>
+            )}
+          </Alert>
+        </Box>
+      )}
+      <Box sx={{ mt: 2 }}>
         <MyTicketDetails ticketListing={ticketListing} />
       </Box>
     </Container>
