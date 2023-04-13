@@ -34,7 +34,6 @@ export const useEvents = () => {
       const events: Event[] = res.data
       setEvents(events)
       setOriginalEvents(events)
-      console.log({ events })
       setEventLoading(false)
       return events
     } catch (error) {
