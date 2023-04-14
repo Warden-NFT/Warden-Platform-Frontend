@@ -1,8 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { withEventOrganizerGuard } from "../../guards/withAuth"
 import axios from "axios"
 import {
   Box,
+  CircularProgress,
   Container,
   MenuItem,
   Select,
@@ -38,11 +39,15 @@ function EventAdmissionPage() {
     setEvent(res.data)
   }, [router.query])
 
+  // CAUTION: This function will call non-stop in development mode. (does not occur in production mode)
+  // This behaviour may come from the library itself.
   async function onScan(result: string) {
-    if (!result || isOpen) return
+    if (!result || isOpen === true) {
+      return
+    }
 
-    setQrValue(JSON.parse(result) as TicketQRUtilizeValue)
     setIsOpen(true)
+    setQrValue(JSON.parse(result) as TicketQRUtilizeValue)
   }
 
   return (
@@ -83,16 +88,29 @@ function EventAdmissionPage() {
                 </MenuItem>
                 <MenuItem value={"user" as CameraViewMode}>Front</MenuItem>
               </Select>
-              <QrReader
-                constraints={{ facingMode: cameraDirection }} // environment
-                scanDelay={2000}
-                videoId="qr-reader"
-                onResult={(result) => {
-                  if (result && !isOpen) {
-                    onScan(result.getText())
-                  }
-                }}
-              />
+              {!isOpen ? (
+                <QrReader
+                  constraints={{ facingMode: cameraDirection }} // environment
+                  scanDelay={1000}
+                  videoId="qr-reader"
+                  onResult={async (result) => {
+                    if (result && isOpen === false) {
+                      await onScan(result.getText())
+                    }
+                  }}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    display: "grid",
+                    placeItems: "center"
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
             </Box>
           </Stack>
         </Container>
