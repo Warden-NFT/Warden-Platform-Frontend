@@ -19,11 +19,10 @@ function SellTicketStep3({ ticketListingSuccess }: Props) {
         <Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Typography fontWeight="bold" variant="h6">
-              Ticket Listing Successful
+              Ticket Listing Successful 🎉
             </Typography>
             <CheckCircle />
           </Box>
-          <Typography fontWeight="bold">Ticket Listing Successful</Typography>
           <Box sx={{ my: 2 }} />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <ContainedButton

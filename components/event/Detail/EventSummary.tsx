@@ -74,7 +74,6 @@ function EventSummary({
         .owner()
         .call()
         .then((result: any) => {
-          console.log("Check owner", result)
           setIsSmartContractOwner(result === address)
         })
         .catch(() => {

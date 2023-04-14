@@ -66,7 +66,6 @@ export async function createEventTicket(
   })
 
   const now = new Date()
-  console.log(eventInfo)
   return assetMetadata.map((data, i) => {
     const eventTicket: EventTicket = {
       dateIssued: now,

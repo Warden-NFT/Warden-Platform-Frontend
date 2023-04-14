@@ -123,7 +123,6 @@ function CreateCompleteTicketStep3() {
 
   return (
     <Box>
-      <div>{JSON.stringify(errors)}</div>
       <Stack
         spacing={2}
         p={4}

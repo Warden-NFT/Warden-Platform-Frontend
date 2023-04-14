@@ -9,7 +9,7 @@ import {
   Typography
 } from "@mui/material"
 import { useFormik } from "formik"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLayerContext"
 import ControlledEventSelect from "../../form/ControlledEventSelect"
 import EventCreationAlert from "../../form/EventCreationAlert"
@@ -36,6 +36,14 @@ function CreateLayeredTicketStep1() {
         setActiveStep((prev) => prev + 1)
       }
     })
+
+  useEffect(() => {
+    if (values.vipEnabled && values.ticketQuota.vip === 0) {
+      setFieldValue("ticketQuota.vip", 1)
+    } else if (values.vipEnabled === false) {
+      setFieldValue("ticketQuota.vip", 0)
+    }
+  }, [values.vipEnabled])
 
   return (
     <Stack width="100%">

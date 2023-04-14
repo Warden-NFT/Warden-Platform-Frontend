@@ -171,6 +171,7 @@ function CreateLayeredTicketStep4() {
                 <FormControl required>
                   <Box sx={{ width: 240 }}>
                     <Slider
+                      min={1}
                       defaultValue={100}
                       name={`layers[${i}].layerOccurrence`}
                       value={layer.layerOccurrence}
@@ -248,6 +249,7 @@ function CreateLayeredTicketStep4() {
 
                   <Box sx={{ width: "240px", marginRight: 8 }}>
                     <Slider
+                      min={1}
                       defaultValue={100}
                       name={`layers[${i}].assets[${j}].occurrence`}
                       value={values.layers[i].assets[j].occurrence}

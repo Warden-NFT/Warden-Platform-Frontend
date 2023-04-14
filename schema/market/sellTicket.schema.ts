@@ -9,15 +9,8 @@ export const SellTicketFormSchema = object({
       (value, context) => {
         return Boolean(value && value >= context.parent.minResalePrice)
       }
-    )
-    .test(
-      "Lower than than or equal to the min resale price",
-      "Ticket resale price should be lower than the maximum price set by the event organizer",
-      (value, context) => {
-        return Boolean(value && value <= context.parent.minResalePrice)
-      }
     ),
   currency: string().required(),
-  minResalePrice: number().required(),
+  minResalePrice: number().required().min(0, "Minimum is 0"),
   maxResalePrice: number().required()
 })
