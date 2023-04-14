@@ -1,6 +1,7 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      NEXT_PUBLIC_WARDEN_ENVIRONMENT: "local" | "staging" | "production"
       NEXT_PUBLIC_WARDEN_API_URL: string
       NEXT_PUBLIC_APP_URL: string
       NEXT_PUBLIC_ALCHEMY_KEY: string
@@ -13,7 +14,6 @@ declare global {
 
       NEXT_PUBLIC_POLYGONSCAN_URL: string
       NODE_ENV: "development" | "production"
-      ENABLE_TESTNET: "true" | "false"
     }
   }
 }
