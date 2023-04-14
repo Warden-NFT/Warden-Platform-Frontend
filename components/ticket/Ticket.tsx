@@ -29,7 +29,7 @@ interface Props {
   codeValue?: string
   onClick?: () => void
   cardSx?: SxProps<Theme>
-  isOrganizer: boolean
+  isOrganizer?: boolean
 }
 
 function Ticket({
