@@ -39,7 +39,7 @@ function EventAdmissionPage() {
   }, [router.query])
 
   async function onScan(result: string) {
-    if (!result) return
+    if (!result || isOpen) return
 
     setQrValue(JSON.parse(result) as TicketQRUtilizeValue)
     setIsOpen(true)
