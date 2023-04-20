@@ -40,7 +40,10 @@ function AdmissionUserModal({ open, setOpen, qrValue }: P) {
     if (!qrValue) return
 
     const { eventId, ticketId, userId, walletAddress } = qrValue
-    if (!eventId || !ticketId || !userId || !walletAddress) return
+    if (!eventId || !ticketId || !userId || !walletAddress) {
+      setAdmissionStatus("FAILED")
+      return
+    }
 
     try {
       const res = await client.get<{
