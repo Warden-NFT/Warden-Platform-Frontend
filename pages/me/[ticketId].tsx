@@ -244,7 +244,11 @@ function MyTicketView() {
                     marginTop: "16px"
                   }}
                 >
-                  <Button variant="contained" color="info">
+                  <Button
+                    variant="contained"
+                    color="info"
+                    data-testid="sell-ticket-button"
+                  >
                     Sell it here!
                   </Button>
                 </Link>

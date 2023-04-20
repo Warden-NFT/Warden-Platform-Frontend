@@ -21,6 +21,8 @@ interface UserContextStruct {
   logOut: () => void
   getAccountType: () => Account | undefined
   redirectToHome: () => void
+  redirectToLogin: () => void
+  getUser: () => Promise<void>
 }
 
 export const UserContext = createContext({} as UserContextStruct)
@@ -46,6 +48,10 @@ const UserContextProvider = ({ ...props }) => {
 
   const redirectToHome = () => {
     router.push("/")
+  }
+
+  const redirectToLogin = () => {
+    router.push("/auth/login")
   }
 
   const getAccountType = (): Account | undefined => {
@@ -75,7 +81,9 @@ const UserContextProvider = ({ ...props }) => {
     setToken,
     logOut,
     getAccountType,
-    redirectToHome
+    redirectToHome,
+    redirectToLogin,
+    getUser
   }
   return <UserContext.Provider value={values} {...props} />
 }

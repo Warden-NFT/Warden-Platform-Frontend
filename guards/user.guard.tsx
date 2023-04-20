@@ -4,9 +4,13 @@ import { getCookie } from "../utils/cookie/cookieHandler"
 
 function withUserGuard<P>(Component: ComponentType<P>): FC<P> {
   return function WithUserGuard(props: P) {
-    const { user, redirectToHome } = useContext(UserContext)
+    const { user, redirectToLogin } = useContext(UserContext)
     if (!user || getCookie("token") === undefined) {
-      redirectToHome()
+      try {
+        redirectToLogin()
+      } catch (error) {
+        //
+      }
       return null
     } else {
       // @ts-ignore
