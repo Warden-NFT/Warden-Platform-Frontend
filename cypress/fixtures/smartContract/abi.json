@@ -1,0 +1,639 @@
+{
+  "_id": "6416ad28948634dbc5cffae1",
+  "date": "March 19th 2023, 1:35:20 pm",
+  "abi": [
+    {
+      "inputs": [
+        { "internalType": "address", "name": "_owner", "type": "address" },
+        { "internalType": "string", "name": "_eventID", "type": "string" },
+        { "internalType": "string", "name": "_eventName", "type": "string" },
+        { "internalType": "string", "name": "_eventSymbol", "type": "string" },
+        {
+          "internalType": "uint64",
+          "name": "_eventDoorTime",
+          "type": "uint64"
+        },
+        {
+          "internalType": "uint64",
+          "name": "_eventStartDate",
+          "type": "uint64"
+        },
+        { "internalType": "uint64", "name": "_eventEndDate", "type": "uint64" },
+        { "internalType": "uint64", "name": "_ticketSupply", "type": "uint64" },
+        {
+          "internalType": "uint256[3][3]",
+          "name": "_initialTicketPrice",
+          "type": "uint256[3][3]"
+        },
+        { "internalType": "uint64", "name": "_transferFee", "type": "uint64" }
+      ],
+      "stateMutability": "payable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "approved",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "operator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "approved",
+          "type": "bool"
+        }
+      ],
+      "name": "ApprovalForAll",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_by",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "BalanceWithdrawn",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_by",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ticketId",
+          "type": "uint256"
+        }
+      ],
+      "name": "TicketCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_by",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ticketId",
+          "type": "uint256"
+        }
+      ],
+      "name": "TicketDestroyed",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_by",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ticketId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        }
+      ],
+      "name": "TicketForSale",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_by",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ticketId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        }
+      ],
+      "name": "TicketPriceChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_by",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ticketId",
+          "type": "uint256"
+        }
+      ],
+      "name": "TicketSaleCancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_by",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_ticketId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_price",
+          "type": "uint256"
+        }
+      ],
+      "name": "TicketSold",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "to", "type": "address" },
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "owner", "type": "address" }
+      ],
+      "name": "balanceOf",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" }
+      ],
+      "name": "buyResaleTicket",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "string", "name": "tokenURI", "type": "string" },
+        { "internalType": "string", "name": "ticketType", "type": "string" }
+      ],
+      "name": "buyTicket",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" }
+      ],
+      "name": "cancelTicketSale",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" }
+      ],
+      "name": "checkTicketOwnership",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "eventDoorTime",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "eventEndDate",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "eventId",
+      "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "eventStartDate",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      ],
+      "name": "getApproved",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_id", "type": "uint256" }
+      ],
+      "name": "getTicket",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "ticketNumber",
+          "type": "uint256"
+        },
+        { "internalType": "uint256", "name": "price", "type": "uint256" },
+        { "internalType": "bool", "name": "forSale", "type": "bool" },
+        { "internalType": "bool", "name": "used", "type": "bool" },
+        { "internalType": "string", "name": "ticketSeat", "type": "string" },
+        { "internalType": "address", "name": "underName", "type": "address" },
+        { "internalType": "address", "name": "owner", "type": "address" },
+        { "internalType": "string", "name": "ticketType", "type": "string" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" },
+        { "internalType": "string", "name": "ticketType", "type": "string" },
+        { "internalType": "bool", "name": "isMin", "type": "bool" },
+        { "internalType": "bool", "name": "isMax", "type": "bool" }
+      ],
+      "name": "getTicketPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" }
+      ],
+      "name": "getTicketTransferFee",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "", "type": "uint256" },
+        { "internalType": "uint256", "name": "", "type": "uint256" }
+      ],
+      "name": "initialTicketPrice",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "owner", "type": "address" },
+        { "internalType": "address", "name": "operator", "type": "address" }
+      ],
+      "name": "isApprovedForAll",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      ],
+      "name": "ownerOf",
+      "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "from", "type": "address" },
+        { "internalType": "address", "name": "to", "type": "address" },
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "from", "type": "address" },
+        { "internalType": "address", "name": "to", "type": "address" },
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+        { "internalType": "bytes", "name": "data", "type": "bytes" }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "operator", "type": "address" },
+        { "internalType": "bool", "name": "approved", "type": "bool" }
+      ],
+      "name": "setApprovalForAll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" },
+        { "internalType": "uint256", "name": "_price", "type": "uint256" },
+        { "internalType": "string", "name": "_ticketType", "type": "string" }
+      ],
+      "name": "setTicketForSale",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_price", "type": "uint256" },
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" },
+        { "internalType": "string", "name": "ticketType", "type": "string" }
+      ],
+      "name": "setTicketPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "_ticketId", "type": "uint256" }
+      ],
+      "name": "setTicketToUsed",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint64", "name": "_transferFee", "type": "uint64" }
+      ],
+      "name": "setTicketTransferFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "setWithdrawalAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }
+      ],
+      "name": "supportsInterface",
+      "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "ticketSupply",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      ],
+      "name": "tokenURI",
+      "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "transferFee",
+      "outputs": [{ "internalType": "uint64", "name": "", "type": "uint64" }],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "from", "type": "address" },
+        { "internalType": "address", "name": "to", "type": "address" },
+        { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      ],
+      "name": "transferFrom",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "newOwner", "type": "address" }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawBalance",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawalAddress",
+      "outputs": [
+        { "internalType": "address payable", "name": "", "type": "address" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "__v": 0
+}

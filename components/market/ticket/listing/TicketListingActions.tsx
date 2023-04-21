@@ -139,6 +139,7 @@ function TicketListingActions({
             !ticketQuotaCheckResult?.resalePurchasePendingApproval) ||
             (user && !isResaleTicket)) && (
             <Button
+              data-testid="purchase-ticket-button"
               size="small"
               variant="contained"
               disabled={!ticketQuotaCheckResult?.allowPurchase}

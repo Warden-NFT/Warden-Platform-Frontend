@@ -28,6 +28,8 @@ import { client } from "../../../../../configs/axios/axiosConfig"
 import { LayoutContext } from "../../../../../contexts/layout/LayoutContext"
 import TicketListingDetails from "../../../../../components/market/ticket/listing/TicketListingDetails"
 import TicketListingActions from "../../../../../components/market/ticket/listing/TicketListingActions"
+import { withAuth } from "../../../../../guards/withAuth"
+import withUserGuard from "../../../../../guards/user.guard"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -76,7 +78,7 @@ interface PageProps {
 const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   const { address } = useAccount()
   const { abi, web3 } = useSmartContract()
-  const { user } = useContext(UserContext)
+  const { user, getUser } = useContext(UserContext)
   const { setShowLoadingBackdrop } = useContext(LayoutContext)
   const router = useRouter()
 
@@ -168,6 +170,10 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
     if (!web3 || !abi || !event.smartContractAddress || !address) return
     checkTicketOwnership(web3, abi, address)
   }, [web3, abi, address, isResaleTicket])
+
+  useEffect(() => {
+    getUser()
+  }, [])
 
   return (
     <>

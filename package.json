@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "fix-lint": "eslint --fix ."
+    "fix-lint": "eslint --fix .",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -53,6 +54,7 @@
     "@types/file-saver": "^2.0.5",
     "@types/react-google-recaptcha": "^2.1.5",
     "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "cypress": "^12.10.0",
     "eslint-config-prettier": "^8.7.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.1.0",

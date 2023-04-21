@@ -1,0 +1,17 @@
+{
+  "_id": "6438444765db8d74e14ef4ae",
+  "firstName": "point",
+  "lastName": "test",
+  "phoneNumber": "0971249953",
+  "email": "point@test.com",
+  "username": "point",
+  "password": "$2b$10$QsAGVCbvPXNdWTviFvCnbOXQLQJvt8hzQaD1vb22ut6QGN9CMx6LO",
+  "associatedWallet": [
+    "0x45Fb4CcBC9975b07b96d91047ddd06c38E0e8878",
+    "0x7962edBf26F3B04F2e15cBB893Df9946529D4764"
+  ],
+  "accountType": "CUSTOMER",
+  "verificationStatus": "Verified",
+  "profileImage": "https://storage.googleapis.com/nft-generator-microservice-bucket-test/profile/6438444765db8d74e14ef4ae/profileImage",
+  "__v": 4
+}
