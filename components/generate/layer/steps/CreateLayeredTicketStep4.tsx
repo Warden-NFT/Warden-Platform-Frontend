@@ -161,36 +161,7 @@ function CreateLayeredTicketStep4() {
                 direction="row"
                 alignItems="end"
                 justifyContent="space-between"
-              >
-                <Box>
-                  <Typography>Layer Occurrance %</Typography>
-                  <Typography variant="caption" color="gray">
-                    How often this layer should appear?
-                  </Typography>
-                </Box>
-                <FormControl required>
-                  <Box sx={{ width: 240 }}>
-                    <Slider
-                      min={1}
-                      defaultValue={100}
-                      name={`layers[${i}].layerOccurrence`}
-                      value={layer.layerOccurrence}
-                      onChange={handleChange}
-                      aria-label="Layer occurrence slider"
-                      valueLabelDisplay="auto"
-                      valueLabelFormat={`${layer.layerOccurrence}%`}
-                    />
-                    <Typography
-                      variant="caption"
-                      component="p"
-                      color={grey[600]}
-                    >
-                      This layer will appears {layer.layerOccurrence}% of the
-                      time
-                    </Typography>
-                  </Box>
-                </FormControl>
-              </Stack>
+              ></Stack>
               <Stack direction="row" sx={{ marginY: 2 }}>
                 <Box sx={{ width: "100px", marginRight: 4 }}>
                   <Typography fontWeight="600">ID</Typography>
@@ -205,7 +176,10 @@ function CreateLayeredTicketStep4() {
                   <Typography fontWeight="600">Occurance %</Typography>
                 </Box>
                 <Box sx={{ width: "240px" }}>
-                  <Typography fontWeight="600">
+                  <Typography
+                    fontWeight="600"
+                    color={formInfo?.vipEnabled ? "black" : grey[400]}
+                  >
                     Mark as VIP component
                   </Typography>
                 </Box>
@@ -280,6 +254,7 @@ function CreateLayeredTicketStep4() {
                       onChange={handleChange}
                       aria-label={"VIP"}
                       checked={values.layers[i].assets[j].isVipAsset}
+                      disabled={!formInfo.vipEnabled}
                     />
                   </Box>
                 </Stack>

@@ -161,12 +161,6 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
   // Checks ticket ownership
   useEffect(() => {
     // If the dependencies aren't ready, don't do anything
-    console.log(
-      Boolean(web3),
-      Boolean(abi),
-      Boolean(event.smartContractAddress),
-      Boolean(address)
-    )
     if (!web3 || !abi || !event.smartContractAddress || !address) return
     checkTicketOwnership(web3, abi, address)
   }, [web3, abi, address, isResaleTicket])

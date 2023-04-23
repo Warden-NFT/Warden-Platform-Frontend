@@ -11,7 +11,6 @@ import { GenerateLayerContext } from "../../../../contexts/generate/GenerateLaye
 import { LayoutContext } from "../../../../contexts/layout/LayoutContext"
 import { generateRandomLayer } from "../../../../utils/generate/layer"
 import ControlledStepperButtons from "../../../UI/navigation/ControlledStepperButtons"
-import ContainedButton from "../../../UI/button/ContainedButton"
 import SettingsIcon from "@mui/icons-material/Settings"
 import LayerSettingModal from "../LayerSettingModal"
 
@@ -38,9 +37,6 @@ function CreateLayeredTicketStep5() {
   }, [layers, formInfo])
 
   useEffect(() => {
-    if (metadata.length > 0) {
-      return
-    }
     handleGenerate()
   }, [layers, formInfo])
 
@@ -71,10 +67,16 @@ function CreateLayeredTicketStep5() {
           <Typography variant="h4" component="h1">
             Preview your ticket assets
           </Typography>
-          <Typography variant="body1">
-            There are {metadata.length} tickets, {vipCounts} of which are VIP
-            tickets.
-          </Typography>
+          {formInfo?.vipEnabled ? (
+            <Typography variant="body1">
+              There are {metadata.length} tickets, {vipCounts} of which are VIP
+              tickets.
+            </Typography>
+          ) : (
+            <Typography variant="body1">
+              There are {metadata.length} tickets.
+            </Typography>
+          )}
         </Box>
         <Stack direction="row" justifyContent="flex-end">
           <IconButton
