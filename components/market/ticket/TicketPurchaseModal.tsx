@@ -142,7 +142,7 @@ function TicketPurchaseModal({
       .buyResaleTicket(nftId)
       .send({ from: address, value: price })
       .then(async (result: any) => {
-        await updateSmartContractTicketId(parseInt(nftId), address)
+        await updateSmartContractTicketId(nftId, address)
         showErrorAlert({
           type: AlertType.INFO,
           title: "Ticket purchased successfully",
@@ -202,7 +202,7 @@ function TicketPurchaseModal({
     // Get the price in ether
     const price = ethers.utils.parseUnits(
       ticket.price.amount.toString(),
-      SupportedDigitalCurrencyKey[ticket.price.currency]
+      "ether"
     )
 
     // Connect to web3 and send the buyTicket transaction
@@ -309,9 +309,7 @@ function TicketPurchaseModal({
                   </Typography>
                   <Stack direction="row" justifyContent="space-between">
                     <Typography>Ticket Name</Typography>
-                    <Typography>
-                      {ticket.price.amount} {ticket.price.currency}
-                    </Typography>
+                    <Typography>{ticket.name}</Typography>
                   </Stack>
                 </Box>
               </Stack>
