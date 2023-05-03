@@ -37,9 +37,16 @@ interface P {
   setOpen: Dispatch<SetStateAction<boolean>>
   ticket: EventTicket
   event: Event
+  isResaleTicket: boolean
 }
 
-function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
+function TicketPurchaseModal({
+  open,
+  setOpen,
+  ticket,
+  event,
+  isResaleTicket
+}: P) {
   // Captcha
   const { showRecaptcha, token } = useContext(BotPreventionContext)
 
@@ -81,6 +88,77 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
         description: "Unable to record the transaction in the database"
       })
     }
+  }
+
+  const handlePrimaryTicketPurchase = (
+    contract: any,
+    address: `0x${string}`,
+    price: ethers.BigNumber
+  ) => {
+    contract.methods
+      .buyTicket(
+        `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/metadata?path=${event._id}/${ticket.ticketMetadata[0].name}`,
+        TicketTypeKey[ticket.ticketType]
+      )
+      .send({ from: address, value: price })
+      .then(async (result: any) => {
+        const ticketId = result.events?.TicketCreated?.returnValues?._ticketId
+        if (!ticketId) {
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title: "Database error",
+            description:
+              "Unable to record the ticket purchase. But don't worry. Your ticket has been purchased successfully."
+          })
+          return
+        } else {
+          await updateSmartContractTicketId(parseInt(ticketId), address)
+        }
+        showErrorAlert({
+          type: AlertType.INFO,
+          title: "Ticket purchased successfully",
+          description: "Ticket purchased successfully"
+        })
+        setPaymentProcessing(false)
+        setOpen(false)
+      })
+      .catch((error: any) => {
+        showErrorAlert({
+          type: AlertType.ERROR,
+          title: "Ticket purchase failed",
+          description: error.message
+        })
+        setPaymentProcessing(false)
+      })
+  }
+
+  const handleSecondaryTicketPurchase = (
+    contract: any,
+    address: `0x${string}`,
+    price: ethers.BigNumber,
+    nftId: number
+  ) => {
+    contract.methods
+      .buyResaleTicket(nftId)
+      .send({ from: address, value: price })
+      .then(async (result: any) => {
+        await updateSmartContractTicketId(parseInt(nftId), address)
+        showErrorAlert({
+          type: AlertType.INFO,
+          title: "Ticket purchased successfully",
+          description: "Ticket purchased successfully"
+        })
+        setPaymentProcessing(false)
+        setOpen(false)
+      })
+      .catch((error: any) => {
+        showErrorAlert({
+          type: AlertType.ERROR,
+          title: "Ticket purchase failed",
+          description: error.message
+        })
+        setPaymentProcessing(false)
+      })
   }
 
   const handlePayment = async () => {
@@ -130,41 +208,18 @@ function TicketPurchaseModal({ open, setOpen, ticket, event }: P) {
     // Connect to web3 and send the buyTicket transaction
     const contract = new web3.eth.Contract(abi.abi)
     contract.options.address = event.smartContractAddress
-    contract.methods
-      .buyTicket(
-        `${process.env.NEXT_PUBLIC_WARDEN_API_URL}/ticket/metadata?path=${event._id}/${ticket.ticketMetadata[0].name}`,
-        TicketTypeKey[ticket.ticketType]
+
+    // Check if the ticket is a resale ticket
+    if (isResaleTicket && ticket.smartContractTicketId !== undefined) {
+      handleSecondaryTicketPurchase(
+        contract,
+        address,
+        price,
+        ticket.smartContractTicketId
       )
-      .send({ from: address, value: price })
-      .then(async (result: any) => {
-        const ticketId = result.events?.TicketCreated?.returnValues?._ticketId
-        if (!ticketId) {
-          showErrorAlert({
-            type: AlertType.ERROR,
-            title: "Database error",
-            description:
-              "Unabble to record the ticket purchase. But don't worry. Your ticket has been purchased successfully."
-          })
-          return
-        } else {
-          await updateSmartContractTicketId(parseInt(ticketId), address)
-        }
-        showErrorAlert({
-          type: AlertType.INFO,
-          title: "Ticket purchased successfully",
-          description: "Ticket purchased successfully"
-        })
-        setPaymentProcessing(false)
-        setOpen(false)
-      })
-      .catch((error: any) => {
-        showErrorAlert({
-          type: AlertType.ERROR,
-          title: "Ticket purchase failed",
-          description: error.message
-        })
-        setPaymentProcessing(false)
-      })
+    } else {
+      handlePrimaryTicketPurchase(contract, address, price)
+    }
   }
 
   useEffect(() => {

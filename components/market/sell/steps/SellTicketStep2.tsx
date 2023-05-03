@@ -52,8 +52,8 @@ function SellTicketStep2() {
           ] as TicketTypeKey
         ]?.default
     },
-    validateOnChange: false,
-    validateOnBlur: false,
+    validateOnChange: true,
+    validateOnBlur: true,
     validationSchema: SellTicketFormSchema,
     onSubmit: async (data) => {
       if (!recaptchaToken) {
