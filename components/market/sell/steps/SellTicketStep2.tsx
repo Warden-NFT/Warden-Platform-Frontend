@@ -38,7 +38,7 @@ function SellTicketStep2() {
   const { values, handleChange, errors, handleSubmit } = useFormik({
     initialValues: {
       resalePrice: resalePrice || 0,
-      currency: marketTickets?.ticketCollection.currency ?? "ETH",
+      currency: marketTickets?.ticketCollection.currency ?? "MATIC",
       minResalePrice: 0,
       maxResalePrice:
         marketTickets?.ticketCollection.ticketPrice[
@@ -52,8 +52,8 @@ function SellTicketStep2() {
           ] as TicketTypeKey
         ]?.default
     },
-    validateOnChange: false,
-    validateOnBlur: false,
+    validateOnChange: true,
+    validateOnBlur: true,
     validationSchema: SellTicketFormSchema,
     onSubmit: async (data) => {
       if (!recaptchaToken) {
@@ -126,7 +126,7 @@ function SellTicketStep2() {
       ticketId: selectedTicket._id,
       price: {
         amount: newResalePrice,
-        currency: "ETH"
+        currency: "MATIC"
       }
     }
     try {

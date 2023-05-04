@@ -28,8 +28,6 @@ import { client } from "../../../../../configs/axios/axiosConfig"
 import { LayoutContext } from "../../../../../contexts/layout/LayoutContext"
 import TicketListingDetails from "../../../../../components/market/ticket/listing/TicketListingDetails"
 import TicketListingActions from "../../../../../components/market/ticket/listing/TicketListingActions"
-import { withAuth } from "../../../../../guards/withAuth"
-import withUserGuard from "../../../../../guards/user.guard"
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const eventId = params?.eventId
@@ -130,7 +128,6 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
       setIsSold(false)
       return
     }
-
     const contract = new web3.eth.Contract(abi.abi)
     contract.options.address = event.smartContractAddress
     contract.methods
@@ -180,6 +177,7 @@ const MarketTicket = ({ ticket, event, organizer }: PageProps) => {
           ticket={ticket}
           open={showPurchaseModal}
           setOpen={setShowPurchaseModal}
+          isResaleTicket={isResaleTicket}
         />
       )}
       <BannerLayout

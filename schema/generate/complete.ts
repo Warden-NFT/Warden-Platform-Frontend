@@ -3,7 +3,7 @@ import { number, object, string, boolean, array } from "yup"
 export const CreateTicketInfoSchema = object().shape(
   {
     currency: string()
-      .default("ETH")
+      .default("MATIC")
       .oneOf(["ETH", "MATIC"], "This currency is not yet supported")
       .required("Currency is required"),
     name: string()

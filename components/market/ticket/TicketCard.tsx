@@ -106,10 +106,10 @@ function TicketCard({
           }}
         >
           <ImageWithFallback
-            src="/images/crypto/eth.svg"
+            src="/images/crypto/matic.png"
             width={20}
             height={20}
-            alt="Ethereum"
+            alt="Matic"
           />
           <Typography sx={{ fontWeight: 600 }}>{price}</Typography>
           <Typography
@@ -119,7 +119,7 @@ function TicketCard({
               color: grey[600]
             }}
           >
-            eth
+            Matic
           </Typography>
         </Box>
       </ContainerCard>

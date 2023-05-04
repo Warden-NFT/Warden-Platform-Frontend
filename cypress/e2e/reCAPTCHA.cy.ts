@@ -89,7 +89,7 @@ describe("reCAPTCHA popup", () => {
     cy.get("iframe[title='reCAPTCHA']", { timeout: 30000 }).should("be.visible")
   })
 
-  it.only("should show the reCAPTCHA popup when the user tries to sell a ticket", () => {
+  it("should show the reCAPTCHA popup when the user tries to sell a ticket", () => {
     // Arrange
 
     // set the cookie

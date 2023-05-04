@@ -30,7 +30,7 @@ const GenerateCompleteContextProvider = ({ ...props }) => {
     UploadedCompleteAsset[]
   >([])
   const [formInfo, setFormInfo] = useState<TicketInfo>({
-    currency: "ETH",
+    currency: "MATIC",
     name: "",
     description: "",
     subjectOf: "",
