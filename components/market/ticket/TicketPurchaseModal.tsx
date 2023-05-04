@@ -102,8 +102,16 @@ function TicketPurchaseModal({
       )
       .send({ from: address, value: price })
       .then(async (result: any) => {
-        const ticketId = result.events?.TicketCreated?.returnValues?._ticketId
-        if (!ticketId) {
+        if (!result || !result.events || !result.events?.TicketCreated) {
+          showErrorAlert({
+            type: AlertType.ERROR,
+            title: "Ticket purchase failed",
+            description: "Smart contract purchas eoperation failed"
+          })
+          return
+        }
+        const ticketId = result.events.TicketCreated.returnValues?._ticketId
+        if (ticketId === undefined) {
           showErrorAlert({
             type: AlertType.ERROR,
             title: "Database error",
