@@ -1,6 +1,6 @@
-export type SupportedDigitalCurrency = "ETH" // | "MATIC"
+export type SupportedDigitalCurrency = "MATIC" // "ETH"
 
 export const SupportedDigitalCurrencyKey = {
-  ETH: "ether"
-  // MATIC: "matic"
+  ETH: "ether",
+  MATIC: "matic"
 }

@@ -38,7 +38,7 @@ const GenerateLayerContextProvider = ({ ...props }) => {
     height: DEFAULT_CANVAS_SIZE
   })
   const [formInfo, setFormInfo] = useState<LayeredAssetInfo>({
-    currency: "ETH",
+    currency: "MATIC",
     name: "",
     description: "",
     subjectOf: "",
